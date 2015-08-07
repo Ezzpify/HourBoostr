@@ -4,11 +4,14 @@ Boosting Steam account hours
 This will allow you to boost Steam game hours on multiple accounts with no restrictions.
 Run HourBoostr then set-up the Settings.json file.
 
+
 Drops:
+
 ![p9qnjoz 1](https://cloud.githubusercontent.com/assets/9034691/9141437/f8cd14be-3d38-11e5-9d09-52692fd156eb.png)
 
 
 Example image:
+
 ![enyo9tw 1](https://cloud.githubusercontent.com/assets/9034691/9140843/68b653d0-3d34-11e5-8121-dcc882fa70fe.png)
 
 
