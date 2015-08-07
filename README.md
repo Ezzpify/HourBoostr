@@ -4,9 +4,11 @@ Boosting Steam account hours
 This will allow you to boost the hours of multiple Steam games on multiple accounts with no restrictions.
 Run HourBoostr then set-up the Settings.json file.
 
+
 Want to sell an hourboosting service? Want to sell cool accounts with many hours? Or simply want to boost your own account? Well, HourBoostr is the way to go!
 
 When you're boosting your account will appear offline, but the hours will get boosted. :+1: 
+
 
 You find the game IDs by going to the specific game you want to boost via the browser.
 
@@ -17,6 +19,9 @@ http://steamcommunity.com/app/730 (730 being the game ID)
 Set up all the accounts in the settings.json file then run HourBoostr.
 
 Enter your password for each account and email code if required, then you can just leave it running on whatever server/computer you want!
+
+
+If you're cautious about entering your password, check out the source code and compile it for yourself!
 
 HourBoostr is written in C# with help from SteamKit2 - check out the source code!
 
