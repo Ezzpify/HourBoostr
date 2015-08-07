@@ -6,6 +6,7 @@ Run HourBoostr then set-up the Settings.json file.
 
 Type each game ID under games that you want to boost like this:
 
+```
 {
   "Account": [
     {
@@ -19,6 +20,7 @@ Type each game ID under games that you want to boost like this:
     }
   ]
 }
+```
 
 You find the game IDs by going to the specific game you want to boost via the browser.
 (You can also go via your Games page under your profile on Steam)
