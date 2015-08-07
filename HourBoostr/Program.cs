@@ -9,6 +9,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace HourBoostr
 {
@@ -106,13 +108,17 @@ namespace HourBoostr
 
                 /*Done loading all bots*/
                 Console.Clear();
-                Console.WriteLine("\nLoaded '{0}' bots!", _ActiveBots.Count);
-                Console.WriteLine("\nAccounts:");
+                Console.WriteLine("\n  _____             _               _       ");
+                Console.WriteLine(" |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
+                Console.WriteLine(" |     | . | | |  _| . | . | . |_ -|  _|  _|");
+                Console.WriteLine(" |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
+                Console.WriteLine("\n  Loaded {0} bots!", _ActiveBots.Count);
+                Console.WriteLine("\n  Accounts:\n");
                 foreach(var Bot in _ActiveBots)
                 {
-                    Console.WriteLine("  {0}", Bot._Username);
+                    Console.WriteLine("    {0} | {1} Games", Bot._Username, Bot._Games.Count);
                 }
-                Console.WriteLine("\n-------------------------------------------------\n");
+                Console.WriteLine("\n  ------------------------------------------\n");
 
                 /*Set time when bots were initialized*/
                 _InitializedTime = DateTime.Now;
