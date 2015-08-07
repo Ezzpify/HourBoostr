@@ -16,6 +16,7 @@ Example image:
 
 
 Type each game ID under games that you want to boost like this:
+
 Example Settings.json setup
 ```
 {
