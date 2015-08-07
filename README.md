@@ -62,10 +62,3 @@ Example Settings.json setup
   ]
 }
 ```
-
-You find the game IDs by going to the specific game you want to boost via the browser.
-(You can also go via your Games page under your profile on Steam)
-http://steamcommunity.com/app/730
-
-Set up all the accounts in the settings.json file then run HourBoostr.
-Enter your password for each account and email code if required, then you can just leave it running on whatever server/computer you want!
