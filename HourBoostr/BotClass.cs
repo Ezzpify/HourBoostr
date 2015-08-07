@@ -27,7 +27,7 @@ namespace HourBoostr
         private string _AuthCode;
         private string _Nounce;
         public string  _Username;
-        private string  _Password;
+        private string _Password;
 
         private bool _IsRunning;
         public bool _IsLoggedIn;
@@ -88,7 +88,7 @@ namespace HourBoostr
         private void Log(string str)
         {
             string time = DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
-            Console.WriteLine("{0} {1} - {2}", time, _Username, str);
+            Console.WriteLine("  {0} {1} - {2}", time, _Username, str);
         }
 
 
@@ -192,7 +192,7 @@ namespace HourBoostr
             }
 
             /*Logged in successfully*/
-            Log("Successfully logged in!");
+            Log("Successfully logged in!\n");
             _Nounce = callback.WebAPIUserNonce;
             _IsLoggedIn = true;
 

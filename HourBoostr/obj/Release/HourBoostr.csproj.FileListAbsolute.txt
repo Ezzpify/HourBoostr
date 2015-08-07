@@ -1,0 +1,11 @@
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\HourBoostr.exe.config
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\HourBoostr.exe
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\HourBoostr.pdb
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\Newtonsoft.Json.dll
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\protobuf-net.dll
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\bin\Release\SteamKit2.dll
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\obj\Release\HourBoostr.csprojResolveAssemblyReference.cache
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\obj\Release\HourBoostr.exe
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\obj\Release\HourBoostr.pdb
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\obj\Release\HourBoostr.Properties.Resources.resources
+C:\Users\Desu\Dropbox\SPARA\Develop\HourBoostr\HourBoostr\obj\Release\HourBoostr.csproj.GenerateResource.Cache
