@@ -11,9 +11,11 @@ You find the game IDs by going to the specific game you want to boost via the br
 http://steamcommunity.com/app/730
 
 Drops:
+
 ![p9qnjoz 1](https://cloud.githubusercontent.com/assets/9034691/9141437/f8cd14be-3d38-11e5-9d09-52692fd156eb.png)
 
 Example image:
+
 ![enyo9tw 1](https://cloud.githubusercontent.com/assets/9034691/9140843/68b653d0-3d34-11e5-8121-dcc882fa70fe.png)
 
 Type each game ID under games that you want to boost like this:
