@@ -17,12 +17,30 @@ namespace HourBoostr
     class Program
     {
         /// <summary>
+        /// DllImports for hiding/showing window
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+
+        /// <summary>
         /// Global variables
         /// </summary>
         static private List<BotClass> _ActiveBots = new List<BotClass>();
+        static private DateTime       _InitializedTime;
+        static private string         _Title = "HourBoostr by Ezzy";
+        static private NotifyIcon     _TrayIcon = new NotifyIcon();
+        static private bool           _IsHidden;
+
+
+        /// <summary>
+        /// Thread variables
+        /// </summary>
         static private Thread _StatusThread;
-        static private DateTime _InitializedTime;
-        static private string _Title = "HourBoostr by Ezzy";
+        static private Thread _TrayThread;
 
 
         /// <summary>
@@ -87,7 +105,7 @@ namespace HourBoostr
                     if(User.Username.Length > 0 && User.Games != null)
                     {
                         /*Let user type in password to account*/
-                        Console.WriteLine("Type the password for the account '{0}'.", User.Username);
+                        Console.WriteLine("Enter the password for the account '{0}'.", User.Username);
                         User.Password = Config.Password.ReadPassword();
 
                         /*Run a new bot with the information*/
@@ -141,6 +159,54 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// HACK HACK!
+        /// Initialize the tray icon thread
+        /// Keep it running
+        /// </summary>
+        static private void ToTray()
+        {
+            _TrayIcon.Text = String.Format("HourBoostr | {0} Bots", _ActiveBots.Count);
+            _TrayIcon.Icon = Properties.Resources.icon;
+            _TrayIcon.Click += new EventHandler(_TrayIcon_Click);
+            _TrayIcon.Visible = true;
+            Application.Run();
+
+            while (true) { Thread.Sleep(100); }
+        }
+
+
+        /// <summary>
+        /// TrayIcon click event
+        /// Show/Hide the window depending on its' state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        static private void _TrayIcon_Click(object sender, EventArgs e)
+        {
+            ShowConsole(!_IsHidden);
+        }
+
+
+        /// <summary>
+        /// Show/Hide the console window
+        /// </summary>
+        /// <param name="b"></param>
+        static private void ShowConsole(bool b)
+        {
+            if(b)
+            {
+                ShowWindow(GetConsoleWindow(), 5);
+                _IsHidden = true;
+            }
+            else
+            {
+                ShowWindow(GetConsoleWindow(), 0);
+                _IsHidden = false;
+            }
+        }
+
+
+        /// <summary>
         /// Main function
         /// Too many comments
         /// </summary>
@@ -153,6 +219,26 @@ namespace HourBoostr
             /*Initialize status thread*/
             _StatusThread = new Thread(CheckStatus);
             _StatusThread.Start();
+
+            /*Initialize trayicon thread*/
+            _TrayThread = new Thread(ToTray);
+            _TrayThread.Start();
+
+            /*Hide console*/
+            if (_ActiveBots.Count > 0)
+            {
+                Console.WriteLine("  Hiding console to Tray in 3s...\n\n");
+                Thread.Sleep(3000);
+                ShowConsole(false);
+                _TrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm still running! Click me to show/hide the window.", ToolTipIcon.Info);
+            }
+            else
+            {
+                /*No accounts loaded... Killed the bot*/
+                Console.WriteLine("  No accounts loaded. Exiting in 2s...");
+                Thread.Sleep(2000);
+                Environment.Exit(1);
+            }
 
             /*Keep it alive*/
             while(true)
