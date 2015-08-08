@@ -32,10 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Fasticon-Hand-Draw-Iphone-Clock.ico</ApplicationIcon>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -74,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ampeross-Qetto-2-Timer.ico" />
+    <Content Include="AppIcon.ico" />
     <Content Include="Fasticon-Hand-Draw-Iphone-Clock.ico" />
     <None Include="Resources\icon.ico" />
   </ItemGroup>
