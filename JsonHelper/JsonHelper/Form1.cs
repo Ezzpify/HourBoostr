@@ -211,6 +211,10 @@ namespace JsonHelper
                 {
                     File.WriteAllText(jsonPath, jsonString);
                 }
+                else
+                {
+                    return;
+                }
             }
             else
             {
