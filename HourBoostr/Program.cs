@@ -17,13 +17,16 @@ namespace HourBoostr
     class Program
     {
         /// <summary>
-        /// DllImports for hiding/showing window
+        /// DllImports
         /// </summary>
         /// <returns></returns>
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private delegate bool ConsoleEventDelegate(int eventType);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate callback, bool add);
 
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace HourBoostr
             string _filePath = Path.Combine(Application.StartupPath, "Settings.json");
             Console.Title = _Title;
 
-            /*Check if Json settings file exist*/
+            /*Check if Json Settings file exist, else print a new one*/
             if(!File.Exists(_filePath))
             {
                 /*Construct new classes to print an example settings file*/
@@ -62,12 +65,12 @@ namespace HourBoostr
                 Config.SettingsInfo SettingsInfo = new Config.SettingsInfo()
                 {
                     Username = "",
-                    Games = new List<int> { 730 }
+                    Games = new List<int> { 730, 10 }
                 };
                 Config.Settings Settings = new Config.Settings()
                 {
-                    /*Print two json entries as an example*/
-                    Account = new List<Config.SettingsInfo> { SettingsInfo, SettingsInfo }
+                    /*Print three json entries as an example*/
+                    Account = new List<Config.SettingsInfo> { SettingsInfo, SettingsInfo, SettingsInfo }
                 };
 
                 /*Write the serialized class to file*/
@@ -82,7 +85,34 @@ namespace HourBoostr
             else
             {
                 /*Parse the Settings.json file*/
-                JObject Settings = JObject.Parse(File.ReadAllText(_filePath));
+                JObject Settings = null;
+                try 
+                {
+                    /*Try to parse the file*/
+                    Settings = JObject.Parse(File.ReadAllText(_filePath)); 
+                }
+                catch (JsonException jEx) 
+                {
+                    /*Error parsing the file. User messed up the syntax*/
+                    MessageBox.Show(
+                        "There was an error parsing Settings.json\n"
+                        + "You probably set it up incorrectly.\n\n"
+                        + "You can delete the Settings.json and run the program again\n"
+                        + "and it will spawn a new example file.\n\n"
+                        + "Error message:\n"
+                        + jEx.Message, "Json error");
+
+                    /*Exit*/
+                    Environment.Exit(1);
+                }
+
+                /*Fool check if Settings isn't null*/
+                if(Settings == null)
+                {
+                    /*Don't know how this would normally proc, but never underestimate users*/
+                    MessageBox.Show("Settings is null.\nExiting.", "Oops.");
+                    Environment.Exit(1);
+                }
 
                 /*Loop through all accounts set*/
                 foreach(var Account in Settings["Account"].Select((value,i) => new {i, value}))
@@ -102,7 +132,7 @@ namespace HourBoostr
                     };
 
                     /*If not empty*/
-                    if(User.Username.Length > 0 && User.Games != null)
+                    if(User.Username.Length > 0)
                     {
                         /*Let user type in password to account*/
                         Console.WriteLine("Enter the password for the account '{0}'.", User.Username);
@@ -111,20 +141,16 @@ namespace HourBoostr
                         /*Run a new bot with the information*/
                         BotClass Bot = new BotClass(User);
 
-                        /*Add bot to active list*/
+                        /*Add bot to active bot list*/
                         _ActiveBots.Add(Bot);
 
                         /*Wait for bot to log in fully until we initialize the next account*/
                         while (!Bot._IsLoggedIn) { Thread.Sleep(2500); }
                     }
-                    else
-                    {
-                        /*Some information is missing, throw and error and exit app*/
-                        Console.WriteLine(String.Format("Account #{0} has invalid/missing information - skipping", (Account.i + 1)));
-                    }
                 }
 
                 /*Done loading all bots*/
+                /*Print some ascii stuff and information about bots*/
                 Console.Clear();
                 Console.WriteLine("\n  _____             _               _       ");
                 Console.WriteLine(" |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
@@ -151,6 +177,8 @@ namespace HourBoostr
         {
             while(true)
             {
+                /*Get the current time then subtract the time when all bots were done initializing*/
+                /*This will give us an idea of how long the bot has been running*/
                 TimeSpan span = DateTime.Now.Subtract(_InitializedTime);
                 Console.Title = String.Format("{0} | Online for: {1} Hours", _Title, span.Hours);
                 Thread.Sleep(1000);
@@ -165,19 +193,21 @@ namespace HourBoostr
         /// </summary>
         static private void ToTray()
         {
+            /*Set TrayIcon information*/
             _TrayIcon.Text = String.Format("HourBoostr | {0} Bots", _ActiveBots.Count);
             _TrayIcon.Icon = Properties.Resources.icon;
             _TrayIcon.Click += new EventHandler(_TrayIcon_Click);
             _TrayIcon.Visible = true;
             Application.Run();
 
+            /*Keep the form thread running, otherwise the TrayIcon will dissapear*/
             while (true) { Thread.Sleep(100); }
         }
 
 
         /// <summary>
         /// TrayIcon click event
-        /// Show/Hide the window depending on its' state
+        /// Show/Hide the window depending on its state
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -207,6 +237,30 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Catch exit event
+        /// Realistically we have 4-5 seconds to preform this
+        /// action before windows forces the program to close
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <returns></returns>
+        static bool ConsoleEventCallback(int eventType)
+        {
+            if (eventType == 2)
+            {
+                /*Disconnect all clients*/
+                foreach(var Bot in _ActiveBots)
+                {
+                    /*Disconnect bot*/
+                    Bot._IsRunning = false;
+                    Bot._SteamClient.Disconnect();
+                }
+            }
+            return false;
+        }
+        static ConsoleEventDelegate handler;
+
+
+        /// <summary>
         /// Main function
         /// Too many comments
         /// </summary>
@@ -227,6 +281,7 @@ namespace HourBoostr
             /*Hide console*/
             if (_ActiveBots.Count > 0)
             {
+                /*Hide the program to Tray*/
                 Console.WriteLine("  Hiding console to Tray in 3s...\n\n");
                 Thread.Sleep(3000);
                 ShowConsole(false);
@@ -239,6 +294,10 @@ namespace HourBoostr
                 Thread.Sleep(2000);
                 Environment.Exit(1);
             }
+
+            /*Set exit events*/
+            handler = new ConsoleEventDelegate(ConsoleEventCallback);
+            SetConsoleCtrlHandler(handler, true);
 
             /*Keep it alive*/
             while(true)

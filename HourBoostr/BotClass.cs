@@ -17,26 +17,26 @@ namespace HourBoostr
         /// <summary>
         /// Bot variables
         /// </summary>
-        public List<int> _Games;
-        private SteamClient _SteamClient;
-        private SteamUser _SteamUser;
-        private SteamUser.LogOnDetails _LogOnDetails;
-        private CallbackManager _CBManager;
+        public List<int>                _Games;
+        public SteamClient              _SteamClient;
+        private SteamUser               _SteamUser;
+        private SteamUser.LogOnDetails  _LogOnDetails;
+        private CallbackManager         _CBManager;
 
-        private string _SentryPath;
-        private string _AuthCode;
-        private string _Nounce;
-        public string  _Username;
-        private string _Password;
+        private string  _SentryPath;
+        private string  _AuthCode;
+        private string  _Nounce;
+        public string   _Username;
+        private string  _Password;
 
-        private bool _IsRunning;
-        public bool _IsLoggedIn;
+        public bool     _IsRunning;
+        public bool     _IsLoggedIn;
 
         
         /// <summary>
         /// Thread variables
         /// </summary>
-        private Thread _CBThread;
+        private Thread  _CBThread;
 
 
         /// <summary>
@@ -165,8 +165,7 @@ namespace HourBoostr
         private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
         {
             /*Fetch if SteamGuard is required*/
-            bool isSteamGuard = callback.Result == EResult.AccountLogonDenied;
-            if (isSteamGuard)
+            if (callback.Result == EResult.AccountLogonDenied)
             {
                 /*SteamGuard required, tell user to enter the code*/
                 Log("This account is SteamGuard protected.");
@@ -178,15 +177,17 @@ namespace HourBoostr
             /*Something terrible has happened*/
             if(callback.Result != EResult.OK)
             {
+                /*Incorrect password*/
                 if(callback.Result == EResult.InvalidPassword)
                 {
-                    Log("Incorrect password! Try again: ");
+                    Log(String.Format("{0} - Incorrect password! Try again:", callback.Result));
                     _LogOnDetails.Password = Config.Password.ReadPassword();
                     _SteamClient.Disconnect();
                     return;
                 }
 
-                Log("Something failed. Redo process please.");
+                /*Something else happened that I didn't account for*/
+                Log(String.Format("{0} - Something failed. Redo process please.", callback.Result));
                 _IsLoggedIn = false;
                 return;
             }
@@ -228,6 +229,7 @@ namespace HourBoostr
             /*Inform steam servers that we're accepting this sentry file*/
             _SteamUser.SendMachineAuthResponse(new SteamUser.MachineAuthDetails
             {
+                /*Set the information recieved*/
                 JobID = callback.JobID,
                 FileName = callback.FileName,
 
@@ -260,7 +262,7 @@ namespace HourBoostr
                 });
             }
 
-            /*Send the information*/
+            /*Tell the client that we're playing these games*/
             _SteamClient.Send(gamesPlaying);
         }
     }
