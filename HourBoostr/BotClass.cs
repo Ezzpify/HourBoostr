@@ -25,6 +25,7 @@ namespace HourBoostr
 
         private string  _SentryPath;
         private string  _AuthCode;
+        private string  _TwoWayAuthCode;
         private string  _Nounce;
         public string   _Username;
         private string  _Password;
@@ -115,7 +116,7 @@ namespace HourBoostr
             /*Login - NOT OK*/
             if(callback.Result != EResult.OK)
             {
-                Log("(OnConnected) EResult not OK");
+                Log(String.Format("Error: {0}", callback.Result));
                 _IsRunning = false;
                 return;
             }
@@ -132,6 +133,7 @@ namespace HourBoostr
             Log("Connected! Logging in...");
             _LogOnDetails.AuthCode = _AuthCode;
             _LogOnDetails.SentryFileHash = sentryHash;
+            _LogOnDetails.TwoFactorCode = _TwoWayAuthCode;
 
             /*Attempt to login*/
             _SteamUser.LogOn(_LogOnDetails);
@@ -167,10 +169,20 @@ namespace HourBoostr
             /*Fetch if SteamGuard is required*/
             if (callback.Result == EResult.AccountLogonDenied)
             {
-                /*SteamGuard required, tell user to enter the code*/
-                Log("This account is SteamGuard protected.");
-                Log("Write the code recieved in your email:");
+                /*SteamGuard required*/
+                Log("Enter the SteamGuard code from your email:");
+                Console.Write("  > ");
                 _AuthCode = Console.ReadLine();
+                return;
+            }
+
+            /*If two-way authentication*/
+            if(callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
+            {
+                /*Account requires two-way authentication*/
+                Log("Enter your two-way authentication code:");
+                Console.Write("  > ");
+                _TwoWayAuthCode = Console.ReadLine();
                 return;
             }
 
