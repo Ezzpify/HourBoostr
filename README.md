@@ -24,6 +24,10 @@ Example image:
 
 ![enyo9tw 1](https://cloud.githubusercontent.com/assets/9034691/9140843/68b653d0-3d34-11e5-8121-dcc882fa70fe.png)
 
+JsonHelper for those who are having problems with json syntax:
+
+![swagster](https://cloud.githubusercontent.com/assets/9034691/9156867/e5b60ae6-3ee8-11e5-87ba-83714aef916e.gif)
+
 Type each game ID under games that you want to boost like this:
 Example Settings.json setup
 ```json
