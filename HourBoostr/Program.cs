@@ -11,6 +11,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Collections.Specialized;
 
 namespace HourBoostr
 {
@@ -19,7 +20,10 @@ namespace HourBoostr
         /// <summary>
         /// DllImports
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>[DllImport("user32.dll")]
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
@@ -37,6 +41,7 @@ namespace HourBoostr
         static private string         _Title = "HourBoostr by Ezzy";
         static private NotifyIcon     _TrayIcon = new NotifyIcon();
         static private bool           _IsHidden;
+        static private Commands       _Com = new Commands();
 
 
         /// <summary>
@@ -44,6 +49,29 @@ namespace HourBoostr
         /// </summary>
         static private Thread _StatusThread;
         static private Thread _TrayThread;
+
+
+        /// <summary>
+        /// Fetch a user password if it exists in settings
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
+        static private string GetUserPassword(string Username)
+        {
+            /*Check all string entries to settings*/
+            foreach(string User in Properties.Settings.Default.UserInfo)
+            {
+                /*Format:   Username,Password   */
+                string[] Split = User.Split(',');
+                if(Split[0] == Username)
+                {
+                    /*Return the password*/
+                    return Split[1];
+                }
+            }
+
+            return "";
+        }
 
 
         /// <summary>
@@ -56,6 +84,10 @@ namespace HourBoostr
             Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Sentryfiles"));
             string _filePath = Path.Combine(Application.StartupPath, "Settings.json");
             Console.Title = _Title;
+
+            /*Spawn new settings*/
+            if (Properties.Settings.Default.UserInfo == null)
+                Properties.Settings.Default.UserInfo = new StringCollection();
 
             /*Check if Json Settings file exist, else print a new one*/
             if(!File.Exists(_filePath))
@@ -134,18 +166,28 @@ namespace HourBoostr
                     /*If not empty*/
                     if(User.Username.Length > 0)
                     {
-                        /*Let user type in password to account*/
-                        Console.WriteLine("Enter the password for the account '{0}'.", User.Username);
-                        User.Password = Config.Password.ReadPassword();
+                        /*Check if we have a saved password*/
+                        bool AutoLogin = false;
+                        User.Password = GetUserPassword(User.Username);
+                        if(User.Password.Length == 0)
+                        {
+                            Console.WriteLine("Enter the password for the account '{0}'.", User.Username);
+                            User.Password = Config.Password.ReadPassword();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Logging in '{0}'...", User.Username);
+                            AutoLogin = true;
+                        }
 
                         /*Run a new bot with the information*/
-                        BotClass Bot = new BotClass(User);
+                        BotClass Bot = new BotClass(User, AutoLogin);
 
                         /*Add bot to active bot list*/
                         _ActiveBots.Add(Bot);
 
                         /*Wait for bot to log in fully until we initialize the next account*/
-                        while (!Bot._IsLoggedIn) { Thread.Sleep(2500); }
+                        while (!Bot._IsLoggedIn) { Thread.Sleep(1500); }
                     }
                 }
 
@@ -162,6 +204,13 @@ namespace HourBoostr
                 {
                     Console.WriteLine("    {0} | {1} Games", Bot._Username, Bot._Games.Count);
                 }
+
+                Console.WriteLine("\n  Commands available:");
+                foreach(string command in _Com._Commands)
+                {
+                    Console.WriteLine("  {0}", command);
+                }
+
                 Console.WriteLine("\n  ------------------------------------------\n");
 
                 /*Set time when bots were initialized*/
@@ -194,14 +243,15 @@ namespace HourBoostr
         static private void ToTray()
         {
             /*Set TrayIcon information*/
-            _TrayIcon.Text = String.Format("HourBoostr | {0} Bots", _ActiveBots.Count);
+            _TrayIcon.Text = String.Format("HourBoostr | {0} Bots\nClick to Show/Hide", _ActiveBots.Count);
             _TrayIcon.Icon = Properties.Resources.icon;
             _TrayIcon.Click += new EventHandler(_TrayIcon_Click);
             _TrayIcon.Visible = true;
             Application.Run();
 
-            /*Keep the form thread running, otherwise the TrayIcon will dissapear*/
-            while (true) { Thread.Sleep(100); }
+            /*To keep TrayIcon from dropping (dissapearing), 
+              we need to keep the thread running*/
+            while (true) { Thread.Sleep(250); }
         }
 
 
@@ -231,6 +281,7 @@ namespace HourBoostr
             else
             {
                 ShowWindow(GetConsoleWindow(), 0);
+                SetForegroundWindow(GetConsoleWindow());
                 _IsHidden = false;
             }
         }
@@ -248,6 +299,7 @@ namespace HourBoostr
             if (eventType == 2)
             {
                 /*Disconnect all clients*/
+                Console.WriteLine("\n\nDisconnecting...");
                 foreach(var Bot in _ActiveBots)
                 {
                     /*Disconnect bot*/
@@ -255,6 +307,7 @@ namespace HourBoostr
                     Bot._SteamClient.Disconnect();
                 }
             }
+
             return false;
         }
         static ConsoleEventDelegate handler;
@@ -267,6 +320,10 @@ namespace HourBoostr
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            /*Debugging*/
+            if (Debugger.IsAttached)
+                Properties.Settings.Default.Reset();
+
             /*Initialize the program*/
             Initialize();
 
@@ -285,7 +342,7 @@ namespace HourBoostr
                 Console.WriteLine("  Hiding console to Tray in 3s...\n\n");
                 Thread.Sleep(3000);
                 ShowConsole(false);
-                _TrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm still running! Click me to show/hide the window.", ToolTipIcon.Info);
+                _TrayIcon.ShowBalloonTip(1500, "HourBoostr", "I'm still running! Click me to show/hide the window.", ToolTipIcon.Info);
             }
             else
             {
@@ -302,6 +359,8 @@ namespace HourBoostr
             /*Keep it alive*/
             while(true)
             {
+                /*Take input commands*/
+                Console.WriteLine(_Com.GetCommand(Console.ReadLine()));
                 Thread.Sleep(100);
             }
         }

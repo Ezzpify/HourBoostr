@@ -17,6 +17,9 @@ namespace HourBoostr
         }
 
 
+        /// <summary>
+        /// Class for account info
+        /// </summary>
         public class SettingsInfo
         {
             public string Username { get; set; }

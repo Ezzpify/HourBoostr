@@ -28,10 +28,11 @@ namespace HourBoostr
         private string  _TwoWayAuthCode;
         private string  _Nounce;
         public string   _Username;
-        private string  _Password;
+        public string   _Password;
 
         public bool     _IsRunning;
         public bool     _IsLoggedIn;
+        public bool     _AutoLogin;
 
         
         /// <summary>
@@ -44,12 +45,13 @@ namespace HourBoostr
         /// Main initializer for each account
         /// </summary>
         /// <param name="info"></param>
-        public BotClass(Config.AccountInfo info)
+        public BotClass(Config.AccountInfo info, bool AutoLogin)
         {
             /*Assign bot info*/
             _Username   = info.Username;
             _Password   = info.Password;
             _Games      = info.Games;
+            _AutoLogin  = AutoLogin;
 
             /*Sentryfiles*/
             _SentryPath = Path.Combine(Application.StartupPath, String.Format("Sentryfiles\\{0}.sentry", info.Username));
@@ -75,6 +77,30 @@ namespace HourBoostr
             /*Connect to Steam*/
             _SteamClient.Connect();
             _IsRunning = true;
+
+            /*Start Callback thread*/
+            _CBThread = new Thread(RunCallback);
+            _CBThread.Start();
+        }
+
+
+        /// <summary>
+        /// Set new details for the bot
+        /// </summary>
+        /// <param name="info"></param>
+        public void SetNewDetails(Config.AccountInfo info)
+        {
+            /*Set details*/
+            _Username = info.Username;
+            _Password = info.Password;
+            _Games = info.Games;
+
+            /*Set login info*/
+            _LogOnDetails = new SteamUser.LogOnDetails()
+            {
+                Username = info.Username,
+                Password = info.Password
+            };
 
             /*Start Callback thread*/
             _CBThread = new Thread(RunCallback);
@@ -192,8 +218,22 @@ namespace HourBoostr
                 /*Incorrect password*/
                 if(callback.Result == EResult.InvalidPassword)
                 {
-                    Log(String.Format("{0} - Incorrect password! Try again:", callback.Result));
+                    /*Get user to enter a new password*/
+                    Log(String.Format("{0} - Invalid password! Try again:", callback.Result));
+                    Console.Write("  > ");
+
+                    /*Delete old user info*/
+                    Properties.Settings.Default.UserInfo.Remove(String.Format("{0},{1}", _Username, _Password));
+                    Properties.Settings.Default.Save();
+
+                    /*Read new password from input*/
                     _LogOnDetails.Password = Config.Password.ReadPassword();
+                    _AutoLogin = false;
+
+                    /*Set new password*/
+                    _Password = _LogOnDetails.Password;
+
+                    /*Disconnect and retry*/
                     _SteamClient.Disconnect();
                     return;
                 }
@@ -208,6 +248,17 @@ namespace HourBoostr
             Log("Successfully logged in!\n");
             _Nounce = callback.WebAPIUserNonce;
             _IsLoggedIn = true;
+
+            /*Save password prompt*/
+            if (!_AutoLogin)
+            {
+                DialogResult dialogResult = MessageBox.Show(String.Format("Remember password for account {0}?", _Username), "Automatic Login", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Properties.Settings.Default.UserInfo.Add(String.Format("{0},{1}", _Username, _Password));
+                    Properties.Settings.Default.Save();
+                }
+            }
 
             /*Set games playing*/
             SetGamesPlaying();
