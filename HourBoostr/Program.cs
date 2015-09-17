@@ -54,23 +54,16 @@ namespace HourBoostr
         /// <summary>
         /// Fetch a user password if it exists in settings
         /// </summary>
-        /// <param name="Username"></param>
+        /// <param name="Username">Username of the account we wish to get creds to</param>
         /// <returns></returns>
-        static private string GetUserPassword(string Username)
+        static private string GetUserInfo(string Username)
         {
-            /*Check all string entries to settings*/
-            foreach(string User in Properties.Settings.Default.UserInfo)
-            {
-                /*Format:   Username,Password   */
-                string[] Split = User.Split(',');
-                if(Split[0] == Username)
-                {
-                    /*Return the password*/
-                    return Split[1];
-                }
-            }
+            /*Load up saved creds to an array*/
+            string[] strArr = Properties.Settings.Default.UserInfo.Cast<string>().ToArray();
 
-            return "";
+            /*Apply LINQ to get the first result that matches the Username*/
+            if (strArr.Length != 0) { return strArr.First(s => s.Contains(Username)); }
+            else { return ""; }
         }
 
 
@@ -168,14 +161,24 @@ namespace HourBoostr
                     {
                         /*Check if we have a saved password*/
                         bool AutoLogin = false;
-                        User.Password = GetUserPassword(User.Username);
-                        if(User.Password.Length == 0)
+
+                        /*Retrieve cred string and split (cred format: Username,Password)*/
+                        string savedCreds = GetUserInfo(User.Username);
+                        if(!string.IsNullOrEmpty(savedCreds))
                         {
+                            User.Password = savedCreds.Split(',')[1];
+                        }
+
+                        /*Check if we have a password set*/
+                        if(string.IsNullOrEmpty(User.Password))
+                        {
+                            /*Password was not saved, promt user to enter password for account*/
                             Console.WriteLine("Enter the password for the account '{0}'.", User.Username);
                             User.Password = Config.Password.ReadPassword();
                         }
                         else
                         {
+                            /*Saved password was found, log in*/
                             Console.WriteLine("Logging in '{0}'...", User.Username);
                             AutoLogin = true;
                         }
@@ -200,17 +203,21 @@ namespace HourBoostr
                 Console.WriteLine(" |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
                 Console.WriteLine("\n  Loaded {0} bots!", _ActiveBots.Count);
                 Console.WriteLine("\n  Accounts:\n");
+
+                /*Count games for each bot*/
                 foreach(var Bot in _ActiveBots)
                 {
                     Console.WriteLine("    {0} | {1} Games", Bot._Username, Bot._Games.Count);
                 }
 
+                /*Print available commands*/
                 Console.WriteLine("\n  Commands available:");
                 foreach(string command in _Com._Commands)
                 {
                     Console.WriteLine("  {0}", command);
                 }
 
+                /*Divider to make it look nicer*/
                 Console.WriteLine("\n  ------------------------------------------\n");
 
                 /*Set time when bots were initialized*/
@@ -230,7 +237,7 @@ namespace HourBoostr
                 /*This will give us an idea of how long the bot has been running*/
                 TimeSpan span = DateTime.Now.Subtract(_InitializedTime);
                 Console.Title = String.Format("{0} | Online for: {1} Hours", _Title, span.Hours);
-                Thread.Sleep(1000);
+                Thread.Sleep(30000);
             }
         }
 
@@ -270,7 +277,7 @@ namespace HourBoostr
         /// <summary>
         /// Show/Hide the console window
         /// </summary>
-        /// <param name="b"></param>
+        /// <param name="b">Display console</param>
         static private void ShowConsole(bool b)
         {
             if(b)
@@ -292,10 +299,11 @@ namespace HourBoostr
         /// Realistically we have 4-5 seconds to preform this
         /// action before windows forces the program to close
         /// </summary>
-        /// <param name="eventType"></param>
+        /// <param name="eventType">Event type</param>
         /// <returns></returns>
         static bool ConsoleEventCallback(int eventType)
         {
+            /*eventType 2 being Exit event*/
             if (eventType == 2)
             {
                 /*Disconnect all clients*/

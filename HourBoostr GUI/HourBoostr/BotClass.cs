@@ -12,49 +12,61 @@ using System.Security.Cryptography;
 
 namespace HourBoostr
 {
-    class BotClass
+    public class BotClass
     {
         /// <summary>
         /// Bot variables
         /// </summary>
-        public List<int>                _Games;
-        public SteamClient              _SteamClient;
-        private SteamUser               _SteamUser;
-        private SteamUser.LogOnDetails  _LogOnDetails;
-        private CallbackManager         _CBManager;
+        public SteamClient _SteamClient;
+        //public SteamWeb _SteamWeb;
+        private SteamUser _SteamUser;
+        private SteamUser.LogOnDetails _LogOnDetails;
+        private CallbackManager _CBManager;
 
-        private string  _SentryPath;
-        private string  _AuthCode;
-        private string  _TwoWayAuthCode;
-        private string  _Nounce;
+        private string _SentryPath;
+        private string _AuthCode;
+        private string _TwoWayAuthCode;
+        private string _Nounce;
 
-        public string   _Username;
-        public string   _Password;
+        public string _Username;
+        public string _Password;
 
-        public bool     _IsRunning;
-        public bool     _IsLoggedIn;
-        public bool     _AutoLogin;
+        public bool _IsRunning;
+        public bool _IsLoggedIn;
+        public bool _AutoLogin;
 
-        public int      _DisconnectCount;
+        public int _DisconnectCount;
 
-        
+        public int locX;
+        public int locY;
+
+
         /// <summary>
         /// Thread variables
         /// </summary>
-        private Thread  _CBThread;
+        private Thread _CBThread;
 
 
         /// <summary>
         /// Main initializer for each account
         /// </summary>
-        /// <param name="info"></param>
-        public BotClass(Config.AccountInfo info, bool AutoLogin)
+        /// <param name="info">Account info</param>
+        /// <param name="AutoLogin">If we should attempt to autologin with last saved creds</param>
+        /// <param name="formLocX">Position X for Promtp form</param>
+        /// <param name="formLoxY">Position Y for Promtp form</param>
+        public BotClass(Config.AccountInfo info, bool AutoLogin, int formLocX, int formLoxY)
         {
             /*Assign bot info*/
             _Username   = info.Username;
             _Password   = info.Password;
-            _Games      = info.Games;
             _AutoLogin  = AutoLogin;
+
+            /*Assign info*/
+            locX = formLocX;
+            locY = formLoxY;
+
+            /*Create sentry folder*/
+            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Sentryfiles"));
 
             /*Sentryfiles*/
             _SentryPath = Path.Combine(Application.StartupPath, String.Format("Sentryfiles\\{0}.sentry", info.Username));
@@ -96,7 +108,6 @@ namespace HourBoostr
             /*Set details*/
             _Username = info.Username;
             _Password = info.Password;
-            _Games = info.Games;
 
             /*Set login info*/
             _LogOnDetails = new SteamUser.LogOnDetails()
@@ -128,7 +139,7 @@ namespace HourBoostr
         /// </summary>
         private void RunCallback()
         {
-            while(_IsRunning)
+            while (_IsRunning)
             {
                 _CBManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
             }
@@ -143,7 +154,7 @@ namespace HourBoostr
         private void OnConnected(SteamClient.ConnectedCallback callback)
         {
             /*Login - NOT OK*/
-            if(callback.Result != EResult.OK)
+            if (callback.Result != EResult.OK)
             {
                 Log(String.Format("Error: {0}", callback.Result));
                 _IsRunning = false;
@@ -179,14 +190,6 @@ namespace HourBoostr
         {
             _IsLoggedIn = false;
             _DisconnectCount++;
-            
-            /*Too many disconnect attempts and we'll let this bot rest*/
-            if(_DisconnectCount > 3)
-            {
-                _DisconnectCount = 0;
-                Console.WriteLine("Too many disconnects. Sleeping 30m...");
-                Thread.Sleep(TimeSpan.FromMinutes(30));
-            }
 
             /*Only reconnect if the bot is still in running state*/
             if (_IsRunning)
@@ -196,7 +199,7 @@ namespace HourBoostr
                 _SteamClient.Connect();
             }
         }
-
+        
 
         /// <summary>
         /// OnLoggedOn Callback
@@ -209,42 +212,41 @@ namespace HourBoostr
             if (callback.Result == EResult.AccountLogonDenied)
             {
                 /*SteamGuard required*/
-                Log("Enter the SteamGuard code from your email:");
-                Console.Write("  > ");
-                _AuthCode = Console.ReadLine();
+                using (Prompt prompt = new Prompt("Enter SteamGuard Code", "code", locX, locY))
+                {
+                    prompt.ShowDialog();
+                    _AuthCode = prompt.info;
+                }
+
                 return;
             }
 
             /*If two-way authentication*/
-            if(callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
+            if (callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
             {
                 /*Account requires two-way authentication*/
-                Log("Enter your two-way authentication code:");
-                Console.Write("  > ");
-                _TwoWayAuthCode = Console.ReadLine();
+                using (Prompt prompt = new Prompt("Enter Phone-Auth Code", "code", locX, locY))
+                {
+                    prompt.ShowDialog();
+                    _TwoWayAuthCode = prompt.info;
+                }
+
                 return;
             }
 
             /*Something terrible has happened*/
-            if(callback.Result != EResult.OK)
+            if (callback.Result != EResult.OK)
             {
                 /*Incorrect password*/
-                if(callback.Result == EResult.InvalidPassword)
+                if (callback.Result == EResult.InvalidPassword)
                 {
-                    /*Get user to enter a new password*/
-                    Log(String.Format("{0} - Invalid password! Try again:", callback.Result));
-                    Console.Write("  > ");
-
-                    /*Delete old user info*/
-                    Properties.Settings.Default.UserInfo.Remove(String.Format("{0},{1}", _Username, _Password));
-                    Properties.Settings.Default.Save();
-
-                    /*Read new password from input*/
-                    _LogOnDetails.Password = Config.Password.ReadPassword();
-                    _AutoLogin = false;
-
-                    /*Set new password*/
-                    _Password = _LogOnDetails.Password;
+                    /*Ask for new password*/
+                    using (Prompt prompt = new Prompt("Invalid password", "password", locX, locY, true))
+                    {
+                        prompt.ShowDialog();
+                        _LogOnDetails.Password = prompt.info;
+                        _Password = prompt.info;
+                    }
 
                     /*Disconnect and retry*/
                     _SteamClient.Disconnect();
@@ -262,19 +264,8 @@ namespace HourBoostr
             _Nounce = callback.WebAPIUserNonce;
             _IsLoggedIn = true;
 
-            /*Save password prompt*/
-            if (!_AutoLogin)
-            {
-                DialogResult dialogResult = MessageBox.Show(String.Format("Remember password for account {0}?", _Username), "Automatic Login", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Properties.Settings.Default.UserInfo.Add(String.Format("{0},{1}", _Username, _Password));
-                    Properties.Settings.Default.Save();
-                }
-            }
-
             /*Set games playing*/
-            SetGamesPlaying();
+            //SetGamesPlaying();
         }
 
 
@@ -326,11 +317,11 @@ namespace HourBoostr
         /// Set the game currently playing for cooler looks lel
         /// </summary>
         /// <param name="id"></param>
-        private void SetGamesPlaying()
+        public void SetGamesPlaying(List<int> GameList)
         {
             /*Set up requested games*/
-            var gamesPlaying = new SteamKit2.ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
-            foreach(int Game in _Games)
+            var gamesPlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            foreach (int Game in GameList)
             {
                 gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
                 {

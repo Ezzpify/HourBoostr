@@ -17,6 +17,8 @@ namespace JsonHelper
 {
     public partial class Form1 : Form
     {
+        //http://steamcommunity.com/id/pandaclick/games?tab=all&xml=1
+
         /// <summary>
         /// DllImport regarding moving the window
         /// </summary>
@@ -88,19 +90,19 @@ namespace JsonHelper
         /// <param name="e"></param>
         private void header_Label_Exit_MouseEnter(object sender, EventArgs e)
         {
-            header_Label_Exit.ForeColor = Color.Aqua;
+            header_Label_Exit.ForeColor = Color.Gainsboro;
         }
         private void header_Label_Exit_MouseLeave(object sender, EventArgs e)
         {
-            header_Label_Exit.ForeColor = Color.Gainsboro;
+            header_Label_Exit.ForeColor = Color.DodgerBlue;
         }
         private void header_Label_ToWebsite_MouseEnter(object sender, EventArgs e)
         {
-            header_Label_ToWebsite.ForeColor = Color.Aqua;
+            header_Label_ToWebsite.ForeColor = Color.Gainsboro;
         }
         private void header_Label_ToWebsite_MouseLeave(object sender, EventArgs e)
         {
-            header_Label_ToWebsite.ForeColor = Color.Gainsboro;
+            header_Label_ToWebsite.ForeColor = Color.DodgerBlue;
         }
         #endregion Header
 
