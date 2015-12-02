@@ -62,7 +62,7 @@ namespace HourBoostr
             string[] strArr = Properties.Settings.Default.UserInfo.Cast<string>().ToArray();
 
             /*Apply LINQ to get the first result that matches the Username*/
-            if (strArr.Length != 0) { return strArr.First(s => s.Contains(Username)); }
+            if (strArr.Length != 0) { return strArr.First(s => s.ToLower().Contains(Username.ToLower())); }
             else { return ""; }
         }
 
