@@ -227,6 +227,17 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Gets the time the bot has been online as finished string
+        /// </summary>
+        /// <returns>Returns string</returns>
+        static private string GetOnlineHours()
+        {
+            TimeSpan tS = DateTime.Now - _InitializedTime;
+            return string.Format("{0} Hours {1} Minutes", (tS.Days * 24) + tS.Hours, tS.Minutes); //14 Hours 25 Minutes
+        }
+
+
+        /// <summary>
         /// Status for how long the bot has been running
         /// </summary>
         static private void CheckStatus()
@@ -235,9 +246,8 @@ namespace HourBoostr
             {
                 /*Get the current time then subtract the time when all bots were done initializing*/
                 /*This will give us an idea of how long the bot has been running*/
-                TimeSpan span = DateTime.Now.Subtract(_InitializedTime);
-                Console.Title = String.Format("{0} | Online for: {1} Hours", _Title, span.Hours);
-                Thread.Sleep(30000);
+                Console.Title = string.Format("{0} | Online for: {1} Hours", _Title, GetOnlineHours());
+                Thread.Sleep(TimeSpan.FromMinutes(1));
             }
         }
 
@@ -250,7 +260,7 @@ namespace HourBoostr
         static private void ToTray()
         {
             /*Set TrayIcon information*/
-            _TrayIcon.Text = String.Format("HourBoostr | {0} Bots\nClick to Show/Hide", _ActiveBots.Count);
+            _TrayIcon.Text = string.Format("HourBoostr | {0} Bots\nClick to Show/Hide", _ActiveBots.Count);
             _TrayIcon.Icon = Properties.Resources.icon;
             _TrayIcon.Click += new EventHandler(_TrayIcon_Click);
             _TrayIcon.Visible = true;
