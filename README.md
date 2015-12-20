@@ -1,6 +1,12 @@
 # HourBoostr
 Boosting Steam account hours
 
+--
+
+Warning: I'd recommend you to use the Console version, since the GUI version is incomplete and buggy.
+
+--
+
 This will allow you to boost the hours played of multiple Steam games on multiple accounts at the same time, without even having steam open!.
 
 Run HourBoostr then set up the Settings.json file to include the accounts you want to use, and which games you want to boost.
