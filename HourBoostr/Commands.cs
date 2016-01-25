@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HourBoostr
 {
@@ -11,7 +7,7 @@ namespace HourBoostr
         /// <summary>
         /// List of available commands
         /// </summary>
-        public List<string> _Commands = new List<string>()
+        public List<string> mCommands = new List<string>()
         {
             "!reset - Resets saved passwords"
         };
@@ -26,14 +22,12 @@ namespace HourBoostr
         {
             switch(str)
             {
-                case "!420":
-                    return "Blaze it";
                 case "!reset":
                     Properties.Settings.Default.UserInfo.Clear();
                     Properties.Settings.Default.Save();
-                    return "";
+                    return "Settings has been reset";
                 default:
-                    return "";
+                    return "Command not found";
             }
         }
     }

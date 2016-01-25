@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using SteamKit2;
@@ -15,99 +12,151 @@ namespace HourBoostr
     class BotClass
     {
         /// <summary>
-        /// Bot variables
+        /// Class for holding Steam information
         /// </summary>
-        public List<int>                _Games;
-        public SteamClient              _SteamClient;
-        private SteamUser               _SteamUser;
-        private SteamUser.LogOnDetails  _LogOnDetails;
-        private CallbackManager         _CBManager;
+        public class Steam
+        {
+            /// <summary>
+            /// Specifies the location to the sentry path for this account
+            /// </summary>
+            public string sentryPath { get; set; }
 
-        private string  _SentryPath;
-        private string  _AuthCode;
-        private string  _TwoWayAuthCode;
-        private string  _Nounce;
 
-        public string   _Username;
-        public string   _Password;
+            /// <summary>
+            /// Web api user nounce
+            /// </summary>
+            public string nounce { get; set; }
 
-        public bool     _IsRunning;
-        public bool     _IsLoggedIn;
-        public bool     _AutoLogin;
+            
+            /// <summary>
+            /// List of games that we will be playing
+            /// </summary>
+            public List<int> games { get; set; }
 
-        public int      _DisconnectCount;
 
-        
+            /// <summary>
+            /// Steam client
+            /// </summary>
+            public SteamClient client { get; set; }
+
+
+            /// <summary>
+            /// Steam user
+            /// </summary>
+            public SteamUser user { get; set; }
+
+
+            /// <summary>
+            /// Steam friends
+            /// </summary>
+            public SteamFriends friends { get; set; }
+
+
+            /// <summary>
+            /// Login details for this account
+            /// </summary>
+            public SteamUser.LogOnDetails loginDetails { get; set; }
+
+
+            /// <summary>
+            /// Callback manager
+            /// </summary>
+            public CallbackManager callbackManager { get; set; }
+        }
+
+
+        /// <summary>
+        /// Enum for bot state
+        /// </summary>
+        public enum BotState
+        {
+            LoggedOut,
+            LoggedIn
+        }
+
+
+        /// <summary>
+        /// Represents if the bot is in running state
+        /// </summary>
+        public bool mIsRunning { get; set; } = true;
+
+
+        /// <summary>
+        /// State of bot status
+        /// </summary>
+        public BotState mBotState { get; private set; } = BotState.LoggedOut;
+
+
+        /// <summary>
+        /// The steam session of the bot
+        /// We can instance this on load
+        /// </summary>
+        public Steam mSteam { get; set; } = new Steam();
+
+
         /// <summary>
         /// Thread variables
         /// </summary>
-        private Thread  _CBThread;
+        private Thread mThreadCallback;
+
+
+        /// <summary>
+        /// Information for this account
+        /// </summary>
+        public Config.AccountInfo mInfo { get; private set; }
 
 
         /// <summary>
         /// Main initializer for each account
         /// </summary>
-        /// <param name="info"></param>
-        public BotClass(Config.AccountInfo info, bool AutoLogin)
+        /// <param name="info">Account info</param>
+        public BotClass(Config.AccountInfo info)
         {
+            /*If a password isn't set we'll ask for user input*/
+            if (string.IsNullOrEmpty(info.Password))
+            {
+                Console.WriteLine("Enter password for account '{0}'", info.Username);
+                info.Password = Password.ReadPassword();
+
+                /*Save password prompt*/
+                DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string userInfo = string.Format("{0},{1}", mSteam.loginDetails.Username, mSteam.loginDetails.Password);
+                    Properties.Settings.Default.UserInfo.Add(userInfo);
+                    Properties.Settings.Default.Save();
+                }
+            }
+
             /*Assign bot info*/
-            _Username   = info.Username;
-            _Password   = info.Password;
-            _Games      = info.Games;
-            _AutoLogin  = AutoLogin;
-
-            /*Sentryfiles*/
-            _SentryPath = Path.Combine(Application.StartupPath, String.Format("Sentryfiles\\{0}.sentry", info.Username));
-
-            /*LogOn details class*/
-            _LogOnDetails = new SteamUser.LogOnDetails()
+            mSteam.loginDetails = new SteamUser.LogOnDetails()
             {
                 Username = info.Username,
                 Password = info.Password
             };
+            mInfo = info;
+            mSteam.games = info.Games;
+            mSteam.sentryPath = Path.Combine(Application.StartupPath, string.Format("Sentryfiles\\{0}.sentry", info.Username));
 
             /*Assign clients*/
-            _SteamClient    = new SteamClient();
-            _CBManager      = new CallbackManager(_SteamClient);
-            _SteamUser      = _SteamClient.GetHandler<SteamUser>();
+            mSteam.client = new SteamClient();
+            mSteam.callbackManager = new CallbackManager(mSteam.client);
+            mSteam.user = mSteam.client.GetHandler<SteamUser>();
+            mSteam.friends = mSteam.client.GetHandler<SteamFriends>();
 
             /*Assign Callbacks*/
-            new Callback<SteamClient.ConnectedCallback>(OnConnected, _CBManager);
-            new Callback<SteamClient.DisconnectedCallback>(OnDisconnected, _CBManager);
-            new Callback<SteamUser.LoggedOnCallback>(OnLoggedOn, _CBManager);
-            new Callback<SteamUser.UpdateMachineAuthCallback>(OnMachineAuth, _CBManager);
+            new Callback<SteamClient.ConnectedCallback>(OnConnected, mSteam.callbackManager);
+            new Callback<SteamClient.DisconnectedCallback>(OnDisconnected, mSteam.callbackManager);
+            new Callback<SteamUser.LoggedOnCallback>(OnLoggedOn, mSteam.callbackManager);
+            new Callback<SteamUser.UpdateMachineAuthCallback>(OnMachineAuth, mSteam.callbackManager);
 
             /*Connect to Steam*/
-            _SteamClient.Connect();
-            _IsRunning = true;
+            Print("Connecting to steam ...", info.Username);
+            mSteam.client.Connect();
 
             /*Start Callback thread*/
-            _CBThread = new Thread(RunCallback);
-            _CBThread.Start();
-        }
-
-
-        /// <summary>
-        /// Set new details for the bot
-        /// </summary>
-        /// <param name="info"></param>
-        public void SetNewDetails(Config.AccountInfo info)
-        {
-            /*Set details*/
-            _Username = info.Username;
-            _Password = info.Password;
-            _Games = info.Games;
-
-            /*Set login info*/
-            _LogOnDetails = new SteamUser.LogOnDetails()
-            {
-                Username = info.Username,
-                Password = info.Password
-            };
-
-            /*Start Callback thread*/
-            _CBThread = new Thread(RunCallback);
-            _CBThread.Start();
+            mThreadCallback = new Thread(RunCallback);
+            mThreadCallback.Start();
         }
 
 
@@ -115,10 +164,10 @@ namespace HourBoostr
         /// Writes to console with time and username
         /// </summary>
         /// <param name="str"></param>
-        private void Log(string str)
+        private void Print(string str, params object[] args)
         {
             string time = DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
-            Console.WriteLine("  {0} {1} - {2}", time, _Username, str);
+            Console.WriteLine("{0} {1} - {2}", time, mSteam.loginDetails.Username, string.Format(str, args));
         }
 
 
@@ -128,9 +177,9 @@ namespace HourBoostr
         /// </summary>
         private void RunCallback()
         {
-            while(_IsRunning)
+            while(mIsRunning)
             {
-                _CBManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
+                mSteam.callbackManager.RunWaitCallbacks(TimeSpan.FromSeconds(1));
             }
         }
 
@@ -145,27 +194,23 @@ namespace HourBoostr
             /*Login - NOT OK*/
             if(callback.Result != EResult.OK)
             {
-                Log(String.Format("Error: {0}", callback.Result));
-                _IsRunning = false;
+                Print(string.Format("Error: {0}", callback.Result));
+                mIsRunning = false;
                 return;
             }
 
             /*Set sentry hash*/
             byte[] sentryHash = null;
-            if (File.Exists(_SentryPath))
+            if (File.Exists(mSteam.sentryPath))
             {
-                byte[] sentryFile = File.ReadAllBytes(_SentryPath);
+                byte[] sentryFile = File.ReadAllBytes(mSteam.sentryPath);
                 sentryHash = CryptoHelper.SHAHash(sentryFile);
             }
 
-            /*Set new auth codes*/
-            Log("Connected! Logging in...");
-            _LogOnDetails.AuthCode = _AuthCode;
-            _LogOnDetails.SentryFileHash = sentryHash;
-            _LogOnDetails.TwoFactorCode = _TwoWayAuthCode;
-
             /*Attempt to login*/
-            _SteamUser.LogOn(_LogOnDetails);
+            Print("Connected! Logging in...");
+            mSteam.loginDetails.SentryFileHash = sentryHash;
+            mSteam.user.LogOn(mSteam.loginDetails);
         }
 
 
@@ -177,23 +222,12 @@ namespace HourBoostr
         /// <param name="callback"></param>
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
-            _IsLoggedIn = false;
-            _DisconnectCount++;
-            
-            /*Too many disconnect attempts and we'll let this bot rest*/
-            if(_DisconnectCount > 3)
+            mBotState = BotState.LoggedOut;
+            if (mIsRunning)
             {
-                _DisconnectCount = 0;
-                Console.WriteLine("Too many disconnects. Sleeping 30m...");
-                Thread.Sleep(TimeSpan.FromMinutes(30));
-            }
-
-            /*Only reconnect if the bot is still in running state*/
-            if (_IsRunning)
-            {
-                Log("Reconnecting in 3s...");
+                Print("Reconnecting in 3s...");
                 Thread.Sleep(3000);
-                _SteamClient.Connect();
+                mSteam.client.Connect();
             }
         }
 
@@ -209,9 +243,8 @@ namespace HourBoostr
             if (callback.Result == EResult.AccountLogonDenied)
             {
                 /*SteamGuard required*/
-                Log("Enter the SteamGuard code from your email:");
-                Console.Write("  > ");
-                _AuthCode = Console.ReadLine();
+                Print("Enter the SteamGuard code from your email:");
+                mSteam.loginDetails.AuthCode = Console.ReadLine();
                 return;
             }
 
@@ -219,9 +252,8 @@ namespace HourBoostr
             if(callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
             {
                 /*Account requires two-way authentication*/
-                Log("Enter your two-way authentication code:");
-                Console.Write("  > ");
-                _TwoWayAuthCode = Console.ReadLine();
+                Print("Enter your two-way authentication code:");
+                mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
                 return;
             }
 
@@ -232,46 +264,30 @@ namespace HourBoostr
                 if(callback.Result == EResult.InvalidPassword)
                 {
                     /*Get user to enter a new password*/
-                    Log(String.Format("{0} - Invalid password! Try again:", callback.Result));
-                    Console.Write("  > ");
+                    Print(string.Format("{0} - Invalid password! Try again:", callback.Result));
 
                     /*Delete old user info*/
-                    Properties.Settings.Default.UserInfo.Remove(String.Format("{0},{1}", _Username, _Password));
+                    Properties.Settings.Default.UserInfo.Remove(string.Format("{0},{1}", mSteam.loginDetails.Username, mSteam.loginDetails.Password));
                     Properties.Settings.Default.Save();
 
                     /*Read new password from input*/
-                    _LogOnDetails.Password = Config.Password.ReadPassword();
-                    _AutoLogin = false;
-
-                    /*Set new password*/
-                    _Password = _LogOnDetails.Password;
+                    mSteam.loginDetails.Password = Password.ReadPassword();
 
                     /*Disconnect and retry*/
-                    _SteamClient.Disconnect();
+                    mSteam.client.Disconnect();
                     return;
                 }
 
                 /*Something else happened that I didn't account for*/
-                Log(String.Format("{0} - Something failed. Redo process please.", callback.Result));
-                _IsLoggedIn = false;
+                Print(string.Format("{0} - Something failed. Redo process please.", callback.Result));
+                mBotState = BotState.LoggedOut;
                 return;
             }
 
             /*Logged in successfully*/
-            Log("Successfully logged in!\n");
-            _Nounce = callback.WebAPIUserNonce;
-            _IsLoggedIn = true;
-
-            /*Save password prompt*/
-            if (!_AutoLogin)
-            {
-                DialogResult dialogResult = MessageBox.Show(String.Format("Remember password for account {0}?", _Username), "Automatic Login", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Properties.Settings.Default.UserInfo.Add(String.Format("{0},{1}", _Username, _Password));
-                    Properties.Settings.Default.Save();
-                }
-            }
+            Print("Successfully logged in!\n");
+            mSteam.nounce = callback.WebAPIUserNonce;
+            mBotState = BotState.LoggedIn;
 
             /*Set games playing*/
             SetGamesPlaying();
@@ -288,7 +304,7 @@ namespace HourBoostr
             /*Handles Sentry file for auth*/
             int fileSize;
             byte[] sentryHash;
-            using (var fs = File.Open(_SentryPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs = File.Open(mSteam.sentryPath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 /*Fetch data*/
                 fs.Seek(callback.Offset, SeekOrigin.Begin);
@@ -303,7 +319,7 @@ namespace HourBoostr
             }
 
             /*Inform steam servers that we're accepting this sentry file*/
-            _SteamUser.SendMachineAuthResponse(new SteamUser.MachineAuthDetails
+            mSteam.user.SendMachineAuthResponse(new SteamUser.MachineAuthDetails
             {
                 /*Set the information recieved*/
                 JobID = callback.JobID,
@@ -330,7 +346,7 @@ namespace HourBoostr
         {
             /*Set up requested games*/
             var gamesPlaying = new SteamKit2.ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
-            foreach(int Game in _Games)
+            foreach(int Game in mSteam.games)
             {
                 gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
                 {
@@ -339,7 +355,11 @@ namespace HourBoostr
             }
 
             /*Tell the client that we're playing these games*/
-            _SteamClient.Send(gamesPlaying);
+            mSteam.client.Send(gamesPlaying);
+
+            /*If we should go online*/
+            if (mInfo.ShowOnlineStatus)
+                mSteam.friends.SetPersonaState(EPersonaState.Online);
         }
     }
 }
