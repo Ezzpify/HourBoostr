@@ -89,6 +89,7 @@ namespace HourBoostrJsonHelper
 
         /// <summary>
         /// Fetch all games from profile
+        /// Parses xml response from steam api
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -103,25 +104,48 @@ namespace HourBoostrJsonHelper
                 url += "/";
 
             string xml = Website.DownloadString(string.Format("{0}/games?tab=all&xml=1", url));
-            if (xml.Length > 10)
+            if (string.IsNullOrWhiteSpace(xml))
             {
-                try
+                MessageBox.Show("Invalid response. Url probably not correct.");
+            }
+
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xml);
+
+                XmlNodeList nodeList = xmlDoc.SelectNodes("/gamesList/games/game");
+                foreach (XmlNode node in nodeList)
                 {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(xml);
+                    string appId = node.SelectSingleNode("appID").InnerText;
+                    string appName = node.SelectSingleNode("name").InnerText;
 
-                    XmlNodeList nodeList = xmlDoc.SelectNodes("/gamesList/games/game");
-                    foreach (XmlNode node in nodeList)
-                    {
-                        string appId = node.SelectSingleNode("appID").InnerText;
-                        string appName = node.SelectSingleNode("name").InnerText;
-
-                        listBoxGames.Items.Add(string.Format("{0} | {1}", appId, appName));
-                    }
+                    listBoxGames.Items.Add(string.Format("{0} | {1}", appId, appName));
                 }
-                catch (XmlException xEx)
+            }
+            catch (XmlException xEx)
+            {
+                MessageBox.Show("Invalid XML response: " + xEx.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Listbox double click event
+        /// This will enter the appId to games id list
+        /// </summary>
+        private void listBoxGames_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var list = (ListBox)sender;
+            object item = list.SelectedItem;
+
+            if (item != null)
+            {
+                string itemContent = listBoxGames.GetItemText(item);
+                if (!string.IsNullOrWhiteSpace(itemContent))
                 {
-                    MessageBox.Show("Invalid XML response: " + xEx.Message);
+                    string[] spl = itemContent.Split(new string[] { " | " }, StringSplitOptions.None);
+                    richTextBoxGames.AppendText(spl[0] + "\n");
                 }
             }
         }
