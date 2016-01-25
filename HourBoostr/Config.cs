@@ -54,7 +54,7 @@ namespace HourBoostr
             /// Sets pre-defined temp values to the class variables
             /// Good for showing people how the Json file should look like
             /// </summary>
-            public AccountInfo()
+            public void SetTemporaryValues()
             {
                 Username = "UsernameHere";
                 Games.Add(730);

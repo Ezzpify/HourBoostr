@@ -122,7 +122,7 @@ namespace HourBoostr
                 DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    string userInfo = string.Format("{0},{1}", mSteam.loginDetails.Username, mSteam.loginDetails.Password);
+                    string userInfo = string.Format("{0},{1}", info.Username, info.Password);
                     Properties.Settings.Default.UserInfo.Add(userInfo);
                     Properties.Settings.Default.Save();
                 }
@@ -345,7 +345,7 @@ namespace HourBoostr
         private void SetGamesPlaying()
         {
             /*Set up requested games*/
-            var gamesPlaying = new SteamKit2.ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            var gamesPlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
             foreach(int Game in mSteam.games)
             {
                 gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed

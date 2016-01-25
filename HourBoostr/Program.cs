@@ -77,9 +77,11 @@ namespace HourBoostr
                 Config.Settings settings = new Config.Settings();
 
                 /*Add example accounts*/
-                settings.Account.Add(new Config.AccountInfo());
-                settings.Account.Add(new Config.AccountInfo());
-                settings.Account.Add(new Config.AccountInfo());
+                var tempacc = new Config.AccountInfo();
+                tempacc.SetTemporaryValues();
+                settings.Account.Add(tempacc);
+                settings.Account.Add(tempacc);
+                settings.Account.Add(tempacc);
 
                 /*Write settings to file*/
                 string settingsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
