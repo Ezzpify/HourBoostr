@@ -32,32 +32,6 @@ JsonHelper for those who are having problems with json syntax:
 
 ![swagster](https://cloud.githubusercontent.com/assets/9034691/9156867/e5b60ae6-3ee8-11e5-87ba-83714aef916e.gif)
 
-Type each game ID under games that you want to boost like this:
-Example Settings.json setup
-```json
-{
-  "Account": [
-    {
-      "Username": "acc1",
-      "Games": [
-        730,
-        271590,
-        252950
-      ]
-    },
-	{
-      "Username": "acc2",
-      "Games": [
-        730,
-        10
-      ]
-    },
-	{
-      "Username": "acc3",
-      "Games": [
-        730
-      ]
-    }
-  ]
-}
-```
+Tutorial
+
+[![ScreenShot](http://i.imgur.com/UfbT2el.jpg)](http://youtu.be/QYdwOuAa45A)
