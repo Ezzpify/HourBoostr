@@ -50,7 +50,6 @@ namespace HourBoostr
         /// Private variables
         /// </summary>
         static private NotifyIcon mTrayIcon = new NotifyIcon();
-        static private Commands mCommand = new Commands();
         static private ConsoleEventDelegate handler;
         static private Config.Settings mSettings;
         static private Session mSession;
@@ -243,7 +242,7 @@ namespace HourBoostr
             while (true)
             {
                 /*Take input commands*/
-                Console.WriteLine(mCommand.GetCommand(Console.ReadLine()));
+                Console.WriteLine(Commands.GetCommand(Console.ReadLine()));
                 Thread.Sleep(100);
             }
         }

@@ -94,6 +94,7 @@ namespace HourBoostr
             Console.WriteLine("  ----------------------------------------");
             Console.WriteLine("\n  Loaded {0} accounts\n\n  Accounts:", mActiveBots.Count);
             mActiveBots.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mInfo.Username, o.mSteam.games.Count));
+            Console.WriteLine("\n\n  Commands:\n  {0}", string.Join("\n  ", Commands.mCommands));
             mInitializedTime = DateTime.Now;
 
             /*Start status thread*/

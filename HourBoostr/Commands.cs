@@ -2,12 +2,12 @@
 
 namespace HourBoostr
 {
-    class Commands
+    static class Commands
     {
         /// <summary>
         /// List of available commands
         /// </summary>
-        public List<string> mCommands = new List<string>()
+        public static List<string> mCommands = new List<string>()
         {
             "!reset - Resets saved passwords"
         };
@@ -18,7 +18,7 @@ namespace HourBoostr
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public string GetCommand(string str)
+        public static string GetCommand(string str)
         {
             switch(str)
             {

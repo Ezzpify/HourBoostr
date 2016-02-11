@@ -117,15 +117,6 @@ namespace HourBoostr
             {
                 Console.WriteLine("Enter password for account '{0}'", info.Username);
                 info.Password = Password.ReadPassword();
-
-                /*Save password prompt*/
-                DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    string userInfo = string.Format("{0},{1}", info.Username, info.Password);
-                    Properties.Settings.Default.UserInfo.Add(userInfo);
-                    Properties.Settings.Default.Save();
-                }
             }
 
             /*Assign bot info*/
@@ -258,28 +249,36 @@ namespace HourBoostr
             }
 
             /*Something terrible has happened*/
-            if(callback.Result != EResult.OK)
+            string userInfo = string.Format("{0},{1}", mInfo.Username, mInfo.Password);
+            if (callback.Result != EResult.OK)
             {
                 /*Incorrect password*/
-                if(callback.Result == EResult.InvalidPassword)
+                if (callback.Result == EResult.InvalidPassword)
                 {
-                    /*Get user to enter a new password*/
-                    Print(string.Format("{0} - Invalid password! Try again:", callback.Result));
-
                     /*Delete old user info*/
-                    Properties.Settings.Default.UserInfo.Remove(string.Format("{0},{1}", mSteam.loginDetails.Username, mSteam.loginDetails.Password));
+                    Properties.Settings.Default.UserInfo.Add(userInfo);
                     Properties.Settings.Default.Save();
-
-                    /*Read new password from input*/
+                    
+                    Print(string.Format("{0} - Invalid password! Try again:", callback.Result));
                     mSteam.loginDetails.Password = Password.ReadPassword();
-
-                    /*Disconnect and retry*/
-                    mSteam.client.Disconnect();
-                    return;
                 }
 
-                /*Something else happened that I didn't account for*/
-                Print(string.Format("{0} - Something failed. Redo process please.", callback.Result));
+                /*Incorrect two-factor*/
+                if (callback.Result == EResult.TwoFactorCodeMismatch)
+                {
+                    Print(string.Format("{0} - Invalid two factor code! Try again:", callback.Result));
+                    mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
+                }
+
+                /*Incorrect email code*/
+                if (callback.Result == EResult.AccountLogonDenied)
+                {
+                    Print(string.Format("{0} - Invalid email auth code! Try again:", callback.Result));
+                    mSteam.loginDetails.AuthCode = Console.ReadLine();
+                }
+
+                /*Disconnect and retry*/
+                mSteam.client.Disconnect();
                 mBotState = BotState.LoggedOut;
                 return;
             }
@@ -288,6 +287,18 @@ namespace HourBoostr
             Print("Successfully logged in!\n");
             mSteam.nounce = callback.WebAPIUserNonce;
             mBotState = BotState.LoggedIn;
+
+            /*Since login was successfull we can save the password here*/
+            /*Yep, it's done in plaintext is resources. Deal with it.*/
+            if (!Properties.Settings.Default.UserInfo.Contains(userInfo))
+            {
+                DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Properties.Settings.Default.UserInfo.Add(userInfo);
+                    Properties.Settings.Default.Save();
+                }
+            }
 
             /*Set games playing*/
             SetGamesPlaying();
@@ -310,7 +321,6 @@ namespace HourBoostr
                 fs.Seek(callback.Offset, SeekOrigin.Begin);
                 fs.Write(callback.Data, 0, callback.BytesToWrite);
                 fileSize = (int)fs.Length;
-
                 fs.Seek(0, SeekOrigin.Begin);
                 using (var sha = new SHA1CryptoServiceProvider())
                 {
