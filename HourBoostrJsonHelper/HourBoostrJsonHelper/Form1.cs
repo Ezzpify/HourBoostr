@@ -34,14 +34,14 @@ namespace HourBoostrJsonHelper
                 List<int> setGames = new List<int>();
                 for (int i = 0; i < richTextBoxGames.Lines.Length; i++)
                 {
-                    int gameId = 0;
-                    if (int.TryParse(richTextBoxGames.Lines[i], out gameId))
+                    string line = richTextBoxGames.Lines[i].Trim();
+                    if (!string.IsNullOrEmpty(line))
                     {
-                        setGames.Add(gameId);
-                    }
-                    else
-                    {
-                        MessageBox.Show(string.Format("Unable to parse game {0}.\nMake sure it looks like this example: 500", richTextBoxGames.Lines[i]));
+                        int gameId = 0;
+                        if (int.TryParse(richTextBoxGames.Lines[i], out gameId))
+                            setGames.Add(gameId);
+                        else
+                            MessageBox.Show(string.Format("Unable to parse game id: {0}.\nGame ids can only consist of numbers.", line));
                     }
                 }
 
