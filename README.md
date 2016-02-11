@@ -12,25 +12,11 @@ You find the game IDs by going to the specific game you want to boost via the br
 (You can also go via your Games page under your profile on Steam)
 http://steamcommunity.com/app/730 (730 is the GameID)
 
-Showoff:
-
-![gtnz6y5](https://cloud.githubusercontent.com/assets/9034691/9293550/614f8894-442f-11e5-9e5e-a33a9d6b0153.png)
-
-Program:
-
-![dec1wuy 1](https://cloud.githubusercontent.com/assets/9034691/9148090/38f3d256-3d72-11e5-9a59-bbc8f7929c7e.png)
-
-Drops:
-
-![p9qnjoz 1](https://cloud.githubusercontent.com/assets/9034691/9141437/f8cd14be-3d38-11e5-9d09-52692fd156eb.png)
-
-Example image:
-
-![enyo9tw 1](https://cloud.githubusercontent.com/assets/9034691/9140843/68b653d0-3d34-11e5-8121-dcc882fa70fe.png)
+![gtnz6y5](http://i.imgur.com/hmuWT86.png)
 
 JsonHelper for those who are having problems with json syntax:
 
-![swagster](https://cloud.githubusercontent.com/assets/9034691/9156867/e5b60ae6-3ee8-11e5-87ba-83714aef916e.gif)
+![swagster](http://i.imgur.com/HcOcU0g.gif)
 
 Tutorial
 
