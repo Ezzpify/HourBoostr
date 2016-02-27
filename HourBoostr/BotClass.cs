@@ -4,6 +4,7 @@ using System.Threading;
 using System.IO;
 using System.Windows.Forms;
 using SteamKit2;
+using System.Timers;
 using SteamKit2.Internal;
 using System.Security.Cryptography;
 
@@ -107,6 +108,12 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Timer to simulate stopping and restarting a game
+        /// </summary>
+        private System.Timers.Timer mGameTimer;
+
+
+        /// <summary>
         /// Main initializer for each account
         /// </summary>
         /// <param name="info">Account info</param>
@@ -185,7 +192,7 @@ namespace HourBoostr
             /*Login - NOT OK*/
             if(callback.Result != EResult.OK)
             {
-                Print(string.Format("Error: {0}", callback.Result));
+                Print("Error: {0}", callback.Result);
                 mIsRunning = false;
                 return;
             }
@@ -220,88 +227,6 @@ namespace HourBoostr
                 Thread.Sleep(3000);
                 mSteam.client.Connect();
             }
-        }
-
-
-        /// <summary>
-        /// OnLoggedOn Callback
-        /// Fires when User logs in successfully
-        /// </summary>
-        /// <param name="callback"></param>
-        private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
-        {
-            /*Fetch if SteamGuard is required*/
-            if (callback.Result == EResult.AccountLogonDenied)
-            {
-                /*SteamGuard required*/
-                Print("Enter the SteamGuard code from your email:");
-                mSteam.loginDetails.AuthCode = Console.ReadLine();
-                return;
-            }
-
-            /*If two-way authentication*/
-            if(callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
-            {
-                /*Account requires two-way authentication*/
-                Print("Enter your two-way authentication code:");
-                mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
-                return;
-            }
-
-            /*Something terrible has happened*/
-            string userInfo = string.Format("{0},{1}", mInfo.Username, mInfo.Password);
-            if (callback.Result != EResult.OK)
-            {
-                /*Incorrect password*/
-                if (callback.Result == EResult.InvalidPassword)
-                {
-                    /*Delete old user info*/
-                    Properties.Settings.Default.UserInfo.Add(userInfo);
-                    Properties.Settings.Default.Save();
-                    
-                    Print(string.Format("{0} - Invalid password! Try again:", callback.Result));
-                    mSteam.loginDetails.Password = Password.ReadPassword();
-                }
-
-                /*Incorrect two-factor*/
-                if (callback.Result == EResult.TwoFactorCodeMismatch)
-                {
-                    Print(string.Format("{0} - Invalid two factor code! Try again:", callback.Result));
-                    mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
-                }
-
-                /*Incorrect email code*/
-                if (callback.Result == EResult.AccountLogonDenied)
-                {
-                    Print(string.Format("{0} - Invalid email auth code! Try again:", callback.Result));
-                    mSteam.loginDetails.AuthCode = Console.ReadLine();
-                }
-
-                /*Disconnect and retry*/
-                mSteam.client.Disconnect();
-                mBotState = BotState.LoggedOut;
-                return;
-            }
-
-            /*Logged in successfully*/
-            Print("Successfully logged in!\n");
-            mSteam.nounce = callback.WebAPIUserNonce;
-            mBotState = BotState.LoggedIn;
-
-            /*Since login was successfull we can save the password here*/
-            /*Yep, it's done in plaintext is resources. Deal with it.*/
-            if (!Properties.Settings.Default.UserInfo.Contains(userInfo))
-            {
-                DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Properties.Settings.Default.UserInfo.Add(userInfo);
-                    Properties.Settings.Default.Save();
-                }
-            }
-
-            /*Set games playing*/
-            SetGamesPlaying();
         }
 
 
@@ -349,18 +274,134 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// OnLoggedOn Callback
+        /// Fires when User logs in successfully
+        /// </summary>
+        /// <param name="callback"></param>
+        private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
+        {
+            /*Fetch if SteamGuard is required*/
+            if (callback.Result == EResult.AccountLogonDenied)
+            {
+                /*SteamGuard required*/
+                Print("Enter the SteamGuard code from your email:");
+                mSteam.loginDetails.AuthCode = Console.ReadLine();
+                return;
+            }
+
+            /*If two-way authentication*/
+            if(callback.Result == EResult.AccountLogonDeniedNeedTwoFactorCode)
+            {
+                /*Account requires two-way authentication*/
+                Print("Enter your two-way authentication code:");
+                mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
+                return;
+            }
+
+            /*Something terrible has happened*/
+            string userInfo = string.Format("{0},{1}", mInfo.Username, mInfo.Password);
+            if (callback.Result != EResult.OK)
+            {
+                /*Incorrect password*/
+                if (callback.Result == EResult.InvalidPassword)
+                {
+                    /*Delete old user info*/
+                    Properties.Settings.Default.UserInfo.Add(userInfo);
+                    Properties.Settings.Default.Save();
+                    
+                    Print("{0} - Invalid password! Try again:", callback.Result);
+                    mSteam.loginDetails.Password = Password.ReadPassword();
+                }
+
+                /*Incorrect two-factor*/
+                if (callback.Result == EResult.TwoFactorCodeMismatch)
+                {
+                    Print("{0} - Invalid two factor code! Try again:", callback.Result);
+                    mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
+                }
+
+                /*Incorrect email code*/
+                if (callback.Result == EResult.AccountLogonDenied)
+                {
+                    Print("{0} - Invalid email auth code! Try again:", callback.Result);
+                    mSteam.loginDetails.AuthCode = Console.ReadLine();
+                }
+
+                /*Disconnect and retry*/
+                mSteam.client.Disconnect();
+                mBotState = BotState.LoggedOut;
+                return;
+            }
+
+            /*Logged in successfully*/
+            Print("Successfully logged in!\n");
+            mSteam.nounce = callback.WebAPIUserNonce;
+            mBotState = BotState.LoggedIn;
+
+            /*Since login was successfull we can save the password here*/
+            /*Yep, it's done in plaintext is resources. Deal with it.*/
+            if (!Properties.Settings.Default.UserInfo.Contains(userInfo))
+            {
+                DialogResult dialogResult = MessageBox.Show("Do you want to save the password?", "Save info", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Properties.Settings.Default.UserInfo.Add(userInfo);
+                    Properties.Settings.Default.Save();
+                }
+            }
+
+            /*Gets a random extra time for the timer*/
+            var random = new Random();
+            int extraTime = random.Next(20, 60);
+
+            /*Set the timer*/
+            mGameTimer = new System.Timers.Timer();
+            mGameTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
+            mGameTimer.Elapsed += new ElapsedEventHandler(PreformStopStart);
+            mGameTimer.Start();
+
+            /*Set games playing*/
+            SetGamesPlaying(true);
+        }
+
+
+        /// <summary>
+        /// This will simulate stopping playing games and restarting it after a random period
+        /// This is called from a timer
+        /// </summary>
+        private void PreformStopStart(object sender, ElapsedEventArgs e)
+        {
+            mGameTimer.Stop();
+            SetGamesPlaying(false);
+            Print("Stopping games for 5 minutes.");
+            Thread.Sleep(TimeSpan.FromMinutes(5));
+            Print("Starting games again.");
+            SetGamesPlaying(true);
+            mGameTimer.Start();
+        }
+
+
+        /// <summary>
         /// Set the game currently playing for cooler looks lel
         /// </summary>
-        /// <param name="id"></param>
-        private void SetGamesPlaying()
+        /// <param name="state">True to start games, False to stop</param>
+        private void SetGamesPlaying(bool state)
         {
+            /*Local list*/
+            var gameList = new List<int>();
+
+            /*To start boosting we'll give the local list the values from settings*/
+            /*To stop boosting we'll simply pass an empty list*/
+            if (state)
+                gameList = mSteam.games;
+
             /*Set up requested games*/
             var gamesPlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
-            foreach(int Game in mSteam.games)
+            foreach(int game in gameList)
             {
                 gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
                 {
-                    game_id = new GameID(Game),
+                    game_id = new GameID(game),
                 });
             }
 

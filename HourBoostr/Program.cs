@@ -159,8 +159,6 @@ namespace HourBoostr
         /// TrayIcon click event
         /// Show/Hide the window depending on its state
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         static private void TrayIcon_Click(object sender, EventArgs e)
         {
             ShowConsole(!mIsHidden);
@@ -170,7 +168,7 @@ namespace HourBoostr
         /// <summary>
         /// Show/Hide the console window
         /// </summary>
-        /// <param name="b">Display console</param>
+        /// <param name="b">Toggles console window</param>
         static private void ShowConsole(bool b)
         {
             if(b)
@@ -193,7 +191,7 @@ namespace HourBoostr
         /// action before windows forces the program to close
         /// </summary>
         /// <param name="eventType">Event type</param>
-        /// <returns>Retuurns bool</returns>
+        /// <returns>Returns bool</returns>
         static bool ConsoleEventCallback(int eventType)
         {
             /*eventType 2 being Exit event*/
@@ -237,6 +235,9 @@ namespace HourBoostr
             Thread.Sleep(2000);
             ShowConsole(false);
             mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+
+            /*Make a nice log stuff or whatever*/
+            Console.WriteLine("\n\n  Log:\n  ----------------------------------------\n");
 
             /*Keep it alive*/
             while (true)

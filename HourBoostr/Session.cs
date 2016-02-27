@@ -8,9 +8,14 @@ namespace HourBoostr
     class Session
     {
         /// <summary>
-        /// Private variables
+        /// Application settings
         /// </summary>
         private Config.Settings mSettings;
+
+
+        /// <summary>
+        /// DateTime representing when all accounts were initialized
+        /// </summary>
         private DateTime mInitializedTime;
 
 
@@ -21,9 +26,8 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// Thread variables
+        /// Thread for updating title status
         /// </summary>
-        private Thread mThreadMain;
         private Thread mThreadStatus;
 
 
