@@ -83,7 +83,7 @@ namespace HourBoostr
                 }
 
                 /*Start the bot*/
-                BotClass bot = new BotClass(account);
+                BotClass bot = new BotClass(account, mSettings);
                 mActiveBots.Add(bot);
                 while (bot.mBotState != BotClass.BotState.LoggedIn) { Thread.Sleep(300); }
             }

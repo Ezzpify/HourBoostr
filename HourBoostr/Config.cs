@@ -12,6 +12,20 @@ namespace HourBoostr
         public class Settings
         {
             /// <summary>
+            /// If we should restart games every 3 hours
+            /// This is to prevent steam to no longer get hours if we idle for a long period of time
+            /// </summary>
+            public bool RestartGamesEveryThreeHours { get; set; } = true;
+
+
+            /// <summary>
+            /// If we should automatically hide the program to tray bar
+            /// I fucking hate this so I want to disable it
+            /// </summary>
+            public bool HideToTrayAutomatically { get; set; } = true;
+
+
+            /// <summary>
             /// List of accounts
             /// </summary>
             public List<AccountInfo> Account { get; set; } = new List<AccountInfo>();

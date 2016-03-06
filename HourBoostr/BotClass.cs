@@ -108,6 +108,12 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Application settings
+        /// </summary>
+        private Config.Settings mSettings { get; set; }
+
+
+        /// <summary>
         /// Timer to simulate stopping and restarting a game
         /// </summary>
         private System.Timers.Timer mGameTimer;
@@ -117,7 +123,7 @@ namespace HourBoostr
         /// Main initializer for each account
         /// </summary>
         /// <param name="info">Account info</param>
-        public BotClass(Config.AccountInfo info)
+        public BotClass(Config.AccountInfo info, Config.Settings settings)
         {
             /*If a password isn't set we'll ask for user input*/
             if (string.IsNullOrEmpty(info.Password))
@@ -354,11 +360,14 @@ namespace HourBoostr
             var random = new Random();
             int extraTime = random.Next(20, 60);
 
-            /*Set the timer*/
-            mGameTimer = new System.Timers.Timer();
-            mGameTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
-            mGameTimer.Elapsed += new ElapsedEventHandler(PreformStopStart);
-            mGameTimer.Start();
+            /*Set the timer if it's not already enabled*/
+            if (!mGameTimer.Enabled && mSettings.RestartGamesEveryThreeHours)
+            {
+                mGameTimer = new System.Timers.Timer();
+                mGameTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
+                mGameTimer.Elapsed += new ElapsedEventHandler(PreformStopStart);
+                mGameTimer.Start();
+            }
 
             /*Set games playing*/
             SetGamesPlaying(true);
@@ -371,11 +380,15 @@ namespace HourBoostr
         /// </summary>
         private void PreformStopStart(object sender, ElapsedEventArgs e)
         {
+            /*Stop games*/
             mGameTimer.Stop();
             SetGamesPlaying(false);
+
             Print("Stopping games for 5 minutes.");
             Thread.Sleep(TimeSpan.FromMinutes(5));
             Print("Starting games again.");
+
+            /*Start games*/
             SetGamesPlaying(true);
             mGameTimer.Start();
         }

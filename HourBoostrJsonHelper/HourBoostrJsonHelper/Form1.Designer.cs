@@ -44,6 +44,10 @@
             this.buttonFetch = new System.Windows.Forms.Button();
             this.checkBoxAppearOnline = new System.Windows.Forms.CheckBox();
             this.listBoxGames = new System.Windows.Forms.ListBox();
+            this.textBoxGameSearch = new System.Windows.Forms.TextBox();
+            this.btnAddSelected = new System.Windows.Forms.Button();
+            this.checkBoxHideToTray = new System.Windows.Forms.CheckBox();
+            this.checkBoxRestartGames = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -61,7 +65,7 @@
             this.listBoxEntries.Location = new System.Drawing.Point(13, 36);
             this.listBoxEntries.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxEntries.Name = "listBoxEntries";
-            this.listBoxEntries.Size = new System.Drawing.Size(130, 201);
+            this.listBoxEntries.Size = new System.Drawing.Size(130, 189);
             this.listBoxEntries.TabIndex = 0;
             // 
             // label1
@@ -81,7 +85,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pictureBox1.Location = new System.Drawing.Point(150, 36);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1, 242);
+            this.pictureBox1.Size = new System.Drawing.Size(1, 283);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -124,7 +128,7 @@
             this.richTextBoxGames.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.richTextBoxGames.Location = new System.Drawing.Point(161, 76);
             this.richTextBoxGames.Name = "richTextBoxGames";
-            this.richTextBoxGames.Size = new System.Drawing.Size(115, 137);
+            this.richTextBoxGames.Size = new System.Drawing.Size(115, 178);
             this.richTextBoxGames.TabIndex = 6;
             this.richTextBoxGames.Text = "";
             // 
@@ -135,7 +139,7 @@
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pictureBox2.Location = new System.Drawing.Point(282, 37);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1, 242);
+            this.pictureBox2.Size = new System.Drawing.Size(1, 283);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
@@ -169,7 +173,7 @@
             this.buttonSave.Enabled = false;
             this.buttonSave.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Location = new System.Drawing.Point(13, 244);
+            this.buttonSave.Location = new System.Drawing.Point(13, 285);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(130, 34);
             this.buttonSave.TabIndex = 11;
@@ -183,7 +187,7 @@
             this.buttonAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAdd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAdd.Location = new System.Drawing.Point(161, 244);
+            this.buttonAdd.Location = new System.Drawing.Point(161, 285);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(115, 34);
             this.buttonAdd.TabIndex = 12;
@@ -198,7 +202,7 @@
             this.buttonFetch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonFetch.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonFetch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFetch.Location = new System.Drawing.Point(290, 244);
+            this.buttonFetch.Location = new System.Drawing.Point(290, 285);
             this.buttonFetch.Name = "buttonFetch";
             this.buttonFetch.Size = new System.Drawing.Size(262, 34);
             this.buttonFetch.TabIndex = 13;
@@ -210,7 +214,7 @@
             // 
             this.checkBoxAppearOnline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxAppearOnline.AutoSize = true;
-            this.checkBoxAppearOnline.Location = new System.Drawing.Point(161, 217);
+            this.checkBoxAppearOnline.Location = new System.Drawing.Point(161, 258);
             this.checkBoxAppearOnline.Name = "checkBoxAppearOnline";
             this.checkBoxAppearOnline.Size = new System.Drawing.Size(111, 20);
             this.checkBoxAppearOnline.TabIndex = 14;
@@ -228,19 +232,83 @@
             this.listBoxGames.FormattingEnabled = true;
             this.listBoxGames.IntegralHeight = false;
             this.listBoxGames.ItemHeight = 16;
-            this.listBoxGames.Location = new System.Drawing.Point(290, 58);
+            this.listBoxGames.Location = new System.Drawing.Point(290, 80);
             this.listBoxGames.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxGames.Name = "listBoxGames";
-            this.listBoxGames.Size = new System.Drawing.Size(262, 179);
+            this.listBoxGames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBoxGames.Size = new System.Drawing.Size(262, 166);
             this.listBoxGames.TabIndex = 15;
+            this.listBoxGames.SelectedIndexChanged += new System.EventHandler(this.listBoxGames_SelectedIndexChanged);
             this.listBoxGames.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxGames_MouseDoubleClick);
+            // 
+            // textBoxGameSearch
+            // 
+            this.textBoxGameSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxGameSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.textBoxGameSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxGameSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxGameSearch.ForeColor = System.Drawing.Color.Gray;
+            this.textBoxGameSearch.Location = new System.Drawing.Point(290, 58);
+            this.textBoxGameSearch.Name = "textBoxGameSearch";
+            this.textBoxGameSearch.Size = new System.Drawing.Size(262, 15);
+            this.textBoxGameSearch.TabIndex = 16;
+            this.textBoxGameSearch.Text = "search...";
+            this.textBoxGameSearch.TextChanged += new System.EventHandler(this.textBoxGameSearch_TextChanged);
+            this.textBoxGameSearch.Enter += new System.EventHandler(this.textBoxGameSearch_Enter);
+            // 
+            // btnAddSelected
+            // 
+            this.btnAddSelected.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddSelected.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddSelected.Enabled = false;
+            this.btnAddSelected.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.btnAddSelected.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddSelected.Location = new System.Drawing.Point(290, 253);
+            this.btnAddSelected.Name = "btnAddSelected";
+            this.btnAddSelected.Size = new System.Drawing.Size(262, 25);
+            this.btnAddSelected.TabIndex = 17;
+            this.btnAddSelected.Text = "ADD SELECTED";
+            this.btnAddSelected.UseVisualStyleBackColor = true;
+            this.btnAddSelected.Click += new System.EventHandler(this.btnAddSelected_Click);
+            // 
+            // checkBoxHideToTray
+            // 
+            this.checkBoxHideToTray.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxHideToTray.AutoSize = true;
+            this.checkBoxHideToTray.Checked = true;
+            this.checkBoxHideToTray.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxHideToTray.Location = new System.Drawing.Point(13, 258);
+            this.checkBoxHideToTray.Name = "checkBoxHideToTray";
+            this.checkBoxHideToTray.Size = new System.Drawing.Size(95, 20);
+            this.checkBoxHideToTray.TabIndex = 18;
+            this.checkBoxHideToTray.Text = "Hide to tray";
+            this.checkBoxHideToTray.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRestartGames
+            // 
+            this.checkBoxRestartGames.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxRestartGames.AutoSize = true;
+            this.checkBoxRestartGames.Checked = true;
+            this.checkBoxRestartGames.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRestartGames.Location = new System.Drawing.Point(13, 232);
+            this.checkBoxRestartGames.Name = "checkBoxRestartGames";
+            this.checkBoxRestartGames.Size = new System.Drawing.Size(115, 20);
+            this.checkBoxRestartGames.TabIndex = 19;
+            this.checkBoxRestartGames.Text = "Restart games";
+            this.checkBoxRestartGames.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(561, 291);
+            this.ClientSize = new System.Drawing.Size(561, 332);
+            this.Controls.Add(this.checkBoxRestartGames);
+            this.Controls.Add(this.checkBoxHideToTray);
+            this.Controls.Add(this.btnAddSelected);
+            this.Controls.Add(this.textBoxGameSearch);
             this.Controls.Add(this.listBoxGames);
             this.Controls.Add(this.checkBoxAppearOnline);
             this.Controls.Add(this.buttonFetch);
@@ -261,7 +329,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(577, 329);
+            this.MinimumSize = new System.Drawing.Size(577, 370);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HourBoostr :: Json Helper";
@@ -289,6 +357,10 @@
         private System.Windows.Forms.Button buttonFetch;
         private System.Windows.Forms.CheckBox checkBoxAppearOnline;
         private System.Windows.Forms.ListBox listBoxGames;
+        private System.Windows.Forms.TextBox textBoxGameSearch;
+        private System.Windows.Forms.Button btnAddSelected;
+        private System.Windows.Forms.CheckBox checkBoxHideToTray;
+        private System.Windows.Forms.CheckBox checkBoxRestartGames;
     }
 }
 

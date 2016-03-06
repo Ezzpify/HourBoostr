@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
 using System.Xml;
+using System.Drawing;
 
 namespace HourBoostrJsonHelper
 {
@@ -13,6 +14,18 @@ namespace HourBoostrJsonHelper
         /// Private variables
         /// </summary>
         private List<Config.AccountInfo> mAccounts = new List<Config.AccountInfo>();
+
+
+        /// <summary>
+        /// Search bar placeholder variable
+        /// </summary>
+        private bool mSearchEntered;
+
+
+        /// <summary>
+        /// List containing games fetched from steam xml
+        /// </summary>
+        private List<string> mGameList = new List<string>();
 
 
         /// <summary>
@@ -39,9 +52,14 @@ namespace HourBoostrJsonHelper
                     {
                         int gameId = 0;
                         if (int.TryParse(richTextBoxGames.Lines[i], out gameId))
-                            setGames.Add(gameId);
+                        {
+                            if (!setGames.Contains(gameId))
+                                setGames.Add(gameId);
+                        }
                         else
+                        {
                             MessageBox.Show(string.Format("Unable to parse game id: {0}.\nGame ids can only consist of numbers.", line));
+                        }
                     }
                 }
 
@@ -69,8 +87,10 @@ namespace HourBoostrJsonHelper
             string jsonFile = Path.Combine(Application.StartupPath, "Settings.json");
             var settings = new Config.Settings();
             settings.Account = mAccounts;
-            string jsonString = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);
+            settings.RestartGamesEveryThreeHours = checkBoxRestartGames.Checked;
+            settings.HideToTrayAutomatically = checkBoxHideToTray.Checked;
 
+            string jsonString = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);
             if (File.Exists(jsonFile))
             {
                 DialogResult diagResult = MessageBox.Show("Do you want to overwrite the existing Settings.json", "File Exists", MessageBoxButtons.YesNo);
@@ -98,6 +118,7 @@ namespace HourBoostrJsonHelper
             if (string.IsNullOrWhiteSpace(textBoxCommunityUrl.Text))
                 return;
 
+            mGameList.Clear();
             listBoxGames.Items.Clear();
             string url = textBoxCommunityUrl.Text;
             if (!url.EndsWith("/"))
@@ -115,18 +136,64 @@ namespace HourBoostrJsonHelper
                 xmlDoc.LoadXml(xml);
 
                 XmlNodeList nodeList = xmlDoc.SelectNodes("/gamesList/games/game");
+                if (nodeList.Count == 0)
+                {
+                    MessageBox.Show("No games found. Make sure your profile is public.");
+                    return;
+                }
+
                 foreach (XmlNode node in nodeList)
                 {
                     string appId = node.SelectSingleNode("appID").InnerText;
                     string appName = node.SelectSingleNode("name").InnerText;
-
-                    listBoxGames.Items.Add(string.Format("{0} | {1}", appId, appName));
+                    mGameList.Add($"{appId} | {appName}");
                 }
+
+                RefreshGames();
             }
             catch (XmlException xEx)
             {
                 MessageBox.Show("Invalid XML response: " + xEx.Message);
             }
+        }
+
+
+        /// <summary>
+        /// Refreshes the game list
+        /// </summary>
+        private void RefreshGames()
+        {
+            listBoxGames.Items.Clear();
+            string searchString = textBoxGameSearch.Text.ToLower();
+            foreach (var game in mGameList)
+            {
+                if (mSearchEntered && !string.IsNullOrEmpty(searchString))
+                {
+                    /*Filter out games based on search text*/
+                    if (!game.ToLower().Contains(searchString))
+                        continue;
+                }
+
+                listBoxGames.Items.Add(game);
+            }
+        }
+
+
+        /// <summary>
+        /// Get item text from object
+        /// </summary>
+        /// <param name="item">item list item object</param>
+        /// <returns>Returns empty if fail</returns>
+        private string GetItemStringGameId(object item)
+        {
+            string itemContent = listBoxGames.GetItemText(item);
+            if (!string.IsNullOrWhiteSpace(itemContent))
+            {
+                string[] spl = itemContent.Split(new string[] { " | " }, StringSplitOptions.None);
+                return spl[0];
+            }
+
+            return string.Empty;
         }
 
 
@@ -137,16 +204,61 @@ namespace HourBoostrJsonHelper
         private void listBoxGames_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var list = (ListBox)sender;
-            object item = list.SelectedItem;
-
-            if (item != null)
+            int itemIndex = list.IndexFromPoint(e.Location);
+            if (itemIndex != -1)
             {
-                string itemContent = listBoxGames.GetItemText(item);
-                if (!string.IsNullOrWhiteSpace(itemContent))
-                {
-                    string[] spl = itemContent.Split(new string[] { " | " }, StringSplitOptions.None);
-                    richTextBoxGames.AppendText(spl[0] + "\n");
-                }
+                var item = list.Items[itemIndex];
+
+                if (item != null)
+                    richTextBoxGames.AppendText(GetItemStringGameId(item) + "\n");
+            }
+        }
+
+
+        /// <summary>
+        /// Add all selected items from listbox to game list
+        /// </summary>
+        private void btnAddSelected_Click(object sender, EventArgs e)
+        {
+            var items = listBoxGames.SelectedItems;
+
+            foreach (var item in items)
+                richTextBoxGames.AppendText(GetItemStringGameId(item) + "\n");
+        }
+
+
+        /// <summary>
+        /// Searchbar enter event
+        /// If we haven't been here before, clear text
+        /// </summary>
+        private void textBoxGameSearch_Enter(object sender, EventArgs e)
+        {
+            if (!mSearchEntered)
+            {
+                textBoxGameSearch.ForeColor = Color.FromArgb(224, 224, 224);
+                textBoxGameSearch.Text = string.Empty;
+                mSearchEntered = true;
+            }
+        }
+
+
+        /// <summary>
+        /// Enable the add selected button if we have items selected
+        /// </summary>
+        private void listBoxGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnAddSelected.Enabled = listBoxGames.SelectedItems.Count > 0;
+        }
+
+
+        /// <summary>
+        /// Search box
+        /// </summary>
+        private void textBoxGameSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (mSearchEntered)
+            {
+                RefreshGames();
             }
         }
     }

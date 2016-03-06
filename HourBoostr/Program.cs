@@ -231,10 +231,13 @@ namespace HourBoostr
             mThreadTray.Start();
 
             /*Minimize app*/
-            Console.WriteLine("\n\n  Hiding to tray in two...");
-            Thread.Sleep(2000);
-            ShowConsole(false);
-            mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+            if (mSettings.HideToTrayAutomatically)
+            {
+                Console.WriteLine("\n\n  Hiding to tray in two...");
+                Thread.Sleep(2000);
+                ShowConsole(false);
+                mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+            }
 
             /*Make a nice log stuff or whatever*/
             Console.WriteLine("\n\n  Log:\n  ----------------------------------------\n");
