@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 using SteamKit2;
 using System.Timers;
 using SteamKit2.Internal;
@@ -116,7 +117,7 @@ namespace HourBoostr
         /// <summary>
         /// Timer to simulate stopping and restarting a game
         /// </summary>
-        private System.Timers.Timer mGameTimer;
+        private System.Timers.Timer mGameTimer = new System.Timers.Timer();
 
 
         /// <summary>
@@ -139,6 +140,7 @@ namespace HourBoostr
                 Password = info.Password
             };
             mInfo = info;
+            mSettings = settings;
             mSteam.games = info.Games;
             mSteam.sentryPath = Path.Combine(Application.StartupPath, string.Format("Sentryfiles\\{0}.sentry", info.Username));
 
@@ -312,7 +314,7 @@ namespace HourBoostr
                 if (callback.Result == EResult.InvalidPassword)
                 {
                     /*Delete old user info*/
-                    Properties.Settings.Default.UserInfo.Add(userInfo);
+                    Properties.Settings.Default.UserInfo.Remove(userInfo);
                     Properties.Settings.Default.Save();
                     
                     Print("{0} - Invalid password! Try again:", callback.Result);
@@ -363,7 +365,6 @@ namespace HourBoostr
             /*Set the timer if it's not already enabled*/
             if (!mGameTimer.Enabled && mSettings.RestartGamesEveryThreeHours)
             {
-                mGameTimer = new System.Timers.Timer();
                 mGameTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
                 mGameTimer.Elapsed += new ElapsedEventHandler(PreformStopStart);
                 mGameTimer.Start();

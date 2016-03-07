@@ -38,7 +38,7 @@ namespace HourBoostr
         public class AccountInfo
         {
             /// <summary>
-            /// Username of steam *account
+            /// Username of steam account
             /// </summary>
             public string Username { get; set; }
 
