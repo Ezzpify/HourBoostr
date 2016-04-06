@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Web.Script.Serialization;
+using System.Runtime.Serialization;
 
 namespace HourBoostr
 {

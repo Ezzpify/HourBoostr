@@ -58,7 +58,7 @@ namespace HourBoostrJsonHelper
                         }
                         else
                         {
-                            MessageBox.Show(string.Format("Unable to parse game id: {0}.\nGame ids can only consist of numbers.", line));
+                            MessageBox.Show(string.Format("Unable to parse game id: {0}.\nGame ids can only consist of numbers.", line), "Error");
                         }
                     }
                 }
@@ -70,11 +70,18 @@ namespace HourBoostrJsonHelper
                     Games = setGames
                 };
 
-                mAccounts.Add(account);
-                listBoxEntries.Items.Add(account.Username);
-                buttonSave.Enabled = true;
-                textBoxUsername.Text = string.Empty;
-                richTextBoxGames.Text = string.Empty;
+                if (account.Games.Count > 0)
+                {
+                    mAccounts.Add(account);
+                    listBoxEntries.Items.Add(account.Username);
+                    buttonSave.Enabled = true;
+                    textBoxUsername.Text = string.Empty;
+                    richTextBoxGames.Text = string.Empty;
+                }
+                else
+                {
+                    MessageBox.Show("No games are added", "Error");
+                }
             }
         }
 
@@ -103,7 +110,7 @@ namespace HourBoostrJsonHelper
             File.WriteAllText(jsonFile, jsonString);
             mAccounts.Clear();
             listBoxEntries.Items.Clear();
-            MessageBox.Show("Settings.json saved!");
+            MessageBox.Show("Settings.json saved!", "Success");
         }
 
 

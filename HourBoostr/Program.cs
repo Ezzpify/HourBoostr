@@ -47,19 +47,40 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// Private variables
+        /// Application tray icon
+        /// Used for hiding/showing the application in a click
         /// </summary>
         static private NotifyIcon mTrayIcon = new NotifyIcon();
-        static private ConsoleEventDelegate handler;
-        static private Config.Settings mSettings;
-        static private Session mSession;
-        static private bool mIsHidden;
 
 
         /// <summary>
         /// Thread variables
         /// </summary>
         static private Thread mThreadTray;
+
+
+        /// <summary>
+        /// Console event handler
+        /// </summary>
+        static private ConsoleEventDelegate handler;
+
+
+        /// <summary>
+        /// Application settings class
+        /// </summary>
+        static private Config.Settings mSettings;
+
+
+        /// <summary>
+        /// Our session
+        /// </summary>
+        static private Session mSession;
+
+
+        /// <summary>
+        /// Represents if the console is hidden
+        /// </summary>
+        static private bool mIsHidden;
 
 
         /// <summary>
@@ -90,22 +111,37 @@ namespace HourBoostr
             }
             else
             {
+                /*Enable missing objects error*/
+                JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+                jsonSettings.MissingMemberHandling = MissingMemberHandling.Error;
+                string settingsJson = string.Empty;
+
                 try
                 {
                     /*Load the settings from file*/
-                    string settingsJson = File.ReadAllText(filePath);
-                    mSettings = JsonConvert.DeserializeObject<Config.Settings>(settingsJson);
+                    settingsJson = File.ReadAllText(filePath);
+                    mSettings = JsonConvert.DeserializeObject<Config.Settings>(settingsJson, jsonSettings);
+
+                    /*Write the class to settins file incase some of the settings were missing from the file originally*/
+                    File.WriteAllText(filePath, JsonConvert.SerializeObject(mSettings, Formatting.Indented));
                     return true;
                 }
-                catch (JsonException jex)
+                catch (JsonReaderException ex)
                 {
-                    /*User fucked up with the formatting probably*/
-                    MessageBox.Show("There was an error parsing Settings.json\n"
-                        + "It's either incorrectly formatted or corrupt.\n"
-                        + "Delete the file and let the app make a new one.\n\nError: " + jex.Message);
+                    /*There was an error parsing the json file, most likely due to user trying to manually edit it without knowing the syntax*/
+                    Console.WriteLine("Error: The settings file is corrupt. Please delete it and restart the program.");
+                    Console.WriteLine($"{ex.Message}\n\n");
+                }
+                catch (Exception ex)
+                {
+                    /*I wonder what happened here?*/
+                    Console.WriteLine("Error: An unhandled exception occured when parsing the settings? What the hell?");
+                    Console.WriteLine($"{ex.Message}\n\n");
                 }
             }
 
+            Console.WriteLine("Exiting in 10 seconds...");
+            Thread.Sleep(10000);
             return false;
         }
 
@@ -117,10 +153,10 @@ namespace HourBoostr
         static private bool Initialize()
         {
             /*Create files and folders for our program*/
-            Console.Title = "HourBoostr by Ezzy/Zute";
+            Console.Title = "HourBoostr by Ezzpify";
             Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Sentryfiles"));
 
-            /*Spawn new settings*/
+            /*Spawn new userinfo settings incase null*/
             if (Properties.Settings.Default.UserInfo == null)
                 Properties.Settings.Default.UserInfo = new StringCollection();
 
@@ -143,7 +179,7 @@ namespace HourBoostr
         static private void ToTray()
         {
             /*Set TrayIcon information*/
-            mTrayIcon.Text = "HourBoostr | \nClick to Show/Hide";
+            mTrayIcon.Text = "HourBoostr\nClick to Show/Hide";
             mTrayIcon.Icon = Properties.Resources.icon;
             mTrayIcon.Click += new EventHandler(TrayIcon_Click);
             mTrayIcon.Visible = true;

@@ -22,7 +22,7 @@ namespace HourBoostr
         /// <summary>
         /// List of active bot accounts
         /// </summary>
-        public List<BotClass> mActiveBots { get; set; } = new List<BotClass>();
+        public List<Bot> mActiveBots { get; set; } = new List<Bot>();
 
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace HourBoostr
                 }
 
                 /*Start the bot*/
-                BotClass bot = new BotClass(account, mSettings);
+                Bot bot = new Bot(account, mSettings);
                 mActiveBots.Add(bot);
-                while (bot.mBotState != BotClass.BotState.LoggedIn) { Thread.Sleep(300); }
+                while (bot.mBotState != Bot.BotState.LoggedIn) { Thread.Sleep(300); }
             }
 
             /*Accounts statistics and some fucking baller ascii*/

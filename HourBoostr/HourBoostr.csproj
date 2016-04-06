@@ -55,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -64,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BotClass.cs" />
+    <Compile Include="Bot.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Password.cs" />
@@ -81,6 +82,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Session.cs" />
+    <Compile Include="Steam.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
