@@ -279,8 +279,6 @@ namespace HourBoostr
         /// <param name="callback"></param>
         private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
         {
-            Console.WriteLine(callback.Result);
-            /*Fetch if SteamGuard is required*/
             if (callback.Result == EResult.AccountLogonDenied)
             {
                 /*SteamGuard required*/
@@ -288,48 +286,44 @@ namespace HourBoostr
                 mSteam.loginDetails.AuthCode = Console.ReadLine();
                 return;
             }
-
-            /*If two-way authentication*/
-            if(callback.Result == EResult.AccountLoginDeniedNeedTwoFactor)
+            else if(callback.Result == EResult.AccountLoginDeniedNeedTwoFactor)
             {
                 /*Account requires two-way authentication*/
                 Print("Enter your two-way authentication code:");
                 mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
                 return;
             }
-
-            /*Something terrible has happened*/
+            
             string userInfo = string.Format("{0},{1}", mInfo.Username, mInfo.Password);
             if (callback.Result != EResult.OK)
             {
-                /*Incorrect password*/
                 if (callback.Result == EResult.InvalidPassword)
                 {
+                    /*Incorrect password*/
                     /*Delete old user info*/
                     Properties.Settings.Default.UserInfo.Remove(userInfo);
                     Properties.Settings.Default.Save();
                     
                     Print("{0} - Invalid password! Try again:", callback.Result);
                     mSteam.loginDetails.Password = Password.ReadPassword();
+                    return;
                 }
-
-                /*Incorrect two-factor*/
-                if (callback.Result == EResult.TwoFactorCodeMismatch)
+                else if (callback.Result == EResult.TwoFactorCodeMismatch)
                 {
+                    /*Incorrect two-factor*/
                     Print("{0} - Invalid two factor code! Try again:", callback.Result);
                     mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
+                    return;
                 }
-
-                /*Incorrect email code*/
-                if (callback.Result == EResult.AccountLogonDenied)
+                else if (callback.Result == EResult.AccountLogonDenied)
                 {
+                    /*Incorrect email code*/
                     Print("{0} - Invalid email auth code! Try again:", callback.Result);
                     mSteam.loginDetails.AuthCode = Console.ReadLine();
+                    return;
                 }
 
-                /*Disconnect and retry*/
-                mSteam.client.Disconnect();
-                mBotState = BotState.LoggedOut;
+                Print("Uncaught EResult error when logging in: {0}", callback.Result);
                 return;
             }
 
@@ -374,7 +368,6 @@ namespace HourBoostr
         private void OnLoginKey(SteamUser.LoginKeyCallback callback)
         {
             mSteam.loginDetails.LoginKey = callback.LoginKey;
-            Console.WriteLine("Got key");
         }
 
 
