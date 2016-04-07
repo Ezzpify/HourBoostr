@@ -282,8 +282,7 @@ namespace HourBoostr
             while (true)
             {
                 /*Take input commands*/
-                Console.WriteLine(Commands.GetCommand(Console.ReadLine()));
-                Thread.Sleep(100);
+                Thread.Sleep(250);
             }
         }
     }

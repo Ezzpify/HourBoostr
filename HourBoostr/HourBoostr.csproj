@@ -66,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Program.cs" />

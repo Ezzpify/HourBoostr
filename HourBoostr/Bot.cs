@@ -68,6 +68,13 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Represents how many times we've disconnected
+        /// This will be reset at times
+        /// </summary>
+        private int mDisconnectedCounter;
+
+
+        /// <summary>
         /// Main initializer for each account
         /// </summary>
         /// <param name="info">Account info</param>
@@ -219,11 +226,26 @@ namespace HourBoostr
         /// <param name="callback"></param>
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
+            /*Only want to count a disconnect if the bot was disconnected*/
+            /*while it was fully logged in*/
+            if (mBotState == BotState.LoggedIn)
+                mDisconnectedCounter++;
+
             mBotState = BotState.LoggedOut;
             if (mIsRunning)
             {
-                Print("Reconnecting in 3s...");
-                Thread.Sleep(3000);
+                if (mDisconnectedCounter <= 3)
+                {
+                    Print("Reconnecting in 5s...");
+                    Thread.Sleep(5000);
+                }
+                else
+                {
+                    Print("Too many disconnects in a short period of time. Sleeping for 20 minutes.");
+                    Thread.Sleep(TimeSpan.FromMinutes(20));
+                    mDisconnectedCounter = 0;
+                }
+
                 Connect();
             }
         }
@@ -279,51 +301,42 @@ namespace HourBoostr
         /// <param name="callback"></param>
         private void OnLoggedOn(SteamUser.LoggedOnCallback callback)
         {
-            if (callback.Result == EResult.AccountLogonDenied)
-            {
-                /*SteamGuard required*/
-                Print("Enter the SteamGuard code from your email:");
-                mSteam.loginDetails.AuthCode = Console.ReadLine();
-                return;
-            }
-            else if(callback.Result == EResult.AccountLoginDeniedNeedTwoFactor)
-            {
-                /*Account requires two-way authentication*/
-                Print("Enter your two-way authentication code:");
-                mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
-                return;
-            }
-            
             string userInfo = string.Format("{0},{1}", mInfo.Username, mInfo.Password);
-            if (callback.Result != EResult.OK)
+            switch (callback.Result)
             {
-                if (callback.Result == EResult.InvalidPassword)
-                {
-                    /*Incorrect password*/
-                    /*Delete old user info*/
+                case EResult.AccountLogonDenied:
+                    Print("Enter the SteamGuard code from your email:");
+                    mSteam.loginDetails.AuthCode = Console.ReadLine();
+                    return;
+
+                case EResult.AccountLoginDeniedNeedTwoFactor:
+                    Print("Enter your two-way authentication code:");
+                    mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
+                    return;
+
+                case EResult.InvalidPassword:
                     Properties.Settings.Default.UserInfo.Remove(userInfo);
                     Properties.Settings.Default.Save();
-                    
                     Print("{0} - Invalid password! Try again:", callback.Result);
                     mSteam.loginDetails.Password = Password.ReadPassword();
+                    mSteam.loginDetails.LoginKey = string.Empty;
                     return;
-                }
-                else if (callback.Result == EResult.TwoFactorCodeMismatch)
-                {
-                    /*Incorrect two-factor*/
+
+                case EResult.TwoFactorCodeMismatch:
                     Print("{0} - Invalid two factor code! Try again:", callback.Result);
                     mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
                     return;
-                }
-                else if (callback.Result == EResult.AccountLogonDenied)
-                {
-                    /*Incorrect email code*/
-                    Print("{0} - Invalid email auth code! Try again:", callback.Result);
-                    mSteam.loginDetails.AuthCode = Console.ReadLine();
-                    return;
-                }
 
-                Print("Uncaught EResult error when logging in: {0}", callback.Result);
+                case EResult.ServiceUnavailable:
+                    Print("{0} - Service unavailable. We'll force a pause here.");
+                    mDisconnectedCounter = 4;
+                    return;
+            }
+
+            /*We didn't account for what happened*/
+            if (callback.Result != EResult.OK)
+            {
+                Print("{0} - Uncaught EResult, what might this be?", callback.Result);
                 return;
             }
 
@@ -331,7 +344,26 @@ namespace HourBoostr
             Print("Successfully logged in!\n");
             mSteam.nounce = callback.WebAPIUserNonce;
             mBotState = BotState.LoggedIn;
+            LogOnSuccess(userInfo);
+        }
 
+
+        /// <summary>
+        /// Retreive the login key for account
+        /// </summary>
+        /// <param name="callback"></param>
+        private void OnLoginKey(SteamUser.LoginKeyCallback callback)
+        {
+            mSteam.loginDetails.LoginKey = callback.LoginKey;
+        }
+
+
+        /// <summary>
+        /// Fires when bot is fully logged on
+        /// </summary>
+        /// <param name="userInfo">Userinfo string (username,password)</param>
+        private void LogOnSuccess(string userInfo)
+        {
             /*Since login was successfull we can save the password here*/
             /*Yep, it's done in plaintext is resources. Deal with it.*/
             if (!Properties.Settings.Default.UserInfo.Contains(userInfo))
@@ -358,16 +390,6 @@ namespace HourBoostr
 
             /*Set games playing*/
             SetGamesPlaying(true);
-        }
-
-
-        /// <summary>
-        /// Retreive the login key for account
-        /// </summary>
-        /// <param name="callback"></param>
-        private void OnLoginKey(SteamUser.LoginKeyCallback callback)
-        {
-            mSteam.loginDetails.LoginKey = callback.LoginKey;
         }
 
 
