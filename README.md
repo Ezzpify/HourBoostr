@@ -1,7 +1,10 @@
-# HourBoostr
-Boosting Steam account hours
+<p align="center">
+  <img src="http://i.imgur.com/MJN4zty.png"/>
+  <p align="center">For Steam users that wish to boost the hours played of their games on one or several accounts at once!</p>
+  <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD</a></h2>
+</p>
 
-This will allow you to boost the hours played of multiple Steam games on multiple accounts at the same time, without even having steam open!.
+
 
 Run HourBoostr then set up the Settings.json file to include the accounts you want to use, and which games you want to boost.
 Enter your password in the console for each account and the email code if required, then you can just leave it running on whatever server/computer you want!
