@@ -69,6 +69,7 @@ namespace HourBoostrJsonHelper
                     Password = textBoxPassword.Text.Trim(),
                     ShowOnlineStatus = checkBoxAppearOnline.Checked,
                     RestartGamesEveryThreeHours = checkBoxRestartGames.Checked,
+                    ConnectToSteamCommunity = checkBoxCommunity.Checked,
                     ChatResponse = richTextBoxChatResponse.Text.Trim(),
                     Games = setGames
                 };

@@ -57,6 +57,12 @@ namespace HourBoostrJsonHelper
 
 
             /// <summary>
+            /// If we should authenticate to community
+            /// </summary>
+            public bool ConnectToSteamCommunity { get; set; } = true;
+
+
+            /// <summary>
             /// If we should restart games every 3 hours
             /// This is to prevent steam to no longer get hours if we idle for a long period of time
             /// </summary>

@@ -52,6 +52,7 @@
             this.checkBoxRestartGames = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.richTextBoxChatResponse = new System.Windows.Forms.RichTextBox();
+            this.checkBoxCommunity = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -132,7 +133,7 @@
             this.richTextBoxGames.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.richTextBoxGames.Location = new System.Drawing.Point(161, 184);
             this.richTextBoxGames.Name = "richTextBoxGames";
-            this.richTextBoxGames.Size = new System.Drawing.Size(193, 114);
+            this.richTextBoxGames.Size = new System.Drawing.Size(193, 89);
             this.richTextBoxGames.TabIndex = 6;
             this.richTextBoxGames.Text = "";
             // 
@@ -349,12 +350,26 @@
             this.richTextBoxChatResponse.TabIndex = 23;
             this.richTextBoxChatResponse.Text = "";
             // 
+            // checkBoxCommunity
+            // 
+            this.checkBoxCommunity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxCommunity.AutoSize = true;
+            this.checkBoxCommunity.Checked = true;
+            this.checkBoxCommunity.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCommunity.Location = new System.Drawing.Point(161, 279);
+            this.checkBoxCommunity.Name = "checkBoxCommunity";
+            this.checkBoxCommunity.Size = new System.Drawing.Size(157, 20);
+            this.checkBoxCommunity.TabIndex = 24;
+            this.checkBoxCommunity.Text = "Connect to community";
+            this.checkBoxCommunity.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(681, 402);
+            this.Controls.Add(this.checkBoxCommunity);
             this.Controls.Add(this.richTextBoxChatResponse);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBoxRestartGames);
@@ -419,6 +434,7 @@
         private System.Windows.Forms.CheckBox checkBoxRestartGames;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RichTextBox richTextBoxChatResponse;
+        private System.Windows.Forms.CheckBox checkBoxCommunity;
     }
 }
 

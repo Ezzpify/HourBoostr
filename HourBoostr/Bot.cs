@@ -397,7 +397,8 @@ namespace HourBoostr
             mSteam.uniqueId = callback.UniqueID.ToString();
             mSteam.user.AcceptNewLoginKey(callback);
 
-            AuthenticateUser();
+            if (mAccountSettings.ConnectToSteamCommunity)
+                AuthenticateUser();
         }
 
 
