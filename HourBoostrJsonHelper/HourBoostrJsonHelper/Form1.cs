@@ -13,19 +13,19 @@ namespace HourBoostrJsonHelper
         /// <summary>
         /// Private variables
         /// </summary>
-        private List<Config.AccountInfo> mAccounts = new List<Config.AccountInfo>();
-
-
-        /// <summary>
-        /// Search bar placeholder variable
-        /// </summary>
-        private bool mSearchEntered;
+        private List<Config.AccountSettings> mAccounts = new List<Config.AccountSettings>();
 
 
         /// <summary>
         /// List containing games fetched from steam xml
         /// </summary>
         private List<string> mGameList = new List<string>();
+
+
+        /// <summary>
+        /// Search bar placeholder variable
+        /// </summary>
+        private bool mSearchEntered;
 
 
         /// <summary>
@@ -63,10 +63,13 @@ namespace HourBoostrJsonHelper
                     }
                 }
 
-                var account = new Config.AccountInfo()
+                var account = new Config.AccountSettings()
                 {
-                    Username = textBoxUsername.Text,
+                    Username = textBoxUsername.Text.Trim(),
+                    Password = textBoxPassword.Text.Trim(),
                     ShowOnlineStatus = checkBoxAppearOnline.Checked,
+                    RestartGamesEveryThreeHours = checkBoxRestartGames.Checked,
+                    ChatResponse = richTextBoxChatResponse.Text.Trim(),
                     Games = setGames
                 };
 
@@ -93,8 +96,7 @@ namespace HourBoostrJsonHelper
         {
             string jsonFile = Path.Combine(Application.StartupPath, "Settings.json");
             var settings = new Config.Settings();
-            settings.Account = mAccounts;
-            settings.RestartGamesEveryThreeHours = checkBoxRestartGames.Checked;
+            settings.Accounts = mAccounts;
             settings.HideToTrayAutomatically = checkBoxHideToTray.Checked;
 
             string jsonString = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented);

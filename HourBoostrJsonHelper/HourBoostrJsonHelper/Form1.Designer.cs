@@ -47,7 +47,11 @@
             this.textBoxGameSearch = new System.Windows.Forms.TextBox();
             this.btnAddSelected = new System.Windows.Forms.Button();
             this.checkBoxHideToTray = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.checkBoxRestartGames = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.richTextBoxChatResponse = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +69,7 @@
             this.listBoxEntries.Location = new System.Drawing.Point(13, 36);
             this.listBoxEntries.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxEntries.Name = "listBoxEntries";
-            this.listBoxEntries.Size = new System.Drawing.Size(130, 189);
+            this.listBoxEntries.Size = new System.Drawing.Size(130, 288);
             this.listBoxEntries.TabIndex = 0;
             // 
             // label1
@@ -85,7 +89,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pictureBox1.Location = new System.Drawing.Point(150, 36);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1, 283);
+            this.pictureBox1.Size = new System.Drawing.Size(1, 353);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -96,7 +100,7 @@
             this.textBoxUsername.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.textBoxUsername.Location = new System.Drawing.Point(161, 36);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(115, 15);
+            this.textBoxUsername.Size = new System.Drawing.Size(193, 15);
             this.textBoxUsername.TabIndex = 3;
             // 
             // label2
@@ -112,7 +116,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(158, 57);
+            this.label3.Location = new System.Drawing.Point(158, 165);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 16);
@@ -126,9 +130,9 @@
             this.richTextBoxGames.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.richTextBoxGames.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxGames.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.richTextBoxGames.Location = new System.Drawing.Point(161, 76);
+            this.richTextBoxGames.Location = new System.Drawing.Point(161, 184);
             this.richTextBoxGames.Name = "richTextBoxGames";
-            this.richTextBoxGames.Size = new System.Drawing.Size(115, 178);
+            this.richTextBoxGames.Size = new System.Drawing.Size(193, 114);
             this.richTextBoxGames.TabIndex = 6;
             this.richTextBoxGames.Text = "";
             // 
@@ -137,9 +141,9 @@
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.pictureBox2.Location = new System.Drawing.Point(282, 37);
+            this.pictureBox2.Location = new System.Drawing.Point(360, 36);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1, 283);
+            this.pictureBox2.Size = new System.Drawing.Size(1, 353);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
@@ -150,16 +154,16 @@
             this.textBoxCommunityUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.textBoxCommunityUrl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxCommunityUrl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.textBoxCommunityUrl.Location = new System.Drawing.Point(290, 36);
+            this.textBoxCommunityUrl.Location = new System.Drawing.Point(368, 36);
             this.textBoxCommunityUrl.Name = "textBoxCommunityUrl";
-            this.textBoxCommunityUrl.Size = new System.Drawing.Size(262, 15);
+            this.textBoxCommunityUrl.Size = new System.Drawing.Size(304, 15);
             this.textBoxCommunityUrl.TabIndex = 8;
             this.textBoxCommunityUrl.Text = "http://steamcommunity.com/id/profile";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(287, 16);
+            this.label4.Location = new System.Drawing.Point(365, 16);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 16);
@@ -173,7 +177,7 @@
             this.buttonSave.Enabled = false;
             this.buttonSave.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Location = new System.Drawing.Point(13, 285);
+            this.buttonSave.Location = new System.Drawing.Point(13, 355);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(130, 34);
             this.buttonSave.TabIndex = 11;
@@ -187,9 +191,9 @@
             this.buttonAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAdd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAdd.Location = new System.Drawing.Point(161, 285);
+            this.buttonAdd.Location = new System.Drawing.Point(161, 355);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(115, 34);
+            this.buttonAdd.Size = new System.Drawing.Size(193, 34);
             this.buttonAdd.TabIndex = 12;
             this.buttonAdd.Text = "ADD";
             this.buttonAdd.UseVisualStyleBackColor = true;
@@ -202,9 +206,9 @@
             this.buttonFetch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonFetch.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.buttonFetch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonFetch.Location = new System.Drawing.Point(290, 285);
+            this.buttonFetch.Location = new System.Drawing.Point(368, 355);
             this.buttonFetch.Name = "buttonFetch";
-            this.buttonFetch.Size = new System.Drawing.Size(262, 34);
+            this.buttonFetch.Size = new System.Drawing.Size(304, 34);
             this.buttonFetch.TabIndex = 13;
             this.buttonFetch.Text = "GET GAMES";
             this.buttonFetch.UseVisualStyleBackColor = true;
@@ -214,7 +218,9 @@
             // 
             this.checkBoxAppearOnline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxAppearOnline.AutoSize = true;
-            this.checkBoxAppearOnline.Location = new System.Drawing.Point(161, 258);
+            this.checkBoxAppearOnline.Checked = true;
+            this.checkBoxAppearOnline.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxAppearOnline.Location = new System.Drawing.Point(161, 328);
             this.checkBoxAppearOnline.Name = "checkBoxAppearOnline";
             this.checkBoxAppearOnline.Size = new System.Drawing.Size(111, 20);
             this.checkBoxAppearOnline.TabIndex = 14;
@@ -232,11 +238,11 @@
             this.listBoxGames.FormattingEnabled = true;
             this.listBoxGames.IntegralHeight = false;
             this.listBoxGames.ItemHeight = 16;
-            this.listBoxGames.Location = new System.Drawing.Point(290, 80);
+            this.listBoxGames.Location = new System.Drawing.Point(368, 80);
             this.listBoxGames.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxGames.Name = "listBoxGames";
             this.listBoxGames.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxGames.Size = new System.Drawing.Size(262, 166);
+            this.listBoxGames.Size = new System.Drawing.Size(304, 236);
             this.listBoxGames.TabIndex = 15;
             this.listBoxGames.SelectedIndexChanged += new System.EventHandler(this.listBoxGames_SelectedIndexChanged);
             this.listBoxGames.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxGames_MouseDoubleClick);
@@ -249,9 +255,9 @@
             this.textBoxGameSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxGameSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxGameSearch.ForeColor = System.Drawing.Color.Gray;
-            this.textBoxGameSearch.Location = new System.Drawing.Point(290, 58);
+            this.textBoxGameSearch.Location = new System.Drawing.Point(368, 58);
             this.textBoxGameSearch.Name = "textBoxGameSearch";
-            this.textBoxGameSearch.Size = new System.Drawing.Size(262, 15);
+            this.textBoxGameSearch.Size = new System.Drawing.Size(304, 15);
             this.textBoxGameSearch.TabIndex = 16;
             this.textBoxGameSearch.Text = "search...";
             this.textBoxGameSearch.TextChanged += new System.EventHandler(this.textBoxGameSearch_TextChanged);
@@ -265,9 +271,9 @@
             this.btnAddSelected.Enabled = false;
             this.btnAddSelected.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.btnAddSelected.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddSelected.Location = new System.Drawing.Point(290, 253);
+            this.btnAddSelected.Location = new System.Drawing.Point(368, 323);
             this.btnAddSelected.Name = "btnAddSelected";
-            this.btnAddSelected.Size = new System.Drawing.Size(262, 25);
+            this.btnAddSelected.Size = new System.Drawing.Size(304, 25);
             this.btnAddSelected.TabIndex = 17;
             this.btnAddSelected.Text = "ADD SELECTED";
             this.btnAddSelected.UseVisualStyleBackColor = true;
@@ -279,12 +285,33 @@
             this.checkBoxHideToTray.AutoSize = true;
             this.checkBoxHideToTray.Checked = true;
             this.checkBoxHideToTray.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxHideToTray.Location = new System.Drawing.Point(13, 258);
+            this.checkBoxHideToTray.Location = new System.Drawing.Point(13, 328);
             this.checkBoxHideToTray.Name = "checkBoxHideToTray";
             this.checkBoxHideToTray.Size = new System.Drawing.Size(95, 20);
             this.checkBoxHideToTray.TabIndex = 18;
             this.checkBoxHideToTray.Text = "Hide to tray";
             this.checkBoxHideToTray.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(158, 54);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(129, 16);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Password (Optional)";
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.textBoxPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.textBoxPassword.Location = new System.Drawing.Point(161, 73);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
+            this.textBoxPassword.Size = new System.Drawing.Size(193, 15);
+            this.textBoxPassword.TabIndex = 20;
             // 
             // checkBoxRestartGames
             // 
@@ -292,20 +319,47 @@
             this.checkBoxRestartGames.AutoSize = true;
             this.checkBoxRestartGames.Checked = true;
             this.checkBoxRestartGames.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRestartGames.Location = new System.Drawing.Point(13, 232);
+            this.checkBoxRestartGames.Location = new System.Drawing.Point(161, 304);
             this.checkBoxRestartGames.Name = "checkBoxRestartGames";
             this.checkBoxRestartGames.Size = new System.Drawing.Size(115, 20);
-            this.checkBoxRestartGames.TabIndex = 19;
+            this.checkBoxRestartGames.TabIndex = 21;
             this.checkBoxRestartGames.Text = "Restart games";
             this.checkBoxRestartGames.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(158, 91);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(156, 16);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Chat response (Optional)";
+            // 
+            // richTextBoxChatResponse
+            // 
+            this.richTextBoxChatResponse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.richTextBoxChatResponse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
+            this.richTextBoxChatResponse.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxChatResponse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.richTextBoxChatResponse.Location = new System.Drawing.Point(161, 110);
+            this.richTextBoxChatResponse.Name = "richTextBoxChatResponse";
+            this.richTextBoxChatResponse.Size = new System.Drawing.Size(193, 52);
+            this.richTextBoxChatResponse.TabIndex = 23;
+            this.richTextBoxChatResponse.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(561, 332);
+            this.ClientSize = new System.Drawing.Size(681, 402);
+            this.Controls.Add(this.richTextBoxChatResponse);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.checkBoxRestartGames);
+            this.Controls.Add(this.textBoxPassword);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.checkBoxHideToTray);
             this.Controls.Add(this.btnAddSelected);
             this.Controls.Add(this.textBoxGameSearch);
@@ -329,7 +383,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(577, 370);
+            this.MinimumSize = new System.Drawing.Size(580, 440);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HourBoostr :: Json Helper";
@@ -360,7 +414,11 @@
         private System.Windows.Forms.TextBox textBoxGameSearch;
         private System.Windows.Forms.Button btnAddSelected;
         private System.Windows.Forms.CheckBox checkBoxHideToTray;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.CheckBox checkBoxRestartGames;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RichTextBox richTextBoxChatResponse;
     }
 }
 

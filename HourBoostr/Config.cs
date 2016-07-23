@@ -21,7 +21,7 @@ namespace HourBoostr
             /// <summary>
             /// List of accounts
             /// </summary>
-            public List<AccountSettings> Account { get; set; } = new List<AccountSettings>();
+            public List<AccountSettings> Accounts { get; set; } = new List<AccountSettings>();
         }
 
         

@@ -65,8 +65,8 @@ namespace HourBoostr
         public Config.Settings GetUpdatedSettings()
         {
             var settings = mSettings;
-            settings.Account = new List<Config.AccountSettings>();
-            mActiveBotList.ForEach(o => settings.Account.Add(o.mAccountSettings));
+            settings.Accounts = new List<Config.AccountSettings>();
+            mActiveBotList.ForEach(o => settings.Accounts.Add(o.mAccountSettings));
 
             return settings;
         }
@@ -80,7 +80,7 @@ namespace HourBoostr
         private void StartBotAccounts()
         {
             /*Go through account and log them into steam*/
-            foreach (var account in mSettings.Account)
+            foreach (var account in mSettings.Accounts)
             {
                 var bot = new Bot(account);
                 mActiveBotList.Add(bot);

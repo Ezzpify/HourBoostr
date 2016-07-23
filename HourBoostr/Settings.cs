@@ -18,7 +18,7 @@ namespace HourBoostr
             {
                 var settings = new Config.Settings()
                 {
-                    Account = new List<Config.AccountSettings>()
+                    Accounts = new List<Config.AccountSettings>()
                     {
                         new Config.AccountSettings() { Games = new List<int>() { 730, 10 } },
                         new Config.AccountSettings() { Games = new List<int>() { 730, 10 } },
@@ -76,12 +76,12 @@ namespace HourBoostr
                 
                 /*Now we'll go through all accounts and make sure we don't print out their password to the file
                 if no password was originally set in the settings file*/
-                foreach (var oldAcc in oldSettings.Account)
+                foreach (var oldAcc in oldSettings.Accounts)
                 {
                     if (!string.IsNullOrWhiteSpace(oldAcc.Password))
                         continue;
 
-                    foreach (var newAcc in newSettings.Account)
+                    foreach (var newAcc in newSettings.Accounts)
                     {
                         if (oldAcc.Username == newAcc.Username)
                             newAcc.Password = string.Empty;
