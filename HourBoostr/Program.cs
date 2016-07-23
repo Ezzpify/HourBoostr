@@ -201,11 +201,18 @@ namespace HourBoostr
             var settings = Settings.GetSettings();
             if (settings != null)
             {
-                mSession = new Session(settings);
-                if (settings.HideToTrayAutomatically)
+                if (settings.Accounts.Count > 0)
                 {
-                    mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
-                    ShowConsole(false);
+                    mSession = new Session(settings);
+                    if (settings.HideToTrayAutomatically)
+                    {
+                        mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+                        ShowConsole(false);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No accounts added! We got nothing to boost.");
                 }
 
                 while (true)
