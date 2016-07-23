@@ -478,14 +478,25 @@ namespace HourBoostr
         /// </summary>
         private void UserWebLogOn()
         {
+            int attempts = 0;
             do
             {
-                /*Try to authenticate to steam community*/
-                if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
+                try
                 {
-                    mBotState = BotState.LoggedInWeb;
-                    break;
+                    /*Try to authenticate to steam community*/
+                    if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
+                    {
+                        mBotState = BotState.LoggedInWeb;
+                        break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    mLog.Write(Log.LogLevel.Error, $"Error when attempting to Authenticate user. {ex.Message}");
+                }
+
+                if (attempts++ > 3)
+                    return;
             }
             while (mBotState != BotState.LoggedInWeb);
             mLog.Write(Log.LogLevel.Success, $"User authenticated!");
