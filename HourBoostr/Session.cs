@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Newtonsoft.Json;
+using System.Reflection;
 
 namespace HourBoostr
 {
     class Session
     {
         /// <summary>
-        /// Application settings
+        /// List of active bot accounts
         /// </summary>
-        private Config.Settings mSettings;
+        public List<Bot> mActiveBotList { get; set; } = new List<Bot>();
 
 
         /// <summary>
-        /// DateTime representing when all accounts were initialized
+        /// DateTime representing when all
+        /// accounts were initialized
         /// </summary>
         private DateTime mInitializedTime;
 
 
         /// <summary>
-        /// List of active bot accounts
+        /// Application settings
         /// </summary>
-        public List<Bot> mActiveBots { get; set; } = new List<Bot>();
+        public Config.Settings mSettings;
 
 
         /// <summary>
@@ -38,24 +41,34 @@ namespace HourBoostr
         public Session(Config.Settings settings)
         {
             mSettings = settings;
-            DoWork();
+            StartBotAccounts();
         }
 
 
         /// <summary>
-        /// Gets the user information from settings
+        /// Returns the DateTime of when the application was built
         /// </summary>
-        /// <param name="username">Username of user to query</param>
-        /// <returns>Returns empty string if none found</returns>
-        private string GetUserInformation(string username)
+        /// <returns>DateTime</returns>
+        private DateTime GetBuildDate()
         {
-            var strList = Properties.Settings.Default.UserInfo.Cast<string>().ToList();
-            if (strList.Count > 0)
-            {
-                return strList.FirstOrDefault(o => o.ToLower().Contains(username.ToLower()));
-            }
+            var version = Assembly.GetEntryAssembly().GetName().Version;
+            return new DateTime(2000, 1, 1).Add(new TimeSpan(
+                TimeSpan.TicksPerDay * version.Build +
+                TimeSpan.TicksPerSecond * 2 * version.Revision));
+        }
 
-            return string.Empty;
+
+        /// <summary>
+        /// Gets the updated account settings from all active bots
+        /// </summary>
+        /// <returns>Config.Settings</returns>
+        public Config.Settings GetUpdatedSettings()
+        {
+            var settings = mSettings;
+            settings.Account = new List<Config.AccountSettings>();
+            mActiveBotList.ForEach(o => settings.Account.Add(o.mAccountSettings));
+
+            return settings;
         }
 
 
@@ -64,56 +77,35 @@ namespace HourBoostr
         /// This is run on a seperate thread
         /// This will initialize the bots
         /// </summary>
-        private void DoWork()
+        private void StartBotAccounts()
         {
+            /*Go through account and log them into steam*/
             foreach (var account in mSettings.Account)
             {
-                /*Get the stored password*/
-                /*If no password is stored it can be set from BotClass.cs*/
-                /*I'm aware this is stored in plaintext, but literally who cares with this application*/
-                /*If you are no comfortable with it being stores as plaintext in settings, don't save the password*/
-                string userInfo = GetUserInformation(account.Username);
-                if (!string.IsNullOrEmpty(userInfo))
-                {
-                    var spl = userInfo.Split(',');
-                    if (spl.Length == 2)
-                    {
-                        account.Password = spl[1];
-                    }
-                }
+                var bot = new Bot(account);
+                mActiveBotList.Add(bot);
 
-                /*Start the bot*/
-                Bot bot = new Bot(account, mSettings);
-                mActiveBots.Add(bot);
-                while (bot.mBotState != Bot.BotState.LoggedIn) { Thread.Sleep(300); }
+                while (bot.mBotState == Bot.BotState.LoggedOut)
+                    Thread.Sleep(100);
             }
 
             /*Accounts statistics and some fucking baller ascii*/
             Console.Clear();
-            Console.WriteLine("\n  _____             _               _       ");
-            Console.WriteLine(" |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
-            Console.WriteLine(" |     | . | | |  _| . | . | . |_ -|  _|  _|");
-            Console.WriteLine(" |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
-            Console.WriteLine("  https://github.com/Ezzpify/\n");
-            Console.WriteLine("  ----------------------------------------");
-            Console.WriteLine("\n  Loaded {0} accounts\n\n  Accounts:", mActiveBots.Count);
-            mActiveBots.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mInfo.Username, o.mSteam.games.Count));
+            Console.WriteLine($"\n   _____             _               _       ");
+            Console.WriteLine($"  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
+            Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
+            Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
+            Console.WriteLine($"  Source: https://github.com/Ezzpify/");
+            Console.WriteLine($"  Build date: {GetBuildDate().ToString()}\n");
+            Console.WriteLine($"  ----------------------------------------");
+            Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");
+            mActiveBotList.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mAccountSettings.Username, o.mSteam.games.Count));
+            Console.WriteLine($"\n\n  Log:\n  ----------------------------------------\n");
             mInitializedTime = DateTime.Now;
 
             /*Start status thread*/
             mThreadStatus = new Thread(ThreadStatus);
             mThreadStatus.Start();
-        }
-        
-
-        /// <summary>
-        /// Gets the time the bot has been online as finished string
-        /// </summary>
-        /// <returns>Returns string</returns>
-        private string GetOnlineHours()
-        {
-            TimeSpan timeSpan = DateTime.Now - mInitializedTime;
-            return string.Format("{0} Hours {1} Minutes {2} Seconds", (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
         }
 
 
@@ -126,7 +118,11 @@ namespace HourBoostr
             {
                 /*Get the current time then subtract the time when all bots were done initializing*/
                 /*This will give us an idea of how long the bot has been running*/
-                Console.Title = string.Format("HourBoostr | Online for: {0}", GetOnlineHours());
+                TimeSpan timeSpan = DateTime.Now - mInitializedTime;
+                string timeSpentOnline = string.Format("{0} Hours {1} Minutes {2} Seconds", 
+                    (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+
+                Console.Title = string.Format("HourBoostr | Online for: {0}", timeSpentOnline);
                 Thread.Sleep(1000);
             }
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading;
@@ -10,6 +9,8 @@ namespace HourBoostr
 {
     class Program
     {
+        #region Imports
+
         /// <summary>
         /// DllImport for setting foreground of a window
         /// </summary>
@@ -45,6 +46,8 @@ namespace HourBoostr
         private static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate callback, bool add);
         private delegate bool ConsoleEventDelegate(int eventType);
 
+        #endregion Imports
+
 
         /// <summary>
         /// Application tray icon
@@ -54,21 +57,21 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Console event handler
+        /// </summary>
+        static private ConsoleEventDelegate mEventHandler;
+
+
+        /// <summary>
+        /// Application settings
+        /// </summary>
+        static private Config.Settings mSettings;
+
+
+        /// <summary>
         /// Thread variables
         /// </summary>
         static private Thread mThreadTray;
-
-
-        /// <summary>
-        /// Console event handler
-        /// </summary>
-        static private ConsoleEventDelegate handler;
-
-
-        /// <summary>
-        /// Application settings class
-        /// </summary>
-        static private Config.Settings mSettings;
 
 
         /// <summary>
@@ -81,94 +84,6 @@ namespace HourBoostr
         /// Represents if the console is hidden
         /// </summary>
         static private bool mIsHidden;
-
-
-        /// <summary>
-        /// Reads the settings from file
-        /// </summary>
-        /// <returns>Returns false if failed</returns>
-        static private bool ReadSettings()
-        {
-            /*Load settings if file exists, else create one*/
-            string filePath = Path.Combine(Application.StartupPath, "Settings.json");
-            if (!File.Exists(filePath))
-            {
-                /*Set up settings class to print*/
-                Config.Settings settings = new Config.Settings();
-
-                /*Add example accounts*/
-                var tempacc = new Config.AccountInfo();
-                tempacc.SetTemporaryValues();
-                settings.Account.Add(tempacc);
-                settings.Account.Add(tempacc);
-                settings.Account.Add(tempacc);
-
-                /*Write settings to file*/
-                string settingsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
-                File.WriteAllText(filePath, settingsJson);
-                Console.WriteLine("Settings.json has been written. Edit it for your accounts.");
-                Thread.Sleep(1500);
-            }
-            else
-            {
-                /*Enable missing objects error*/
-                JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
-                jsonSettings.MissingMemberHandling = MissingMemberHandling.Error;
-                string settingsJson = string.Empty;
-
-                try
-                {
-                    /*Load the settings from file*/
-                    settingsJson = File.ReadAllText(filePath);
-                    mSettings = JsonConvert.DeserializeObject<Config.Settings>(settingsJson, jsonSettings);
-
-                    /*Write the class to settins file incase some of the settings were missing from the file originally*/
-                    File.WriteAllText(filePath, JsonConvert.SerializeObject(mSettings, Formatting.Indented));
-                    return true;
-                }
-                catch (JsonReaderException ex)
-                {
-                    /*There was an error parsing the json file, most likely due to user trying to manually edit it without knowing the syntax*/
-                    Console.WriteLine("Error: The settings file is corrupt. Please delete it and restart the program.");
-                    Console.WriteLine($"{ex.Message}\n\n");
-                }
-                catch (Exception ex)
-                {
-                    /*I wonder what happened here?*/
-                    Console.WriteLine("Error: An unhandled exception occured when parsing the settings? What the hell?");
-                    Console.WriteLine($"{ex.Message}\n\n");
-                }
-            }
-
-            Console.WriteLine("Exiting in 10 seconds...");
-            Thread.Sleep(10000);
-            return false;
-        }
-
-
-        /// <summary>
-        /// Initializes our application
-        /// </summary>
-        /// <returns>Returns false if failed</returns>
-        static private bool Initialize()
-        {
-            /*Create files and folders for our program*/
-            Console.Title = "HourBoostr by Ezzpify";
-            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Sentryfiles"));
-
-            /*Spawn new userinfo settings incase null*/
-            if (Properties.Settings.Default.UserInfo == null)
-                Properties.Settings.Default.UserInfo = new StringCollection();
-
-            /*Attempt to read the settings and start our session*/
-            if (ReadSettings())
-            {
-                mSession = new Session(mSettings);
-                return true;
-            }
-
-            return false;
-        }
 
 
         /// <summary>
@@ -197,27 +112,27 @@ namespace HourBoostr
         /// </summary>
         static private void TrayIcon_Click(object sender, EventArgs e)
         {
-            ShowConsole(!mIsHidden);
+            ShowConsole(mIsHidden);
         }
 
 
         /// <summary>
         /// Show/Hide the console window
         /// </summary>
-        /// <param name="b">Toggles console window</param>
-        static private void ShowConsole(bool b)
+        /// <param name="show">True to show, false to hide</param>
+        static private void ShowConsole(bool show)
         {
-            if(b)
+            if(show)
             {
                 ShowWindow(GetConsoleWindow(), 5);
-                mIsHidden = true;
+                SetForegroundWindow(GetConsoleWindow());
             }
             else
             {
                 ShowWindow(GetConsoleWindow(), 0);
-                SetForegroundWindow(GetConsoleWindow());
-                mIsHidden = false;
             }
+
+            mIsHidden = !show;
         }
 
 
@@ -233,14 +148,24 @@ namespace HourBoostr
             /*eventType 2 being Exit event*/
             if (eventType == 2)
             {
-                /*Disconnect all clients*/
-                Console.WriteLine("\n\nDisconnecting...");
-                foreach(var Bot in mSession.mActiveBots)
+                if (mSession?.mActiveBotList != null)
                 {
-                    /*Disconnect bot*/
-                    Bot.mIsRunning = false;
-                    Bot.mSteam.client.Disconnect();
+                    /*Disconnect all clients*/
+                    Console.WriteLine("\n\nDisconnecting...");
+                    foreach (var Bot in mSession.mActiveBotList)
+                    {
+                        Bot.mIsRunning = false;
+                        Bot.mSteam.client.Disconnect();
+                    }
+
+                    /*We'll fetch updated settings from all the 
+                    bots and overwrite the current settings file*/
+                    if (Settings.SaveSettings(mSettings, mSession.mSettings))
+                        Console.WriteLine("Updated user settings");
                 }
+
+                Console.WriteLine("Exiting...");
+                Thread.Sleep(500);
             }
 
             return false;
@@ -254,35 +179,38 @@ namespace HourBoostr
         /// <param name="args">No args</param>
         static void Main(string[] args)
         {
-            /*Initialize application*/
-            if (!Initialize())
-                return;
+            /*Create a folder for our account sentry files*/
+            Console.Title = EndPoint.CONSOLE_TITLE;
+            Directory.CreateDirectory(EndPoint.SENTRY_FOLDER_PATH);
+            Directory.CreateDirectory(EndPoint.LOG_FOLDER_PATH);
 
-            /*Set exit events*/
-            handler = new ConsoleEventDelegate(ConsoleEventCallback);
-            SetConsoleCtrlHandler(handler, true);
+            /*Set exit events so we'll log out all accounts if application is exited*/
+            mEventHandler = new ConsoleEventDelegate(ConsoleEventCallback);
+            SetConsoleCtrlHandler(mEventHandler, true);
 
-            /*Initialize trayicon thread*/
+            /*Start the trayicon thread*/
             mThreadTray = new Thread(ToTray);
             mThreadTray.Start();
 
-            /*Minimize app*/
-            if (mSettings.HideToTrayAutomatically)
-            {
-                Console.WriteLine("\n\n  Hiding to tray in two...");
-                Thread.Sleep(2000);
-                ShowConsole(false);
-                mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
-            }
+            /*We'll read and store the settings twice since we'll compare the two objects later on
+            to see if something has changed by the user during runtime*/
+            mSettings = Settings.GetSettings();
+            if (mSettings == null)
+                return;
 
-            /*Make a nice log stuff or whatever*/
-            Console.WriteLine("\n\n  Log:\n  ----------------------------------------\n");
-
-            /*Keep it alive*/
-            while (true)
+            /*Read the application settings and start our session*/
+            var settings = Settings.GetSettings();
+            if (settings != null)
             {
-                /*Take input commands*/
-                Thread.Sleep(250);
+                mSession = new Session(settings);
+                if (settings.HideToTrayAutomatically)
+                {
+                    mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+                    ShowConsole(false);
+                }
+
+                while (true)
+                    Thread.Sleep(250);
             }
         }
     }

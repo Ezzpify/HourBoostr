@@ -50,15 +50,5 @@ namespace HourBoostr
             Console.WriteLine();
             return new string(pass.Reverse().ToArray());
         }
-
-
-        /// <summary>
-        /// Like System.Console.ReadLine(), only with a mask.
-        /// </summary>
-        /// <returns>the string the user typed in </returns>
-        public static string ReadPassword()
-        {
-            return ReadPassword('*');
-        }
     }
 }

@@ -36,6 +36,18 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Steam web for community access
+        /// </summary>
+        public SteamWeb web { get; set; }
+
+
+        /// <summary>
+        /// UniqueID fetched when getting loginKey
+        /// </summary>
+        public string uniqueId { get; set; }
+
+
+        /// <summary>
         /// Steam friends
         /// </summary>
         public SteamFriends friends { get; set; }
