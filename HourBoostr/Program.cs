@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 using System.Runtime.InteropServices;
-using System.Collections.Specialized;
 
 namespace HourBoostr
 {

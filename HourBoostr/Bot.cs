@@ -69,7 +69,7 @@ namespace HourBoostr
 
         /// <summary>
         /// Represents how many times we've disconnected
-        /// This will be reset at times
+        /// This will be reset when we hit n disconnects and a pause is forced
         /// </summary>
         private int mDisconnectedCounter;
 
