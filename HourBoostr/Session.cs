@@ -82,11 +82,21 @@ namespace HourBoostr
             /*Go through account and log them into steam*/
             foreach (var account in mSettings.Accounts)
             {
+                if (string.IsNullOrWhiteSpace(account.Username))
+                    continue;
+
                 var bot = new Bot(account);
                 mActiveBotList.Add(bot);
 
                 while (bot.mBotState == Bot.BotState.LoggedOut)
                     Thread.Sleep(100);
+            }
+
+            if (mActiveBotList.Count == 0)
+            {
+                Console.WriteLine("No account were loaded.");
+                Thread.Sleep(1500);
+                Environment.Exit(1);
             }
 
             /*Accounts statistics and some fucking baller ascii*/
