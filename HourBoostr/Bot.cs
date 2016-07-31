@@ -260,7 +260,7 @@ namespace HourBoostr
             {
                 if (mDisconnectedCounter <= 3)
                 {
-                    mLog.Write(Log.LogLevel.Info, $"Reconnectring in 3s ...");
+                    mLog.Write(Log.LogLevel.Info, $"Reconnecting in 3s ...");
                     Thread.Sleep(3000);
                 }
                 else
