@@ -16,15 +16,6 @@ namespace Settings
 {
     public partial class mainForm : Form
     {
-        /* TODO
-
-            If you set a username, then retype it but don't leave the form, then create a new account
-            it won't update list but username will be taken
-
-
-
-        */
-
         /// <summary>
         /// Application settings
         /// </summary>
