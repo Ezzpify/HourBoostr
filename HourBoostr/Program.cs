@@ -147,7 +147,7 @@ namespace HourBoostr
             /*eventType 2 being Exit event*/
             if (eventType == 2)
             {
-                if (mSession?.mActiveBotList != null)
+                if (mSession != null)
                 {
                     /*Disconnect all clients*/
                     Console.WriteLine("\n\nDisconnecting...");
@@ -157,9 +157,8 @@ namespace HourBoostr
                         Bot.mSteam.client.Disconnect();
                     }
 
-                    /*We'll fetch updated settings from all the 
-                    bots and overwrite the current settings file*/
-                    if (Settings.SaveSettings(mSettings, mSession.mSettings))
+                    /*Update settings*/
+                    if (Settings.UpdateSettings(mSettings, mSession.mSettings))
                         Console.WriteLine("Updated user settings");
                 }
 
@@ -204,6 +203,9 @@ namespace HourBoostr
                 if (settings.Accounts.Count > 0)
                 {
                     mSession = new Session(settings);
+                    while (mSession.mBwg.IsBusy)
+                        Thread.Sleep(250);
+
                     if (settings.HideToTrayAutomatically)
                     {
                         mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
@@ -212,7 +214,7 @@ namespace HourBoostr
                 }
                 else
                 {
-                    Console.WriteLine("No accounts added! We got nothing to boost.");
+                    Console.WriteLine("No accounts were loaded from settings.");
                 }
 
                 while (true)

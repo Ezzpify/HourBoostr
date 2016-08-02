@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using Newtonsoft.Json;
 using System.Reflection;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace HourBoostr
 {
@@ -16,10 +16,9 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// DateTime representing when all
-        /// accounts were initialized
+        /// Session background worker
         /// </summary>
-        private DateTime mInitializedTime;
+        public BackgroundWorker mBwg = new BackgroundWorker();
 
 
         /// <summary>
@@ -41,7 +40,46 @@ namespace HourBoostr
         public Session(Config.Settings settings)
         {
             mSettings = settings;
-            StartBotAccounts();
+
+            mBwg.DoWork += MBwg_DoWork;
+            mBwg.RunWorkerAsync();
+        }
+
+
+        /// <summary>
+        /// Backgroundworker to start all bots
+        /// </summary>
+        private void MBwg_DoWork(object sender, DoWorkEventArgs e)
+        {
+            /*Go through account and log them into steam*/
+            foreach (var account in mSettings.Accounts)
+            {
+                var bot = new Bot(account);
+                mActiveBotList.Add(bot);
+
+                /*We'll wait for the bot to log in before starting on the next bot
+                We won't wait for it to authenticate, should that be enabled*/
+                while (bot.mBotState == Bot.BotState.LoggedOut)
+                    Thread.Sleep(100);
+            }
+
+            /*Accounts statistics and some fucking baller ascii*/
+            Console.Clear();
+            Console.WriteLine($"\n   _____             _               _       ");
+            Console.WriteLine($"  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
+            Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
+            Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
+            Console.WriteLine($"  Source: https://github.com/Ezzpify/");
+            Console.WriteLine($"  Build date: {GetBuildDate().ToString()}");
+            Console.WriteLine($"  Version: {Application.ProductVersion}\n");
+            Console.WriteLine($"  ----------------------------------------");
+            Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");
+            mActiveBotList.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mAccountSettings.Details.Username, o.mSteam.games.Count));
+            Console.WriteLine($"\n\n  Log:\n  ----------------------------------------\n");
+
+            /*Start status thread*/
+            mThreadStatus = new Thread(ThreadStatus);
+            mThreadStatus.Start();
         }
 
 
@@ -73,67 +111,22 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// Main function
-        /// This is run on a seperate thread
-        /// This will initialize the bots
-        /// </summary>
-        private void StartBotAccounts()
-        {
-            /*Go through account and log them into steam*/
-            foreach (var account in mSettings.Accounts)
-            {
-                if (string.IsNullOrWhiteSpace(account.Username))
-                    continue;
-
-                var bot = new Bot(account);
-                mActiveBotList.Add(bot);
-
-                while (bot.mBotState == Bot.BotState.LoggedOut)
-                    Thread.Sleep(100);
-            }
-
-            if (mActiveBotList.Count == 0)
-            {
-                Console.WriteLine("No account were loaded.");
-                Thread.Sleep(1500);
-                Environment.Exit(1);
-            }
-
-            /*Accounts statistics and some fucking baller ascii*/
-            Console.Clear();
-            Console.WriteLine($"\n   _____             _               _       ");
-            Console.WriteLine($"  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
-            Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
-            Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
-            Console.WriteLine($"  Source: https://github.com/Ezzpify/");
-            Console.WriteLine($"  Build date: {GetBuildDate().ToString()}\n");
-            Console.WriteLine($"  ----------------------------------------");
-            Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");
-            mActiveBotList.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mAccountSettings.Username, o.mSteam.games.Count));
-            Console.WriteLine($"\n\n  Log:\n  ----------------------------------------\n");
-            mInitializedTime = DateTime.Now;
-
-            /*Start status thread*/
-            mThreadStatus = new Thread(ThreadStatus);
-            mThreadStatus.Start();
-        }
-
-
-        /// <summary>
         /// Status for how long the bot has been running
         /// </summary>
         private void ThreadStatus()
         {
+            var initializedTime = DateTime.Now;
+
             while (true)
             {
                 /*Get the current time then subtract the time when all bots were done initializing*/
                 /*This will give us an idea of how long the bot has been running*/
-                TimeSpan timeSpan = DateTime.Now - mInitializedTime;
+                TimeSpan timeSpan = DateTime.Now - initializedTime;
                 string timeSpentOnline = string.Format("{0} Hours {1} Minutes {2} Seconds", 
                     (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
-
-                Console.Title = string.Format("HourBoostr | Online for: {0}", timeSpentOnline);
-                Thread.Sleep(1000);
+                
+                Console.Title = $"{EndPoint.CONSOLE_TITLE} | Online for: {timeSpentOnline}";
+                Thread.Sleep(800);
             }
         }
     }

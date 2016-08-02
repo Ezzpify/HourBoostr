@@ -33,7 +33,7 @@ namespace HourBoostr
         /// <summary>
         /// List of users we've already replied to in chat
         /// </summary>
-        private List<ChatMessageData> mAlreadyRepliedChatMsg = new List<ChatMessageData>();
+        private List<ChatMessageData> mSteamChatBlockList = new List<ChatMessageData>();
 
 
         /// <summary>
@@ -43,9 +43,15 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Thread for restarting the steam connection
+        /// </summary>
+        private System.Timers.Timer mRestartTimer = new System.Timers.Timer();
+
+
+        /// <summary>
         /// Timer to simulate stopping and restarting a game
         /// </summary>
-        private System.Timers.Timer mGameTimer = new System.Timers.Timer();
+        private System.Timers.Timer mGamesTimer = new System.Timers.Timer();
 
 
         /// <summary>
@@ -115,31 +121,31 @@ namespace HourBoostr
         public Bot(Config.AccountSettings info)
         {
             /*If a password isn't set we'll ask for user input*/
-            if (string.IsNullOrWhiteSpace(info.Password) && string.IsNullOrWhiteSpace(info.LoginKey))
+            if (string.IsNullOrWhiteSpace(info.Details.Password) && string.IsNullOrWhiteSpace(info.Details.LoginKey))
             {
-                Console.WriteLine("Enter password for account '{0}'", info.Username);
-                info.Password = Password.ReadPassword('*');
+                Console.WriteLine("Enter password for account '{0}'", info.Details.Username);
+                info.Details.Password = Password.ReadPassword('*');
             }
 
             /*Assign bot info*/
             mSteam.loginDetails = new SteamUser.LogOnDetails()
             {
-                Username = info.Username,
-                Password = info.Password,
-                LoginKey = info.LoginKey,
+                Username = info.Details.Username,
+                Password = info.Details.Password,
+                LoginKey = info.Details.LoginKey,
                 ShouldRememberPassword = true,
             };
             mAccountSettings = info;
             mSteam.games = info.Games;
-            mSteam.sentryPath = Path.Combine(Application.StartupPath, string.Format("Sentryfiles\\{0}.sentry", info.Username));
+            mSteam.sentryPath = Path.Combine(Application.StartupPath, string.Format("Sentryfiles\\{0}.sentry", info.Details.Username));
 
             /*Set up steamweb*/
             mSteam.web = new SteamWeb();
             ServicePointManager.ServerCertificateValidationCallback += mSteam.web.ValidateRemoteCertificate;
 
             /*Create logs*/
-            mLog = new Log(info.Username, Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Username}.txt"), 1);
-            mLogChat = new Log($"{info.Username} Chat", Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Username} steam chat.txt"), 1);
+            mLog = new Log(info.Details.Username, Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Details.Username}.txt"), 1);
+            mLogChat = new Log($"{info.Details.Username} Chat", Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Details.Username} steam chat.txt"), 1);
 
             /*Assign clients*/
             mSteam.client = new SteamClient();
@@ -250,25 +256,20 @@ namespace HourBoostr
         /// <param name="callback">SteamClient.DisconnectedCallback</param>
         private void OnDisconnected(SteamClient.DisconnectedCallback callback)
         {
-            /*Only want to count a disconnect if the bot was disconnected*/
-            /*while it was fully logged in*/
-            if (mBotState == BotState.LoggedIn)
-                mDisconnectedCounter++;
-
+            mDisconnectedCounter++;
             mBotState = BotState.LoggedOut;
+
             if (mIsRunning)
             {
-                if (mDisconnectedCounter <= 3)
-                {
-                    mLog.Write(Log.LogLevel.Info, $"Reconnectring in 3s ...");
-                    Thread.Sleep(3000);
-                }
-                else
+                if (mDisconnectedCounter > 3)
                 {
                     mLog.Write(Log.LogLevel.Warn, $"Too many disconnects occured in a short period of time. Sleeping for 15 minutes.");
                     Thread.Sleep(TimeSpan.FromMinutes(15));
                     mDisconnectedCounter = 0;
                 }
+
+                mLog.Write(Log.LogLevel.Info, $"Reconnecting in 3s ...");
+                Thread.Sleep(3000);
 
                 Connect();
             }
@@ -339,17 +340,16 @@ namespace HourBoostr
 
                 case EResult.InvalidPassword:
                     mLog.Write(Log.LogLevel.Warn, $"The password was not accepted.");
-                    
-                    if (!mHasConnectedOnce)
+                    if (!mHasConnectedOnce && !string.IsNullOrWhiteSpace(mAccountSettings.Details.LoginKey))
                     {
                         /*Remove LoginKey if we haven't been logged in before*/
-                        mLog.Write(Log.LogLevel.Info, $"Removed LoginKey for this account");
+                        mLog.Write(Log.LogLevel.Info, $"Removed LoginKey for this account because it's invalid");
                         mSteam.loginDetails.LoginKey = string.Empty;
-                        mAccountSettings.LoginKey = string.Empty;
+                        mAccountSettings.Details.LoginKey = string.Empty;
                     }
                     else
                     {
-                        if (string.IsNullOrWhiteSpace(mAccountSettings.Password))
+                        if (string.IsNullOrWhiteSpace(mAccountSettings.Details.Password))
                         {
                             /*Re-input password if no password was set in settings*/
                             mLog.Write(Log.LogLevel.Text, $"Re-enter your Steam password:");
@@ -381,7 +381,27 @@ namespace HourBoostr
             mSteam.nounce = callback.WebAPIUserNonce;
             mBotState = BotState.LoggedIn;
             mHasConnectedOnce = true;
+            mDisconnectedCounter = 0;
             LogOnSuccess();
+        }
+
+
+        /// <summary>
+        /// Fires when bot is fully logged on
+        /// </summary>
+        private void LogOnSuccess()
+        {
+            /*Set the timer if it's not already enabled*/
+            int extraTime = new Random().Next(20, 60);
+            if (!mGamesTimer.Enabled && mAccountSettings.RestartGamesEveryThreeHours)
+            {
+                mGamesTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
+                mGamesTimer.Elapsed += new ElapsedEventHandler(RestartGames);
+                mGamesTimer.Start();
+            }
+
+            /*Set games playing*/
+            SetGamesPlaying(true);
         }
 
 
@@ -392,13 +412,22 @@ namespace HourBoostr
         private void OnLoginKey(SteamUser.LoginKeyCallback callback)
         {
             mLog.Write(Log.LogLevel.Info, $"Received LoginKey from Steam");
-            mAccountSettings.LoginKey = callback.LoginKey;
+            mAccountSettings.Details.LoginKey = callback.LoginKey;
+            mSteam.loginDetails.LoginKey = callback.LoginKey;
 
             mSteam.uniqueId = callback.UniqueID.ToString();
             mSteam.user.AcceptNewLoginKey(callback);
 
             if (mAccountSettings.ConnectToSteamCommunity)
                 AuthenticateUser();
+
+            if (mAccountSettings.RelogEveryFourHours && !mRestartTimer.Enabled)
+            {
+                // mRelogTimer
+                mRestartTimer.Interval = TimeSpan.FromHours(4).TotalMilliseconds;
+                mRestartTimer.Elapsed += new ElapsedEventHandler(Restart);
+                mRestartTimer.Start();
+            }
         }
 
 
@@ -423,41 +452,35 @@ namespace HourBoostr
         /// <param name="callback"></param>
         private void OnFriendMsgCallback(SteamFriends.FriendMsgCallback callback)
         {
-            if (callback.EntryType != EChatEntryType.ChatMsg)
-                return;
-
-            /*Log the message we just received*/
-            string friendUserName = mSteam.friends.GetFriendPersonaName(callback.Sender);
-            mLogChat.Write(Log.LogLevel.Text, $"Msg from {friendUserName}: {callback.Message}");
-
-            /*Clear blocked users that are older than 20 minutes
-            This is to avoid responding every time a user is spamming us in the chat*/
-            var blockedUsersDelete = new List<ChatMessageData>();
-            foreach (var user in mAlreadyRepliedChatMsg)
+            if (callback.EntryType == EChatEntryType.ChatMsg)
             {
+                /*Log the message we just received*/
+                string friendUserName = mSteam.friends.GetFriendPersonaName(callback.Sender);
+                mLogChat.Write(Log.LogLevel.Text, $"Msg from {friendUserName}: {callback.Message}");
 
-                if (DateTime.Now.Subtract(user.DateReceived) > TimeSpan.FromMinutes(20))
-                    blockedUsersDelete.Add(user);
-            }
-            mAlreadyRepliedChatMsg = mAlreadyRepliedChatMsg.Except(blockedUsersDelete).ToList();
+                /*Clear blocked users that are older than 20 minutes
+                This is to avoid responding every time a user is spamming us in the chat*/
+                mSteamChatBlockList.RemoveAll(imbored => DateTime.Now.Subtract(imbored.DateReceived) > TimeSpan.FromMinutes(20));
 
-            /*Only send a response if one is set in the settings file*/
-            if (!string.IsNullOrWhiteSpace(mAccountSettings.ChatResponse))
-            {
-                /*Set up ChatMessageData object*/
-                var msgData = new ChatMessageData()
+                /*Only send a response if one is set in the settings file*/
+                if (!string.IsNullOrWhiteSpace(mAccountSettings.ChatResponse))
                 {
-                    AccountId = callback.Sender.AccountID,
-                    DateReceived = DateTime.Now
-                };
+                    /*Set up ChatMessageData object*/
+                    var msgData = new ChatMessageData()
+                    {
+                        AccountId = callback.Sender.AccountID,
+                        DateReceived = DateTime.Now
+                    };
 
-                /*Check if the list of blocked users contains the sender*/
-                if (mAlreadyRepliedChatMsg.Any(o => o.AccountId == msgData.AccountId))
-                    return;
+                    /*Check if the list of blocked users contains the sender*/
+                    if (mSteamChatBlockList.Any(o => o.AccountId == msgData.AccountId))
+                        return;
 
-                mSteam.friends.SendChatMessage(callback.Sender, EChatEntryType.ChatMsg, mAccountSettings.ChatResponse);
-                mLogChat.Write(Log.LogLevel.Info, $"Responded to {friendUserName}");
-                mAlreadyRepliedChatMsg.Add(msgData);
+                    /*Respond to user*/
+                    mSteam.friends.SendChatMessage(callback.Sender, EChatEntryType.ChatMsg, mAccountSettings.ChatResponse);
+                    mLogChat.Write(Log.LogLevel.Info, $"Responded to {friendUserName}");
+                    mSteamChatBlockList.Add(msgData);
+                }
             }
         }
 
@@ -470,7 +493,6 @@ namespace HourBoostr
         {
             mLog.Write(Log.LogLevel.Info, $"Authenticating user ...");
             UserWebLogOn();
-            SetGamesPlaying(true);
         }
         
         
@@ -479,12 +501,11 @@ namespace HourBoostr
         /// </summary>
         private void UserWebLogOn()
         {
-            int attempts = 0;
-            do
+            /*We'll attempt to authenticate user here*/
+            for (int i = 0; i < 3; i++)
             {
                 try
                 {
-                    /*Try to authenticate to steam community*/
                     if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
                     {
                         mBotState = BotState.LoggedInWeb;
@@ -493,14 +514,9 @@ namespace HourBoostr
                 }
                 catch (Exception ex)
                 {
-                    mLog.Write(Log.LogLevel.Error, $"Error when attempting to Authenticate user. {ex.Message}");
+                    mLog.Write(Log.LogLevel.Error, $"(Attempt {i}) Error authenticating user: {ex.Message}");
                 }
-
-                if (attempts++ > 3)
-                    return;
             }
-            while (mBotState != BotState.LoggedInWeb);
-            mLog.Write(Log.LogLevel.Success, $"User authenticated!");
 
             /*If we should go online*/
             if (mAccountSettings.ShowOnlineStatus)
@@ -510,7 +526,7 @@ namespace HourBoostr
             if (!mCommunityTimer.Enabled)
             {
                 mCommunityTimer.Interval = TimeSpan.FromMinutes(15).TotalMilliseconds;
-                mCommunityTimer.Elapsed += new ElapsedEventHandler(ForceCommunity);
+                mCommunityTimer.Elapsed += new ElapsedEventHandler(VerifyCommunityConnection);
                 mCommunityTimer.Start();
             }
         }
@@ -519,7 +535,7 @@ namespace HourBoostr
         /// <summary>
         /// This will periodically 
         /// </summary>
-        private void ForceCommunity(object sender, ElapsedEventArgs e)
+        private void VerifyCommunityConnection(object sender, ElapsedEventArgs e)
         {
             if (!mSteam.web.VerifyCookies())
             {
@@ -536,21 +552,25 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// Fires when bot is fully logged on
+        /// Reconnects the steam account
         /// </summary>
-        private void LogOnSuccess()
+        private void Restart(object sender, ElapsedEventArgs e)
         {
-            /*Set the timer if it's not already enabled*/
-            int extraTime = new Random().Next(20, 60);
-            if (!mGameTimer.Enabled && mAccountSettings.RestartGamesEveryThreeHours)
+            if (mHasConnectedOnce && !string.IsNullOrWhiteSpace(mSteam.loginDetails.LoginKey))
             {
-                mGameTimer.Interval = TimeSpan.FromMinutes(180 + extraTime).TotalMilliseconds;
-                mGameTimer.Elapsed += new ElapsedEventHandler(PreformStopStart);
-                mGameTimer.Start();
-            }
+                SetGamesPlaying(false);
+                mCommunityTimer.Stop();
+                mGamesTimer.Stop();
 
-            /*Set games playing*/
-            SetGamesPlaying(true);
+                mBotState = BotState.LoggedOut;
+                mSteam.user.LogOff();
+                mSteam.client.Disconnect();
+            }
+            else
+            {
+                mRestartTimer.Stop();
+                mLog.Write(Log.LogLevel.Error, $"Stopped restart timer because we didn't have a login key");
+            }
         }
 
 
@@ -558,10 +578,10 @@ namespace HourBoostr
         /// This will simulate stopping playing games and restarting it after a random period
         /// This is called from a timer
         /// </summary>
-        private void PreformStopStart(object sender, ElapsedEventArgs e)
+        private void RestartGames(object sender, ElapsedEventArgs e)
         {
             /*Stop games*/
-            mGameTimer.Stop();
+            mGamesTimer.Stop();
             SetGamesPlaying(false);
             mLog.Write(Log.LogLevel.Info, $"Stopping games for 5 minutes ...");
             Thread.Sleep(TimeSpan.FromMinutes(5));
@@ -569,7 +589,7 @@ namespace HourBoostr
             /*Start games*/
             mLog.Write(Log.LogLevel.Info, $"Started games again!");
             SetGamesPlaying(true);
-            mGameTimer.Start();
+            mGamesTimer.Start();
         }
 
 

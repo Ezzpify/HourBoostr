@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace HourBoostr
+namespace Settings
 {
     public class Config
     {
@@ -51,7 +53,25 @@ namespace HourBoostr
             public string LoginKey { get; set; } = "";
         }
 
-        
+
+        /// <summary>
+        /// Class for game
+        /// </summary>
+        public class Game
+        {
+            /// <summary>
+            /// Steam game name
+            /// </summary>
+            public string name { get; set; }
+
+
+            /// <summary>
+            /// Steam game (app) id
+            /// </summary>
+            public int id { get; set; }
+        }
+
+
         /// <summary>
         /// Class for account settings
         /// </summary>
@@ -66,7 +86,7 @@ namespace HourBoostr
             /// <summary>
             /// If we should set steam status to online
             /// </summary>
-            public bool ShowOnlineStatus { get; set; }
+            public bool ShowOnlineStatus { get; set; } = true;
 
 
             /// <summary>
@@ -86,7 +106,7 @@ namespace HourBoostr
             /// If we should restart games every 3 hours
             /// This is to prevent steam to no longer get hours if we idle for a long period of time
             /// </summary>
-            public bool RestartGamesEveryThreeHours { get; set; } = true;
+            public bool RestartGamesEveryThreeHours { get; set; }
 
 
             /// <summary>

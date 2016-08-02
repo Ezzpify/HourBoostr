@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Linq;
 
 namespace HourBoostr
 {
@@ -27,15 +28,17 @@ namespace HourBoostr
                 };
                 
                 File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
-                Console.WriteLine($"Settings file has been written at {EndPoint.SETTINGS_FILE_PATH}");
-                Console.WriteLine("Please close the program and edit the settings.");
+                Console.WriteLine($"Settings file has been written at {EndPoint.SETTINGS_FILE_PATH}\nPlease close the program and edit the settings.");
             }
             else
             {
                 var serializeSettings = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
                 try
                 {
-                    return JsonConvert.DeserializeObject<Config.Settings>(File.ReadAllText(EndPoint.SETTINGS_FILE_PATH));
+                    var settings = JsonConvert.DeserializeObject<Config.Settings>(File.ReadAllText(EndPoint.SETTINGS_FILE_PATH));
+                    settings.Accounts = settings.Accounts.Where(o => !string.IsNullOrWhiteSpace(o.Details.Username)).Distinct().ToList();
+
+                    return settings;
                 }
                 catch (Exception ex)
                 {
@@ -58,33 +61,21 @@ namespace HourBoostr
         /// <param name="oldSettings">Old settings</param>
         /// <param name="newSettings">New settings</param>
         /// <returns>Returns true if succeeded</returns>
-        public static bool SaveSettings(Config.Settings oldSettings, Config.Settings newSettings)
+        public static bool UpdateSettings(Config.Settings oldSettings, Config.Settings newSettings)
         {
             try
             {
-                /*We'll compare the settings file when we launched the program to the current settings object*/
-                /*This way we'll see if the user has made any changes to the settings file during runtime*/
-                /*We'll compare the two classes as serialized strings, mostly because I cba to implement an Equals solution*/
-                var currentFile = JsonConvert.DeserializeObject<Config.Settings>(File.ReadAllText(EndPoint.SETTINGS_FILE_PATH));
-                if (JsonConvert.SerializeObject(currentFile) != JsonConvert.SerializeObject(oldSettings))
-                {
-                    /*The settings file has been changed, so we'll make a copy of the one we have before overwriting it*/
-                    /*We'll do this so any changes that the user might have made don't get lost in the twisting nether*/
-                    string unixTimestamp = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString();
-                    File.Copy(EndPoint.SETTINGS_FILE_PATH, Path.GetFileNameWithoutExtension(EndPoint.SETTINGS_FILE_PATH) + $" backup ({unixTimestamp}).json");
-                }
-                
                 /*Now we'll go through all accounts and make sure we don't print out their password to the file
                 if no password was originally set in the settings file*/
                 foreach (var oldAcc in oldSettings.Accounts)
                 {
-                    if (!string.IsNullOrWhiteSpace(oldAcc.Password))
+                    if (!string.IsNullOrWhiteSpace(oldAcc.Details.Password))
                         continue;
 
                     foreach (var newAcc in newSettings.Accounts)
                     {
-                        if (oldAcc.Username == newAcc.Username)
-                            newAcc.Password = string.Empty;
+                        if (oldAcc.Details.Username == newAcc.Details.Username)
+                            newAcc.Details.Password = string.Empty;
                     }
                 }
 
