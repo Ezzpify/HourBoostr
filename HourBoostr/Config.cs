@@ -19,6 +19,12 @@ namespace HourBoostr
 
 
             /// <summary>
+            /// If we should check for updates when we start the program
+            /// </summary>
+            public bool CheckForUpdates { get; set; } = true;
+
+
+            /// <summary>
             /// List of accounts
             /// </summary>
             public List<AccountSettings> Accounts { get; set; } = new List<AccountSettings>();

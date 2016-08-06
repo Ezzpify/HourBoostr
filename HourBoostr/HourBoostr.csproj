@@ -84,6 +84,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Steam.cs" />
     <Compile Include="SteamWeb.cs" />
+    <Compile Include="Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

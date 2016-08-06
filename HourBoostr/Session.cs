@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Reflection;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace HourBoostr
@@ -40,6 +41,13 @@ namespace HourBoostr
         public Session(Config.Settings settings)
         {
             mSettings = settings;
+
+            if (settings.CheckForUpdates && Update.IsUpdateAvailable())
+            {
+                var diagResult = MessageBox.Show("There seems to be an update available.\nCheck it out?", "Update", MessageBoxButtons.YesNo);
+                if (diagResult == DialogResult.Yes)
+                    Process.Start("https://github.com/Ezzpify/HourBoostr/releases/latest");
+            }
 
             mBwg.DoWork += MBwg_DoWork;
             mBwg.RunWorkerAsync();
