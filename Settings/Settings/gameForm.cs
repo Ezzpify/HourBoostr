@@ -199,7 +199,7 @@ namespace Settings
             string url = (string)e.Argument;
 
             string rawXml = Network.DownloadString($"{url}/games?tab=all&xml=1");
-            if (!string.IsNullOrWhiteSpace(rawXml))
+            if (!string.IsNullOrWhiteSpace(rawXml) && rawXml.Contains("gamesList"))
             {
                 mGames = Xmlc.ParseXML(rawXml)
                 .OrderBy(o => o.name).ToList();

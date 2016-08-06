@@ -66,14 +66,7 @@ namespace HourBoostr
             /// <summary>
             /// If we should set steam status to online
             /// </summary>
-            public bool ShowOnlineStatus { get; set; }
-
-
-            /// <summary>
-            /// If we should relog the account every 4 hours
-            /// This will only be called if LoginKey is set
-            /// </summary>
-            public bool RelogEveryFourHours { get; set; }
+            public bool ShowOnlineStatus { get; set; } = true;
 
 
             /// <summary>
@@ -87,6 +80,13 @@ namespace HourBoostr
             /// This is to prevent steam to no longer get hours if we idle for a long period of time
             /// </summary>
             public bool RestartGamesEveryThreeHours { get; set; } = true;
+
+            
+            /// <summary>
+            /// Automatically joins the Steam Group for HourBoostr
+            /// This is done for statistics, so feel free to disable it if you don't want it
+            /// </summary>
+            public bool JoinSteamGroup { get; set; } = true;
 
 
             /// <summary>

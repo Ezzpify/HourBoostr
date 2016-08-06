@@ -63,5 +63,12 @@ namespace HourBoostr
         /// Callback manager
         /// </summary>
         public CallbackManager callbackManager { get; set; }
+
+
+        /// <summary>
+        /// Extra cb handler for fun stuff
+        /// (Thanks Archi)
+        /// </summary>
+        public ExtraHandler extraHandler { get; set; }
     }
 }

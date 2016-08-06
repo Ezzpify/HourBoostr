@@ -33,7 +33,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.accountListBox = new System.Windows.Forms.ListBox();
             this.cbOnlineStatus = new System.Windows.Forms.CheckBox();
-            this.cbRelog = new System.Windows.Forms.CheckBox();
+            this.cbJoinGroup = new System.Windows.Forms.CheckBox();
             this.cbCommunity = new System.Windows.Forms.CheckBox();
             this.cbRestartGames = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -105,16 +105,16 @@
             this.cbOnlineStatus.UseVisualStyleBackColor = true;
             this.cbOnlineStatus.CheckedChanged += new System.EventHandler(this.cbOnlineStatus_CheckedChanged);
             // 
-            // cbRelog
+            // cbJoinGroup
             // 
-            this.cbRelog.AutoSize = true;
-            this.cbRelog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbRelog.Location = new System.Drawing.Point(21, 47);
-            this.cbRelog.Name = "cbRelog";
-            this.cbRelog.Size = new System.Drawing.Size(149, 19);
-            this.cbRelog.TabIndex = 3;
-            this.cbRelog.Text = "Relog Every Four Hours";
-            this.cbRelog.UseVisualStyleBackColor = true;
+            this.cbJoinGroup.AutoSize = true;
+            this.cbJoinGroup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbJoinGroup.Location = new System.Drawing.Point(21, 47);
+            this.cbJoinGroup.Name = "cbJoinGroup";
+            this.cbJoinGroup.Size = new System.Drawing.Size(119, 19);
+            this.cbJoinGroup.TabIndex = 3;
+            this.cbJoinGroup.Text = "Join Steam Group";
+            this.cbJoinGroup.UseVisualStyleBackColor = true;
             // 
             // cbCommunity
             // 
@@ -144,7 +144,7 @@
             this.groupBox1.Controls.Add(this.txtResponse);
             this.groupBox1.Controls.Add(this.cbOnlineStatus);
             this.groupBox1.Controls.Add(this.cbRestartGames);
-            this.groupBox1.Controls.Add(this.cbRelog);
+            this.groupBox1.Controls.Add(this.cbJoinGroup);
             this.groupBox1.Controls.Add(this.cbCommunity);
             this.groupBox1.Location = new System.Drawing.Point(3, 133);
             this.groupBox1.Name = "groupBox1";
@@ -425,7 +425,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ListBox accountListBox;
         private System.Windows.Forms.CheckBox cbOnlineStatus;
-        private System.Windows.Forms.CheckBox cbRelog;
+        private System.Windows.Forms.CheckBox cbJoinGroup;
         private System.Windows.Forms.CheckBox cbCommunity;
         private System.Windows.Forms.CheckBox cbRestartGames;
         private System.Windows.Forms.GroupBox groupBox1;

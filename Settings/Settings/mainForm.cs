@@ -156,7 +156,7 @@ namespace Settings
                     };
 
                     user.ShowOnlineStatus = cbOnlineStatus.Checked;
-                    user.RelogEveryFourHours = cbRelog.Checked;
+                    user.JoinSteamGroup = cbJoinGroup.Checked;
                     user.ConnectToSteamCommunity = cbCommunity.Checked;
                     user.RestartGamesEveryThreeHours = cbRestartGames.Checked;
                     user.ChatResponse = txtResponse.Text;
@@ -203,7 +203,7 @@ namespace Settings
 
             /*Assign bool settings*/
             cbOnlineStatus.Checked = mActiveAccount.ShowOnlineStatus;
-            cbRelog.Checked = mActiveAccount.RelogEveryFourHours;
+            cbJoinGroup.Checked = mActiveAccount.JoinSteamGroup;
             cbCommunity.Checked = mActiveAccount.ConnectToSteamCommunity;
             cbRestartGames.Checked = mActiveAccount.RestartGamesEveryThreeHours;
         }

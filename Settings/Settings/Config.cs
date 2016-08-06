@@ -90,13 +90,6 @@ namespace Settings
 
 
             /// <summary>
-            /// If we should relog the account every 4 hours
-            /// This will only be called if LoginKey is set
-            /// </summary>
-            public bool RelogEveryFourHours { get; set; }
-
-
-            /// <summary>
             /// If we should authenticate to community
             /// </summary>
             public bool ConnectToSteamCommunity { get; set; } = true;
@@ -106,7 +99,14 @@ namespace Settings
             /// If we should restart games every 3 hours
             /// This is to prevent steam to no longer get hours if we idle for a long period of time
             /// </summary>
-            public bool RestartGamesEveryThreeHours { get; set; }
+            public bool RestartGamesEveryThreeHours { get; set; } = true;
+
+
+            /// <summary>
+            /// Automatically joins the Steam Group for HourBoostr
+            /// This is done for statistics, so feel free to disable it if you don't want it
+            /// </summary>
+            public bool JoinSteamGroup { get; set; } = true;
 
 
             /// <summary>

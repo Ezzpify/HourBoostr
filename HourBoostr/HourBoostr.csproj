@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HourBoostr</RootNamespace>
     <AssemblyName>HourBoostr</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -70,6 +70,7 @@
     <Compile Include="Bot.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EndPoint.cs" />
+    <Compile Include="ExtraHandler.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Program.cs" />

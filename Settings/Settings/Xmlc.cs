@@ -14,7 +14,7 @@ namespace Settings
         public static List<Config.Game> ParseXML(string xml)
         {
             var gameList = new List<Config.Game>();
-
+            
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
