@@ -130,9 +130,9 @@ namespace HourBoostr
                 /*Get the current time then subtract the time when all bots were done initializing*/
                 /*This will give us an idea of how long the bot has been running*/
                 TimeSpan timeSpan = DateTime.Now - initializedTime;
-                string timeSpentOnline = string.Format("{0} Hours {1} Minutes {2} Seconds", 
+                string timeSpentOnline = string.Format("{0} Hours {1} Minutes {2} Seconds",
                     (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
-                
+
                 Console.Title = $"{EndPoint.CONSOLE_TITLE} | Online for: {timeSpentOnline}";
                 Thread.Sleep(800);
             }

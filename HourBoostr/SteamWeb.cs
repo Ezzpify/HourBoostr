@@ -5,61 +5,39 @@ using System.Net;
 using System.Net.Cache;
 using System.Text;
 using System.Web;
-using System.Security.Cryptography;
-using Newtonsoft.Json;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using SteamKit2;
 
 namespace HourBoostr
 {
+    /// <summary>
+    /// https://github.com/Jessecar96/SteamBot/blob/master/SteamTrade/SteamWeb.cs
+    /// </summary>
     public class SteamWeb
     {
-        /// <summary>
-        /// Steam community base url
-        /// </summary>
         public const string mSteamCommunityDomain = "steamcommunity.com";
-
-
-        /// <summary>
-        /// Auth result token
-        /// </summary>
         public string mToken { get; private set; }
-
-
-        /// <summary>
-        /// Web session id
-        /// </summary>
         public string mSessionId { get; private set; }
-
-
-        /// <summary>
-        /// Auth token secure
-        /// </summary>
         public string mTokenSecure { get; private set; }
-
-
-        /// <summary>
-        /// Web cookie container
-        /// </summary>
         private CookieContainer mCookieContainer = new CookieContainer();
 
-        
+
         public string Fetch(string url, string method, NameValueCollection data = null, bool ajax = true, string referer = "")
         {
             using (HttpWebResponse response = Request(url, method, data, ajax, referer))
-                using (Stream responseStream = response.GetResponseStream())
-                    using (StreamReader reader = new StreamReader(responseStream))
-                        return reader.ReadToEnd();
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(responseStream))
+                return reader.ReadToEnd();
         }
 
-        
+
         public HttpWebResponse Request(string url, string method, NameValueCollection data = null, bool ajax = true, string referer = "")
         {
             //Append the data to the URL for GET-requests
             bool isGetMethod = (method.ToLower() == "get");
             string dataString = (data == null ? null : string.Join("&", Array.ConvertAll(data.AllKeys, key =>
-                String.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(data[key]))
+                string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(data[key]))
             )));
 
             if (isGetMethod && !string.IsNullOrEmpty(dataString))
@@ -88,7 +66,7 @@ namespace HourBoostr
             request.CookieContainer = mCookieContainer;
 
             // Write the data to the body for POST and other methods
-            if (!isGetMethod && !String.IsNullOrEmpty(dataString))
+            if (!isGetMethod && !string.IsNullOrEmpty(dataString))
             {
                 byte[] dataBytes = Encoding.UTF8.GetBytes(dataString);
                 request.ContentLength = dataBytes.Length;
@@ -102,12 +80,8 @@ namespace HourBoostr
             // Get the response
             return request.GetResponse() as HttpWebResponse;
         }
+        
 
-        ///<summary>
-        /// Authenticate using SteamKit2 and ISteamUserAuth. 
-        /// This does the same as SteamWeb.DoLogin(), but without contacting the Steam Website.
-        /// </summary> 
-        /// <remarks>Should this one doesnt work anymore, use <see cref="SteamWeb.DoLogin"/></remarks>
         public bool Authenticate(string myUniqueId, SteamClient client, string myLoginKey)
         {
             mToken = mTokenSecure = "";
@@ -161,34 +135,18 @@ namespace HourBoostr
             }
         }
 
-        /// <summary>
-        /// Helper method to verify our precious cookies.
-        /// </summary>
-        /// <param name="cookies">CookieContainer with our cookies.</param>
-        /// <returns>true if cookies are correct; false otherwise</returns>
+
         public bool VerifyCookies()
         {
             using (HttpWebResponse response = Request("http://steamcommunity.com/", "HEAD"))
                 return response.Cookies["steamLogin"] == null || !response.Cookies["steamLogin"].Value.Equals("deleted");
         }
 
+
         public bool ValidateRemoteCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors policyErrors)
         {
             // allow all certificates
             return true;
         }
-
-    }
-
-    // JSON Classes
-    public class GetRsaKey
-    {
-        public bool success { get; set; }
-
-        public string publickey_mod { get; set; }
-
-        public string publickey_exp { get; set; }
-
-        public string timestamp { get; set; }
     }
 }

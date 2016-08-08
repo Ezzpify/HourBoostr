@@ -26,7 +26,7 @@ namespace HourBoostr
                         new Config.AccountSettings() { Games = new List<int>() { 730, 10 } }
                     }
                 };
-                
+
                 File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
                 Console.WriteLine($"Settings file has been written at {EndPoint.SETTINGS_FILE_PATH}\nPlease close the program and edit the settings.");
             }

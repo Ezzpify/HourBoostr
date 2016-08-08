@@ -121,7 +121,7 @@ namespace HourBoostr
         /// <param name="show">True to show, false to hide</param>
         static private void ShowConsole(bool show)
         {
-            if(show)
+            if (show)
             {
                 ShowWindow(GetConsoleWindow(), 5);
                 SetForegroundWindow(GetConsoleWindow());

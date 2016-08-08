@@ -249,7 +249,7 @@ namespace HourBoostr
                 Exception ex = runWorkerCompletedEventArgs.Error;
                 mLog.Write(Log.LogLevel.Error, $"Unhandled exception occured in callbackManager background worker: {ex.Message}");
             }
-            
+
             mLog.Write(Log.LogLevel.Warn, $"Bot has stopped running!");
             mIsRunning = false;
         }
@@ -262,7 +262,7 @@ namespace HourBoostr
         /// <param name="callback">SteamClient.ConnectedCallback</param>
         private void OnConnected(SteamClient.ConnectedCallback callback)
         {
-            if(callback.Result != EResult.OK)
+            if (callback.Result != EResult.OK)
             {
                 mLog.Write(Log.LogLevel.Warn, $"OnConnected error: {callback.Result}");
                 mIsRunning = false;
@@ -439,7 +439,7 @@ namespace HourBoostr
                 mLog.Write(Log.LogLevel.Warn, $"Unhandled EResult response. Please report this issue. --> {callback.Result}");
                 return;
             }
-            
+
             /*Logged in successfully*/
             mLog.Write(Log.LogLevel.Success, $"Successfully logged in!");
             mSteam.nounce = callback.WebAPIUserNonce;
@@ -544,8 +544,8 @@ namespace HourBoostr
                 }
             }
         }
-        
-        
+
+
         /// <summary>
         /// Authenticates user to community
         /// </summary>

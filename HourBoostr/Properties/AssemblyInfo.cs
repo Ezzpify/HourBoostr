@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("HourBoostr")]
-[assembly: AssemblyDescription("Steam Game Hour Booster")]
+[assembly: AssemblyDescription("Steam Account Hours Played Booster")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("HourBoostr")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Ezzpify 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5973c35a-7919-46ee-a3b3-d80108324bf7")]
+[assembly: Guid("be83304b-4bcb-44eb-a8a1-b7e61cdc670f")]
 
 // Version information for an assembly consists of the following four values:
 //

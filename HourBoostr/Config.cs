@@ -57,7 +57,7 @@ namespace HourBoostr
             public string LoginKey { get; set; } = "";
         }
 
-        
+
         /// <summary>
         /// Class for account settings
         /// </summary>
@@ -87,7 +87,7 @@ namespace HourBoostr
             /// </summary>
             public bool RestartGamesEveryThreeHours { get; set; } = true;
 
-            
+
             /// <summary>
             /// Automatically joins the Steam Group for HourBoostr
             /// This is done for statistics, so feel free to disable it if you don't want it
