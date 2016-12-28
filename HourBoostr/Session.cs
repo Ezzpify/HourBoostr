@@ -5,6 +5,9 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SteamKit2;
+using SteamKit2.Discovery;
+using SteamKit2.Internal;
 
 namespace HourBoostr
 {
@@ -44,7 +47,7 @@ namespace HourBoostr
 
             if (settings.CheckForUpdates && Update.IsUpdateAvailable())
             {
-                var diagResult = MessageBox.Show("There seems to be an update available.\nCheck it out?", "Update", MessageBoxButtons.YesNo);
+                var diagResult = MessageBox.Show("There seems to be an update available.\nCheck it out?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (diagResult == DialogResult.Yes)
                     Process.Start("https://github.com/Ezzpify/HourBoostr/releases/latest");
             }
@@ -60,8 +63,16 @@ namespace HourBoostr
         private void MBwg_DoWork(object sender, DoWorkEventArgs e)
         {
             /*Go through account and log them into steam*/
+            //SteamDirectory.Initialize().ConfigureAwait(true);
+            InitializeCMs(Program.mGlobalDB.CellID, Program.mGlobalDB.ServerListProvider);
             foreach (var account in mSettings.Accounts)
             {
+                if (account.IgnoreAccount)
+                {
+                    Console.WriteLine($"{account.Details.Username} has been ignored.");
+                    continue;
+                }
+
                 var bot = new Bot(account);
                 mActiveBotList.Add(bot);
 
@@ -92,6 +103,29 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Borrowed this part from
+        /// https://github.com/JustArchi/ArchiSteamFarm
+        /// </summary>
+        /// <param name="cellId">steam cellid</param>
+        /// <param name="serverList">list of cm servers</param>
+        private void InitializeCMs(uint cellId, IServerListProvider serverList)
+        {
+            CMClient.Servers.CellID = cellId;
+            CMClient.Servers.ServerListProvider = serverList;
+            Console.WriteLine("Initializing SteamDirectory ...");
+
+            try
+            {
+                SteamDirectory.Initialize(cellId).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error configuring CM. Connecting might take longer than usual.");
+            }
+        }
+
+
+        /// <summary>
         /// Returns the DateTime of when the application was built
         /// </summary>
         /// <returns>DateTime</returns>
@@ -101,20 +135,6 @@ namespace HourBoostr
             return new DateTime(2000, 1, 1).Add(new TimeSpan(
                 TimeSpan.TicksPerDay * version.Build +
                 TimeSpan.TicksPerSecond * 2 * version.Revision));
-        }
-
-
-        /// <summary>
-        /// Gets the updated account settings from all active bots
-        /// </summary>
-        /// <returns>Config.Settings</returns>
-        public Config.Settings GetUpdatedSettings()
-        {
-            var settings = mSettings;
-            settings.Accounts = new List<Config.AccountSettings>();
-            mActiveBotList.ForEach(o => settings.Accounts.Add(o.mAccountSettings));
-
-            return settings;
         }
 
 
@@ -134,7 +154,7 @@ namespace HourBoostr
                     (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
                 Console.Title = $"{EndPoint.CONSOLE_TITLE} | Online for: {timeSpentOnline}";
-                Thread.Sleep(800);
+                Thread.Sleep(500);
             }
         }
     }

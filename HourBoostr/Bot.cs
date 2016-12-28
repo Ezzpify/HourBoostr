@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.ComponentModel;
 using System.Net;
 using SteamKit2.Internal;
+using SteamKit2.Discovery;
 using SteamKit2;
 
 namespace HourBoostr
@@ -79,6 +80,12 @@ namespace HourBoostr
         /// This will be reset when we hit n disconnects and a pause is forced
         /// </summary>
         private int mDisconnectedCounter;
+
+
+        /// <summary>
+        /// How many diconnects that can occure before we force a pause
+        /// </summary>
+        private int mMaxDisconnectsBeforePause = 10;
 
 
         /// <summary>
@@ -202,8 +209,15 @@ namespace HourBoostr
         {
             mIsRunning = true;
             mLog.Write(Log.LogLevel.Info, $"Connecting to Steam ...");
-            SteamDirectory.Initialize().Wait();
-            mSteam.client.Connect();
+
+            try
+            {
+                mSteam.client.Connect();
+            }
+            catch (Exception ex)
+            {
+                mLog.Write(Log.LogLevel.Error, $"Error connecting to Steam: {ex}");
+            }
         }
 
 
@@ -223,17 +237,17 @@ namespace HourBoostr
                 }
                 catch (Exception ex)
                 {
-                    mLog.Write(Log.LogLevel.Warn, $"Exception occured for callbackManager: {ex}");
-                    errors++;
-
-                    Thread.Sleep(5000);
-                    if (errors >= 3)
+                    mLog.Write(Log.LogLevel.Warn, $"Exception occured for callbackManager: {ex.Message}");
+                    if (errors++ >= 3)
                     {
-                        /*This has historically only really occured when Steam is down
-                        so if too many errors here happen we'll pause for a while*/
+                        /*This has historically only really occured when Steam is down,
+                        but if too many errors happen here we'll pause*/
                         mLog.Write(Log.LogLevel.Info, $"Pausing for 15 minutes due to too many errors occuring.");
                         Thread.Sleep(TimeSpan.FromMinutes(15));
                     }
+
+                    if (!mSteam.client.IsConnected)
+                        Connect();
                 }
             }
         }
@@ -297,7 +311,7 @@ namespace HourBoostr
 
             if (mIsRunning)
             {
-                if (mDisconnectedCounter >= 5)
+                if (mDisconnectedCounter >= mMaxDisconnectsBeforePause)
                 {
                     /*If we get too many disconnects it can be because the user has logged on
                     their account and started playing, or steam is down. Either way we'll want
@@ -428,8 +442,8 @@ namespace HourBoostr
                 case EResult.NoConnection:
                 case EResult.TryAnotherCM:
                 case EResult.ServiceUnavailable:
-                    mLog.Write(Log.LogLevel.Warn, $"Service unavailable. We'll force a pause here.");
-                    mDisconnectedCounter = 4;
+                    mLog.Write(Log.LogLevel.Warn, $"Service unavailable. Waiting 1 minute.");
+                    Thread.Sleep(TimeSpan.FromMinutes(1));
                     return;
             }
 
@@ -444,6 +458,9 @@ namespace HourBoostr
             mLog.Write(Log.LogLevel.Success, $"Successfully logged in!");
             mSteam.nounce = callback.WebAPIUserNonce;
             mBotState = BotState.LoggedIn;
+
+            if (callback.CellID != 0 && Program.mGlobalDB.CellID != callback.CellID)
+                Program.mGlobalDB.CellID = callback.CellID;
 
             mHasConnectedOnce = true;
             mDisconnectedCounter = 0;
@@ -519,9 +536,9 @@ namespace HourBoostr
                 string friendUserName = mSteam.friends.GetFriendPersonaName(callback.Sender);
                 mLogChat.Write(Log.LogLevel.Text, $"Msg from {friendUserName}: {callback.Message}");
 
-                /*Clear blocked users that are older than 20 minutes
+                /*Clear blocked users that are older than 10 minutes
                 This is to avoid responding every time a user is spamming us in the chat*/
-                mSteamChatBlockList.RemoveAll(data => DateTime.Now.Subtract(data.DateReceived) > TimeSpan.FromMinutes(20));
+                mSteamChatBlockList.RemoveAll(data => DateTime.Now.Subtract(data.DateReceived) > TimeSpan.FromMinutes(10));
 
                 /*Only send a response if one is set in the settings file*/
                 if (!string.IsNullOrWhiteSpace(mAccountSettings.ChatResponse))

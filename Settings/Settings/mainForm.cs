@@ -121,16 +121,14 @@ namespace Settings
             
             cbHideToTray.Checked = mSettings.HideToTrayAutomatically;
 
-            /*Hide the settings if we don't have any accounts, 
-            else select first account available in list*/
+            /*Create an account if there's none in the settings*/
             if (accountListBox.Items.Count == 0)
             {
-                panelSettings.Visible = false;
+                mSettings.Accounts.Add(new Config.AccountSettings());
+                RefreshAccountList();
             }
-            else
-            {
-                SelectFirstAccount();
-            }
+
+            SelectFirstAccount();
         }
 
         
@@ -159,6 +157,7 @@ namespace Settings
                     user.JoinSteamGroup = cbJoinGroup.Checked;
                     user.ConnectToSteamCommunity = cbCommunity.Checked;
                     user.RestartGamesEveryThreeHours = cbRestartGames.Checked;
+                    user.IgnoreAccount = cbIgnoreAccount.Checked;
                     user.ChatResponse = txtResponse.Text;
                     user.Games = gameList.Items.Cast<int>().ToList();
 
@@ -206,6 +205,7 @@ namespace Settings
             cbJoinGroup.Checked = mActiveAccount.JoinSteamGroup;
             cbCommunity.Checked = mActiveAccount.ConnectToSteamCommunity;
             cbRestartGames.Checked = mActiveAccount.RestartGamesEveryThreeHours;
+            cbIgnoreAccount.Checked = mActiveAccount.IgnoreAccount;
         }
 
 

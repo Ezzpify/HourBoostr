@@ -62,9 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
+    <Compile Include="ConcurrentEnumerator.cs" />
+    <Compile Include="ConcurrentHashSet.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EndPoint.cs" />
     <Compile Include="ExtraHandler.cs" />
+    <Compile Include="GlobalDB.cs" />
+    <Compile Include="InMemoryServerListProvider.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Program.cs" />

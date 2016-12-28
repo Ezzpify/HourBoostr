@@ -74,6 +74,12 @@ namespace HourBoostr
 
 
         /// <summary>
+        /// Global database
+        /// </summary>
+        static public GlobalDB mGlobalDB;
+
+
+        /// <summary>
         /// Our session
         /// </summary>
         static private Session mSession;
@@ -196,29 +202,41 @@ namespace HourBoostr
             if (mSettings == null)
                 return;
 
-            /*Read the application settings and start our session*/
-            var settings = Settings.GetSettings();
-            if (settings != null)
+            /*Load global database*/
+            mGlobalDB = GlobalDB.Load(EndPoint.GLOBAL_SETTINGS_FILE_PATH);
+            if (mGlobalDB == null)
             {
-                if (settings.Accounts.Count > 0)
-                {
-                    mSession = new Session(settings);
-                    while (mSession.mBwg.IsBusy)
-                        Thread.Sleep(250);
+                Console.WriteLine($"Error loading global db at {EndPoint.GLOBAL_SETTINGS_FILE_PATH}. Delete file if problem is consistent.");
+            }
+            else
+            {
+                if (mGlobalDB.CellID == 0)
+                    mGlobalDB.CellID = 66;
 
-                    if (settings.HideToTrayAutomatically)
+                /*Read the application settings and start our session*/
+                var settings = Settings.GetSettings();
+                if (settings != null)
+                {
+                    if (settings.Accounts.Count > 0)
                     {
-                        mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
-                        ShowConsole(false);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No accounts were loaded from settings.");
-                }
+                        mSession = new Session(settings);
+                        while (mSession.mBwg.IsBusy)
+                            Thread.Sleep(250);
 
-                while (true)
-                    Thread.Sleep(250);
+                        if (settings.HideToTrayAutomatically)
+                        {
+                            mTrayIcon.ShowBalloonTip(1000, "HourBoostr", "I'm down here!", ToolTipIcon.Info);
+                            ShowConsole(false);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No accounts were loaded from settings.");
+                    }
+
+                    while (true)
+                        Thread.Sleep(250);
+                }
             }
         }
     }

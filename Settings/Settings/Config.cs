@@ -116,6 +116,14 @@ namespace Settings
 
 
             /// <summary>
+            /// If we should ignore running this account
+            /// Useful if user doesn't want to boost a particular account right now but
+            /// don't want to delete it from settings file because that's annoying as fuck
+            /// </summary>
+            public bool IgnoreAccount { get; set; } = false;
+
+
+            /// <summary>
             /// What the bot should reply if someone sends it a message
             /// </summary>
             public string ChatResponse { get; set; } = "";

@@ -56,8 +56,9 @@
             this.panelSettings = new System.Windows.Forms.Panel();
             this.accountListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lblStartBooster = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.cbIgnoreAccount = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -75,7 +76,7 @@
             this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.pictureBox1.Location = new System.Drawing.Point(188, 20);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1, 272);
+            this.pictureBox1.Size = new System.Drawing.Size(1, 300);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -141,6 +142,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbIgnoreAccount);
             this.groupBox1.Controls.Add(this.txtResponse);
             this.groupBox1.Controls.Add(this.cbOnlineStatus);
             this.groupBox1.Controls.Add(this.cbRestartGames);
@@ -148,7 +150,7 @@
             this.groupBox1.Controls.Add(this.cbCommunity);
             this.groupBox1.Location = new System.Drawing.Point(3, 133);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(231, 158);
+            this.groupBox1.Size = new System.Drawing.Size(231, 187);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -156,7 +158,7 @@
             // txtResponse
             // 
             this.txtResponse.ForeColor = System.Drawing.Color.Gray;
-            this.txtResponse.Location = new System.Drawing.Point(21, 122);
+            this.txtResponse.Location = new System.Drawing.Point(21, 147);
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.Size = new System.Drawing.Size(191, 23);
             this.txtResponse.TabIndex = 3;
@@ -222,7 +224,7 @@
             this.groupBox3.Controls.Add(this.gameList);
             this.groupBox3.Location = new System.Drawing.Point(249, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(231, 279);
+            this.groupBox3.Size = new System.Drawing.Size(231, 308);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Games";
@@ -231,7 +233,7 @@
             // 
             this.lblFindGames.AutoSize = true;
             this.lblFindGames.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblFindGames.Location = new System.Drawing.Point(143, 247);
+            this.lblFindGames.Location = new System.Drawing.Point(143, 271);
             this.lblFindGames.Name = "lblFindGames";
             this.lblFindGames.Size = new System.Drawing.Size(69, 15);
             this.lblFindGames.TabIndex = 4;
@@ -243,7 +245,7 @@
             // txtGameItem
             // 
             this.txtGameItem.ForeColor = System.Drawing.Color.Gray;
-            this.txtGameItem.Location = new System.Drawing.Point(21, 243);
+            this.txtGameItem.Location = new System.Drawing.Point(21, 268);
             this.txtGameItem.Name = "txtGameItem";
             this.txtGameItem.Size = new System.Drawing.Size(116, 23);
             this.txtGameItem.TabIndex = 3;
@@ -259,7 +261,7 @@
             this.gameList.ItemHeight = 15;
             this.gameList.Location = new System.Drawing.Point(21, 22);
             this.gameList.Name = "gameList";
-            this.gameList.Size = new System.Drawing.Size(191, 215);
+            this.gameList.Size = new System.Drawing.Size(191, 240);
             this.gameList.TabIndex = 2;
             this.gameList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gameList_MouseDown);
             // 
@@ -289,19 +291,18 @@
             this.groupBox4.Size = new System.Drawing.Size(155, 162);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Accounts";
             // 
             // lblNewAccount
             // 
             this.lblNewAccount.AutoSize = true;
             this.lblNewAccount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblNewAccount.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNewAccount.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNewAccount.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblNewAccount.Location = new System.Drawing.Point(122, -6);
+            this.lblNewAccount.Location = new System.Drawing.Point(6, -2);
             this.lblNewAccount.Name = "lblNewAccount";
-            this.lblNewAccount.Size = new System.Drawing.Size(25, 25);
+            this.lblNewAccount.Size = new System.Drawing.Size(81, 17);
             this.lblNewAccount.TabIndex = 2;
-            this.lblNewAccount.Text = "+";
+            this.lblNewAccount.Text = "Add account";
             this.lblNewAccount.Click += new System.EventHandler(this.lblNewAccount_Click);
             // 
             // cbHideToTray
@@ -333,7 +334,7 @@
             this.panelSettings.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelSettings.Location = new System.Drawing.Point(208, 0);
             this.panelSettings.Name = "panelSettings";
-            this.panelSettings.Size = new System.Drawing.Size(492, 305);
+            this.panelSettings.Size = new System.Drawing.Size(492, 334);
             this.panelSettings.TabIndex = 11;
             this.panelSettings.Visible = false;
             // 
@@ -354,21 +355,11 @@
             this.removeAccountToolStripMenuItem.Text = "Remove Account";
             this.removeAccountToolStripMenuItem.Click += new System.EventHandler(this.removeAccountToolStripMenuItem_Click);
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.lblStartBooster);
-            this.groupBox6.Location = new System.Drawing.Point(12, 236);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(155, 55);
-            this.groupBox6.TabIndex = 11;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "HourBoostr";
-            // 
             // lblStartBooster
             // 
             this.lblStartBooster.AutoSize = true;
             this.lblStartBooster.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblStartBooster.Location = new System.Drawing.Point(34, 25);
+            this.lblStartBooster.Location = new System.Drawing.Point(35, 40);
             this.lblStartBooster.Name = "lblStartBooster";
             this.lblStartBooster.Size = new System.Drawing.Size(81, 15);
             this.lblStartBooster.TabIndex = 5;
@@ -377,12 +368,33 @@
             this.lblStartBooster.MouseEnter += new System.EventHandler(this.lblStartBooster_MouseEnter);
             this.lblStartBooster.MouseLeave += new System.EventHandler(this.lblStartBooster_MouseLeave);
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lblStartBooster);
+            this.groupBox6.Location = new System.Drawing.Point(12, 236);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(155, 84);
+            this.groupBox6.TabIndex = 11;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "HourBoostr";
+            // 
+            // cbIgnoreAccount
+            // 
+            this.cbIgnoreAccount.AutoSize = true;
+            this.cbIgnoreAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbIgnoreAccount.Location = new System.Drawing.Point(21, 122);
+            this.cbIgnoreAccount.Name = "cbIgnoreAccount";
+            this.cbIgnoreAccount.Size = new System.Drawing.Size(128, 19);
+            this.cbIgnoreAccount.TabIndex = 6;
+            this.cbIgnoreAccount.Text = "Ignore this account";
+            this.cbIgnoreAccount.UseVisualStyleBackColor = true;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(700, 305);
+            this.ClientSize = new System.Drawing.Size(700, 334);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -393,7 +405,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(716, 343);
             this.MinimumSize = new System.Drawing.Size(716, 343);
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -448,8 +459,9 @@
         private System.Windows.Forms.ToolStripMenuItem removeAccountToolStripMenuItem;
         private System.Windows.Forms.Label lblRemoveLoginKey;
         private System.Windows.Forms.Label lblFindGames;
-        private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label lblStartBooster;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox cbIgnoreAccount;
     }
 }
 

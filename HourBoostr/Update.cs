@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -15,9 +16,20 @@ namespace HourBoostr
         {
             var reg = new Regex(@"^[0-9.]+$");
 
-            string version = DownloadString(EndPoint.VERSION_FILE);
-            if (!string.IsNullOrWhiteSpace(version) && reg.IsMatch(version))
-                return version != Application.ProductVersion;
+            string newest = DownloadString(EndPoint.VERSION_FILE);
+            if (!string.IsNullOrWhiteSpace(newest) && reg.IsMatch(newest))
+            {
+                try
+                {
+                    var availableVersion = new Version(newest);
+                    var versionCurrent = new Version(Application.ProductVersion);
+                    return versionCurrent.CompareTo(availableVersion) < 0;
+                }
+                catch
+                {
+                    Console.WriteLine("Unable to check for new version. Github down?");
+                }
+            }
 
             return false;
         }
