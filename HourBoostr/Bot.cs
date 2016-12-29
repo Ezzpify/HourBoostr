@@ -85,7 +85,7 @@ namespace HourBoostr
         /// <summary>
         /// How many diconnects that can occure before we force a pause
         /// </summary>
-        private int mMaxDisconnectsBeforePause = 10;
+        private int mMaxDisconnectsBeforePause = 5;
 
 
         /// <summary>
