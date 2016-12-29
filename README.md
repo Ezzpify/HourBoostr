@@ -1,24 +1,23 @@
 <p align="center">
   <img src="http://i.imgur.com/MJN4zty.png"/>
   <p align="center">For Steam users that wish to boost the hours played of their games on one or several accounts at once!</p>
-  <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD</a></h2>
+  <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
+##
+##
+##
 
+Extract the files you get when you download the program. If you can't find an .exe then chances are that you downloaded the source code and no the release. Click on the "DOWNLOAD HERE" link above.
 
-Run HourBoostr then set up the Settings.json file to include the accounts you want to use, and which games you want to boost.
-After setting it up you can just leave it running on whatever windows server/computer you want!
+When you have extracted the files open up Settings.exe and set up all your accounts, and when you are done click Start boosting or close the Settings program and start HourBoostr.exe manually. Enter the auth codes to login to your accounts and you're good to go. It takes maybe 1-2 minutes for accounts to appear online, and LoginKey will be received in roughly 5-10 minutes after logging in sucessfully.
 
-You can find the Steam game ids by going to the game store page of whatever game you want to boost.
-For CSGO the store page is http://steamcommunity.com/app/730, and the id is 730
-You can also use the Settings.exe game browser to find the game you want.
+You can find Steam game ids by going to the Steam store page for whatever game you wish to boost. For example the CSGO store page is http://steamcommunity.com/app/730 and the game id is 730. The same thing applies for all games. The Settings.exe program included can also fetch games for you if you enter your steam profile. Keep in mind that your profile needs to be public for this to work.
 
-You find the game IDs by going to the specific game you want to boost via the browser.
-(You can also go via your Games page under your profile on Steam)
-http://steamcommunity.com/app/730 (730 is the GameID)
+Video tutorial (click image)
+
+[![ScreenShot](http://i.imgur.com/DuTB4Zq.png)](https://www.youtube.com/watch?v=eqhPBEVMPDM)
 
 ![gtnz6y5](https://i.imgur.com/9b6F2dR.png)
 
 ![swagster](https://i.imgur.com/I1kYZso.png)
-
-[![ScreenShot](http://i.imgur.com/UfbT2el.jpg)](http://youtu.be/QYdwOuAa45A)
