@@ -44,20 +44,26 @@
             this.gameListWorker = new System.ComponentModel.BackgroundWorker();
             this.btnPauseTimer = new System.Windows.Forms.Timer(this.components);
             this.panelWarning = new System.Windows.Forms.Panel();
+            this.btnTosNo = new System.Windows.Forms.Button();
+            this.btnTosYes = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.btnTosYes = new System.Windows.Forms.Button();
-            this.btnTosNo = new System.Windows.Forms.Button();
+            this.panelRunning = new System.Windows.Forms.Panel();
+            this.listGamesActive = new System.Windows.Forms.ListBox();
+            this.lblActiveGames = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnStopBoost = new System.Windows.Forms.Button();
             this.panelMain.SuspendLayout();
             this.panelLaunch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.panelWarning.SuspendLayout();
+            this.panelRunning.SuspendLayout();
             this.SuspendLayout();
             // 
             // listGames
@@ -203,6 +209,90 @@
             this.panelWarning.Size = new System.Drawing.Size(538, 261);
             this.panelWarning.TabIndex = 9;
             // 
+            // btnTosNo
+            // 
+            this.btnTosNo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTosNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTosNo.Location = new System.Drawing.Point(313, 188);
+            this.btnTosNo.Name = "btnTosNo";
+            this.btnTosNo.Size = new System.Drawing.Size(75, 23);
+            this.btnTosNo.TabIndex = 15;
+            this.btnTosNo.Text = "No";
+            this.btnTosNo.UseVisualStyleBackColor = true;
+            this.btnTosNo.Click += new System.EventHandler(this.btnTosNo_Click);
+            // 
+            // btnTosYes
+            // 
+            this.btnTosYes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTosYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTosYes.Location = new System.Drawing.Point(152, 188);
+            this.btnTosYes.Name = "btnTosYes";
+            this.btnTosYes.Size = new System.Drawing.Size(75, 23);
+            this.btnTosYes.TabIndex = 16;
+            this.btnTosYes.Text = "Yes";
+            this.btnTosYes.UseVisualStyleBackColor = true;
+            this.btnTosYes.Click += new System.EventHandler(this.btnTosYes_Click);
+            // 
+            // label7
+            // 
+            this.label7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label7.Location = new System.Drawing.Point(0, 140);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(538, 15);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Do you understand this?";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Location = new System.Drawing.Point(0, 125);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(538, 15);
+            this.label6.TabIndex = 13;
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label5.Location = new System.Drawing.Point(0, 110);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(538, 15);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "I hope you\'re smart enough to not cheat in games and then blame it on this progra" +
+    "m or me.";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label4.Location = new System.Drawing.Point(0, 95);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(538, 15);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "However, I will take no responsibility if for any reason your account gets VAC ba" +
+    "nned.";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 80);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(538, 15);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "This program will not cause your account to be VAC banned";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Location = new System.Drawing.Point(0, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(538, 15);
+            this.label2.TabIndex = 9;
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -221,88 +311,61 @@
             this.panel2.Size = new System.Drawing.Size(538, 50);
             this.panel2.TabIndex = 8;
             // 
-            // label2
+            // panelRunning
             // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Location = new System.Drawing.Point(0, 65);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(538, 15);
-            this.label2.TabIndex = 9;
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panelRunning.Controls.Add(this.listGamesActive);
+            this.panelRunning.Controls.Add(this.lblActiveGames);
+            this.panelRunning.Controls.Add(this.panel1);
+            this.panelRunning.Controls.Add(this.btnStopBoost);
+            this.panelRunning.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelRunning.Location = new System.Drawing.Point(0, 0);
+            this.panelRunning.Name = "panelRunning";
+            this.panelRunning.Size = new System.Drawing.Size(538, 261);
+            this.panelRunning.TabIndex = 6;
+            this.panelRunning.Visible = false;
             // 
-            // label3
+            // listGamesActive
             // 
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Location = new System.Drawing.Point(0, 80);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(538, 15);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "This program will not cause your account to be VAC banned";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.listGamesActive.Enabled = false;
+            this.listGamesActive.FormattingEnabled = true;
+            this.listGamesActive.IntegralHeight = false;
+            this.listGamesActive.ItemHeight = 15;
+            this.listGamesActive.Location = new System.Drawing.Point(143, 62);
+            this.listGamesActive.Name = "listGamesActive";
+            this.listGamesActive.Size = new System.Drawing.Size(254, 84);
+            this.listGamesActive.TabIndex = 11;
             // 
-            // label4
+            // lblActiveGames
             // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label4.Location = new System.Drawing.Point(0, 95);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(538, 15);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "However, I will take no responsibility if for any reason is VAC banned.";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblActiveGames.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblActiveGames.Location = new System.Drawing.Point(0, 44);
+            this.lblActiveGames.Name = "lblActiveGames";
+            this.lblActiveGames.Size = new System.Drawing.Size(538, 15);
+            this.lblActiveGames.TabIndex = 10;
+            this.lblActiveGames.Text = "You\'re currently idling n games";
+            this.lblActiveGames.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // panel1
             // 
-            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label5.Location = new System.Drawing.Point(0, 110);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(538, 15);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "I hope you\'re smart enough to not cheat in games and then blame it on this progra" +
-    "m or me.";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(538, 44);
+            this.panel1.TabIndex = 9;
             // 
-            // label6
+            // btnStopBoost
             // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Location = new System.Drawing.Point(0, 125);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(538, 15);
-            this.label6.TabIndex = 13;
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label7
-            // 
-            this.label7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label7.Location = new System.Drawing.Point(0, 140);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(538, 15);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Do you understand this?";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnTosYes
-            // 
-            this.btnTosYes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTosYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTosYes.Location = new System.Drawing.Point(152, 188);
-            this.btnTosYes.Name = "btnTosYes";
-            this.btnTosYes.Size = new System.Drawing.Size(75, 23);
-            this.btnTosYes.TabIndex = 16;
-            this.btnTosYes.Text = "Yes";
-            this.btnTosYes.UseVisualStyleBackColor = true;
-            this.btnTosYes.Click += new System.EventHandler(this.btnTosYes_Click);
-            // 
-            // btnTosNo
-            // 
-            this.btnTosNo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTosNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTosNo.Location = new System.Drawing.Point(313, 188);
-            this.btnTosNo.Name = "btnTosNo";
-            this.btnTosNo.Size = new System.Drawing.Size(75, 23);
-            this.btnTosNo.TabIndex = 15;
-            this.btnTosNo.Text = "No";
-            this.btnTosNo.UseVisualStyleBackColor = true;
-            this.btnTosNo.Click += new System.EventHandler(this.btnTosNo_Click);
+            this.btnStopBoost.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStopBoost.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnStopBoost.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStopBoost.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnStopBoost.Location = new System.Drawing.Point(143, 152);
+            this.btnStopBoost.Name = "btnStopBoost";
+            this.btnStopBoost.Size = new System.Drawing.Size(254, 47);
+            this.btnStopBoost.TabIndex = 5;
+            this.btnStopBoost.Text = "STOP";
+            this.btnStopBoost.UseVisualStyleBackColor = true;
+            this.btnStopBoost.Click += new System.EventHandler(this.btnStopBoost_Click);
             // 
             // mainForm
             // 
@@ -310,11 +373,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(538, 261);
+            this.Controls.Add(this.panelRunning);
+            this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelWarning);
             this.Controls.Add(this.panelLaunch);
-            this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ForeColor = System.Drawing.Color.Gray;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(550, 300);
@@ -328,6 +393,7 @@
             this.panelLaunch.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.panelWarning.ResumeLayout(false);
+            this.panelRunning.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -358,6 +424,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnTosNo;
+        private System.Windows.Forms.Panel panelRunning;
+        private System.Windows.Forms.Label lblActiveGames;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnStopBoost;
+        private System.Windows.Forms.ListBox listGamesActive;
     }
 }
 

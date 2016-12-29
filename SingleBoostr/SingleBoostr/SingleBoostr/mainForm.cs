@@ -44,7 +44,7 @@ namespace SingleBoostr
                 connectToClient();
             }
         }
-
+        
         private void btnTosYes_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.warningdisplayed = true;
@@ -82,8 +82,8 @@ namespace SingleBoostr
             }
             else
             {
-                panelLaunchPadder.Visible = false;
                 picLoading.Visible = true;
+                panelLaunchPadder.Visible = false;
 
                 setTitleUsernameFromSteamId64(_steamClient.SteamUser.GetSteamID());
                 gameListWorker.RunWorkerAsync();
@@ -97,32 +97,29 @@ namespace SingleBoostr
 
         private void btnBoost_Click(object sender, EventArgs e)
         {
-            if (_areGamesRunning)
-            {
-                _areGamesRunning = false;
-                btnBoost.Text = "Start";
-                stopGames();
-            }
-            else
+            if (!_areGamesRunning)
             {
                 if (_gameListSelected.Count > 0)
                 {
-                    _areGamesRunning = true;
-                    btnBoost.Text = $"Stop {_gameListSelected.Count} game(s)";
+                    disableButtonsTemporarily();
                     startGames();
                 }
                 else
                 {
-                    MessageBox.Show("No games added. Click on games in the left list to select them.", "Uhh...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    MessageBox.Show("No games added. Click on games in the left list to select them.", 
+                        "Uhh...", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
                 }
             }
-
-            /*Button will be enabled in n seconds to prevent process spam*/
-            btnBoost.Enabled = false;
-            btnPauseTimer.Start();
         }
-        
+
+        private void btnStopBoost_Click(object sender, EventArgs e)
+        {
+            disableButtonsTemporarily();
+            stopGames();
+        }
+
         private void listGames_SelectedIndexChanged(object sender, EventArgs e)
         {
             /*Move clicked items from the game list to the selected list*/
@@ -241,33 +238,43 @@ namespace SingleBoostr
                 panelMain.Visible = true;
             }
         }
+
+        private void disableButtonsTemporarily()
+        {
+            btnBoost.Enabled = false;
+            btnStopBoost.Enabled = false;
+
+            btnPauseTimer.Start();
+        }
         
         private void btnPauseTimer_Tick(object sender, EventArgs e)
         {
             btnPauseTimer.Stop();
+
             btnBoost.Enabled = true;
+            btnStopBoost.Enabled = true;
         }
-        
+
         private void startGames()
         {
+            listGamesActive.Items.Clear();
+
             if (_gameListSelected.Count > 0)
             {
                 foreach (var game in _gameListSelected)
                 {
                     var process = new Process();
-                    
+
                     /*Run windowless*/
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.CreateNoWindow = true;
-                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
                     /*Argument*/
                     process.StartInfo.FileName = @"SingleBoostr.Game.exe";
-                    process.StartInfo.Arguments = $"\"{game.appId}\" \"{game.name}\"";
+                    process.StartInfo.Arguments = $"\"{game.appId}\" \"{game.name}\" \"{Process.GetCurrentProcess().Id}\"";
 
                     _gameProcessList.Add(process);
+                    listGamesActive.Items.Add(game.name);
                 }
             }
 
@@ -275,16 +282,29 @@ namespace SingleBoostr
             {
                 process.Start();
             }
+
+            panelRunning.Visible = true;
+            panelMain.Visible = false;
+            _areGamesRunning = true;
+
+            lblActiveGames.Text = $"You're currently idling {_gameProcessList.Count} game(s).";
         }
 
         private void stopGames()
         {
             foreach (var process in _gameProcessList)
             {
-                process.Kill();
+                process.Refresh();
+
+                if (!process.HasExited)
+                    process.Kill();
             }
 
             _gameProcessList.Clear();
+            _areGamesRunning = false;
+
+            panelRunning.Visible = false;
+            panelMain.Visible = true;
         }
 
         private void setTitleUsernameFromSteamId64(ulong id)
