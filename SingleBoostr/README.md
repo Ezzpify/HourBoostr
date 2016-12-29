@@ -35,5 +35,5 @@ However, if you aren't then the program will tell you.
 * *You're not logged into Steam.*
  * Make sure Steam is running and that you're logged in, else it won't run.
  
-* *Either you have 0 games, or something went wrong. Hmm... Are you sure you're logged in?
+* *Either you have 0 games, or something went wrong. Hmm... Are you sure you're logged in?*
  * Make sure you have games in your library and that Steam is running fine.
