@@ -1,12 +1,9 @@
 <p align="center">
   <img src="http://i.imgur.com/MJN4zty.png"/>
-  <p align="center">For Steam users that wish to boost the hours played of their games on one or several accounts at once!</p>
+  <h2 align="center">Boost the hours on one or several Steam accounts at once</h2>
   <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
-##
-##
-##
 
 Extract the files you get when you download the program. If you can't find an .exe then chances are that you downloaded the source code and no the release. Click on the "DOWNLOAD HERE" link above.
 
@@ -17,7 +14,3 @@ You can find Steam game ids by going to the Steam store page for whatever game y
 Video tutorial (click image)
 
 [![ScreenShot](http://i.imgur.com/DuTB4Zq.png)](https://www.youtube.com/watch?v=eqhPBEVMPDM)
-
-![gtnz6y5](https://i.imgur.com/9b6F2dR.png)
-
-![swagster](https://i.imgur.com/I1kYZso.png)
