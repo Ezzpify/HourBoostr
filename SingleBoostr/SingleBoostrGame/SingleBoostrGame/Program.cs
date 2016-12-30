@@ -49,7 +49,7 @@ namespace SingleBoostrGame
                     break;
                 }
 
-                Thread.Sleep(TimeSpan.FromSeconds(30));
+                Thread.Sleep(TimeSpan.FromSeconds(15));
             }
 
             Environment.Exit(1);
@@ -58,13 +58,11 @@ namespace SingleBoostrGame
         private static void restInfo(string[] args)
         {
             if (args.Length == 2)
-            {
                 Console.Title = args[1];
-            }
             
             if (args.Length == 3 && int.TryParse(args[2], out _parentProcessId))
             {
-                if (_parentProcessId == -1)
+                if (_parentProcessId == 0)
                     return;
 
                 _enabled = true;
@@ -87,7 +85,10 @@ namespace SingleBoostrGame
                 if (client.Initialize(appId))
                 {
                     restInfo(args);
-                    Console.ReadLine();
+
+                    Console.WriteLine("Running! Press any key to stop idling.");
+                    Console.ReadKey();
+                    _enabled = false;
                 }
             }
             else
