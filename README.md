@@ -11,6 +11,10 @@ When you have extracted the files open up Settings.exe and set up all your accou
 
 You can find Steam game ids by going to the Steam store page for whatever game you wish to boost. For example the CSGO store page is http://steamcommunity.com/app/730 and the game id is 730. The same thing applies for all games. The Settings.exe program included can also fetch games for you if you enter your steam profile. Keep in mind that your profile needs to be public for this to work.
 
+SingleBoostr:
+
+![Gif](https://i.imgur.com/6ktF7bW.gif)
+
 Video tutorial (click image)
 
 [![ScreenShot](http://i.imgur.com/DuTB4Zq.png)](https://www.youtube.com/watch?v=eqhPBEVMPDM)
