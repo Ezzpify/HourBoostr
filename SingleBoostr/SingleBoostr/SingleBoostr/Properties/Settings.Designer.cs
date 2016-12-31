@@ -34,5 +34,16 @@ namespace SingleBoostr.Properties {
                 this["warningdisplayed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection selectedgames {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["selectedgames"]));
+            }
+            set {
+                this["selectedgames"] = value;
+            }
+        }
     }
 }

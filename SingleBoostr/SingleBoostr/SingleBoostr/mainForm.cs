@@ -43,7 +43,7 @@ namespace SingleBoostr
             #if DEBUG
                 Properties.Settings.Default.warningdisplayed = false;
             #endif
-            
+
             if (Properties.Settings.Default.warningdisplayed)
             {
                 panelLoading.Visible = true;
@@ -63,7 +63,20 @@ namespace SingleBoostr
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            e.Cancel = true;
             stopGames();
+
+            /*save selected games*/
+            if (_gameListSelected.Count > 0)
+            {
+                Properties.Settings.Default.selectedgames = new System.Collections.Specialized.StringCollection();
+                foreach (var game in _gameListSelected)
+                    Properties.Settings.Default.selectedgames.Add(game.appId.ToString());
+
+                Properties.Settings.Default.Save();
+            }
+
+            Environment.Exit(1);
         }
 
         private void btnTosYes_Click(object sender, EventArgs e)
@@ -484,6 +497,26 @@ namespace SingleBoostr
 
         private void refreshGameList()
         {
+            /*Check if we have any saved games from last time*/
+            if (Properties.Settings.Default.selectedgames != null)
+            {
+                foreach (var game in Properties.Settings.Default.selectedgames)
+                {
+                    long gameId = 0;
+                    if (!long.TryParse(game, out gameId) || gameId == 0)
+                        continue;
+
+                    var obj = _gameList.FirstOrDefault(o => o.appId == gameId);
+                    if (obj != null)
+                    {
+                        _gameListSelected.Add(obj);
+                        _gameList.Remove(obj);
+                    }
+                }
+
+                Properties.Settings.Default.selectedgames = null;
+            }
+
             _gameList.Sort();
             listGames.Items.Clear();
             listGamesSelected.Items.Clear();

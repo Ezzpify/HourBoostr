@@ -76,6 +76,7 @@ namespace SingleBoostrGame
         static void Main(string[] args)
         {
             long appId = 0;
+            if (args.Length >= 1 && long.TryParse(args[0], out appId))
             {
                 if (appId == 0)
                     return;
