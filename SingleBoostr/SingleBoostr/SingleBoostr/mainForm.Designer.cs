@@ -34,8 +34,9 @@
             this.lblGameCounter = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.listGamesSelected = new System.Windows.Forms.ListBox();
-            this.btnBoost = new System.Windows.Forms.Button();
+            this.btnIdle = new System.Windows.Forms.Button();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.lblClearSelected = new System.Windows.Forms.Label();
             this.lblGithub = new System.Windows.Forms.Label();
             this.cbRestartGames = new System.Windows.Forms.CheckBox();
             this.lblSelectedGameCounter = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.gameListWorker = new System.ComponentModel.BackgroundWorker();
             this.btnPauseTimer = new System.Windows.Forms.Timer(this.components);
             this.panelWarning = new System.Windows.Forms.Panel();
+            this.cmboxTosLanguage = new System.Windows.Forms.ComboBox();
             this.btnTosNo = new System.Windows.Forms.Button();
             this.btnTosYes = new System.Windows.Forms.Button();
             this.lblToS = new System.Windows.Forms.Label();
@@ -56,8 +58,6 @@
             this.btnStopBoost = new System.Windows.Forms.Button();
             this.checkProcessTimer = new System.Windows.Forms.Timer(this.components);
             this.restartGamesTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblClearSelected = new System.Windows.Forms.Label();
-            this.cmboxTosLanguage = new System.Windows.Forms.ComboBox();
             this.panelMain.SuspendLayout();
             this.panelLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
@@ -107,19 +107,19 @@
             this.listGamesSelected.TabIndex = 3;
             this.listGamesSelected.SelectedIndexChanged += new System.EventHandler(this.listGamesSelected_SelectedIndexChanged);
             // 
-            // btnBoost
+            // btnIdle
             // 
-            this.btnBoost.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnBoost.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.btnBoost.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBoost.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnBoost.Location = new System.Drawing.Point(268, 202);
-            this.btnBoost.Name = "btnBoost";
-            this.btnBoost.Size = new System.Drawing.Size(254, 47);
-            this.btnBoost.TabIndex = 4;
-            this.btnBoost.Text = "START IDLING";
-            this.btnBoost.UseVisualStyleBackColor = true;
-            this.btnBoost.Click += new System.EventHandler(this.btnBoost_Click);
+            this.btnIdle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIdle.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIdle.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnIdle.Location = new System.Drawing.Point(268, 202);
+            this.btnIdle.Name = "btnIdle";
+            this.btnIdle.Size = new System.Drawing.Size(254, 47);
+            this.btnIdle.TabIndex = 4;
+            this.btnIdle.Text = "IDLE";
+            this.btnIdle.UseVisualStyleBackColor = true;
+            this.btnIdle.Click += new System.EventHandler(this.btnIdle_Click);
             // 
             // panelMain
             // 
@@ -127,7 +127,7 @@
             this.panelMain.Controls.Add(this.lblGithub);
             this.panelMain.Controls.Add(this.cbRestartGames);
             this.panelMain.Controls.Add(this.lblSelectedGameCounter);
-            this.panelMain.Controls.Add(this.btnBoost);
+            this.panelMain.Controls.Add(this.btnIdle);
             this.panelMain.Controls.Add(this.listGamesSelected);
             this.panelMain.Controls.Add(this.txtSearch);
             this.panelMain.Controls.Add(this.lblGameCounter);
@@ -138,6 +138,20 @@
             this.panelMain.Size = new System.Drawing.Size(538, 293);
             this.panelMain.TabIndex = 5;
             this.panelMain.Visible = false;
+            // 
+            // lblClearSelected
+            // 
+            this.lblClearSelected.AutoSize = true;
+            this.lblClearSelected.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblClearSelected.Location = new System.Drawing.Point(489, 9);
+            this.lblClearSelected.Name = "lblClearSelected";
+            this.lblClearSelected.Size = new System.Drawing.Size(34, 15);
+            this.lblClearSelected.TabIndex = 9;
+            this.lblClearSelected.Text = "Clear";
+            this.lblClearSelected.Visible = false;
+            this.lblClearSelected.Click += new System.EventHandler(this.lblClearSelected_Click);
+            this.lblClearSelected.MouseEnter += new System.EventHandler(this.lblClearSelected_MouseEnter);
+            this.lblClearSelected.MouseLeave += new System.EventHandler(this.lblClearSelected_MouseLeave);
             // 
             // lblGithub
             // 
@@ -236,14 +250,25 @@
             this.panelWarning.TabIndex = 9;
             this.panelWarning.Visible = false;
             // 
+            // cmboxTosLanguage
+            // 
+            this.cmboxTosLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboxTosLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmboxTosLanguage.FormattingEnabled = true;
+            this.cmboxTosLanguage.Location = new System.Drawing.Point(398, 12);
+            this.cmboxTosLanguage.Name = "cmboxTosLanguage";
+            this.cmboxTosLanguage.Size = new System.Drawing.Size(128, 23);
+            this.cmboxTosLanguage.TabIndex = 15;
+            this.cmboxTosLanguage.SelectedIndexChanged += new System.EventHandler(this.cmboxTosLanguage_SelectedIndexChanged);
+            // 
             // btnTosNo
             // 
             this.btnTosNo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTosNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTosNo.Location = new System.Drawing.Point(322, 244);
+            this.btnTosNo.Location = new System.Drawing.Point(317, 244);
             this.btnTosNo.Name = "btnTosNo";
             this.btnTosNo.Size = new System.Drawing.Size(75, 23);
-            this.btnTosNo.TabIndex = 15;
+            this.btnTosNo.TabIndex = 17;
             this.btnTosNo.Text = "No";
             this.btnTosNo.UseVisualStyleBackColor = true;
             this.btnTosNo.Click += new System.EventHandler(this.btnTosNo_Click);
@@ -252,7 +277,7 @@
             // 
             this.btnTosYes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTosYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTosYes.Location = new System.Drawing.Point(143, 244);
+            this.btnTosYes.Location = new System.Drawing.Point(145, 244);
             this.btnTosYes.Name = "btnTosYes";
             this.btnTosYes.Size = new System.Drawing.Size(75, 23);
             this.btnTosYes.TabIndex = 16;
@@ -337,56 +362,14 @@
             this.restartGamesTimer.Interval = 5000;
             this.restartGamesTimer.Tick += new System.EventHandler(this.restartGamesTimer_Tick);
             // 
-            // lblClearSelected
-            // 
-            this.lblClearSelected.AutoSize = true;
-            this.lblClearSelected.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblClearSelected.Location = new System.Drawing.Point(489, 9);
-            this.lblClearSelected.Name = "lblClearSelected";
-            this.lblClearSelected.Size = new System.Drawing.Size(34, 15);
-            this.lblClearSelected.TabIndex = 9;
-            this.lblClearSelected.Text = "Clear";
-            this.lblClearSelected.Visible = false;
-            this.lblClearSelected.Click += new System.EventHandler(this.lblClearSelected_Click);
-            this.lblClearSelected.MouseEnter += new System.EventHandler(this.lblClearSelected_MouseEnter);
-            this.lblClearSelected.MouseLeave += new System.EventHandler(this.lblClearSelected_MouseLeave);
-            // 
-            // cmboxTosLanguage
-            // 
-            this.cmboxTosLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboxTosLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmboxTosLanguage.FormattingEnabled = true;
-            this.cmboxTosLanguage.Items.AddRange(new object[] {
-            "en",
-            "uk",
-            "no",
-            "fr",
-            "lv",
-            "sq",
-            "da",
-            "in",
-            "de",
-            "be",
-            "ru",
-            "fi",
-            "pt",
-            "br",
-            "sv",
-            "pirate"});
-            this.cmboxTosLanguage.Location = new System.Drawing.Point(463, 244);
-            this.cmboxTosLanguage.Name = "cmboxTosLanguage";
-            this.cmboxTosLanguage.Size = new System.Drawing.Size(59, 23);
-            this.cmboxTosLanguage.TabIndex = 17;
-            this.cmboxTosLanguage.SelectedIndexChanged += new System.EventHandler(this.cmboxTosLanguage_SelectedIndexChanged);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(538, 293);
-            this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelWarning);
+            this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelRunning);
             this.Controls.Add(this.panelLoading);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -397,7 +380,7 @@
             this.MinimumSize = new System.Drawing.Size(550, 300);
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SteamBoostr :: Terms of Service";
+            this.Text = "SingleBoostr :: Terms of Service";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.panelMain.ResumeLayout(false);
@@ -416,7 +399,7 @@
         private System.Windows.Forms.Label lblGameCounter;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ListBox listGamesSelected;
-        private System.Windows.Forms.Button btnBoost;
+        private System.Windows.Forms.Button btnIdle;
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.Panel panelLoading;
         private System.Windows.Forms.PictureBox picLoading;

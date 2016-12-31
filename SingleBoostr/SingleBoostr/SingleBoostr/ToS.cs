@@ -9,10 +9,54 @@ namespace SingleBoostr
 {
     class ToS
     {
+        public static Dictionary<string, string> Languages = new Dictionary<string, string>()
+        {
+            { "English", "en" },
+            { "Nederlands", "nl" },
+            { "Lietuvių Kalba", "lt" },
+            { "Українська", "uk" },
+            { "Norsk", "no" },
+            { "Français", "fr" },
+            { "Latviešu Valoda", "lv" },
+            { "Shqip", "sq" },
+            { "Dansk", "da" },
+            { "Bahasa Indonesia", "in" },
+            { "Deutsch", "de" },
+            { "Русский язык", "ru" },
+            { "Suomi", "fi" },
+            { "Português", "pt" },
+            { "Svenska", "sv" },
+            { "Pirate", "pirate" }
+        };
+
         public static string GetTermsOfService(string language)
         {
             switch (language)
             {
+                case "nl":
+                    /*Dutch*/
+                    return "Ga akkoord met de volgende voorwaarden voordat u verder gaat:\n\n"
+
+                        + "Dit programma zal niet leiden tot een VAC BAN. Echter, neem ik geen verantwoordelijkheid "
+                        + "als er om welke reden dan ook uw account verbannen wordt. Ik hoop dat u slim genoeg "
+                        + "bent om niet te gaan cheaten op uw account en daarna de schuld op het programma schuift.\n\n"
+
+                        + "Begrijpt u dit en gaat u akkoord?\n"
+                        + "Op 'No' drukken zorgt ervoor dat het programma afsluit.\n\n"
+                        + "Translation by: Karel and Dev";
+
+                case "lt":
+                    /*Lithuanian*/
+                    return "Prašau sutikti su salygomis prieš naudojant programą:\n\n"
+
+                        + "Ši programa niekaip nepakenks jūsų Steam Accountui, dėl šios programos jūs negausite VAC. "
+                        + "Bet vis dėl to aš neprisiimu jokios atsakomybės jei jūsų Accountas bus užbanintas. "
+                        + "Aš tikiuosi Jūs esate pakankamai gudrus nenaudoti kitu programų, o poto kaltinti šia programą.\n\n"
+
+                        + "Ar Jūs supratote ir sutinkate su salygomis?\n"
+                        + "Paspaudus 'No' išjunksite programą.\n\n"
+                        + "Translation by: Kankis";
+
                 case "uk":
                     /*Ukrainian*/
                     return "Будь ласка, прийміть наступні умови угоди, перш ніж продовжити:\n\n"
@@ -30,13 +74,13 @@ namespace SingleBoostr
                     /*Norwegian*/
                     return "Vennligst godta følgende vilkår før du fortsetter:\n\n"
 
-                        + "Dette programmet vil ikke føre til at kontoen din for å få VAC utestengt. Imidlertid vil jeg ta "
-                        + "intet ansvar hvis en eller annen grunn kontoen din blir utestengt. Jeg håper du er smart "
-                        + "nok til ikke å jukse på kontoen din, og deretter skylde på dette programmet eller meg.\n\n"
+                        + "Dette programmet vil ikke føre til at kontoen din får VAC ban. Men jeg tar ikke ansvar "
+                        + "vis kontoen din blir VAC bannet på noen måter. Jeg håper du er smart nok til å ikke "
+                        + "jukse på kontoen din, og så skylde på programmet eller meg.\n\n"
 
-                        + "Forstår du og samtykker til dette?\n"
+                        + "Forstår du og er enig i dette?\n"
                         + "Ved å trykke 'No' vil avslutte programmet.\n\n"
-                        + "Translation by: K-market";
+                        + "Translation by: K-market and willzz";
 
                 case "fr":
                     /*French*/
@@ -169,7 +213,7 @@ namespace SingleBoostr
                         + "on ye account 'n then blame it on 'tis program or me.\n\n"
 
                         + "Do ye understand 'n agree to 'tis?\n"
-                        + "Pressin' NO gunna exit th' program.\n\n"
+                        + "Pressin' 'No' gunna exit th' program.\n\n"
                         + "Translation by: Blackbeard";
 
                 default:

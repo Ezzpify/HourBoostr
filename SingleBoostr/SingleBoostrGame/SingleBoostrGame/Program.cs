@@ -13,6 +13,7 @@ namespace SingleBoostrGame
 
         Takes 3 arguments
             appId (long)
+            achievments (int)
             appName (string) (optional)
             parentProcessId (int) (optional)
 
@@ -33,23 +34,23 @@ namespace SingleBoostrGame
         private static void _bwg_DoWork(object sender, DoWorkEventArgs e)
         {
             var parentProcess = Process.GetProcessById(_parentProcessId);
-            if (parentProcess == null)
-                return;
-
-            while (_enabled)
+            if (parentProcess != null)
             {
-                try
+                while (_enabled)
                 {
-                    parentProcess.Refresh();
-                    if (parentProcess.HasExited)
+                    try
+                    {
+                        parentProcess.Refresh();
+                        if (parentProcess.HasExited)
+                            break;
+                    }
+                    catch
+                    {
                         break;
-                }
-                catch
-                {
-                    break;
-                }
+                    }
 
-                Thread.Sleep(TimeSpan.FromSeconds(15));
+                    Thread.Sleep(TimeSpan.FromSeconds(15));
+                }
             }
 
             Environment.Exit(1);
@@ -57,10 +58,10 @@ namespace SingleBoostrGame
 
         private static void restInfo(string[] args)
         {
-            if (args.Length == 2)
+            if (args.Length >= 2)
                 Console.Title = args[1];
             
-            if (args.Length == 3 && int.TryParse(args[2], out _parentProcessId))
+            if (args.Length >= 3 && int.TryParse(args[2], out _parentProcessId))
             {
                 if (_parentProcessId == 0)
                     return;
@@ -68,7 +69,6 @@ namespace SingleBoostrGame
                 _enabled = true;
                 _bwg = new BackgroundWorker();
                 _bwg.DoWork += _bwg_DoWork;
-
                 _bwg.RunWorkerAsync();
             }
         }
@@ -76,7 +76,6 @@ namespace SingleBoostrGame
         static void Main(string[] args)
         {
             long appId = 0;
-            if (args.Length > 0 && long.TryParse(args[0], out appId))
             {
                 if (appId == 0)
                     return;
@@ -85,7 +84,6 @@ namespace SingleBoostrGame
                 if (client.Initialize(appId))
                 {
                     restInfo(args);
-
                     Console.WriteLine("Running! Press any key to stop idling.");
                     Console.ReadKey();
                     _enabled = false;
@@ -98,6 +96,8 @@ namespace SingleBoostrGame
                 Console.WriteLine("\n\nPress any key to exit...");
                 Console.ReadKey();
             }
+
+            Environment.Exit(1);
         }
     }
 }

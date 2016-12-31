@@ -43,8 +43,7 @@ namespace SingleBoostr
             #if DEBUG
                 Properties.Settings.Default.warningdisplayed = false;
             #endif
-
-            /*If VAC warning has already been displayed when we'll skip that part*/
+            
             if (Properties.Settings.Default.warningdisplayed)
             {
                 panelLoading.Visible = true;
@@ -52,20 +51,14 @@ namespace SingleBoostr
             }
             else
             {
+                foreach (var key in ToS.Languages)
+                    cmboxTosLanguage.Items.Add(key.Key);
+
                 setTosLanguage();
                 panelWarning.Visible = true;
             }
 
             setRestartGamesTimerIntervalRandom();
-        }
-
-        private void setTosLanguage(string lang = "")
-        {
-            if (string.IsNullOrWhiteSpace(lang))
-                lang = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
-
-            lblToS.Text = ToS.GetTermsOfService(lang);
-            cmboxTosLanguage.Text = lang;
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -89,7 +82,7 @@ namespace SingleBoostr
             Environment.Exit(1);
         }
 
-        private void btnBoost_Click(object sender, EventArgs e)
+        private void btnIdle_Click(object sender, EventArgs e)
         {
             if (!_areGamesRunning)
             {
@@ -103,9 +96,9 @@ namespace SingleBoostr
                 }
                 else
                 {
-                    MessageBox.Show("No games added. Click on games in the left list to select them.", 
-                        "Uhh...", 
-                        MessageBoxButtons.OK, 
+                    MessageBox.Show("No games added. Click on games in the left list to select them.",
+                        "Uhh...",
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
             }
@@ -165,7 +158,14 @@ namespace SingleBoostr
             var selectedItem = cmboxTosLanguage.SelectedItem;
 
             if (selectedItem != null)
-                setTosLanguage((string)selectedItem);
+            {
+                string shortCode = string.Empty;
+
+                if (ToS.Languages.TryGetValue((string)selectedItem, out shortCode))
+                    setTosLanguage(shortCode);
+                else
+                    setTosLanguage("en");
+            }
         }
 
         private void listGames_SelectedIndexChanged(object sender, EventArgs e)
@@ -275,7 +275,7 @@ namespace SingleBoostr
         {
             btnPauseTimer.Stop();
 
-            btnBoost.Enabled = true;
+            btnIdle.Enabled = true;
             btnStopBoost.Enabled = true;
         }
 
@@ -378,10 +378,22 @@ namespace SingleBoostr
 
         private void disableButtonsTemporarily()
         {
-            btnBoost.Enabled = false;
+            btnIdle.Enabled = false;
             btnStopBoost.Enabled = false;
 
             btnPauseTimer.Start();
+        }
+
+        private void setTosLanguage(string lang = "")
+        {
+            if (string.IsNullOrWhiteSpace(lang))
+                lang = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
+
+            lblToS.Text = ToS.GetTermsOfService(lang);
+
+            var key = ToS.Languages.FirstOrDefault(o => o.Value == lang).Key;
+            if (key != null)
+                cmboxTosLanguage.Text = key;
         }
 
         private void startGames()
