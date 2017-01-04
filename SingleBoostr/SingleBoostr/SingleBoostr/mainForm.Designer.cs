@@ -368,8 +368,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(538, 293);
-            this.Controls.Add(this.panelWarning);
             this.Controls.Add(this.panelMain);
+            this.Controls.Add(this.panelWarning);
             this.Controls.Add(this.panelRunning);
             this.Controls.Add(this.panelLoading);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);

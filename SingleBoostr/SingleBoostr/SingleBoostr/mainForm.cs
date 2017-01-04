@@ -19,7 +19,7 @@ namespace SingleBoostr
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
-        
+
         private Client _steamClient = new Client();
         private List<GameInfo> _gameList = new List<GameInfo>();
         private List<GameInfo> _gameListSelected = new List<GameInfo>();
@@ -27,23 +27,19 @@ namespace SingleBoostr
 
         private bool _areGamesRunning;
         private bool _gameCountWarningDisplayed;
-        
+
         private const int _eM_SETCUEBANNER = 0x1501;
         private const int _maxBoostGameCount = 33;
 
         private static Random _random = new Random();
-        
+
         public mainForm()
         {
             InitializeComponent();
         }
-        
+
         private void mainForm_Load(object sender, EventArgs e)
         {
-            #if DEBUG
-                Properties.Settings.Default.warningdisplayed = false;
-            #endif
-
             if (Properties.Settings.Default.warningdisplayed)
             {
                 panelLoading.Visible = true;
@@ -66,16 +62,11 @@ namespace SingleBoostr
             e.Cancel = true;
             stopGames();
 
-            /*save selected games*/
-            if (_gameListSelected.Count > 0)
-            {
-                Properties.Settings.Default.selectedgames = new System.Collections.Specialized.StringCollection();
-                foreach (var game in _gameListSelected)
-                    Properties.Settings.Default.selectedgames.Add(game.appId.ToString());
+            Properties.Settings.Default.selectedgames = new System.Collections.Specialized.StringCollection();
+            foreach (var game in _gameListSelected)
+                Properties.Settings.Default.selectedgames.Add(game.appId.ToString());
 
-                Properties.Settings.Default.Save();
-            }
-
+            Properties.Settings.Default.Save();
             Environment.Exit(1);
         }
 
@@ -177,6 +168,7 @@ namespace SingleBoostr
                 if (ToS.Languages.TryGetValue((string)selectedItem, out shortCode))
                     setTosLanguage(shortCode);
                 else
+                    /*Defaults to English*/
                     setTosLanguage("en");
             }
         }
@@ -192,12 +184,12 @@ namespace SingleBoostr
                 {
                     _gameListSelected.Add(game);
                     _gameList.Remove(game);
-                    
+
                     refreshGameList();
                 }
             }
         }
-        
+
         private void listGamesSelected_SelectedIndexChanged(object sender, EventArgs e)
         {
             /*Move clicked items from the selected list to the game list*/
@@ -219,7 +211,7 @@ namespace SingleBoostr
         {
             refreshGameList();
         }
-        
+
         private void gameListWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var document = new XmlDocument();
@@ -236,7 +228,7 @@ namespace SingleBoostr
                         File.WriteAllText(Const.GAME_LIST_LOCAL, xml);
                     }
                 }
-                
+
                 document.Load(localXml);
                 foreach (XmlNode node in document.SelectNodes("/games/game"))
                 {
@@ -250,6 +242,7 @@ namespace SingleBoostr
                             continue;
 
                         string name = _steamClient.SteamApps001.GetAppData((uint)appId, "name");
+
                         if (!string.IsNullOrWhiteSpace(name) && _steamClient.SteamApps003.IsSubscribedApp(appId))
                         {
                             _gameList.Add(new GameInfo()
@@ -489,9 +482,13 @@ namespace SingleBoostr
                 string username = Regex.Match(e.Result, @"Steam Community :: (.+?)</title>").Groups[1].Value.Trim();
 
                 if (username != "Error" && !string.IsNullOrWhiteSpace(username))
+                {
                     Text = $"SingleBoostr :: {getUnicodeString(username)}";
+                }
                 else
+                {
                     Text = $"SingleBoostr :: Unknown user";
+                }
             }
         }
 
@@ -514,26 +511,38 @@ namespace SingleBoostr
                     }
                 }
 
+                /*Only want to do this once so we'll null this cunt*/
                 Properties.Settings.Default.selectedgames = null;
             }
-
+            
             _gameList.Sort();
             listGames.Items.Clear();
             listGamesSelected.Items.Clear();
 
+            List<GameInfo> gameList;
             string searchQuery = txtSearch.Text;
-            foreach (var game in _gameList)
+
+            if (string.IsNullOrWhiteSpace(searchQuery))
             {
-                if (!string.IsNullOrWhiteSpace(searchQuery))
-                {
-                    if (!game.name.ToLower().Contains(searchQuery.ToLower()))
-                        continue;
-                }
-
-                listGames.Items.Add(game.name);
+                /*If we have no search then use original list.
+                 We use .ToList() to avoid creating a reference*/
+                gameList = _gameList.ToList();
             }
+            else
+            {
+                /*Pick out games which names match the search query*/
+                gameList = _gameList.ToList().Where(o => o.name.ToLower().Contains(searchQuery.ToLower())).ToList();
+            }
+            
+            /*Pick out only name from the game list and cast it to an object array so we can set
+             whole listBox at once with the games*/
+            var objectList = gameList.Select(o => o.name).ToList().Cast<object>().ToArray();
+            listGames.Items.AddRange(objectList);
 
+            /*Do the same for selected. We'll borrow the objectList.*/
+            objectList = _gameListSelected.ToList().Select(o => o.name).ToList().Cast<object>().ToArray();
             _gameListSelected.ForEach(o => listGamesSelected.Items.Add(o.name));
+
             lblClearSelected.Visible = _gameListSelected.Count > 0;
             lblGameCounter.Text = string.IsNullOrWhiteSpace(searchQuery) ? $"Games available: {_gameList.Count}" : $"Matching games: {listGames.Items.Count}";
             lblSelectedGameCounter.Text = $"Selected games: {_gameListSelected.Count}";
@@ -541,8 +550,8 @@ namespace SingleBoostr
             if (_gameListSelected.Count == _maxBoostGameCount && !_gameCountWarningDisplayed)
             {
                 _gameCountWarningDisplayed = true;
-                MessageBox.Show($"Steam only allows {_maxBoostGameCount} games to be played at once. You can continue adding games, but they won't track any hours.", "Steam limit",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Steam only allows {_maxBoostGameCount} games to be played at once. You can continue adding games, but they won't track any hours.", 
+                    "Steam limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
