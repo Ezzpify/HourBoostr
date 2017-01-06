@@ -17,9 +17,7 @@ namespace SingleBoostr
 {
     public partial class mainForm : Form
     {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
-
+        private Game _game;
         private Client _steamClient = new Client();
         private List<GameInfo> _gameList = new List<GameInfo>();
         private List<GameInfo> _gameListSelected = new List<GameInfo>();
@@ -27,6 +25,8 @@ namespace SingleBoostr
 
         private bool _areGamesRunning;
         private bool _gameCountWarningDisplayed;
+        private bool _windowHidden;
+        private bool _windowHiddenNotificationDisplayed;
 
         private const int _eM_SETCUEBANNER = 0x1501;
         private const int _maxBoostGameCount = 33;
@@ -59,7 +59,6 @@ namespace SingleBoostr
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
             stopGames();
 
             Properties.Settings.Default.selectedgames = new System.Collections.Specialized.StringCollection();
@@ -67,7 +66,65 @@ namespace SingleBoostr
                 Properties.Settings.Default.selectedgames.Add(game.appId.ToString());
 
             Properties.Settings.Default.Save();
-            Environment.Exit(1);
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (_game != null)
+                _game.KeyDown(e.KeyCode);
+        }
+
+        private void mainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F12)
+            {
+                if (_game == null && panelMain.Visible)
+                {
+                    _game = new Game(this);
+                    panelGame.Visible = true;
+                    panelMain.Visible = false;
+                    Text = "You want a challange, huh?";
+                }
+            }
+
+            if (_game != null)
+                _game.KeyUp(e.KeyCode);
+        }
+
+        private void game_Timer_Tick(object sender, EventArgs e)
+        {
+            _game.ProcessTick();
+        }
+
+        private void game_AITimer_Tick(object sender, EventArgs e)
+        {
+            _game.ProcessEnemyTick();
+        }
+
+        private void btnHideWindow_Click(object sender, EventArgs e)
+        {
+            if (!_windowHidden)
+            {
+                notifyIcon.Visible = true;
+                _windowHidden = true;
+                Hide();
+
+                if (!_windowHiddenNotificationDisplayed)
+                {
+                    notifyIcon.ShowBalloonTip(2000);
+                    _windowHiddenNotificationDisplayed = true;
+                }
+            }
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && _windowHidden)
+            {
+                notifyIcon.Visible = false;
+                _windowHidden = false;
+                Show();
+            }
         }
 
         private void btnTosYes_Click(object sender, EventArgs e)
@@ -341,7 +398,7 @@ namespace SingleBoostr
         private void connectToClient()
         {
             Text = "SingleBoostr :: Fetching user...";
-            SendMessage(txtSearch.Handle, _eM_SETCUEBANNER, 0, "Search game");
+            NativeMethods.SendMessage(txtSearch.Handle, _eM_SETCUEBANNER, IntPtr.Zero, "Search game");
 
             if (Application.StartupPath == Steam.GetInstallPath())
             {
@@ -361,10 +418,16 @@ namespace SingleBoostr
             }
             else
             {
+                setDisplayName();
                 picLoading.Visible = true;
-                setTitleUsernameFromSteamId64(_steamClient.SteamUser.GetSteamID());
                 gameListWorker.RunWorkerAsync();
             }
+        }
+
+        private void setDisplayName()
+        {
+            string name = _steamClient.SteamFriends.GetPersonaName();
+            Text = string.IsNullOrWhiteSpace(name) ? "SingleBoostr :: Unknown user" : $"SingleBoostr :: {getUnicodeString(name)}";
         }
 
         private void setRestartGamesTimerIntervalRandom()
@@ -387,6 +450,7 @@ namespace SingleBoostr
             btnIdle.Enabled = false;
             btnStopBoost.Enabled = false;
 
+            /*Re-enable buttons in n seconds to prevent spamming*/
             btnPauseTimer.Start();
         }
 
@@ -424,18 +488,15 @@ namespace SingleBoostr
                     listGamesActive.Items.Add(game.name);
                 }
             }
-
-            foreach (var process in _gameProcessList)
-            {
-                process.Start();
-            }
-
+            
+            _gameProcessList.ForEach(o => o.Start());
             panelRunning.Visible = true;
             panelMain.Visible = false;
             _areGamesRunning = true;
 
             checkProcessTimer.Start();
             lblActiveGames.Text = $"You're currently idling {_gameProcessList.Count} game(s).";
+            notifyIcon.Text = $"SingleBoostr :: Idling {_gameProcessList.Count} game(s)";
         }
 
         private void stopGames()
@@ -454,42 +515,6 @@ namespace SingleBoostr
             _gameProcessList.Clear();
             panelRunning.Visible = false;
             panelMain.Visible = true;
-        }
-
-        private void setTitleUsernameFromSteamId64(ulong id)
-        {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                    client.DownloadStringCompleted += steamProfileJsonDownloaded;
-                    client.DownloadStringAsync(new Uri($"https://steamcommunity.com/profiles/{id}"));
-                }
-            }
-            catch
-            {
-                Text = "SingleBoostr :: Unknown user";
-            }
-        }
-
-        private void steamProfileJsonDownloaded(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(e.Result) && e.Result.Contains("Steam Community :: "))
-            {
-                /*Oh shit some naughty quick html parsing. Or well, just grabbing some stuff inbetween. ;-)*/
-                string username = Regex.Match(e.Result, @"Steam Community :: (.+?)</title>").Groups[1].Value.Trim();
-
-                if (username != "Error" && !string.IsNullOrWhiteSpace(username))
-                {
-                    Text = $"SingleBoostr :: {getUnicodeString(username)}";
-                }
-                else
-                {
-                    Text = $"SingleBoostr :: Unknown user";
-                }
-            }
         }
 
         private void refreshGameList()

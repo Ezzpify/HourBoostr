@@ -15,6 +15,7 @@ namespace SingleBoostr
         public SteamUtils005 SteamUtils;
         public SteamApps001 SteamApps001;
         public SteamApps003 SteamApps003;
+        public SteamFriends005 SteamFriends;
         private int Pipe;
         private int User;
         private bool RunningCallbacks;
@@ -57,6 +58,7 @@ namespace SingleBoostr
             this.SteamUserStats = this.SteamClient.GetSteamUserStats006(this.User, this.Pipe);
             this.SteamApps001 = this.SteamClient.GetSteamApps001(this.User, this.Pipe);
             this.SteamApps003 = this.SteamClient.GetSteamApps003(this.User, this.Pipe);
+            this.SteamFriends = this.SteamClient.GetSteamFriends005(this.User, this.Pipe);
 
             return true;
         }

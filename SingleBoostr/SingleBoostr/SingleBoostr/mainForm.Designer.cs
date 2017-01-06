@@ -51,18 +51,43 @@
             this.btnTosNo = new System.Windows.Forms.Button();
             this.btnTosYes = new System.Windows.Forms.Button();
             this.lblToS = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panelRunning = new System.Windows.Forms.Panel();
+            this.btnHideWindow = new System.Windows.Forms.Button();
             this.listGamesActive = new System.Windows.Forms.ListBox();
             this.lblActiveGames = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnStopBoost = new System.Windows.Forms.Button();
             this.checkProcessTimer = new System.Windows.Forms.Timer(this.components);
             this.restartGamesTimer = new System.Windows.Forms.Timer(this.components);
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.panelGame = new System.Windows.Forms.Panel();
+            this.panelGameArea = new System.Windows.Forms.Panel();
+            this.game_YouWon = new System.Windows.Forms.Label();
+            this.game_Obsticle2 = new System.Windows.Forms.PictureBox();
+            this.game_Obsticle1 = new System.Windows.Forms.PictureBox();
+            this.game_Player1 = new System.Windows.Forms.PictureBox();
+            this.game_Ball = new System.Windows.Forms.PictureBox();
+            this.game_Player2 = new System.Windows.Forms.PictureBox();
+            this.panelGameScore = new System.Windows.Forms.Panel();
+            this.game_Player1_Score = new System.Windows.Forms.Label();
+            this.game_Timer = new System.Windows.Forms.Timer(this.components);
+            this.game_AITimer = new System.Windows.Forms.Timer(this.components);
+            this.game_Instructions = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             this.panelLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
             this.panelWarning.SuspendLayout();
             this.panelRunning.SuspendLayout();
+            this.panelGame.SuspendLayout();
+            this.panelGameArea.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Obsticle2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Obsticle1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Player1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Ball)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Player2)).BeginInit();
+            this.panelGameScore.SuspendLayout();
             this.SuspendLayout();
             // 
             // listGames
@@ -243,6 +268,8 @@
             this.panelWarning.Controls.Add(this.btnTosNo);
             this.panelWarning.Controls.Add(this.btnTosYes);
             this.panelWarning.Controls.Add(this.lblToS);
+            this.panelWarning.Controls.Add(this.panel3);
+            this.panelWarning.Controls.Add(this.panel2);
             this.panelWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelWarning.Location = new System.Drawing.Point(0, 0);
             this.panelWarning.Name = "panelWarning";
@@ -288,15 +315,32 @@
             // lblToS
             // 
             this.lblToS.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblToS.Location = new System.Drawing.Point(0, 0);
+            this.lblToS.Location = new System.Drawing.Point(20, 0);
             this.lblToS.Name = "lblToS";
-            this.lblToS.Size = new System.Drawing.Size(538, 241);
+            this.lblToS.Size = new System.Drawing.Size(498, 241);
             this.lblToS.TabIndex = 7;
             this.lblToS.Text = "Terms of Service";
             this.lblToS.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel3
+            // 
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel3.Location = new System.Drawing.Point(518, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(20, 293);
+            this.panel3.TabIndex = 19;
+            // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(20, 293);
+            this.panel2.TabIndex = 18;
+            // 
             // panelRunning
             // 
+            this.panelRunning.Controls.Add(this.btnHideWindow);
             this.panelRunning.Controls.Add(this.listGamesActive);
             this.panelRunning.Controls.Add(this.lblActiveGames);
             this.panelRunning.Controls.Add(this.panel1);
@@ -308,13 +352,27 @@
             this.panelRunning.TabIndex = 6;
             this.panelRunning.Visible = false;
             // 
+            // btnHideWindow
+            // 
+            this.btnHideWindow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHideWindow.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnHideWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHideWindow.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnHideWindow.Location = new System.Drawing.Point(145, 192);
+            this.btnHideWindow.Name = "btnHideWindow";
+            this.btnHideWindow.Size = new System.Drawing.Size(254, 40);
+            this.btnHideWindow.TabIndex = 12;
+            this.btnHideWindow.Text = "HIDE WINDOW";
+            this.btnHideWindow.UseVisualStyleBackColor = true;
+            this.btnHideWindow.Click += new System.EventHandler(this.btnHideWindow_Click);
+            // 
             // listGamesActive
             // 
             this.listGamesActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listGamesActive.FormattingEnabled = true;
             this.listGamesActive.IntegralHeight = false;
             this.listGamesActive.ItemHeight = 15;
-            this.listGamesActive.Location = new System.Drawing.Point(143, 79);
+            this.listGamesActive.Location = new System.Drawing.Point(145, 56);
             this.listGamesActive.Name = "listGamesActive";
             this.listGamesActive.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listGamesActive.Size = new System.Drawing.Size(254, 84);
@@ -323,7 +381,7 @@
             // lblActiveGames
             // 
             this.lblActiveGames.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblActiveGames.Location = new System.Drawing.Point(0, 61);
+            this.lblActiveGames.Location = new System.Drawing.Point(0, 35);
             this.lblActiveGames.Name = "lblActiveGames";
             this.lblActiveGames.Size = new System.Drawing.Size(538, 15);
             this.lblActiveGames.TabIndex = 10;
@@ -335,7 +393,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(538, 61);
+            this.panel1.Size = new System.Drawing.Size(538, 35);
             this.panel1.TabIndex = 9;
             // 
             // btnStopBoost
@@ -344,7 +402,7 @@
             this.btnStopBoost.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStopBoost.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStopBoost.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnStopBoost.Location = new System.Drawing.Point(143, 169);
+            this.btnStopBoost.Location = new System.Drawing.Point(145, 146);
             this.btnStopBoost.Name = "btnStopBoost";
             this.btnStopBoost.Size = new System.Drawing.Size(254, 40);
             this.btnStopBoost.TabIndex = 5;
@@ -362,20 +420,158 @@
             this.restartGamesTimer.Interval = 5000;
             this.restartGamesTimer.Tick += new System.EventHandler(this.restartGamesTimer_Tick);
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.BalloonTipText = "Running minimized.";
+            this.notifyIcon.BalloonTipTitle = "SingleBoostr";
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "SingleBoostr";
+            this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
+            // 
+            // panelGame
+            // 
+            this.panelGame.Controls.Add(this.panelGameArea);
+            this.panelGame.Controls.Add(this.panelGameScore);
+            this.panelGame.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGame.Location = new System.Drawing.Point(0, 0);
+            this.panelGame.Name = "panelGame";
+            this.panelGame.Size = new System.Drawing.Size(538, 293);
+            this.panelGame.TabIndex = 9;
+            this.panelGame.Visible = false;
+            // 
+            // panelGameArea
+            // 
+            this.panelGameArea.Controls.Add(this.game_Instructions);
+            this.panelGameArea.Controls.Add(this.game_YouWon);
+            this.panelGameArea.Controls.Add(this.game_Obsticle2);
+            this.panelGameArea.Controls.Add(this.game_Obsticle1);
+            this.panelGameArea.Controls.Add(this.game_Player1);
+            this.panelGameArea.Controls.Add(this.game_Ball);
+            this.panelGameArea.Controls.Add(this.game_Player2);
+            this.panelGameArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelGameArea.Location = new System.Drawing.Point(0, 0);
+            this.panelGameArea.Name = "panelGameArea";
+            this.panelGameArea.Size = new System.Drawing.Size(538, 262);
+            this.panelGameArea.TabIndex = 6;
+            // 
+            // game_YouWon
+            // 
+            this.game_YouWon.AutoSize = true;
+            this.game_YouWon.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.game_YouWon.Location = new System.Drawing.Point(202, 106);
+            this.game_YouWon.Name = "game_YouWon";
+            this.game_YouWon.Size = new System.Drawing.Size(142, 37);
+            this.game_YouWon.TabIndex = 7;
+            this.game_YouWon.Text = "YOU WON";
+            this.game_YouWon.Visible = false;
+            // 
+            // game_Obsticle2
+            // 
+            this.game_Obsticle2.BackColor = System.Drawing.Color.Black;
+            this.game_Obsticle2.Location = new System.Drawing.Point(387, 110);
+            this.game_Obsticle2.Name = "game_Obsticle2";
+            this.game_Obsticle2.Size = new System.Drawing.Size(5, 30);
+            this.game_Obsticle2.TabIndex = 6;
+            this.game_Obsticle2.TabStop = false;
+            this.game_Obsticle2.Visible = false;
+            // 
+            // game_Obsticle1
+            // 
+            this.game_Obsticle1.BackColor = System.Drawing.Color.Black;
+            this.game_Obsticle1.Location = new System.Drawing.Point(145, 110);
+            this.game_Obsticle1.Name = "game_Obsticle1";
+            this.game_Obsticle1.Size = new System.Drawing.Size(5, 30);
+            this.game_Obsticle1.TabIndex = 5;
+            this.game_Obsticle1.TabStop = false;
+            this.game_Obsticle1.Visible = false;
+            // 
+            // game_Player1
+            // 
+            this.game_Player1.BackColor = System.Drawing.Color.Silver;
+            this.game_Player1.Location = new System.Drawing.Point(12, 110);
+            this.game_Player1.Name = "game_Player1";
+            this.game_Player1.Size = new System.Drawing.Size(8, 30);
+            this.game_Player1.TabIndex = 2;
+            this.game_Player1.TabStop = false;
+            // 
+            // game_Ball
+            // 
+            this.game_Ball.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.game_Ball.Location = new System.Drawing.Point(260, 118);
+            this.game_Ball.Name = "game_Ball";
+            this.game_Ball.Size = new System.Drawing.Size(14, 14);
+            this.game_Ball.TabIndex = 4;
+            this.game_Ball.TabStop = false;
+            // 
+            // game_Player2
+            // 
+            this.game_Player2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.game_Player2.Location = new System.Drawing.Point(518, 110);
+            this.game_Player2.Name = "game_Player2";
+            this.game_Player2.Size = new System.Drawing.Size(8, 30);
+            this.game_Player2.TabIndex = 3;
+            this.game_Player2.TabStop = false;
+            // 
+            // panelGameScore
+            // 
+            this.panelGameScore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.panelGameScore.Controls.Add(this.game_Player1_Score);
+            this.panelGameScore.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelGameScore.Location = new System.Drawing.Point(0, 262);
+            this.panelGameScore.Name = "panelGameScore";
+            this.panelGameScore.Size = new System.Drawing.Size(538, 31);
+            this.panelGameScore.TabIndex = 5;
+            // 
+            // game_Player1_Score
+            // 
+            this.game_Player1_Score.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.game_Player1_Score.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.game_Player1_Score.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.game_Player1_Score.Location = new System.Drawing.Point(0, 0);
+            this.game_Player1_Score.Name = "game_Player1_Score";
+            this.game_Player1_Score.Size = new System.Drawing.Size(538, 31);
+            this.game_Player1_Score.TabIndex = 5;
+            this.game_Player1_Score.Text = "Score: 0/40    -    Lives: 5";
+            this.game_Player1_Score.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // game_Timer
+            // 
+            this.game_Timer.Interval = 1;
+            this.game_Timer.Tick += new System.EventHandler(this.game_Timer_Tick);
+            // 
+            // game_AITimer
+            // 
+            this.game_AITimer.Interval = 1;
+            this.game_AITimer.Tick += new System.EventHandler(this.game_AITimer_Tick);
+            // 
+            // game_Instructions
+            // 
+            this.game_Instructions.AutoSize = true;
+            this.game_Instructions.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.game_Instructions.Location = new System.Drawing.Point(158, 143);
+            this.game_Instructions.Name = "game_Instructions";
+            this.game_Instructions.Size = new System.Drawing.Size(234, 34);
+            this.game_Instructions.TabIndex = 8;
+            this.game_Instructions.Text = "Press F12 to start.\r\nUse Arrow keys to move up and down.";
+            this.game_Instructions.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(538, 293);
-            this.Controls.Add(this.panelMain);
+            this.Controls.Add(this.panelGame);
             this.Controls.Add(this.panelWarning);
-            this.Controls.Add(this.panelRunning);
             this.Controls.Add(this.panelLoading);
+            this.Controls.Add(this.panelRunning);
+            this.Controls.Add(this.panelMain);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ForeColor = System.Drawing.Color.Gray;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(550, 300);
             this.Name = "mainForm";
@@ -383,12 +579,23 @@
             this.Text = "SingleBoostr :: Terms of Service";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyUp);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panelLoading.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.panelWarning.ResumeLayout(false);
             this.panelRunning.ResumeLayout(false);
+            this.panelGame.ResumeLayout(false);
+            this.panelGameArea.ResumeLayout(false);
+            this.panelGameArea.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Obsticle2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Obsticle1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Player1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Ball)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.game_Player2)).EndInit();
+            this.panelGameScore.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -423,6 +630,23 @@
         private System.Windows.Forms.Timer restartGamesTimer;
         private System.Windows.Forms.Label lblClearSelected;
         private System.Windows.Forms.ComboBox cmboxTosLanguage;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Button btnHideWindow;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel2;
+        public System.Windows.Forms.PictureBox game_Player1;
+        public System.Windows.Forms.PictureBox game_Player2;
+        public System.Windows.Forms.PictureBox game_Ball;
+        public System.Windows.Forms.Timer game_Timer;
+        public System.Windows.Forms.Timer game_AITimer;
+        private System.Windows.Forms.Panel panelGameScore;
+        public System.Windows.Forms.Panel panelGameArea;
+        private System.Windows.Forms.Panel panelGame;
+        public System.Windows.Forms.Label game_Player1_Score;
+        public System.Windows.Forms.PictureBox game_Obsticle2;
+        public System.Windows.Forms.PictureBox game_Obsticle1;
+        public System.Windows.Forms.Label game_YouWon;
+        public System.Windows.Forms.Label game_Instructions;
     }
 }
 
