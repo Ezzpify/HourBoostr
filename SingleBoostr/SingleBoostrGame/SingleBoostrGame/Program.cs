@@ -2,6 +2,7 @@
 using SingleBoostr;
 using System.ComponentModel;
 using System.Threading;
+using System.Text;
 using System.Diagnostics;
 
 namespace SingleBoostrGame
@@ -27,16 +28,17 @@ namespace SingleBoostrGame
 
     class Program
     {
-        private static int _parentProcessId = -1;
+        private static int _parentProcessId = 0;
+        private static int _processErrors = 0;
         private static BackgroundWorker _bwg;
-        private static bool _enabled;
+        private static Client _steamClient;
 
         private static void _bwg_DoWork(object sender, DoWorkEventArgs e)
         {
             var parentProcess = Process.GetProcessById(_parentProcessId);
             if (parentProcess != null)
             {
-                while (_enabled)
+                while (!_bwg.CancellationPending)
                 {
                     try
                     {
@@ -46,7 +48,8 @@ namespace SingleBoostrGame
                     }
                     catch
                     {
-                        break;
+                        if (++_processErrors >= 3)
+                            break;
                     }
 
                     Thread.Sleep(TimeSpan.FromSeconds(15));
@@ -56,23 +59,12 @@ namespace SingleBoostrGame
             Environment.Exit(1);
         }
 
-        private static void restInfo(string[] args)
+        private static string getUnicodeString(string str)
         {
-            if (args.Length >= 2)
-                Console.Title = args[1];
-            
-            if (args.Length >= 3 && int.TryParse(args[2], out _parentProcessId))
-            {
-                if (_parentProcessId == 0)
-                    return;
-
-                _enabled = true;
-                _bwg = new BackgroundWorker();
-                _bwg.DoWork += _bwg_DoWork;
-                _bwg.RunWorkerAsync();
-            }
+            byte[] bytes = Encoding.Default.GetBytes(str);
+            return Encoding.UTF8.GetString(bytes);
         }
-        
+
         static void Main(string[] args)
         {
             long appId = 0;
@@ -81,19 +73,33 @@ namespace SingleBoostrGame
                 if (appId == 0)
                     return;
 
-                var client = new Client();
-                if (client.Initialize(appId))
+                _steamClient = new Client();
+                if (_steamClient.Initialize(appId))
                 {
-                    restInfo(args);
-                    Console.WriteLine("Running! Press any key to stop idling.");
+                    string gameName = _steamClient.SteamApps001.GetAppData((uint)appId, "name").Trim();
+                    Console.Title = string.IsNullOrWhiteSpace(gameName) ? "Unknown game" : getUnicodeString(gameName);
+
+                    if (args.Length >= 2 && int.TryParse(args[1], out _parentProcessId))
+                    {
+                        if (_parentProcessId == 0)
+                            return;
+
+                        _bwg = new BackgroundWorker() { WorkerSupportsCancellation = true };
+                        _bwg.DoWork += _bwg_DoWork;
+                        _bwg.RunWorkerAsync();
+                    }
+
+                    Console.WriteLine("Running! Press any key or close window to stop idling.");
                     Console.ReadKey();
-                    _enabled = false;
+
+                    if (_bwg != null && _bwg.IsBusy)
+                        _bwg.CancelAsync();
                 }
             }
             else
             {
                 Console.Title = "SingleBoostr.Game :: Missing arguments";
-                Console.WriteLine("Missing arguments:\n - appId (long)\n - gameName (string) (opional)\n - parentProcessId (int) (optional)");
+                Console.WriteLine("Missing arguments:\n - appId (long)\n - parentProcessId (int) (optional)");
                 Console.WriteLine("\n\nPress any key to exit...");
                 Console.ReadKey();
             }

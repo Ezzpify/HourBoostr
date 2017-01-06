@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: SAM.API.Wrappers.SteamClient009
-// Assembly: SAM.API, Version=6.3.0.804, Culture=neutral, PublicKeyToken=null
-// MVID: 7DF108F6-41E2-4750-9029-3DA2C808D0A1
-// Assembly location: E:\Dropbox\SPARA\Develop\HourBoostr\SingleBoostr\SingleBoostr\SAM.API.dll
-
-using SingleBoostr.API.Interfaces;
+﻿using SingleBoostr.API.Interfaces;
 using SingleBoostr.API.Types;
 using System;
 using System.Runtime.InteropServices;
@@ -55,6 +49,19 @@ namespace SingleBoostr.API.Wrappers
         TClass @class = new TClass();
         @class.SetupFunctions(objectAddress);
         return @class;
+    }
+
+    private TClass GetISteamFriends<TClass>(int user, int pipe, string version) where TClass : INativeWrapper, new()
+    {
+        IntPtr objectAddress = this.Call<IntPtr, SteamClient009.NativeGetISteamFriends>(this.Functions.GetISteamFriends, (object)this.ObjectAddress, (object)user, (object)pipe, (object)version);
+        TClass @class = new TClass();
+        @class.SetupFunctions(objectAddress);
+        return @class;
+    }
+
+    public SteamFriends005 GetSteamFriends005(int user, int pipe)
+    {
+        return this.GetISteamFriends<SteamFriends005>(user, pipe, "SteamFriends005");
     }
 
     public SteamUser012 GetSteamUser012(int user, int pipe)
@@ -153,6 +160,9 @@ namespace SingleBoostr.API.Wrappers
 
     [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
     private delegate IntPtr NativeGetISteamUser(IntPtr thisObject, int hSteamUser, int hSteamPipe, string pchVersion);
+
+    [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+    private delegate IntPtr NativeGetISteamFriends(IntPtr thisObject, int hSteamUser, int hSteamPipe, string pchVersion);
 
     [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
     private delegate IntPtr NativeGetISteamGameServer(IntPtr thisObject, int hSteamUser, int hSteamPipe, string pchVersion);

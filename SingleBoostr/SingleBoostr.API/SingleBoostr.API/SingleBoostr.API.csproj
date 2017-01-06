@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\ISteamApps001.cs" />
     <Compile Include="Interfaces\ISteamApps003.cs" />
     <Compile Include="Interfaces\ISteamClient009.cs" />
+    <Compile Include="Interfaces\ISteamFriends005.cs" />
     <Compile Include="Interfaces\ISteamGameServer009.cs" />
     <Compile Include="Interfaces\ISteamUser012.cs" />
     <Compile Include="Interfaces\ISteamUserStats007.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Wrappers\SteamApps001.cs" />
     <Compile Include="Wrappers\SteamApps003.cs" />
     <Compile Include="Wrappers\SteamClient009.cs" />
+    <Compile Include="Wrappers\SteamFriends005.cs" />
     <Compile Include="Wrappers\SteamGameServer009.cs" />
     <Compile Include="Wrappers\SteamUser012.cs" />
     <Compile Include="Wrappers\SteamUserStats007.cs" />

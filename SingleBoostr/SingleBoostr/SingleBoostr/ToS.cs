@@ -12,6 +12,12 @@ namespace SingleBoostr
         public static Dictionary<string, string> Languages = new Dictionary<string, string>()
         {
             { "English", "en" },
+            { "Español", "es" },
+            { "Tiếng Việt", "vi" },
+            { "中文", "zh" },
+            { "Türkçe", "tr" },
+            { "Čeština", "cs" },
+            { "Polski", "pl" },
             { "Nederlands", "nl" },
             { "Lietuvių Kalba", "lt" },
             { "Українська", "uk" },
@@ -31,8 +37,80 @@ namespace SingleBoostr
 
         public static string GetTermsOfService(string language)
         {
-            switch (language)
+            switch (language.ToLower())
             {
+                case "es":
+                    /*Spanish*/
+                    return "Usted debe aceptar los siguientes condiciones antes de continuar:\n\n"
+
+                        + "Este programa no impondrá el bloqueo VAC a su cuenta. Sin embargo, se asumirá la responsabilidad, "
+                        + "si por alguna razón su cuenta se impuso el bloqueo. Espero que seas lo suficientemente inteligente "
+                        + "y no hacer trampas en su cuenta y, a continuación, echarle la culpa al programa ni a mí.\n\n"
+
+                        + "¿Usted entiende y está de acuerdo con eso?\n"
+                        + "Pulse 'No' para salir del programa.\n\n"
+                        + "Translation by: AxsusXD";
+
+                case "vi":
+                    /*Vietnamese*/
+                    return "Trước khi tiếp tục, bạn phải đồng ý những điều khoản dưới đây:\n\n"
+
+                        + "Phần mềm này sẽ không làm tài khoản của bạn bị VAC ban. Tuy nhiên, tôi sẽ không chịu "
+                        + "trách nhiệm cho bất cứ trường hợp nào khiến tài khoản của bạn bị ban. Đừng đổ lỗi cho tôi hay "
+                        + "phần mềm này nếu chính bạn là người gian lận khiến tài khoản của bạn bị khóa.\n\n"
+
+                        + "Bạn đã hiểu rõ và chấp nhận điều trên chưa?\n"
+                        + "Ấn vào nút 'No' để thoát khỏi chương trình.\n\n"
+                        + "Translation by: 01";
+
+                case "zh":
+                    /*Chinese*/
+                    return "在继续之前，您请同意以下条款：\n\n"
+
+                        + "此程序不会导致您的帐户被VAC Ban，"
+                        + "但是如果您的账号被VAC Ban 作者不会承担任何责任！"
+                        + "我希望你们不要在游戏中作弊然后怪罪于我或软件。\n\n"
+
+                        + "请问您明白并同意这条款吗？\n"
+                        + "点击“不同意”将会退出软件。\n\n"
+                        + "Translation by: 氷% lolix";
+
+                case "tr":
+                    /*Turkish*/
+                    return "Devam etmeden önce lütfen aşağıdaki şartları kabul edin:\n\n"
+
+                        + "Bu program, hesabınızın VAC ban yemesine sebep olmayacaktır. Ancak hesabınızın herhangi bir şekilde "
+                        + "VAC ban yemesi durumunda herhangi bir sorumluluk kabul etmiyorum. Umarım hesabınızda "
+                        + "hile kullanıp banlandıktan sonra bu programı suçlamayacak kadar akıllısınızdır.\n\n"
+
+                        + "Bunu anlıyor ve kabul ediyor musunuz?\n"
+                        + "HAYIR'a basmak programı kapatacaktır.\n\n"
+                        + "Translation by: J A C E I K S";
+
+                case "cs":
+                    /*Czech*/
+                    return "Prosím, souhlaste s následujícími podmínkami, než budete pokračovat:\n\n"
+
+                        + "Tento program nezpůsobí VAC ban. Nicméně, nenesu žádnou odpovědnost "
+                        + "pokud z nějakého důvodu váš účet dostane VAC ban. Doufám, že jste chytří "
+                        + "dost na to, aby jste nehackovali na vašem účtu a pak mě za to budete obviňovali.\n\n"
+
+                        + "Rozumíte a souhlasíte s těmito podmínkami?\n"
+                        + "Stisknutí 'No' ukončí program.\n\n"
+                        + "Translation by: mike";
+
+                case "pl":
+                    /*Polish*/
+                    return "Przeczytaj poniższą informację przed kontynuacją:\n\n"
+
+                        + "Ten program nie sprawi, że Twoje konto dostanie VAC'a. Nie odpowiadam, za zbanowane konta, bo "
+                        + "myślę że jesteś na tyle mądry, że nie cheatujesz. Jeżeli dostaniesz VAC'a a cheatowałeś, nie "
+                        + "obwiniaj mnie bądź tego programu.\n\n"
+
+                        + "Zrozumiałeś i akceptujesz to?\n"
+                        + "Klikając 'No' zamkniesz program.\n\n"
+                        + "Translation by: Rusek";
+
                 case "nl":
                     /*Dutch*/
                     return "Ga akkoord met de volgende voorwaarden voordat u verder gaat:\n\n"
