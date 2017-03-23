@@ -931,7 +931,7 @@ namespace SingleBoostr
             System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
             snd.Play();
 
-            MsgBox.Show("No cards left to idle.", "Done", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+            MsgBox.Show("No cards left to idle!", "Done", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
             ShowWindow(WindowPanel.Start);
         }
 
@@ -1084,13 +1084,14 @@ namespace SingleBoostr
                             continue;
 
                         document.LoadHtml(response);
+
                         var tempList = ProcessBadgesOnPage(document);
                         appList.AddRange(tempList);
                     }
 
                     if (appList.Count() > 0)
                     {
-                        /*We'll use Enhanced Steam api to get the prices of each card here
+                        /*We'll use Enhanced Steam api to get the prices of each card here.
                          Hihihihihihihihihihihihi don't hate me cuz i am just a silly anime girl*/
                         string appids = string.Join(",", appList.Select(o => o.appid));
                         string priceUrl = $"{Const.CARD_PRICE_URL}{appids}";
@@ -1145,35 +1146,39 @@ namespace SingleBoostr
             foreach (var badge in document.DocumentNode.SelectNodes("//div[@class=\"badge_row is_link\"]"))
             {
                 var appIdNode = badge.SelectSingleNode(".//a[@class=\"badge_row_overlay\"]").Attributes["href"].Value;
-                var appid = Regex.Match(appIdNode, @"gamecards/(\d+)/").Groups[1].Value;
+                string appid = Regex.Match(appIdNode, @"gamecards/(\d+)/").Groups[1].Value;
 
-                var hoursNode = badge.SelectSingleNode(".//div[@class=\"badge_title_stats_playtime\"]");
-                var hours = hoursNode == null ? string.Empty : Regex.Match(hoursNode.InnerText, @"[0-9\.,]+").Value;
-
-                var cardNode = badge.SelectSingleNode(".//span[@class=\"progress_info_bold\"]");
-                var cards = cardNode == null ? string.Empty : Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
-
-                if (string.IsNullOrWhiteSpace(appid) || string.IsNullOrWhiteSpace(cards))
+                if (string.IsNullOrWhiteSpace(appid))
                     continue;
 
-                if (uint.TryParse(appid, out uint id))
+                var hoursNode = badge.SelectSingleNode(".//div[@class=\"badge_title_stats_playtime\"]");
+                string hours = hoursNode == null ? string.Empty : Regex.Match(hoursNode.InnerText, @"[0-9\.,]+").Value;
+
+                var cardNode = badge.SelectSingleNode(".//span[@class=\"progress_info_bold\"]");
+                if (cardNode != null && !string.IsNullOrWhiteSpace(cardNode.InnerText))
                 {
-                    var game = _appList.FirstOrDefault(o => o.appid == id);
-                    if (game != null)
+                    string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
+                    cards = string.IsNullOrWhiteSpace(cards) ? "0" : cards;
+                    
+                    if (uint.TryParse(appid, out uint id))
                     {
-                        var tc = new TradeCard();
-
-                        if (double.TryParse(hours, out double hoursplayed))
+                        var game = _appList.FirstOrDefault(o => o.appid == id);
+                        if (game != null)
                         {
-                            var span = TimeSpan.FromHours(hoursplayed);
-                            tc.minutesplayed = span.TotalMinutes;
+                            var tc = new TradeCard();
+
+                            if (double.TryParse(hours, out double hoursplayed))
+                            {
+                                var span = TimeSpan.FromHours(hoursplayed);
+                                tc.minutesplayed = span.TotalMinutes;
+                            }
+
+                            if (int.TryParse(cards, out int cardsremaining))
+                                tc.cardsremaining = cardsremaining;
+
+                            game.card = tc;
+                            list.Add(game);
                         }
-
-                        if (int.TryParse(cards, out int cardsremaining))
-                            tc.cardsremaining = cardsremaining;
-
-                        game.card = tc;
-                        list.Add(game);
                     }
                 }
             }

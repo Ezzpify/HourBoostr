@@ -157,8 +157,8 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
-            this.PanelContainer.Controls.Add(this.PanelCardsStarted);
             this.PanelContainer.Controls.Add(this.PanelStart);
+            this.PanelContainer.Controls.Add(this.PanelCardsStarted);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
             this.PanelContainer.Controls.Add(this.PanelTos);
             this.PanelContainer.Controls.Add(this.PanelIdle);
