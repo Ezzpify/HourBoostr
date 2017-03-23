@@ -209,6 +209,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="sound\coin.wav" />
+    <None Include="sound\coin.mp3" />
     <None Include="media\Interface\Media\Min.png" />
     <None Include="media\Interface\Media\Min-Selected.png" />
     <None Include="media\Interface\Media\Active-Selected.png" />

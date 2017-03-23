@@ -413,6 +413,21 @@ namespace SingleBoostr
             }
         }
 
+        private async void TmrChangeBackground_Tick(object sender, EventArgs e)
+        {
+            TmrChangeBackground.Stop();
+
+            var firstApp = _appListActive.FirstOrDefault();
+            if (firstApp != null)
+            {
+                Bitmap bg = await GetAppBackground(firstApp.appid);
+                if (bg != null)
+                {
+                    BackgroundImage = bg;
+                }
+            }
+        }
+
         private void TmrCheckCardProgress_Tick(object sender, EventArgs e)
         {
             _log.Write(Log.LogLevel.Warn, $"Been an hour since our last drop. Checking card progress to make sure we're not stuck.");
@@ -480,7 +495,17 @@ namespace SingleBoostr
         private async void TmrCardBatchCheck_Tick(object sender, EventArgs e)
         {
             _appListBadges = await LoadBadges();
-            StartNextCard();
+            if (_appListBadges == null)
+            {
+                MsgBox.Show("Unable to read Steam badges. Re-authenticate by logging into Steam again.",
+                    "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                ShowWindow(WindowPanel.Cards);
+                StopApps();
+            }
+            else
+            {
+                StartNextCard();
+            }
         }
 
         private void PanelIdleListGames_SelectedIndexChanged(object sender, EventArgs e)
@@ -873,24 +898,41 @@ namespace SingleBoostr
         private async void StartCardsFarming()
         {
             _appListBadges = await LoadBadges();
-            _log.Write(Log.LogLevel.Info, $"Loaded {_appListBadges.Count} apps with badges.");
-
-            if (_appListBadges.Count == 0)
+            if (_appListBadges == null)
             {
                 MsgBox.Show("Unable to read Steam badges. Re-authenticate by logging into Steam again.",
                     "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
                 ShowWindow(WindowPanel.Cards);
+                StopApps();
             }
             else
             {
-                if (_settings.Settings.IdleCardsWithMostValue)
+                _log.Write(Log.LogLevel.Info, $"Loaded {_appListBadges.Count} apps with badges.");
+                if (_appListBadges.Count == 0)
                 {
-                    _appListBadges = _appListBadges.OrderByDescending(o => o.card.price).ToList();
-                    _log.Write(Log.LogLevel.Info, $"Sorted badge list by price gathered from Enhanced Steam.");
+                    DoneCardFarming();
                 }
+                else
+                {
+                    if (_settings.Settings.IdleCardsWithMostValue)
+                    {
+                        _appListBadges = _appListBadges.OrderByDescending(o => o.card.price).ToList();
+                        _log.Write(Log.LogLevel.Info, $"Sorted badge list by price gathered from Enhanced Steam.");
+                    }
 
-                StartNextCard();
+                    StartNextCard();
+                }
             }
+        }
+
+        private void DoneCardFarming()
+        {
+            Stream str = Properties.Resources.coin;
+            System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
+            snd.Play();
+
+            MsgBox.Show("No cards left to idle.", "Done", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+            ShowWindow(WindowPanel.Start);
         }
 
         private async void CheckCurrentBadge()
@@ -909,7 +951,7 @@ namespace SingleBoostr
                 else
                 {
                     _log.Write(Log.LogLevel.Info, $"Cards left for current card: {_appCurrentCardGame.card.cardsremaining}");
-                    Invoke(new Action(() => { PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left"; }));
+                    Invoke(new Action(() => { PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total"; }));
                 }
             }
             else
@@ -951,7 +993,7 @@ namespace SingleBoostr
                     PanelCardsStartedPicGame.Image = Utils.BytesToImage(imageBytes);
 
                 PanelCardsStartedLblCurrentGame.Text = app.name;
-                PanelCardsStartedLblCardsLeft.Text = $"{app.card.cardsremaining} Cards left";
+                PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
 
                 _log.Write(Log.LogLevel.Info, $"Started card {app.name}");
                 _appListActive.Add(app);
@@ -959,7 +1001,7 @@ namespace SingleBoostr
             }
             else
             {
-                _log.Write(Log.LogLevel.Info, $"App when getting next card is null. Are we done with all cards?");
+                DoneCardFarming();
             }
 
             PanelCardsStartedBtnNext.Enabled = true;
@@ -1081,6 +1123,10 @@ namespace SingleBoostr
                             }
                         }
                     }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -1133,21 +1179,6 @@ namespace SingleBoostr
             }
 
             return list;
-        }
-
-        private async void TmrChangeBackground_Tick(object sender, EventArgs e)
-        {
-            TmrChangeBackground.Stop();
-
-            var firstApp = _appListActive.FirstOrDefault();
-            if (firstApp != null)
-            {
-                Bitmap bg = await GetAppBackground(firstApp.appid);
-                if (bg != null)
-                {
-                    BackgroundImage = bg;
-                }
-            }
         }
 
         private async Task<Bitmap> GetAppBackground(uint appid)

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO;
 using SteamKit2;
 using SteamKit2.Discovery;
 using SteamKit2.Internal;
@@ -89,7 +90,7 @@ namespace HourBoostr
             Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
             Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
             Console.WriteLine($"  Source: https://github.com/Ezzpify/");
-            Console.WriteLine($"  Build date: {GetBuildDate().ToString()}");
+            Console.WriteLine($"  Build date: {File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location)}");
             Console.WriteLine($"  Version: {Application.ProductVersion}\n");
             Console.WriteLine($"  ----------------------------------------");
             Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");

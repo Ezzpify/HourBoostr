@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\icon.ico" />
     <None Include="media\icon.ico" />
     <None Include="media\icon.png" />
   </ItemGroup>
