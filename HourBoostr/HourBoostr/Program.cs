@@ -168,6 +168,9 @@ namespace HourBoostr
                         Console.WriteLine("Updated user settings");
                 }
 
+                mTrayIcon.Visible = false;
+                mTrayIcon.Dispose();
+
                 Console.WriteLine("Exiting...");
                 Thread.Sleep(500);
             }

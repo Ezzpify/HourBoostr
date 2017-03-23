@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A2D5A6B-0BAB-4931-8C34-37D7A8DD3C81}</ProjectGuid>
+    <ProjectGuid>{A0C0009A-6C5D-4EB3-A8B3-1E81488B3D8C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SingleBoostr</RootNamespace>
     <AssemblyName>SingleBoostr</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -32,13 +31,38 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SingleBoostr.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\SingleBoostr.API.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Steam4NET">
+      <HintPath>libs\Steam4NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,21 +77,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Const.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GameInfo.cs" />
-    <Compile Include="mainForm.cs">
+    <Compile Include="AppInfo.cs" />
+    <Compile Include="BrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="mainForm.Designer.cs">
-      <DependentUpon>mainForm.cs</DependentUpon>
+    <Compile Include="BrowserForm.Designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Const.cs" />
+    <Compile Include="localization\TermsOfService.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MsgBox.Designer.cs">
+      <DependentUpon>MsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToS.cs" />
-    <EmbeddedResource Include="mainForm.resx">
-      <DependentUpon>mainForm.cs</DependentUpon>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SteamWeb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Store.cs" />
+    <Compile Include="UpdateCheck.cs" />
+    <Compile Include="Utils.cs" />
+    <EmbeddedResource Include="BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MsgBox.resx">
+      <DependentUpon>MsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -79,29 +138,86 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.ico" />
-    <None Include="media\nightoffire.mp3" />
+    <None Include="media\Interface\Media\Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Button-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Cards.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Cards-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Idle-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\UI items\icon-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\UI items\ss_dc55eeb409d6e187456a8e159018e8da098fa468.600x338.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Back-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Exit-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\Settings-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\GamePlaceholder.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="media\Interface\Media\header.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <None Include="media\Interface\Media\Min.png" />
+    <None Include="media\Interface\Media\Min-Selected.png" />
+    <None Include="media\Interface\Media\Active-Selected.png" />
+    <None Include="media\Interface\Media\Active_Selected.png" />
+    <None Include="media\Interface\Media\Active.png" />
+    <None Include="media\Interface\Media\Load.png" />
+    <None Include="media\Interface\Media\Icon.png" />
+    <None Include="media\Interface\Media\Icon.ico" />
+    <None Include="media\Interface\Media\Icon-Transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

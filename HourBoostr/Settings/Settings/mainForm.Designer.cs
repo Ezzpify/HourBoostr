@@ -37,6 +37,7 @@
             this.cbCommunity = new System.Windows.Forms.CheckBox();
             this.cbRestartGames = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbIgnoreAccount = new System.Windows.Forms.CheckBox();
             this.txtResponse = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblRemoveLoginKey = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.removeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStartBooster = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.cbIgnoreAccount = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -154,6 +154,17 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // cbIgnoreAccount
+            // 
+            this.cbIgnoreAccount.AutoSize = true;
+            this.cbIgnoreAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbIgnoreAccount.Location = new System.Drawing.Point(21, 122);
+            this.cbIgnoreAccount.Name = "cbIgnoreAccount";
+            this.cbIgnoreAccount.Size = new System.Drawing.Size(128, 19);
+            this.cbIgnoreAccount.TabIndex = 6;
+            this.cbIgnoreAccount.Text = "Ignore this account";
+            this.cbIgnoreAccount.UseVisualStyleBackColor = true;
             // 
             // txtResponse
             // 
@@ -377,17 +388,6 @@
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "HourBoostr";
-            // 
-            // cbIgnoreAccount
-            // 
-            this.cbIgnoreAccount.AutoSize = true;
-            this.cbIgnoreAccount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbIgnoreAccount.Location = new System.Drawing.Point(21, 122);
-            this.cbIgnoreAccount.Name = "cbIgnoreAccount";
-            this.cbIgnoreAccount.Size = new System.Drawing.Size(128, 19);
-            this.cbIgnoreAccount.TabIndex = 6;
-            this.cbIgnoreAccount.Text = "Ignore this account";
-            this.cbIgnoreAccount.UseVisualStyleBackColor = true;
             // 
             // mainForm
             // 

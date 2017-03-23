@@ -1,583 +1,1512 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Text;
-using System.Diagnostics;
+using System.Data;
 using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Globalization;
 using System.Net;
+using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Xml;
+using System.IO;
+using System.Diagnostics;
+using Microsoft.Win32;
+using Steam4NET;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SingleBoostr
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
-        private Game _game;
-        private Client _steamClient = new Client();
-        private List<GameInfo> _gameList = new List<GameInfo>();
-        private List<GameInfo> _gameListSelected = new List<GameInfo>();
-        private List<Process> _gameProcessList = new List<Process>();
+        private Log _log;
+        private Log _logChat;
+        private SteamWeb _steamWeb;
+        private SettingsForm _settings;
+        private Dictionary<ulong, DateTime> _chatResponses;
 
-        private bool _areGamesRunning;
-        private bool _gameCountWarningDisplayed;
-        private bool _windowHidden;
-        private bool _windowHiddenNotificationDisplayed;
+        private bool _canGoBack;
+        private bool _appExiting;
+        private bool _appCountWarningDisplayed;
 
-        private const int _eM_SETCUEBANNER = 0x1501;
-        private const int _maxBoostGameCount = 33;
+        private Session _activeSession;
+        private WindowPanel _activeWindow;
+        private DateTime _idleTimeStarted;
 
-        private static Random _random = new Random();
+        private List<App> _appList = new List<App>();
+        private List<App> _appListActive = new List<App>();
+        private List<App> _appListBadges = new List<App>();
+        private List<App> _appListSelected = new List<App>();
 
-        public mainForm()
+        private App _appCurrentCardGame;
+            
+        private ISteam006 _steam006;
+        private IClientUser _clientUser;
+        private ISteamApps001 _steamApps001;
+        private ISteamApps003 _steamApps003;
+        private IClientEngine _clientEngine;
+        private ISteamUser016 _steamUser016;
+        private IClientFriends _clientFriends;
+        private ISteamClient012 _steamClient012;
+        private ISteamFriends002 _steamFriends002;
+
+        private int _user;
+        private int _pipe;
+
+        private enum WindowPanel
+        {
+            Start, Loading, Tos, Idle, IdleStarted, Cards, CardsStarted
+        }
+
+        private enum Session
+        {
+            None, Idle, Cards, CardsBatch
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                const int CS_DROPSHADOW = 0x20000;
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= CS_DROPSHADOW;
+                return cp;
+            }
+        }
+
+        public MainForm()
         {
             InitializeComponent();
         }
 
-        private void mainForm_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.warningdisplayed)
+            _log = new Log("Main.txt");
+            _logChat = new Log("Chat.txt");
+            _settings = new SettingsForm();
+            _chatResponses = new Dictionary<ulong, DateTime>();
+
+            if (!File.Exists(Const.GAME_EXE))
             {
-                panelLoading.Visible = true;
-                connectToClient();
+                MsgBox.Show($"Missing {Const.GAME_EXE} please redownload program.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                ExitApplication();
             }
-            else
-            {
-                foreach (var key in ToS.Languages)
-                    cmboxTosLanguage.Items.Add(key.Key);
-
-                setTosLanguage();
-                panelWarning.Visible = true;
-            }
-
-            setRestartGamesTimerIntervalRandom();
-        }
-
-        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            stopGames();
-
-            Properties.Settings.Default.selectedgames = new System.Collections.Specialized.StringCollection();
-            foreach (var game in _gameListSelected)
-                Properties.Settings.Default.selectedgames.Add(game.appId.ToString());
-
-            Properties.Settings.Default.Save();
-        }
-
-        private void mainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (_game != null)
-                _game.KeyDown(e.KeyCode);
-        }
-
-        private void mainForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F12)
-            {
-                if (_game == null && panelMain.Visible)
-                {
-                    _game = new Game(this);
-                    panelGame.Visible = true;
-                    panelMain.Visible = false;
-                    Text = "You want a challange, huh?";
-                }
-            }
-
-            if (_game != null)
-                _game.KeyUp(e.KeyCode);
-        }
-
-        private void game_Timer_Tick(object sender, EventArgs e)
-        {
-            _game.ProcessTick();
-        }
-
-        private void game_AITimer_Tick(object sender, EventArgs e)
-        {
-            _game.ProcessEnemyTick();
-        }
-
-        private void btnHideWindow_Click(object sender, EventArgs e)
-        {
-            if (!_windowHidden)
-            {
-                notifyIcon.Visible = true;
-                _windowHidden = true;
-                Hide();
-
-                if (!_windowHiddenNotificationDisplayed)
-                {
-                    notifyIcon.ShowBalloonTip(2000);
-                    _windowHiddenNotificationDisplayed = true;
-                }
-            }
-        }
-
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && _windowHidden)
-            {
-                notifyIcon.Visible = false;
-                _windowHidden = false;
-                Show();
-            }
-        }
-
-        private void btnTosYes_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.warningdisplayed = true;
-            Properties.Settings.Default.Save();
-
-            panelWarning.Visible = false;
-            panelLoading.Visible = true;
-
-            connectToClient();
-        }
-
-        private void btnTosNo_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(1);
-        }
-
-        private void btnIdle_Click(object sender, EventArgs e)
-        {
-            if (!_areGamesRunning)
-            {
-                if (_gameListSelected.Count > 0)
-                {
-                    disableButtonsTemporarily();
-                    startGames();
-
-                    if (cbRestartGames.Checked)
-                        restartGamesTimer.Start();
-                }
-                else
-                {
-                    MessageBox.Show("No games added. Click on games in the left list to select them.",
-                        "Uhh...",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-            }
-        }
-
-        private void btnStopBoost_Click(object sender, EventArgs e)
-        {
-            restartGamesTimer.Stop();
-            disableButtonsTemporarily();
-            stopGames();
-        }
-
-        private void lblGithub_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://github.com/Ezzpify");
-        }
-
-        private void lblClearSelected_Click(object sender, EventArgs e)
-        {
-            _gameList.AddRange(_gameListSelected);
-            _gameListSelected.Clear();
-            refreshGameList();
-        }
-
-        private void cbRestartGames_MouseEnter(object sender, EventArgs e)
-        {
-            cbRestartGames.ForeColor = SystemColors.Highlight;
-        }
-
-        private void cbRestartGames_MouseLeave(object sender, EventArgs e)
-        {
-            cbRestartGames.ForeColor = Color.Gray;
-        }
-
-        private void lblGithub_MouseEnter(object sender, EventArgs e)
-        {
-            lblGithub.ForeColor = SystemColors.Highlight;
-        }
-
-        private void lblGithub_MouseLeave(object sender, EventArgs e)
-        {
-            lblGithub.ForeColor = Color.Gray;
-        }
-
-        private void lblClearSelected_MouseEnter(object sender, EventArgs e)
-        {
-            lblClearSelected.ForeColor = SystemColors.Highlight;
-        }
-
-        private void lblClearSelected_MouseLeave(object sender, EventArgs e)
-        {
-            lblClearSelected.ForeColor = Color.Gray;
-        }
-
-        private void cmboxTosLanguage_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedItem = cmboxTosLanguage.SelectedItem;
-
-            if (selectedItem != null)
-            {
-                string shortCode = string.Empty;
-
-                if (ToS.Languages.TryGetValue((string)selectedItem, out shortCode))
-                    setTosLanguage(shortCode);
-                else
-                    /*Defaults to English*/
-                    setTosLanguage("en");
-            }
-        }
-
-        private void listGames_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*Move clicked items from the game list to the selected list*/
-            var item = listGames.SelectedItem;
-            if (item != null)
-            {
-                var game = _gameList.FirstOrDefault(o => o.name == (string)item);
-                if (game != null)
-                {
-                    _gameListSelected.Add(game);
-                    _gameList.Remove(game);
-
-                    refreshGameList();
-                }
-            }
-        }
-
-        private void listGamesSelected_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*Move clicked items from the selected list to the game list*/
-            var item = listGamesSelected.SelectedItem;
-            if (item != null)
-            {
-                var game = _gameListSelected.FirstOrDefault(o => o.name == (string)item);
-                if (game != null)
-                {
-                    _gameList.Add(game);
-                    _gameListSelected.Remove(game);
-
-                    refreshGameList();
-                }
-            }
-        }
-
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            refreshGameList();
-        }
-
-        private void gameListWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var document = new XmlDocument();
 
             try
             {
-                string localXml = Const.GAME_LIST_LOCAL;
-                if (!File.Exists(localXml))
-                {
-                    /*Fetch the game list from Github*/
-                    string xml = downloadXmlList(Const.GAME_LIST_URL);
-                    if (!string.IsNullOrWhiteSpace(xml))
+                RegistryKey ie_root = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION");
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
+                key.SetValue(AppDomain.CurrentDomain.FriendlyName, 10001, RegistryValueKind.DWord);
+            }
+            catch (Exception ex)
+            {
+                _log.Write(Log.LogLevel.Error, $"Error adding registry key for browser emulation support. {ex.Message}");
+                MsgBox.Show($"Unable to add registry key for browser support. Web pages may appear rather... wonky.\n\n{ex.Message}", "Registry error",
+                    MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+            }
+
+            NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
+            if (_settings.Settings.VACWarningDisplayed)
+            {
+                ShowWindow(WindowPanel.Loading);
+                InitializeApp();
+            }
+            else
+            {
+                string language = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
+                PanelTosLblText.Text = localization.TermsOfService.GetTermsOfService(language);
+                ShowWindow(WindowPanel.Tos);
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopApps();
+            _appExiting = true;
+            BgwSteamCallback.CancelAsync();
+
+            if (_settings.Settings.SaveAppIdleHistory)
+            {
+                _settings.Settings.GameHistoryIds = _appListSelected.Select(o => o.appid).ToList();
+                _settings.SaveSettings();
+            }
+
+            if (_settings.Settings.ClearRecentlyPlayedOnExit)
+            {
+                _appListSelected.Clear();
+
+                _appListSelected.Add(new App() { appid = 399220 });
+                _appListSelected.Add(new App() { appid = 399080 });
+                _appListSelected.Add(new App() { appid = 399480 });
+                StartApps(Session.Idle);
+            }
+
+            AppNotifyIcon.Visible = false;
+            AppNotifyIcon.Dispose();
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            ActiveControl = PanelUserLblName;
+        }
+
+        #region ButtonEvents
+
+        private void showToolStripMenuItemExit_Click(object sender, EventArgs e)
+        {
+            ExitApplication();
+        }
+
+        private void PanelCardsStartedBtnHide_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void PanelIdleStartedBtnHide_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void PanelCardsStartedBtnNext_Click(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnNext.Enabled = false;
+            _appListBadges.Remove(_appCurrentCardGame);
+            StartNextCard();
+        }
+
+        private void PanelIdleStartedBtnStop_Click(object sender, EventArgs e)
+        {
+            StopApps();
+        }
+
+        private void PanelCardsStartedBtnStopIdle_Click(object sender, EventArgs e)
+        {
+            StopApps();
+        }
+
+        private void PanelIdleLblClear_Click(object sender, EventArgs e)
+        {
+            _appList.AddRange(_appListSelected);
+            _appListSelected.Clear();
+            RefreshGameList();
+        }
+
+        private void PanelStartBtnIdle_Click(object sender, EventArgs e)
+        {
+            switch (_activeSession)
+            {
+                case Session.Cards:
+                    var diag = MsgBox.Show("You're already farming Trading Cards.\nDo you wish to stop that and idle other apps?",
+                    "Already active", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Question);
+                    if (diag == DialogResult.Yes)
                     {
-                        File.WriteAllText(Const.GAME_LIST_LOCAL, xml);
+                        StopApps();
+                        ShowWindow(WindowPanel.Idle);
+                    }
+                    break;
+
+                case Session.Idle:
+                    ShowWindow(WindowPanel.IdleStarted);
+                    break;
+
+                case Session.None:
+                    ShowWindow(WindowPanel.Idle);
+                    break;
+            }
+        }
+
+        private void PanelStartBtnCards_Click(object sender, EventArgs e)
+        {
+            switch (_activeSession)
+            {
+                case Session.Cards:
+                    ShowWindow(WindowPanel.CardsStarted);
+                    break;
+
+                case Session.Idle:
+                    var diag = MsgBox.Show("You're already idling other apps.\nDo you wish to stop that and start farming cards?",
+                    "Already active", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Question);
+                    if (diag == DialogResult.Yes)
+                    {
+                        StopApps();
+                        ShowWindow(WindowPanel.Cards);
+                    }
+                    break;
+
+                case Session.None:
+                    if (_settings.Settings.WebSession.IsLoggedIn())
+                    {
+                        _steamWeb = new SteamWeb(_settings.Settings.WebSession);
+                        ShowWindow(WindowPanel.Loading);
+                        StartCardsFarming();
+                    }
+                    else
+                    {
+                        ShowWindow(WindowPanel.Cards);
+                    }
+                    break;
+            }
+        }
+
+        private void PanelUserPicGoBack_Click(object sender, EventArgs e)
+        {
+            if (_canGoBack)
+            {
+                if (_activeWindow == WindowPanel.Start)
+                {
+                    switch (_activeSession)
+                    {
+                        case Session.Cards:
+                            ShowWindow(WindowPanel.CardsStarted);
+                            break;
+
+                        case Session.Idle:
+                        case Session.CardsBatch:
+                            ShowWindow(WindowPanel.IdleStarted);
+                            break;
                     }
                 }
-
-                document.Load(localXml);
-                foreach (XmlNode node in document.SelectNodes("/games/game"))
+                else
                 {
-                    if (string.IsNullOrWhiteSpace(node.InnerText))
-                        continue;
+                    ShowWindow(WindowPanel.Start);
+                }
+            }
+        }
 
-                    long appId = 0;
-                    if (long.TryParse(node.InnerText, out appId))
+        private void PanelidleBtnIdle_Click(object sender, EventArgs e)
+        {
+            if (_appListSelected.Count > 0)
+            {
+                if (_activeSession == Session.None)
+                {
+                    _appListActive = _appListSelected.ToList();
+                    StartApps(Session.Idle);
+                }
+            }
+            else
+            {
+                MsgBox.Show("You didn't select any games.", "Start Idle", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+            }
+        }
+
+        private async void PanelCardsBtnLogin_Click(object sender, EventArgs e)
+        {
+            var browser = new BrowserForm();
+            if (browser.ShowDialog() == DialogResult.OK)
+            {
+                if (browser.Session.IsLoggedIn())
+                {
+                    ShowWindow(WindowPanel.Loading);
+                    if (_settings.Settings.SaveLoginCookies)
+                        _settings.AddBrowserSessionInfo(browser.Session);
+
+                    _steamWeb = new SteamWeb(_settings.Settings.WebSession);
+                    if (_settings.Settings.JoinSteamGroup)
                     {
-                        if (appId == 0)
+                        string joinGroupUrl = $"{Const.STEAM_GROUP_URL}?sessionID={browser.Session.SessionId}&action=join";
+                        await _steamWeb.Request(joinGroupUrl);
+                    }
+
+                    StartCardsFarming();
+                    return;
+                }
+            }
+
+            ShowWindow(WindowPanel.Start);
+        }
+
+        private void PanelStartBtnExit_Click(object sender, EventArgs e)
+        {
+            ExitApplication();
+        }
+
+        private void PanelStartBtnSettings_Click(object sender, EventArgs e)
+        {
+            _settings.ShowDialog();
+        }
+
+        private void PanelTosBtnAccept_Click(object sender, EventArgs e)
+        {
+            _settings.Settings.VACWarningDisplayed = true;
+            ShowWindow(WindowPanel.Loading);
+            InitializeApp();
+        }
+
+        private void PanelTosBtnDecline_Click(object sender, EventArgs e)
+        {
+            ExitApplication();
+        }
+
+        private void PanelStartPicGithub_Click(object sender, EventArgs e)
+        {
+            Process.Start(Const.GITHUB_PROFILE_URL);
+        }
+
+        #endregion ButtonEvents
+
+        #region OtherEvents
+
+        private void BgwSteamCallback_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var callbackMsg = new CallbackMsg_t();
+            int callbackErrors = 0;
+            while (!BgwSteamCallback.CancellationPending)
+            {
+                try
+                {
+                    while (Steamworks.GetCallback(_pipe, ref callbackMsg))
+                    {
+                        switch (callbackMsg.m_iCallback)
+                        {
+                            case FriendChatMsg_t.k_iCallback:
+                                var msg = (FriendChatMsg_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(FriendChatMsg_t));
+                                if ((EChatEntryType)msg.m_eChatEntryType == EChatEntryType.k_EChatEntryTypeChatMsg)
+                                {
+                                    var data = new Byte[4096];
+                                    EChatEntryType type = EChatEntryType.k_EChatEntryTypeChatMsg;
+                                    var length = _steamFriends002.GetChatMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
+
+                                    string message = Encoding.UTF8.GetString(data, 0, length).Replace("\0", "");
+                                    string senderName = _steamFriends002.GetFriendPersonaName(msg.m_ulSenderID);
+                                    OnFriendChatMsg(message, senderName, msg.m_ulSenderID, msg.m_ulFriendID);
+                                }
+                                break;
+
+                            case AccountInformationUpdated_t.k_iCallback:
+                                SetUserInfo();
+                                break;
+
+                            case UpdateItemAnnouncement_t.k_iCallback:
+                                OnNewItem((UpdateItemAnnouncement_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(UpdateItemAnnouncement_t)));
+                                break;
+                        }
+
+                        if (!Steamworks.FreeLastCallback(_pipe))
+                            callbackErrors = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Write(Log.LogLevel.Error, $"Exception occured while handling Steam callback. {ex.Message}");
+
+                    if (++callbackErrors > 5)
+                        break;
+                }
+                finally
+                {
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        private void BgwSteamCallback_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!_appExiting)
+            {
+                _log.Write(Log.LogLevel.Error, "Too many errors occured in callback thread.");
+                MsgBox.Show("Steam callbacks broke. Is Steam client running properly? Restart SingleBoostr in order for things to work properly. Please report this error.", 
+                    "Error", MsgBox.Buttons.Fuck, MsgBox.MsgIcon.Error);
+            }
+        }
+
+        private void TmrCheckCardProgress_Tick(object sender, EventArgs e)
+        {
+            _log.Write(Log.LogLevel.Warn, $"Been an hour since our last drop. Checking card progress to make sure we're not stuck.");
+            CheckCurrentBadge();
+        }
+
+        private void TmrCheckProcess_Tick(object sender, EventArgs e)
+        {
+            foreach (var app in _appListActive)
+            {
+                if (app.process.HasExited && _activeSession != Session.None)
+                {
+                    app.process.Start();
+                    _log.Write(Log.LogLevel.Info, $"{app.name} had exited and has now been restarted.");
+                }
+            }
+        }
+
+        private void TmrRestartApp_Tick(object sender, EventArgs e)
+        {
+            if (_settings.Settings.RestartGamesAtRandom)
+            {
+                var app = _appListActive[Utils.GetRandom().Next(_appListActive.Count)];
+                if (!app.process.HasExited)
+                {
+                    try
+                    {
+                        app.process.Kill();
+                        _log.Write(Log.LogLevel.Info, $"Randomly restarted {app.name}");
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Write(Log.LogLevel.Error, $"Unable to restart {app.name}. Error: {ex.Message}");
+                    }
+                }
+            }
+            else
+            {
+                foreach (var app in _appListActive)
+                {
+                    if (!app.process.HasExited)
+                    {
+                        try
+                        {
+                            app.process.Kill();
+                            _log.Write(Log.LogLevel.Info, $"Restarted {app.name}");
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Write(Log.LogLevel.Error, $"Unable to restart {app.name}. Error: {ex.Message}");
+                        }
+                    }
+                }
+            }
+
+            SetRandomTmrRestartAppInterval();
+        }
+
+        private void TmrIdleTime_Tick(object sender, EventArgs e)
+        {
+            var elapsedDate = DateTime.Now.Subtract(_idleTimeStarted);
+            PanelIdleStartedLblIdleTime.Text = $"You've been idling for {string.Format("{0:D2}:{1:D2}:{2:D2}:{3:D2}", elapsedDate.Days, elapsedDate.Hours, elapsedDate.Minutes, elapsedDate.Seconds)}";
+        }
+
+        private async void TmrCardBatchCheck_Tick(object sender, EventArgs e)
+        {
+            _appListBadges = await LoadBadges();
+            StartNextCard();
+        }
+
+        private void PanelIdleListGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var item = PanelIdleListGames.SelectedItem;
+            if (item == null)
+                return;
+
+            var game = _appList.FirstOrDefault(o => o.GetIdAndName() == (string)item);
+            if (game == null)
+                return;
+
+            _appListSelected.Add(game);
+            _appList.Remove(game);
+
+            RefreshGameList();
+        }
+
+        private void PanelIdleListGamesSelected_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var item = PanelIdleListGamesSelected.SelectedItem;
+            if (item == null)
+                return;
+
+            var game = _appListSelected.FirstOrDefault(o => o.GetIdAndName() == (string)item);
+            if (game == null)
+                return;
+
+            _appListSelected.Remove(game);
+            _appList.Add(game);
+
+            RefreshGameList();
+        }
+
+        private void PanelIdleTxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGameList();
+        }
+
+        #endregion OtherEvents
+
+        #region MoveForm
+
+        private void PanelTosLblText_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelUser_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelCards_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelCardsStarted_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelIdle_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelStart_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelIdleStarted_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelLoading_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        private void PanelTos_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+            }
+        }
+
+        #endregion MoveForm
+
+        #region UIStyle
+
+        private void PanelIdleStartedBtnHide_MouseEnter(object sender, EventArgs e)
+        {
+            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelIdleStartedBtnHide_MouseLeave(object sender, EventArgs e)
+        {
+            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelCardsStartedBtnHide_MouseEnter(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelCardsStartedBtnHide_MouseLeave(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelCardsStartedBtnNext_MouseEnter(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelCardsStartedBtnNext_MouseLeave(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelTosBtnAccept_MouseEnter(object sender, EventArgs e)
+        {
+            PanelTosBtnAccept.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelTosBtnAccept_MouseLeave(object sender, EventArgs e)
+        {
+            PanelTosBtnAccept.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelTosBtnDecline_MouseEnter(object sender, EventArgs e)
+        {
+            PanelTosBtnDecline.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelTosBtnDecline_MouseLeave(object sender, EventArgs e)
+        {
+            PanelTosBtnDecline.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelStartBtnIdle_MouseEnter(object sender, EventArgs e)
+        {
+            PanelStartBtnIdle.BackgroundImage = Properties.Resources.Idle_Selected;
+        }
+
+        private void PanelStartBtnIdle_MouseLeave(object sender, EventArgs e)
+        {
+            PanelStartBtnIdle.BackgroundImage = Properties.Resources.Idle;
+        }
+
+        private void PanelStartBtnCards_MouseEnter(object sender, EventArgs e)
+        {
+            PanelStartBtnCards.BackgroundImage = Properties.Resources.Cards_Selected;
+        }
+
+        private void PanelStartBtnCards_MouseLeave(object sender, EventArgs e)
+        {
+            PanelStartBtnCards.BackgroundImage = Properties.Resources.Cards;
+        }
+
+        private void PanelUserPicGoBack_MouseEnter(object sender, EventArgs e)
+        {
+            if (_canGoBack)
+            {
+                if (_activeSession != Session.None && _activeWindow == WindowPanel.Start)
+                {
+                    PanelUserPicGoBack.BackgroundImage = Properties.Resources.Active_Selected;
+                }
+                else
+                {
+                    PanelUserPicGoBack.BackgroundImage = Properties.Resources.Back_Selected;
+                }
+            }
+        }
+
+        private void PanelUserPicGoBack_MouseLeave(object sender, EventArgs e)
+        {
+            if (_canGoBack)
+            {
+                if (_activeSession != Session.None && _activeWindow == WindowPanel.Start)
+                {
+                    PanelUserPicGoBack.BackgroundImage = Properties.Resources.Active;
+                }
+                else
+                {
+                    PanelUserPicGoBack.BackgroundImage = Properties.Resources.Back;
+                }
+            }
+        }
+
+        private void PanelStartBtnSettings_MouseEnter(object sender, EventArgs e)
+        {
+            PanelStartBtnSettings.BackgroundImage = Properties.Resources.Settings_Selected;
+        }
+
+        private void PanelStartBtnSettings_MouseLeave(object sender, EventArgs e)
+        {
+            PanelStartBtnSettings.BackgroundImage = Properties.Resources.Settings;
+        }
+
+        private void PanelStartBtnExit_MouseEnter(object sender, EventArgs e)
+        {
+            PanelStartBtnExit.BackgroundImage = Properties.Resources.Exit_Selected;
+        }
+
+        private void PanelStartBtnExit_MouseLeave(object sender, EventArgs e)
+        {
+            PanelStartBtnExit.BackgroundImage = Properties.Resources.Exit;
+        }
+
+        private void PanelCardsStartedBtnStopIdle_MouseEnter(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelCardsStartedBtnStopIdle_MouseLeave(object sender, EventArgs e)
+        {
+            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelCardsBtnLogin_MouseEnter(object sender, EventArgs e)
+        {
+            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelCardsBtnLogin_MouseLeave(object sender, EventArgs e)
+        {
+            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelidleBtnIdle_MouseEnter(object sender, EventArgs e)
+        {
+            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelidleBtnIdle_MouseLeave(object sender, EventArgs e)
+        {
+            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.Button;
+        }
+
+        private void PanelidleLblClear_MouseEnter(object sender, EventArgs e)
+        {
+            PanelIdleLblClear.ForeColor = Const.LABEL_HOVER;
+        }
+
+        private void PanelidleLblClear_MouseLeave(object sender, EventArgs e)
+        {
+            PanelIdleLblClear.ForeColor = Const.LABEL_NORMAL;
+        }
+
+        private void PanelIdleStartedBtnStop_MouseEnter(object sender, EventArgs e)
+        {
+            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.Button_Selected;
+        }
+
+        private void PanelIdleStartedBtnStop_MouseLeave(object sender, EventArgs e)
+        {
+            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.Button;
+        }
+
+        #endregion UIStyle
+
+        #region Functions
+
+        private void StartApps(Session session)
+        {
+            _idleTimeStarted = DateTime.Now;
+            foreach (var app in _appListActive)
+            {
+                var pinfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    FileName = Path.Combine(Application.StartupPath, Const.GAME_EXE),
+                    Arguments = $"{app.appid} {Process.GetCurrentProcess().Id}"
+                };
+
+                app.process = new Process() { StartInfo = pinfo };
+                app.process.Start();
+            }
+
+            switch (session)
+            {
+                case Session.Idle:
+                    TmrIdleTime.Start();
+                    PanelIdleStartedListGames.Items.AddRange(_appListActive.Select(o => o.GetIdAndName()).Cast<string>().ToArray());
+                    ShowWindow(WindowPanel.IdleStarted);
+                    break;
+
+                case Session.Cards:
+                    ShowWindow(WindowPanel.CardsStarted);
+                    TmrCheckCardProgress.Start();
+                    break;
+
+                case Session.CardsBatch:
+                    TmrCardBatchCheck.Start();
+                    TmrIdleTime.Start();
+                    PanelIdleStartedListGames.Items.AddRange(_appListActive.Select(o => o.GetIdAndName()).Cast<string>().ToArray());
+                    ShowWindow(WindowPanel.IdleStarted);
+                    break;
+            }
+
+            if (_settings.Settings.RestartGames || session != Session.CardsBatch)
+            {
+                SetRandomTmrRestartAppInterval();
+                TmrRestartApp.Start();
+            }
+
+            _log.Write(Log.LogLevel.Info, $"Started {_appListActive.Count} games with session {session}");
+            _activeSession = session;
+            TmrCheckProcess.Start();
+        }
+
+        private void StopApps()
+        {
+            if (_activeSession == Session.None)
+                return;
+
+            int appErrors = 0;
+            foreach (var app in _appListActive)
+            {
+                if (app.process.HasExited)
+                    continue;
+
+                try
+                {
+                    app.process.Kill();
+                    _log.Write(Log.LogLevel.Info, $"Killed app {app.name}");
+                }
+                catch (Exception ex)
+                {
+                    appErrors++;
+                    _log.Write(Log.LogLevel.Error, $"Error when attempting to stop app '{app.name}' - {ex.Message}");
+                }
+            }
+
+            PanelIdleStartedLblIdleTime.Text = "You've been idling for 00:00:00:00";
+            PanelIdleStartedListGames.Items.Clear();
+
+            TmrCheckCardProgress.Stop();
+            TmrCardBatchCheck.Stop();
+            TmrCheckProcess.Stop();
+            TmrRestartApp.Stop();
+            TmrIdleTime.Stop();
+            
+            _log.Write(Log.LogLevel.Info, $"Stopped {_activeSession} with {appErrors} app errors.");
+            _appListActive = new List<App>();
+            _activeSession = Session.None;
+            ShowWindow(WindowPanel.Start);
+        }
+
+        private async void StartCardsFarming()
+        {
+            _appListBadges = await LoadBadges();
+            _log.Write(Log.LogLevel.Info, $"Loaded {_appListBadges.Count} apps with badges.");
+
+            if (_appListBadges.Count == 0)
+            {
+                MsgBox.Show("Unable to read Steam badges. Re-authenticate by logging into Steam again.",
+                    "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                ShowWindow(WindowPanel.Cards);
+            }
+            else
+            {
+                if (_settings.Settings.IdleCardsWithMostValue)
+                {
+                    _appListBadges = _appListBadges.OrderByDescending(o => o.card.price).ToList();
+                    _log.Write(Log.LogLevel.Info, $"Sorted badge list by price gathered from Enhanced Steam.");
+                }
+
+                StartNextCard();
+            }
+        }
+
+        private async void CheckCurrentBadge()
+        {
+            if (_appCurrentCardGame == null)
+                return;
+
+            if (await UpdateCurrentCard())
+            {
+                if (_appCurrentCardGame.card.cardsremaining == 0)
+                {
+                    _log.Write(Log.LogLevel.Info, $"No cards remaining for this badge, so stop app and pick next card.");
+                    _appListBadges.Remove(_appCurrentCardGame);
+                    StartNextCard();
+                }
+                else
+                {
+                    _log.Write(Log.LogLevel.Info, $"Cards left for current card: {_appCurrentCardGame.card.cardsremaining}");
+                    Invoke(new Action(() => { PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left"; }));
+                }
+            }
+            else
+            {
+                _log.Write(Log.LogLevel.Info, $"Could not get updated card info.");
+            }
+        }
+
+        private async void StartNextCard()
+        {
+            App app = null;
+            StopApps();
+
+            if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
+            {
+                int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
+                app = _appListBadges.FirstOrDefault(o => o.card.minutesplayed >= minimumMinutes);
+
+                if (app == null)
+                {
+                    _log.Write(Log.LogLevel.Info, $"Starting batch idle.");
+                    _appListActive = _appListBadges.Take(30).ToList();
+                    StartApps(Session.CardsBatch);
+                    return;
+                }
+            }
+            else
+            {
+                app = _appListBadges.FirstOrDefault();
+            }
+
+            if (app != null)
+            {
+                _log.Write(Log.LogLevel.Info, $"We have an app to idle.");
+                _appCurrentCardGame = app;
+
+                var imageBytes = await _steamWeb.RequestData($"http://cdn.akamai.steamstatic.com/steam/apps/{app.appid}/header.jpg");
+                if (imageBytes != null)
+                    PanelCardsStartedPicGame.Image = Utils.BytesToImage(imageBytes);
+
+                PanelCardsStartedLblCurrentGame.Text = app.name;
+                PanelCardsStartedLblCardsLeft.Text = $"{app.card.cardsremaining} Cards left";
+
+                _log.Write(Log.LogLevel.Info, $"Started card {app.name}");
+                _appListActive.Add(app);
+                StartApps(Session.Cards);
+            }
+            else
+            {
+                _log.Write(Log.LogLevel.Info, $"App when getting next card is null. Are we done with all cards?");
+            }
+
+            PanelCardsStartedBtnNext.Enabled = true;
+        }
+
+        private async Task<bool> UpdateCurrentCard()
+        {
+            try
+            {
+                var response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentCardGame.appid}");
+                if (string.IsNullOrWhiteSpace(response))
+                {
+                    _log.Write(Log.LogLevel.Info, $"Card info response was empty.");
+                    return false;
+                }
+
+                var document = new HtmlAgilityPack.HtmlDocument();
+                document.LoadHtml(response);
+
+                var cardNode = document.DocumentNode.SelectSingleNode(".//span[@class=\"progress_info_bold\"]");
+                if (cardNode != null && !string.IsNullOrWhiteSpace(cardNode.InnerText))
+                {
+                    string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
+                    if (int.TryParse(cards, out int cardsremaining))
+                    {
+                        _appCurrentCardGame.card.cardsremaining = cardsremaining;
+                    }
+                    else
+                    {
+                        _appCurrentCardGame.card.cardsremaining = 0;
+                    }
+
+                    _log.Write(Log.LogLevel.Info, $"Updated card info. {cardsremaining} card(s) left to drop.");
+                    return true;
+                }
+                else
+                {
+                    _log.Write(Log.LogLevel.Info, $"Could not parse the amount of cards left when updating the card.");
+                    File.WriteAllText("card.html", response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Write(Log.LogLevel.Error, $"Error updating current card. {ex.Message}");
+            }
+
+            return false;
+        }
+
+        private async Task<List<App>> LoadBadges()
+        {
+            string profileUrl = $"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}";
+            var document = new HtmlAgilityPack.HtmlDocument();
+            var appList = new List<App>();
+            int pages = 0;
+
+            try
+            {
+                /*Get the first page of badges and process the information on that page
+                 which we will use to see how many more pages there are to scrape*/
+                string pageUrl = $"{profileUrl}/badges/?p=1";
+                string response = await _steamWeb.Request(pageUrl);
+
+                if (!string.IsNullOrWhiteSpace(response))
+                {
+                    document.LoadHtml(response);
+                    appList.AddRange(ProcessBadgesOnPage(document));
+
+                    var pageNodes = document.DocumentNode.SelectNodes("//a[@class=\"pagelink\"]");
+                    if (pageNodes != null)
+                        pages = pageNodes.Select(o => o.Attributes["href"].Value).Distinct().Count() + 1;
+
+                    /*Scrape the rest of the pages and add result to our app list*/
+                    for (int i = 2; i <= pages; i++)
+                    {
+                        pageUrl = $"{profileUrl}/badges/?p={i}";
+                        response = await _steamWeb.Request(pageUrl);
+
+                        if (string.IsNullOrWhiteSpace(response))
                             continue;
 
-                        string name = _steamClient.SteamApps001.GetAppData((uint)appId, "name");
+                        document.LoadHtml(response);
+                        var tempList = ProcessBadgesOnPage(document);
+                        appList.AddRange(tempList);
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(name) && _steamClient.SteamApps003.IsSubscribedApp(appId))
+                    if (appList.Count() > 0)
+                    {
+                        /*We'll use Enhanced Steam api to get the prices of each card here
+                         Hihihihihihihihihihihihi don't hate me cuz i am just a silly anime girl*/
+                        string appids = string.Join(",", appList.Select(o => o.appid));
+                        string priceUrl = $"{Const.CARD_PRICE_URL}{appids}";
+                        response = await _steamWeb.Request(priceUrl);
+
+                        if (!string.IsNullOrWhiteSpace(response))
                         {
-                            _gameList.Add(new GameInfo()
+                            /* Example response from Enhanced Steam
                             {
-                                appId = appId,
-                                name = getUnicodeString(name)
-                            });
+                                "avg_values": {
+                                    "3830": 0.04,
+                                    "4000": 0.08,
+                                    "70000": 0.05,
+                                    "92100": 0.07
+                                }
+                            }*/
+                            
+                            dynamic dyn = JObject.Parse(response);
+                            foreach (var card in dyn.avg_values)
+                            {
+                                string s_appid = card.Name, s_price = card.Value;
+                                if (uint.TryParse(s_appid, out uint appid) && double.TryParse(s_price, out double price))
+                                {
+                                    var app = appList.FirstOrDefault(o => o.appid == appid);
+                                    if (app != null)
+                                    {
+                                        app.card.price = price;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching game list.\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void gameListWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (_gameList.Count == 0)
-            {
-                panelLaunchPadder.Visible = true;
-                picLoading.Visible = false;
-                lblStatus.Text = "Either you have 0 games, or something went wrong. Hmm... Are you sure you're logged in?";
-            }
-            else
-            {
-                refreshGameList();
-                panelLoading.Visible = false;
-                panelMain.Visible = true;
-            }
-        }
-
-        private void btnPauseTimer_Tick(object sender, EventArgs e)
-        {
-            btnPauseTimer.Stop();
-
-            btnIdle.Enabled = true;
-            btnStopBoost.Enabled = true;
-        }
-
-        private void checkProcessTimer_Tick(object sender, EventArgs e)
-        {
-            foreach (var process in _gameProcessList)
-            {
-                if (!_areGamesRunning)
-                    break;
-
-                process.Refresh();
-                if (process.HasExited && _areGamesRunning)
-                    process.Start();
-            }
-        }
-
-        private void restartGamesTimer_Tick(object sender, EventArgs e)
-        {
-            /*I was looking to ensure that checkProcessTimer wouldn't re-enable the games
-             but then I got the smart idea that we'll abuse that function and just let that
-             restart the processes again after we've killed them here!*/
-
-            _areGamesRunning = false;
-            checkProcessTimer.Stop();
-
-            foreach (var process in _gameProcessList)
-            {
-                process.Refresh();
-
-                if (!process.HasExited)
-                    process.Kill();
+                _log.Write(Log.LogLevel.Error, $"Unable to get Steam badges. Error: {ex}");
+                MsgBox.Show("Error loading Steam badges. Steam could be down.", "Error", MsgBox.Buttons.Fuck, MsgBox.MsgIcon.Error);
             }
 
-            checkProcessTimer.Start();
-            _areGamesRunning = true;
-
-            setRestartGamesTimerIntervalRandom();
+            return appList.Where(o => o.card.cardsremaining > 0).ToList();
         }
 
-        private string downloadXmlList(string url)
+        private List<App> ProcessBadgesOnPage(HtmlAgilityPack.HtmlDocument document)
         {
-            try
+            var list = new List<App>();
+
+            foreach (var badge in document.DocumentNode.SelectNodes("//div[@class=\"badge_row is_link\"]"))
             {
-                using (var client = new WebClient())
+                var appIdNode = badge.SelectSingleNode(".//a[@class=\"badge_row_overlay\"]").Attributes["href"].Value;
+                var appid = Regex.Match(appIdNode, @"gamecards/(\d+)/").Groups[1].Value;
+
+                var hoursNode = badge.SelectSingleNode(".//div[@class=\"badge_title_stats_playtime\"]");
+                var hours = hoursNode == null ? string.Empty : Regex.Match(hoursNode.InnerText, @"[0-9\.,]+").Value;
+
+                var cardNode = badge.SelectSingleNode(".//span[@class=\"progress_info_bold\"]");
+                var cards = cardNode == null ? string.Empty : Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
+
+                if (string.IsNullOrWhiteSpace(appid) || string.IsNullOrWhiteSpace(cards))
+                    continue;
+
+                if (uint.TryParse(appid, out uint id))
                 {
-                    client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                    return client.DownloadString(new Uri(url));
-                }
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
-
-        private void connectToClient()
-        {
-            Text = "SingleBoostr :: Fetching user...";
-            NativeMethods.SendMessage(txtSearch.Handle, _eM_SETCUEBANNER, IntPtr.Zero, "Search game");
-
-            if (Application.StartupPath == Steam.GetInstallPath())
-            {
-                lblStatus.Text = "Don't run this application from the Steam directory.";
-            }
-            else if (!File.Exists(Const.GAME_PROCESS))
-            {
-                lblStatus.Text = "Missing SingleBoostr.Game application.";
-            }
-            else if (!_steamClient.Initialize(0L))
-            {
-                lblStatus.Text = "Steam is not running. Please start Steam then run me again.";
-            }
-            else if (!_steamClient.SteamUser.IsLoggedIn())
-            {
-                lblStatus.Text = "You're not logged into Steam.";
-            }
-            else
-            {
-                setDisplayName();
-                picLoading.Visible = true;
-                gameListWorker.RunWorkerAsync();
-            }
-        }
-
-        private void setDisplayName()
-        {
-            string name = _steamClient.SteamFriends.GetPersonaName();
-            Text = string.IsNullOrWhiteSpace(name) ? "SingleBoostr :: Unknown user" : $"SingleBoostr :: {getUnicodeString(name)}";
-        }
-
-        private void setRestartGamesTimerIntervalRandom()
-        {
-            int baseTime = (int)TimeSpan.FromHours(2).TotalMilliseconds;
-            baseTime += _random.Next((int)TimeSpan.FromMinutes(45).TotalMilliseconds,
-                (int)TimeSpan.FromMinutes(75).TotalMilliseconds);
-
-            restartGamesTimer.Interval = baseTime;
-        }
-
-        private string getUnicodeString(string str)
-        {
-            byte[] bytes = Encoding.Default.GetBytes(str);
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        private void disableButtonsTemporarily()
-        {
-            btnIdle.Enabled = false;
-            btnStopBoost.Enabled = false;
-
-            /*Re-enable buttons in n seconds to prevent spamming*/
-            btnPauseTimer.Start();
-        }
-
-        private void setTosLanguage(string lang = "")
-        {
-            if (string.IsNullOrWhiteSpace(lang))
-                lang = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
-
-            lblToS.Text = ToS.GetTermsOfService(lang);
-
-            var key = ToS.Languages.FirstOrDefault(o => o.Value == lang).Key;
-            if (key != null)
-                cmboxTosLanguage.Text = key;
-        }
-
-        private void startGames()
-        {
-            listGamesActive.Items.Clear();
-
-            if (_gameListSelected.Count > 0)
-            {
-                foreach (var game in _gameListSelected)
-                {
-                    var process = new Process();
-
-                    /*Run windowless*/
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.CreateNoWindow = true;
-
-                    /*Argument*/
-                    process.StartInfo.FileName = @"SingleBoostr.Game.exe";
-                    process.StartInfo.Arguments = $"\"{game.appId}\" \"{game.name}\" \"{Process.GetCurrentProcess().Id}\"";
-
-                    _gameProcessList.Add(process);
-                    listGamesActive.Items.Add(game.name);
-                }
-            }
-            
-            _gameProcessList.ForEach(o => o.Start());
-            panelRunning.Visible = true;
-            panelMain.Visible = false;
-            _areGamesRunning = true;
-
-            checkProcessTimer.Start();
-            lblActiveGames.Text = $"You're currently idling {_gameProcessList.Count} game(s).";
-            notifyIcon.Text = $"SingleBoostr :: Idling {_gameProcessList.Count} game(s)";
-        }
-
-        private void stopGames()
-        {
-            checkProcessTimer.Stop();
-            _areGamesRunning = false;
-
-            foreach (var process in _gameProcessList)
-            {
-                process.Refresh();
-
-                if (!process.HasExited)
-                    process.Kill();
-            }
-
-            _gameProcessList.Clear();
-            panelRunning.Visible = false;
-            panelMain.Visible = true;
-        }
-
-        private void refreshGameList()
-        {
-            /*Check if we have any saved games from last time*/
-            if (Properties.Settings.Default.selectedgames != null)
-            {
-                foreach (var game in Properties.Settings.Default.selectedgames)
-                {
-                    long gameId = 0;
-                    if (!long.TryParse(game, out gameId) || gameId == 0)
-                        continue;
-
-                    var obj = _gameList.FirstOrDefault(o => o.appId == gameId);
-                    if (obj != null)
+                    var game = _appList.FirstOrDefault(o => o.appid == id);
+                    if (game != null)
                     {
-                        _gameListSelected.Add(obj);
-                        _gameList.Remove(obj);
+                        var tc = new TradeCard();
+
+                        if (double.TryParse(hours, out double hoursplayed))
+                        {
+                            var span = TimeSpan.FromHours(hoursplayed);
+                            tc.minutesplayed = span.TotalMinutes;
+                        }
+
+                        if (int.TryParse(cards, out int cardsremaining))
+                            tc.cardsremaining = cardsremaining;
+
+                        game.card = tc;
+                        list.Add(game);
                     }
                 }
-
-                /*Only want to do this once so we'll null this cunt*/
-                Properties.Settings.Default.selectedgames = null;
             }
-            
-            _gameList.Sort();
-            listGames.Items.Clear();
-            listGamesSelected.Items.Clear();
 
-            List<GameInfo> gameList;
-            string searchQuery = txtSearch.Text;
+            return list;
+        }
 
-            if (string.IsNullOrWhiteSpace(searchQuery))
+        private async void TmrChangeBackground_Tick(object sender, EventArgs e)
+        {
+            TmrChangeBackground.Stop();
+
+            var firstApp = _appListActive.FirstOrDefault();
+            if (firstApp != null)
             {
-                /*If we have no search then use original list.
-                 We use .ToList() to avoid creating a reference*/
-                gameList = _gameList.ToList();
+                Bitmap bg = await GetAppBackground(firstApp.appid);
+                if (bg != null)
+                {
+                    BackgroundImage = bg;
+                }
+            }
+        }
+
+        private async Task<Bitmap> GetAppBackground(uint appid)
+        {
+            var storeJson = await DownloadString($"{Const.STORE_JSON_URL}{appid}");
+            string bgUrl = Store.GetAppScreenshotUrl(storeJson);
+            if (!string.IsNullOrWhiteSpace(bgUrl))
+            {
+                var imageBytes = await DownloadData(bgUrl);
+                if (imageBytes != null)
+                {
+                    Image img = Utils.BytesToImage(imageBytes);
+                    return Utils.ChangeImageOpacity(Utils.FixedImageSize(img, Width, Height), 0.05f);
+                }
+            }
+
+            return null;
+        }
+
+        private async Task<string> DownloadString(string url)
+        {
+            using (var wc = new WebClient())
+            {
+                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36");
+                return await wc.DownloadStringTaskAsync(url);
+            }
+        }
+
+        private async Task<byte[]> DownloadData(string url)
+        {
+            using (var wc = new WebClient())
+            {
+                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36");
+                return await wc.DownloadDataTaskAsync(url);
+            }
+        }
+
+        private async void InitializeApp()
+        {
+            if (ConnectToSteam())
+            {
+                int appCount = await Task.Run(() => GetAppList());
+                if (appCount > 0)
+                {
+                    foreach (uint appid in _settings.Settings.GameHistoryIds)
+                    {
+                        var app = _appList.FirstOrDefault(o => o.appid == appid);
+                        if (app != null)
+                        {
+                            _appListSelected.Add(app);
+                            _appList.Remove(app);
+                        }
+                    }
+
+                    SetUserInfo();
+                    RefreshGameList();
+                    ShowWindow(WindowPanel.Start);
+                    BgwSteamCallback.RunWorkerAsync();
+
+                    if (await UpdateCheck.IsUpdateAvailable())
+                    {
+                        var diag = MsgBox.Show("There's an update available. Do you wish to check it out?", "Update", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Info);
+                        if (diag == DialogResult.Yes)
+                            Process.Start(Const.REPO_RELEASE_URL);
+                    }
+                }
             }
             else
             {
-                /*Pick out games which names match the search query*/
-                gameList = _gameList.ToList().Where(o => o.name.ToLower().Contains(searchQuery.ToLower())).ToList();
-            }
-            
-            /*Pick out only name from the game list and cast it to an object array so we can set
-             whole listBox at once with the games*/
-            var objectList = gameList.Select(o => o.name).ToList().Cast<object>().ToArray();
-            listGames.Items.AddRange(objectList);
-
-            /*Do the same for selected. We'll borrow the objectList.*/
-            objectList = _gameListSelected.ToList().Select(o => o.name).ToList().Cast<object>().ToArray();
-            _gameListSelected.ForEach(o => listGamesSelected.Items.Add(o.name));
-
-            lblClearSelected.Visible = _gameListSelected.Count > 0;
-            lblGameCounter.Text = string.IsNullOrWhiteSpace(searchQuery) ? $"Games available: {_gameList.Count}" : $"Matching games: {listGames.Items.Count}";
-            lblSelectedGameCounter.Text = $"Selected games: {_gameListSelected.Count}";
-
-            if (_gameListSelected.Count == _maxBoostGameCount && !_gameCountWarningDisplayed)
-            {
-                _gameCountWarningDisplayed = true;
-                MessageBox.Show($"Steam only allows {_maxBoostGameCount} games to be played at once. You can continue adding games, but they won't track any hours.", 
-                    "Steam limit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MsgBox.Show("Could not connect to Steam.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
             }
         }
+
+        private async Task<int> GetAppList()
+        {
+            if (!File.Exists(Const.APP_LIST))
+            {
+                if (!await _settings.DownloadAppList())
+                    return 0;
+            }
+
+            string json = File.ReadAllText(Const.APP_LIST);
+            var apps = JsonConvert.DeserializeObject<SteamApps>(json);
+            foreach (var app in apps.applist.apps)
+            {
+                if (_steamApps003.BIsSubscribedApp(app.appid))
+                {
+                    app.name = Utils.GetUnicodeString(app.name);
+                    _appList.Add(app);
+                }
+            }
+
+            return _appList.Count;
+        }
+
+        private void RefreshGameList()
+        {
+            _appList.Sort((app1, app2) => app1.CompareTo(app2));
+            PanelIdleListGames.Items.Clear();
+            PanelIdleListGamesSelected.Items.Clear();
+
+            List<App> appList = new List<App>();
+            string searchQuery = PanelIdleTxtSearch.Text.Trim().ToLower();
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                appList = _appList.ToList();
+            }
+            else
+            {
+                appList = _appList.ToList().Where(o => o.GetIdAndName().ToLower().Contains(searchQuery)).ToList();
+            }
+            
+            PanelIdleListGames.Items.AddRange(appList.Select(o => o.GetIdAndName()).Cast<string>().ToArray());
+            PanelIdleListGamesSelected.Items.AddRange(_appListSelected.ToList().Select(o => o.GetIdAndName()).Cast<string>().ToArray());
+
+            PanelIdleLblClear.Visible = _appListSelected.Count > 0;
+            PanelIdleLblSelectedGamesCount.Visible = _appListSelected.Count > 0;
+            PanelIdleLblSelectedGamesCount.Text = $"Selected games: {_appListSelected.Count}";
+
+            PanelIdleLblMatchingSearch.Visible = !string.IsNullOrWhiteSpace(searchQuery);
+            PanelIdleLblMatchingSearch.Text = $"Apps matching search: {appList.Count}";
+
+            if (_appListSelected.Count >= Const.MAX_GAMES && !_appCountWarningDisplayed)
+            {
+                _appCountWarningDisplayed = true;
+                MsgBox.Show($"Steam only allows {Const.MAX_GAMES} games to be played at once. You can continue adding more games, "
+                    + "but they won't track any hours.", "Max limit", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+            }
+        }
+
+        private bool ConnectToSteam()
+        {
+            TSteamError steamError = new TSteamError();
+            if (!Steamworks.Load(true))
+            {
+                MsgBox.Show("Steamworks failed to load.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"Steamworks failed to load.");
+                return false;
+            }
+
+            if (Application.StartupPath == Steamworks.GetInstallPath())
+            {
+                MsgBox.Show("You are not allowed to run this application from the Steam directory folder.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"You are not allowed to run this application from the Steam directory folder.");
+                return false;
+            }
+
+            _steam006 = Steamworks.CreateSteamInterface<ISteam006>();
+            if (_steam006.Startup(0, ref steamError) == 0)
+            {
+                MsgBox.Show("ISteam006 failed to start. it returned 0.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"ISteam006 failed to start. it returned 0.");
+                return false;
+            }
+
+            _steamClient012 = Steamworks.CreateInterface<ISteamClient012>();
+            _clientEngine = Steamworks.CreateInterface<IClientEngine>();
+
+            _pipe = _steamClient012.CreateSteamPipe();
+            if (_pipe == 0)
+            {
+                MsgBox.Show("ISteamClient012 failed to create pipe connection to Steam.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"ISteamClient012 failed to create pipe connection to Steam.");
+                return false;
+            }
+
+            _user = _steamClient012.ConnectToGlobalUser(_pipe);
+            if (_user == 0 || _user == -1)
+            {
+                MsgBox.Show($"ISteamClient012 failed to connect to global user. Value: {_user}", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"ISteamClient012 failed to connect to global user. Value: {_user}");
+                return false;
+            }
+
+            _steamUser016 = _steamClient012.GetISteamUser<ISteamUser016>(_user, _pipe);
+            _clientUser = _clientEngine.GetIClientUser<IClientUser>(_user, _pipe);
+            _clientFriends = _clientEngine.GetIClientFriends<IClientFriends>(_user, _pipe);
+            _steamApps001 = _steamClient012.GetISteamApps<ISteamApps001>(_user, _pipe);
+            _steamApps003 = _steamClient012.GetISteamApps<ISteamApps003>(_user, _pipe);
+            _steamFriends002 = _steamClient012.GetISteamFriends<ISteamFriends002>(_user, _pipe);
+            
+            return _steamUser016 != null 
+                && _clientUser != null
+                && _clientFriends != null
+                && _steamApps001 != null
+                && _steamApps003 != null
+                && _steamFriends002 != null;
+        }
+
+        private void SetUserInfo()
+        {
+            string games = $"{_appList.Count} Games";
+            string displayName = _clientFriends.GetPersonaName();
+            displayName = string.IsNullOrWhiteSpace(displayName) ? "Unknown" : Utils.GetUnicodeString(displayName);
+
+            if (PanelUserLblName.InvokeRequired)
+            {
+                Invoke(new Action(() =>
+                {
+                    PanelUserLblName.Text = displayName;
+                    PanelUserLblGames.Text = games;
+                }));
+            }
+            else
+            {
+                PanelUserLblName.Text = displayName;
+                PanelUserLblGames.Text = games;
+            }
+        }
+
+        private void ExitApplication()
+        {
+            if (_activeSession != Session.None)
+            {
+                var diag = MsgBox.Show($"You are currently idling {_activeSession}. Do you want to stop and quit?", "Active session",
+                    MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Info);
+
+                if (diag == DialogResult.No)
+                    return;
+            }
+
+            StopApps();
+            Application.Exit();
+        }
+
+        private void CanGoBack(bool enable)
+        {
+            if (!enable && _activeSession != Session.None && _activeWindow == WindowPanel.Start)
+            {
+                _canGoBack = true;
+                PanelUserPicGoBack.Size = new Size(48, 48);
+                PanelUserPicGoBack.Cursor = Cursors.Hand;
+                PanelUserPicGoBack.BackgroundImage = Properties.Resources.Active;
+            }
+            else
+            {
+                _canGoBack = enable;
+                PanelUserPicGoBack.Size = _canGoBack ? new Size(20, 48) : new Size(3, 48);
+                PanelUserPicGoBack.Cursor = _canGoBack ? Cursors.Hand : Cursors.Default;
+                PanelUserPicGoBack.BackgroundImage = Properties.Resources.Back;
+            }
+        }
+
+        private void ShowWindow(WindowPanel panel)
+        {
+            _activeWindow = panel;
+            PanelStart.Visible = false;
+            PanelLoading.Visible = false;
+            PanelTos.Visible = false;
+            PanelIdle.Visible = false;
+            PanelIdleStarted.Visible = false;
+            PanelCards.Visible = false;
+            PanelCardsStarted.Visible = false;
+            PanelUser.Visible = false;
+            CanGoBack(false);
+
+            switch (panel)
+            {
+                case WindowPanel.Start:
+                    PanelStart.Visible = true;
+                    PanelUser.Visible = true;
+                    break;
+
+                case WindowPanel.Loading:
+                    PanelLoading.Visible = true;
+                    break;
+
+                case WindowPanel.Tos:
+                    PanelTos.Visible = true;
+                    break;
+
+                case WindowPanel.Idle:
+                    PanelIdle.Visible = true;
+                    PanelUser.Visible = true;
+                    CanGoBack(true);
+                    break;
+
+                case WindowPanel.IdleStarted:
+                    PanelIdleStarted.Visible = true;
+                    PanelUser.Visible = true;
+                    CanGoBack(true);
+                    break;
+
+                case WindowPanel.Cards:
+                    PanelCards.Visible = true;
+                    PanelUser.Visible = true;
+                    CanGoBack(true);
+                    break;
+
+                case WindowPanel.CardsStarted:
+                    PanelCardsStarted.Visible = true;
+                    PanelUser.Visible = true;
+                    CanGoBack(true);
+                    break;
+            }
+        }
+
+        private void SetRandomTmrRestartAppInterval()
+        {
+            int baseRestartTime = _settings.Settings.RestartGamesTime;
+            baseRestartTime += Utils.GetRandom().Next(0, 10);
+            TmrRestartApp.Interval = (int)TimeSpan.FromMinutes(baseRestartTime).TotalMilliseconds;
+        }
+
+        private void OnFriendChatMsg(string message, string senderName, CSteamID senderId, CSteamID friendId)
+        {
+            _logChat.Write(Log.LogLevel.Info, $"{senderName}: {message}");
+            if (!_settings.Settings.EnableChatResponse)
+                return;
+
+            if (senderId.ConvertToUint64() == _steamUser016.GetSteamID().ConvertToUint64())
+                return;
+
+            if (_settings.Settings.ChatResponses.Count == 0)
+                return;
+
+            if (_activeSession == Session.None && _settings.Settings.OnlyReplyIfIdling)
+                return;
+
+            if (_settings.Settings.WaitBetweenReplies)
+            {
+                if (_chatResponses.TryGetValue(friendId.ConvertToUint64(), out DateTime value))
+                {
+                    TimeSpan diff = DateTime.Now.Subtract(value);
+                    if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)
+                        return;
+                }
+            }
+
+            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)];
+            if (SendChatMessage(friendId, response))
+            {
+                _chatResponses[friendId.ConvertToUint64()] = DateTime.Now;
+                _logChat.Write(Log.LogLevel.Info, $"Replied to {senderName} with '{response}'");
+            }
+            else
+            {
+                _logChat.Write(Log.LogLevel.Info, $"Failed to reply to {senderName} with '{response}'");
+            }
+        }
+
+        private void OnNewItem(UpdateItemAnnouncement_t e)
+        {
+            if (e.m_cNewItems > 0 && _activeSession == Session.Cards)
+            {
+                _log.Write(Log.LogLevel.Info, $"Received {e.m_cNewItems} item drops. Checking current badge progress.");
+                TmrCheckCardProgress.Stop();
+                TmrCheckCardProgress.Start();
+                CheckCurrentBadge();
+            }
+        }
+
+        private bool SendChatMessage(CSteamID receiver, string message)
+        {
+            return _steamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+        }
+
+        #endregion Functions
     }
 }
