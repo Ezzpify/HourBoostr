@@ -4,6 +4,8 @@
   <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
+# General information
+
 HourBoostr and SingleBoostr are two applications developed to idle games on your Steam accounts. The two programs work differently and depending on how you to idle, you may want to pick one over the other. Neither applications require you to have the game you want to boost installed, but you do need to own the game in your library.
 
 ## HourBoostr
@@ -14,6 +16,6 @@ Video tutorial of HourBoostr: https://www.youtube.com/watch?v=eqhPBEVMPDM
 
 ## SingleBoostr
 
-This program is perfect for you if you only have one account that you want to boost. This program requires you to have Steam installed, however you can be logged into your account, play other games and chat with your friends while you are boosting other games with SingleBoostr at the same time.
+This program is perfect for you if you only have one account that you want to boost. This program requires you to have Steam installed, however you can be logged into your account, play other games and chat with your friends while you are boosting other games with SingleBoostr at the same time. With this you can also farm trading cards.
 
-Program preview of SingleBoostr: https://i.imgur.com/6ktF7bW.gif
+Program preview of SingleBoostr: http://i.imgur.com/uBg2rXO.png
