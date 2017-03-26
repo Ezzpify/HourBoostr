@@ -121,7 +121,7 @@ namespace HourBoostr
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error configuring CM. Connecting might take longer than usual.");
+                Console.WriteLine($"Error configuring CM. Connecting might take longer than usual. {ex.Message}");
             }
         }
 

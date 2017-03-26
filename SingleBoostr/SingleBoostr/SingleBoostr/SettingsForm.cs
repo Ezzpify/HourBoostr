@@ -134,6 +134,7 @@ namespace SingleBoostr
             NumOnlyIdleGamesWithCertainMinutes.Value = Settings.NumOnlyIdleGamesWithCertainMinutes;
             NumGamesIdleWhenNoCards.Value = Settings.NumGamesIdleWhenNoCards;
             CbIdleCardsWithMostValue.Checked = Settings.IdleCardsWithMostValue;
+            LblClearBlackList.Text = $"Clear {Settings.BlacklistedCardGames.Count} blacklisted card(s)";
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -216,6 +217,32 @@ namespace SingleBoostr
                 LblDownloadNewAppList.Enabled = true;
             }
         }
+
+        private void LblClearBlackList_Click(object sender, EventArgs e)
+        {
+            Settings.BlacklistedCardGames.Clear();
+            LblClearBlackList.Text = $"Clear {Settings.BlacklistedCardGames.Count} blacklisted card(s)";
+        }
+
+        private void LblClearBlackList_MouseEnter(object sender, EventArgs e)
+        {
+            LblClearBlackList.ForeColor = Const.LABEL_HOVER;
+        }
+
+        private void LblClearBlackList_MouseLeave(object sender, EventArgs e)
+        {
+            LblClearBlackList.ForeColor = Const.LABEL_NORMAL;
+        }
+
+        private void CbEnableChatResponse_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Settings.ChatResponseTipDisplayed)
+            {
+                Settings.ChatResponseTipDisplayed = true;
+                MsgBox.Show("Enter multiple lines into the chat responses box and the program will pick a random line every time someone sends you a message.", 
+                    "Tip!", MsgBox.Buttons.Gotit, MsgBox.MsgIcon.Info);
+            }
+        }
     }
 
     public class Settings
@@ -258,9 +285,13 @@ namespace SingleBoostr
 
         public bool VACWarningDisplayed { get; set; }
 
+        public bool ChatResponseTipDisplayed { get; set; }
+
         public SessionInfo WebSession { get; set; } = new SessionInfo();
 
         public List<uint> GameHistoryIds { get; set; } = new List<uint>();
+
+        public List<uint> BlacklistedCardGames { get; set; } = new List<uint>();
 
         public void Verify()
         {

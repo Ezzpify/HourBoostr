@@ -27,7 +27,7 @@ namespace SingleBoostr
         private Log _logChat;
         private SteamWeb _steamWeb;
         private SettingsForm _settings;
-        private Dictionary<ulong, DateTime> _chatResponses;
+        private Dictionary<ulong, DateTime> _chatResponses = new Dictionary<ulong, DateTime>();
 
         private bool _canGoBack;
         private bool _appExiting;
@@ -42,7 +42,7 @@ namespace SingleBoostr
         private List<App> _appListBadges = new List<App>();
         private List<App> _appListSelected = new List<App>();
 
-        private App _appCurrentCardGame;
+        private App _appCurrentBadge;
             
         private ISteam006 _steam006;
         private IClientUser _clientUser;
@@ -88,7 +88,14 @@ namespace SingleBoostr
             _log = new Log("Main.txt");
             _logChat = new Log("Chat.txt");
             _settings = new SettingsForm();
-            _chatResponses = new Dictionary<ulong, DateTime>();
+            Directory.CreateDirectory("Error");
+
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                        | SecurityProtocolType.Tls11
+                        | SecurityProtocolType.Tls12
+                        | SecurityProtocolType.Ssl3;
 
             if (!File.Exists(Const.GAME_EXE))
             {
@@ -156,6 +163,23 @@ namespace SingleBoostr
 
         #region ButtonEvents
 
+        private void PanelCardsStartedPicBlock_Click(object sender, EventArgs e)
+        {
+            if (_appCurrentBadge == null)
+            {
+                _log.Write(Log.LogLevel.Error, $"Current app is null. Unable to add it to block list. Hmmmm....");
+                return;
+            }
+
+            //https://github.com/dotnet/roslyn/pull/3507
+            var diag = MsgBox.Show($"Do you want to blacklist {_appCurrentBadge.name}? You can always undo this in Settings.", "Blacklist game", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Question);
+            if (diag == DialogResult.Yes)
+            {
+                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.appid);
+                StartNextCard();
+            }
+        }
+
         private void showToolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             ExitApplication();
@@ -173,8 +197,8 @@ namespace SingleBoostr
 
         private void PanelCardsStartedBtnNext_Click(object sender, EventArgs e)
         {
+            _log.Write(Log.LogLevel.Info, $"Skipping current game");
             PanelCardsStartedBtnNext.Enabled = false;
-            _appListBadges.Remove(_appCurrentCardGame);
             StartNextCard();
         }
 
@@ -308,7 +332,7 @@ namespace SingleBoostr
                     if (_settings.Settings.JoinSteamGroup)
                     {
                         string joinGroupUrl = $"{Const.STEAM_GROUP_URL}?sessionID={browser.Session.SessionId}&action=join";
-                        await _steamWeb.Request(joinGroupUrl);
+                        string resp = await _steamWeb.Request(joinGroupUrl);
                     }
 
                     StartCardsFarming();
@@ -634,6 +658,16 @@ namespace SingleBoostr
 
         #region UIStyle
 
+        private void PanelCardsStartedPicBlock_MouseEnter(object sender, EventArgs e)
+        {
+            PanelCardsStartedPicBlock.BackgroundImage = Properties.Resources.Block_Selected;
+        }
+
+        private void PanelCardsStartedPicBlock_MouseLeave(object sender, EventArgs e)
+        {
+            PanelCardsStartedPicBlock.BackgroundImage = Properties.Resources.Block;
+        }
+
         private void PanelIdleStartedBtnHide_MouseEnter(object sender, EventArgs e)
         {
             PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button_Selected;
@@ -848,6 +882,7 @@ namespace SingleBoostr
 
             if (_settings.Settings.RestartGames || session != Session.CardsBatch)
             {
+                _log.Write(Log.LogLevel.Info, $"Restart games is enabled every {_settings.Settings.RestartGamesTime} minute.");
                 SetRandomTmrRestartAppInterval();
                 TmrRestartApp.Start();
             }
@@ -862,15 +897,25 @@ namespace SingleBoostr
             if (_activeSession == Session.None)
                 return;
 
+            TmrCheckCardProgress.Stop();
+            TmrCardBatchCheck.Stop();
+            TmrCheckProcess.Stop();
+            TmrRestartApp.Stop();
+            TmrIdleTime.Stop();
+
             int appErrors = 0;
             foreach (var app in _appListActive)
             {
                 if (app.process.HasExited)
+                {
+                    _log.Write(Log.LogLevel.Warn, $"{app.name} process already exited... hmm...");
                     continue;
+                }
 
                 try
                 {
                     app.process.Kill();
+                    app.process.WaitForExit();
                     _log.Write(Log.LogLevel.Info, $"Killed app {app.name}");
                 }
                 catch (Exception ex)
@@ -879,20 +924,14 @@ namespace SingleBoostr
                     _log.Write(Log.LogLevel.Error, $"Error when attempting to stop app '{app.name}' - {ex.Message}");
                 }
             }
-
+            
             PanelIdleStartedLblIdleTime.Text = "You've been idling for 00:00:00:00";
             PanelIdleStartedListGames.Items.Clear();
-
-            TmrCheckCardProgress.Stop();
-            TmrCardBatchCheck.Stop();
-            TmrCheckProcess.Stop();
-            TmrRestartApp.Stop();
-            TmrIdleTime.Stop();
             
             _log.Write(Log.LogLevel.Info, $"Stopped {_activeSession} with {appErrors} app errors.");
-            _appListActive = new List<App>();
             _activeSession = Session.None;
             ShowWindow(WindowPanel.Start);
+            _appListActive.Clear();
         }
 
         private async void StartCardsFarming()
@@ -932,26 +971,31 @@ namespace SingleBoostr
             snd.Play();
 
             MsgBox.Show("No cards left to idle!", "Done", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+            _log.Write(Log.LogLevel.Info, "User has no cards left to idle.");
             ShowWindow(WindowPanel.Start);
+            StopApps();
         }
 
         private async void CheckCurrentBadge()
         {
-            if (_appCurrentCardGame == null)
+            if (_appCurrentBadge == null)
+            {
+                _log.Write(Log.LogLevel.Warn, $"Current account is for some reason null. Can't check current badge.");
                 return;
+            }
 
             if (await UpdateCurrentCard())
             {
-                if (_appCurrentCardGame.card.cardsremaining == 0)
+                if (_appCurrentBadge.card.cardsremaining == 0)
                 {
                     _log.Write(Log.LogLevel.Info, $"No cards remaining for this badge, so stop app and pick next card.");
-                    _appListBadges.Remove(_appCurrentCardGame);
+                    _appListBadges.Remove(_appCurrentBadge);
                     StartNextCard();
                 }
                 else
                 {
-                    _log.Write(Log.LogLevel.Info, $"Cards left for current card: {_appCurrentCardGame.card.cardsremaining}");
-                    Invoke(new Action(() => { PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total"; }));
+                    _log.Write(Log.LogLevel.Info, $"Cards left for current card: {_appCurrentBadge.card.cardsremaining}");
+                    PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
                 }
             }
             else
@@ -962,9 +1006,16 @@ namespace SingleBoostr
 
         private async void StartNextCard()
         {
-            App app = null;
-            StopApps();
+            if (_appCurrentBadge != null)
+            {
+                _log.Write(Log.LogLevel.Info, $"Removed current badge from list since we're starting a new one.");
+                _appListBadges.Remove(_appCurrentBadge);
+            }
 
+            _log.Write(Log.LogLevel.Info, $"Starting next card.");
+            StopApps();
+            App app;
+            
             if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
             {
                 int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
@@ -972,7 +1023,7 @@ namespace SingleBoostr
 
                 if (app == null)
                 {
-                    _log.Write(Log.LogLevel.Info, $"Starting batch idle.");
+                    _log.Write(Log.LogLevel.Info, $"We don't have any apps matching required play time. Starting batch idle.");
                     _appListActive = _appListBadges.Take(30).ToList();
                     StartApps(Session.CardsBatch);
                     return;
@@ -986,14 +1037,18 @@ namespace SingleBoostr
             if (app != null)
             {
                 _log.Write(Log.LogLevel.Info, $"We have an app to idle.");
-                _appCurrentCardGame = app;
+                _appCurrentBadge = app;
 
                 var imageBytes = await _steamWeb.RequestData($"http://cdn.akamai.steamstatic.com/steam/apps/{app.appid}/header.jpg");
                 if (imageBytes != null)
+                {
                     PanelCardsStartedPicGame.Image = Utils.BytesToImage(imageBytes);
+                    PanelCardsStartedPicBlock.Parent = PanelCardsStartedPicGame;
+                    PanelCardsStartedPicBlock.Location = new Point(2, 2);
+                }
 
                 PanelCardsStartedLblCurrentGame.Text = app.name;
-                PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentCardGame.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
+                PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
 
                 _log.Write(Log.LogLevel.Info, $"Started card {app.name}");
                 _appListActive.Add(app);
@@ -1011,7 +1066,7 @@ namespace SingleBoostr
         {
             try
             {
-                var response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentCardGame.appid}");
+                var response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentBadge.appid}");
                 if (string.IsNullOrWhiteSpace(response))
                 {
                     _log.Write(Log.LogLevel.Info, $"Card info response was empty.");
@@ -1027,11 +1082,11 @@ namespace SingleBoostr
                     string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
                     if (int.TryParse(cards, out int cardsremaining))
                     {
-                        _appCurrentCardGame.card.cardsremaining = cardsremaining;
+                        _appCurrentBadge.card.cardsremaining = cardsremaining;
                     }
                     else
                     {
-                        _appCurrentCardGame.card.cardsremaining = 0;
+                        _appCurrentBadge.card.cardsremaining = 0;
                     }
 
                     _log.Write(Log.LogLevel.Info, $"Updated card info. {cardsremaining} card(s) left to drop.");
@@ -1040,7 +1095,7 @@ namespace SingleBoostr
                 else
                 {
                     _log.Write(Log.LogLevel.Info, $"Could not parse the amount of cards left when updating the card.");
-                    File.WriteAllText("card.html", response);
+                    File.WriteAllText("Error\\UpdateCurrentCard.html", response);
                 }
             }
             catch (Exception ex)
@@ -1053,6 +1108,7 @@ namespace SingleBoostr
 
         private async Task<List<App>> LoadBadges()
         {
+            _log.Write(Log.LogLevel.Info, $"Loading badges");
             string profileUrl = $"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}";
             var document = new HtmlAgilityPack.HtmlDocument();
             var appList = new List<App>();
@@ -1069,6 +1125,7 @@ namespace SingleBoostr
                 {
                     document.LoadHtml(response);
                     appList.AddRange(ProcessBadgesOnPage(document));
+                    _log.Write(Log.LogLevel.Info, $"Processed {appList.Count} badges from page 1.");
 
                     var pageNodes = document.DocumentNode.SelectNodes("//a[@class=\"pagelink\"]");
                     if (pageNodes != null)
@@ -1086,6 +1143,7 @@ namespace SingleBoostr
                         document.LoadHtml(response);
 
                         var tempList = ProcessBadgesOnPage(document);
+                        _log.Write(Log.LogLevel.Info, $"Processed {tempList.Count} badges from page {i}.");
                         appList.AddRange(tempList);
                     }
 
@@ -1126,6 +1184,8 @@ namespace SingleBoostr
                     }
                     else
                     {
+                        _log.Write(Log.LogLevel.Warn, $"We did not load any badges. Something is wrong.");
+                        File.WriteAllText("Error\\LoadBadges.html", response);
                         return null;
                     }
                 }
@@ -1135,8 +1195,8 @@ namespace SingleBoostr
                 _log.Write(Log.LogLevel.Error, $"Unable to get Steam badges. Error: {ex}");
                 MsgBox.Show("Error loading Steam badges. Steam could be down.", "Error", MsgBox.Buttons.Fuck, MsgBox.MsgIcon.Error);
             }
-
-            return appList.Where(o => o.card.cardsremaining > 0).ToList();
+            
+            return appList.Where(o => o.card.cardsremaining > 0 && !_settings.Settings.BlacklistedCardGames.Contains(o.appid)).ToList();
         }
 
         private List<App> ProcessBadgesOnPage(HtmlAgilityPack.HtmlDocument document)
@@ -1273,7 +1333,7 @@ namespace SingleBoostr
             {
                 if (_steamApps003.BIsSubscribedApp(app.appid))
                 {
-                    app.name = Utils.GetUnicodeString(app.name);
+                    app.name = app.name;
                     _appList.Add(app);
                 }
             }
@@ -1380,20 +1440,12 @@ namespace SingleBoostr
             string games = $"{_appList.Count} Games";
             string displayName = _clientFriends.GetPersonaName();
             displayName = string.IsNullOrWhiteSpace(displayName) ? "Unknown" : Utils.GetUnicodeString(displayName);
-
-            if (PanelUserLblName.InvokeRequired)
-            {
-                Invoke(new Action(() =>
-                {
-                    PanelUserLblName.Text = displayName;
-                    PanelUserLblGames.Text = games;
-                }));
-            }
-            else
+            
+            Invoke(new Action(() =>
             {
                 PanelUserLblName.Text = displayName;
                 PanelUserLblGames.Text = games;
-            }
+            }));
         }
 
         private void ExitApplication()
@@ -1532,9 +1584,11 @@ namespace SingleBoostr
             if (e.m_cNewItems > 0 && _activeSession == Session.Cards)
             {
                 _log.Write(Log.LogLevel.Info, $"Received {e.m_cNewItems} item drops. Checking current badge progress.");
-                TmrCheckCardProgress.Stop();
                 TmrCheckCardProgress.Start();
-                CheckCurrentBadge();
+                Invoke(new Action(() =>
+                {
+                    CheckCurrentBadge();
+                }));
             }
         }
 

@@ -674,7 +674,7 @@ namespace HourBoostr
 
             /*Tell the client that we're playing these games*/
             mSteam.client.Send(gamesPlaying);
-            mLog.Write(Log.LogLevel.Info, $"{gameList.Count} has been set as playing.");
+            mLog.Write(Log.LogLevel.Info, $"{gameList.Count} games has been set as playing.");
         }
     }
 }

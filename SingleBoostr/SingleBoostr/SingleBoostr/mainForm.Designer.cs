@@ -36,6 +36,7 @@
             this.PanelUserPicGoBack = new System.Windows.Forms.PictureBox();
             this.PanelContainer = new System.Windows.Forms.Panel();
             this.PanelCardsStarted = new System.Windows.Forms.Panel();
+            this.PanelCardsStartedPicBlock = new System.Windows.Forms.PictureBox();
             this.PanelCardsStartedBtnHide = new System.Windows.Forms.Button();
             this.PanelCardsStartedBtnNext = new System.Windows.Forms.Button();
             this.PanelCardsStartedPicGame = new System.Windows.Forms.PictureBox();
@@ -89,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).BeginInit();
             this.PanelContainer.SuspendLayout();
             this.PanelCardsStarted.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicBlock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).BeginInit();
             this.PanelCardsStartedLblWrapper.SuspendLayout();
             this.PanelStart.SuspendLayout();
@@ -157,11 +159,11 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
-            this.PanelContainer.Controls.Add(this.PanelStart);
+            this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelCardsStarted);
+            this.PanelContainer.Controls.Add(this.PanelStart);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
             this.PanelContainer.Controls.Add(this.PanelTos);
-            this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelCards);
             this.PanelContainer.Controls.Add(this.PanelLoading);
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -173,6 +175,7 @@
             // PanelCardsStarted
             // 
             this.PanelCardsStarted.BackColor = System.Drawing.Color.Transparent;
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedPicBlock);
             this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnHide);
             this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnNext);
             this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedPicGame);
@@ -184,6 +187,19 @@
             this.PanelCardsStarted.Size = new System.Drawing.Size(600, 350);
             this.PanelCardsStarted.TabIndex = 11;
             this.PanelCardsStarted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelCardsStarted_MouseDown);
+            // 
+            // PanelCardsStartedPicBlock
+            // 
+            this.PanelCardsStartedPicBlock.BackgroundImage = global::SingleBoostr.Properties.Resources.Block;
+            this.PanelCardsStartedPicBlock.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelCardsStartedPicBlock.Location = new System.Drawing.Point(169, 114);
+            this.PanelCardsStartedPicBlock.Name = "PanelCardsStartedPicBlock";
+            this.PanelCardsStartedPicBlock.Size = new System.Drawing.Size(16, 16);
+            this.PanelCardsStartedPicBlock.TabIndex = 13;
+            this.PanelCardsStartedPicBlock.TabStop = false;
+            this.PanelCardsStartedPicBlock.Click += new System.EventHandler(this.PanelCardsStartedPicBlock_Click);
+            this.PanelCardsStartedPicBlock.MouseEnter += new System.EventHandler(this.PanelCardsStartedPicBlock_MouseEnter);
+            this.PanelCardsStartedPicBlock.MouseLeave += new System.EventHandler(this.PanelCardsStartedPicBlock_MouseLeave);
             // 
             // PanelCardsStartedBtnHide
             // 
@@ -812,6 +828,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).EndInit();
             this.PanelContainer.ResumeLayout(false);
             this.PanelCardsStarted.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicBlock)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).EndInit();
             this.PanelCardsStartedLblWrapper.ResumeLayout(false);
             this.PanelStart.ResumeLayout(false);
@@ -889,6 +906,7 @@
         private System.Windows.Forms.PictureBox PanelStartPicGithub;
         private System.Windows.Forms.Timer TmrChangeBackground;
         private System.Windows.Forms.Timer TmrCheckCardProgress;
+        private System.Windows.Forms.PictureBox PanelCardsStartedPicBlock;
     }
 }
 

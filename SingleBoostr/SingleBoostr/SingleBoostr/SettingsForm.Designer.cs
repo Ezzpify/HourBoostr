@@ -33,6 +33,7 @@
             this.BtnClose = new System.Windows.Forms.PictureBox();
             this.BtnSave = new System.Windows.Forms.Button();
             this.PanelContainer = new System.Windows.Forms.Panel();
+            this.LblClearBlackList = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.NumGamesIdleWhenNoCards = new System.Windows.Forms.NumericUpDown();
             this.LblDownloadNewAppList = new System.Windows.Forms.Label();
@@ -90,7 +91,7 @@
             this.PanelFooter.Controls.Add(this.BtnClose);
             this.PanelFooter.Controls.Add(this.BtnSave);
             this.PanelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelFooter.Location = new System.Drawing.Point(1, 379);
+            this.PanelFooter.Location = new System.Drawing.Point(1, 429);
             this.PanelFooter.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PanelFooter.Name = "PanelFooter";
             this.PanelFooter.Size = new System.Drawing.Size(348, 70);
@@ -130,6 +131,7 @@
             // PanelContainer
             // 
             this.PanelContainer.AutoScroll = true;
+            this.PanelContainer.Controls.Add(this.LblClearBlackList);
             this.PanelContainer.Controls.Add(this.label8);
             this.PanelContainer.Controls.Add(this.NumGamesIdleWhenNoCards);
             this.PanelContainer.Controls.Add(this.LblDownloadNewAppList);
@@ -169,9 +171,23 @@
             this.PanelContainer.Location = new System.Drawing.Point(1, 1);
             this.PanelContainer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PanelContainer.Name = "PanelContainer";
-            this.PanelContainer.Size = new System.Drawing.Size(348, 378);
+            this.PanelContainer.Size = new System.Drawing.Size(348, 428);
             this.PanelContainer.TabIndex = 3;
             this.PanelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelContainer_MouseDown);
+            // 
+            // LblClearBlackList
+            // 
+            this.LblClearBlackList.AutoSize = true;
+            this.LblClearBlackList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LblClearBlackList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblClearBlackList.Location = new System.Drawing.Point(14, 941);
+            this.LblClearBlackList.Name = "LblClearBlackList";
+            this.LblClearBlackList.Size = new System.Drawing.Size(150, 17);
+            this.LblClearBlackList.TabIndex = 72;
+            this.LblClearBlackList.Text = "Clear 0 blacklisted cards";
+            this.LblClearBlackList.Click += new System.EventHandler(this.LblClearBlackList_Click);
+            this.LblClearBlackList.MouseEnter += new System.EventHandler(this.LblClearBlackList_MouseEnter);
+            this.LblClearBlackList.MouseLeave += new System.EventHandler(this.LblClearBlackList_MouseLeave);
             // 
             // label8
             // 
@@ -236,7 +252,7 @@
             // pictureBox8
             // 
             this.pictureBox8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox8.Location = new System.Drawing.Point(0, 928);
+            this.pictureBox8.Location = new System.Drawing.Point(0, 958);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(331, 20);
             this.pictureBox8.TabIndex = 65;
@@ -547,7 +563,8 @@
             this.TxtChatResponses.Name = "TxtChatResponses";
             this.TxtChatResponses.Size = new System.Drawing.Size(264, 96);
             this.TxtChatResponses.TabIndex = 36;
-            this.TxtChatResponses.Text = "I'm currently Idling with: https://github.com/Ezzpify/HourBoostr";
+            this.TxtChatResponses.Text = "I\'m currently Idling with: https://github.com/Ezzpify/HourBoostr\nI\'m idling games" +
+    ". I\'ll get back to you later.";
             // 
             // pictureBox7
             // 
@@ -568,6 +585,7 @@
             this.CbEnableChatResponse.TabIndex = 2;
             this.CbEnableChatResponse.Text = "Enable";
             this.CbEnableChatResponse.UseVisualStyleBackColor = true;
+            this.CbEnableChatResponse.CheckedChanged += new System.EventHandler(this.CbEnableChatResponse_CheckedChanged);
             // 
             // label1
             // 
@@ -583,7 +601,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
-            this.ClientSize = new System.Drawing.Size(350, 450);
+            this.ClientSize = new System.Drawing.Size(350, 500);
             this.Controls.Add(this.PanelContainer);
             this.Controls.Add(this.PanelFooter);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F);
@@ -655,5 +673,6 @@
         private System.Windows.Forms.Label LblDownloadNewAppList;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown NumGamesIdleWhenNoCards;
+        private System.Windows.Forms.Label LblClearBlackList;
     }
 }

@@ -184,6 +184,7 @@ namespace HourBoostr
         /// Too many comments
         /// </summary>
         /// <param name="args">No args</param>
+        [STAThread]
         static void Main(string[] args)
         {
             /*Create a folder for our account sentry files*/

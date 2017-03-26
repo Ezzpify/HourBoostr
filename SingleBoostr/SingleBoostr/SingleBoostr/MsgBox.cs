@@ -205,7 +205,8 @@ namespace SingleBoostr
             RetryCancel,
             YesNo,
             YesNoCancel,
-            Fuck
+            Fuck,
+            Gotit
         }
 
         public enum MsgIcon
@@ -257,6 +258,10 @@ namespace SingleBoostr
 
                 case Buttons.Fuck:
                     _msgBox.InitFuckButton();
+                    break;
+
+                case Buttons.Gotit:
+                    _msgBox.InitGotitButton();
                     break;
             }
 
@@ -423,6 +428,15 @@ namespace SingleBoostr
             _buttons.Add(btnFuck);
         }
 
+        private void InitGotitButton()
+        {
+            Button btnFuck = new Button();
+            btnFuck.Text = "Got it!";
+            btnFuck.Click += ButtonClick;
+
+            _buttons.Add(btnFuck);
+        }
+
         private static Size MessageSize(string message)
         {
             Graphics g = _msgBox.CreateGraphics();
@@ -469,6 +483,7 @@ namespace SingleBoostr
 
                 case "OK":
                 case "Fuck":
+                case "Got it!":
                     _dialogResult = DialogResult.OK;
                     break;
 
