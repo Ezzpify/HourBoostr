@@ -3,9 +3,9 @@
   <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
-[![GitHub license](https://img.shields.io/badge/license-AGPL-blue.svg)](https://raw.githubusercontent.com/Ezzpify/HourBoostr/master/LICENSE)
-[![Latest](https://img.shields.io/github/release/Ezzpify/HourBoostr.svg?label=Latest&maxAge=60)
-[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-39129-brightgreen.svg)
+[![License](https://img.shields.io/github/license/Ezzpify/HourBoostr.svg?label=License&maxAge=86400)](./LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/Ezzpify/HourBoostr.svg?label=Latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
+[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-40k-brightgreen.svg)
 [![Downloads](https://img.shields.io/github/downloads/Ezzpify/HourBoostr/latest/total.svg?label=Downloads&maxAge=60)
 
 [![Steam Group](https://img.shields.io/badge/Steam-group-yellowgreen.svg)](https://steamcommunity.com/groups/hourboostr)
