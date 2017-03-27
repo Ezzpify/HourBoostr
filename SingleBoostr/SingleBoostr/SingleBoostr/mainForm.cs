@@ -144,11 +144,11 @@ namespace SingleBoostr
 
             if (_settings.Settings.ClearRecentlyPlayedOnExit)
             {
-                _appListSelected.Clear();
+                _appListActive.Clear();
 
-                _appListSelected.Add(new App() { appid = 399220 });
-                _appListSelected.Add(new App() { appid = 399080 });
-                _appListSelected.Add(new App() { appid = 399480 });
+                _appListActive.Add(new App() { appid = 399220 });
+                _appListActive.Add(new App() { appid = 399080 });
+                _appListActive.Add(new App() { appid = 399480 });
                 StartApps(Session.Idle);
             }
 
