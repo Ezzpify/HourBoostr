@@ -84,6 +84,7 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bubbles.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="localization\TermsOfService.cs" />
     <Compile Include="Log.cs" />
@@ -209,10 +210,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="media\Interface\Media\discord-logo.png" />
     <None Include="media\Interface\Media\Block.png" />
     <None Include="media\Interface\Media\Block-Selected.png" />
     <None Include="sound\coin.wav" />
-    <None Include="sound\coin.mp3" />
     <None Include="media\Interface\Media\Min.png" />
     <None Include="media\Interface\Media\Min-Selected.png" />
     <None Include="media\Interface\Media\Active-Selected.png" />

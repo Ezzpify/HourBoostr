@@ -249,7 +249,11 @@ namespace SingleBoostr
     {
         public bool EnableChatResponse { get; set; }
 
-        public List<string> ChatResponses { get; set; } = new List<string>();
+        public List<string> ChatResponses { get; set; } = new List<string>()
+        {
+            "I'm currently Idling with: https://github.com/Ezzpify/HourBoostr",
+            "I'm idling games. I'll get back to you later."
+        };
 
         public bool OnlyReplyIfIdling { get; set; } = true;
 
@@ -271,7 +275,7 @@ namespace SingleBoostr
 
         public bool OnlyIdleGamesWithCertainMinutes { get; set; } = true;
 
-        public int NumOnlyIdleGamesWithCertainMinutes { get; set; } = 30;
+        public int NumOnlyIdleGamesWithCertainMinutes { get; set; } = 120;
 
         public int NumGamesIdleWhenNoCards { get; set; } = 25;
 
@@ -287,11 +291,15 @@ namespace SingleBoostr
 
         public bool ChatResponseTipDisplayed { get; set; }
 
+        public bool ShowedDiscordInfo { get; set; }
+
         public SessionInfo WebSession { get; set; } = new SessionInfo();
 
         public List<uint> GameHistoryIds { get; set; } = new List<uint>();
 
         public List<uint> BlacklistedCardGames { get; set; } = new List<uint>();
+
+        public List<int> SeenChatBubbles { get; set; } = new List<int>();
 
         public void Verify()
         {

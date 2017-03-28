@@ -12,7 +12,7 @@ namespace SingleBoostrGame
     {
         private static ISteamClient012 _steamClient012;
         private static ISteamApps001 _steamApps001;
-        
+
         private const int _secondsBetweenChecks = 15;
         private static BackgroundWorker _bwg;
 

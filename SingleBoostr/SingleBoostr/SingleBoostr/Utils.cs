@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.IO;
+using Microsoft.Win32;
 
 namespace SingleBoostr
 {
@@ -31,6 +32,12 @@ namespace SingleBoostr
         {
             byte[] bytes = Encoding.Default.GetBytes(str);
             return Encoding.UTF8.GetString(bytes);
+        }
+
+        public static string Truncate(string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         }
 
         public static Image BytesToImage(byte[] bytes)
@@ -99,24 +106,56 @@ namespace SingleBoostr
             }
         }
 
-        public static Image ResizeImageFixedWidth(Image imgToResize, int width)
+        public static bool IsApplicationInstalled(string p_name)
         {
-            int sourceWidth = imgToResize.Width;
-            int sourceHeight = imgToResize.Height;
+            string displayName;
+            RegistryKey key;
 
-            float nPercent = ((float)width / (float)sourceWidth);
+            try
+            {
+                // search in: CurrentUser
+                key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
+                {
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = subkey.GetValue("DisplayName") as string;
+                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
+                }
 
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
+                // search in: LocalMachine_32
+                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
+                {
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = subkey.GetValue("DisplayName") as string;
+                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
+                }
 
-            Bitmap b = new Bitmap(destWidth, destHeight);
-            Graphics g = Graphics.FromImage((Image)b);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                // search in: LocalMachine_64
+                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+                foreach (String keyName in key.GetSubKeyNames())
+                {
+                    RegistryKey subkey = key.OpenSubKey(keyName);
+                    displayName = subkey.GetValue("DisplayName") as string;
+                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
 
-            g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
-            g.Dispose();
+            }
 
-            return b;
+            // NOT FOUND
+            return false;
         }
     }
 }

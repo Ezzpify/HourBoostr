@@ -128,6 +128,8 @@ namespace SingleBoostr
                 PanelTosLblText.Text = localization.TermsOfService.GetTermsOfService(language);
                 ShowWindow(WindowPanel.Tos);
             }
+
+            PanelStartLblVersion.Text = $"v{Application.ProductVersion}";
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -162,6 +164,25 @@ namespace SingleBoostr
         }
 
         #region ButtonEvents
+
+        private void PanelStartLblVersion_Click(object sender, EventArgs e)
+        {
+            Process.Start(Const.REPO_RELEASE_URL);
+        }
+
+        private void MessageText_Click(object sender, EventArgs e, string url)
+        {
+            Process.Start(url);
+        }
+
+        private void CloseText_Click(object sender, EventArgs e)
+        {
+            Control control = (Control)sender;
+            Control grandparent = control?.Parent?.Parent;
+
+            if (grandparent != null)
+                PanelStartChatPanel.Controls.Remove(grandparent);
+        }
 
         private void PanelCardsStartedPicBlock_Click(object sender, EventArgs e)
         {
@@ -658,6 +679,32 @@ namespace SingleBoostr
 
         #region UIStyle
 
+        private void MessageText_MouseLeave(object sender, EventArgs e)
+        {
+            Label lbl = (Label)sender;
+            lbl.ForeColor = Const.LABEL_NORMAL;
+            lbl.Cursor = Cursors.Default;
+        }
+
+        private void MessageText_MouseEnter(object sender, EventArgs e)
+        {
+            Label lbl = (Label)sender;
+            lbl.ForeColor = Const.LABEL_HOVER;
+            lbl.Cursor = Cursors.Hand;
+        }
+
+        private void CloseText_MouseLeave(object sender, EventArgs e)
+        {
+            Label lbl = (Label)sender;
+            lbl.ForeColor = Const.LABEL_NORMAL;
+        }
+
+        private void CloseText_MouseEnter(object sender, EventArgs e)
+        {
+            Label lbl = (Label)sender;
+            lbl.ForeColor = Const.LABEL_HOVER;
+        }
+
         private void PanelCardsStartedPicBlock_MouseEnter(object sender, EventArgs e)
         {
             PanelCardsStartedPicBlock.BackgroundImage = Properties.Resources.Block_Selected;
@@ -841,6 +888,72 @@ namespace SingleBoostr
         #endregion UIStyle
 
         #region Functions
+
+        private void ShowChatBubble(string title, string text, string url = "")
+        {
+            int tag = PanelStartChatPanel.Controls.Count + 1;
+
+            Panel container = new Panel();
+            container.Size = new Size(310, 58);
+            container.BackgroundImage = Properties.Resources.Chat;
+            container.Tag = tag;
+
+            Panel textWrapper = new Panel();
+            textWrapper.Dock = DockStyle.Fill;
+            textWrapper.Padding = new Padding(2, 0, 0, 0);
+
+            Panel buttonWrapper = new Panel();
+            buttonWrapper.Size = new Size(20, 58);
+            buttonWrapper.Dock = DockStyle.Right;
+
+            Label closeText = new Label();
+            closeText.Text = "x";
+            closeText.Dock = DockStyle.Top;
+            closeText.Cursor = Cursors.Hand;
+            closeText.ForeColor = Color.Gray;
+            closeText.Click += CloseText_Click;
+            closeText.MouseEnter += CloseText_MouseEnter;
+            closeText.MouseLeave += CloseText_MouseLeave;
+
+            Label messageText = new Label();
+            messageText.Text = Utils.Truncate(text, 105);
+            messageText.AutoSize = false;
+            messageText.Dock = DockStyle.Fill;
+            messageText.ForeColor = Color.Gray;
+            messageText.Font = new Font("Segoe UI", 8, FontStyle.Regular);
+            messageText.Padding = new Padding(1, 0, 0, 0);
+            if (!string.IsNullOrEmpty(url))
+            {
+                if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
+                {
+                    messageText.MouseEnter += MessageText_MouseEnter;
+                    messageText.MouseLeave += MessageText_MouseLeave;
+                    messageText.Click += (sender, EventArgs) => { MessageText_Click(sender, EventArgs, url); };
+                    ToolTip.SetToolTip(messageText, url);
+                }
+            }
+
+            Label titleText = new Label();
+            titleText.Text = title;
+            titleText.Dock = DockStyle.Top;
+            titleText.Height = 20;
+            titleText.ForeColor = Color.Gray;
+            titleText.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+
+            buttonWrapper.Controls.Add(closeText);
+            textWrapper.Controls.Add(messageText);
+            textWrapper.Controls.Add(titleText);
+            container.Controls.Add(textWrapper);
+            container.Controls.Add(buttonWrapper);
+
+            Invoke(new Action(() =>
+            {
+                PanelStartChatPanel.Controls.Add(container);
+
+                if (PanelStartChatPanel.Controls.Count > 4)
+                    PanelStartChatPanel.Controls.RemoveAt(0);
+            }));
+        }
 
         private void StartApps(Session session)
         {
@@ -1310,7 +1423,38 @@ namespace SingleBoostr
                         var diag = MsgBox.Show("There's an update available. Do you wish to check it out?", "Update", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Info);
                         if (diag == DialogResult.Yes)
                             Process.Start(Const.REPO_RELEASE_URL);
+
+                        PanelStartLblVersion.Text = "Update available";
                     }
+
+                    string bubbleJson = await DownloadString(Const.CHAT_BUBBLE_URL);
+                    if (!string.IsNullOrWhiteSpace(bubbleJson))
+                    {
+                        try
+                        {
+                            var entries = JsonConvert.DeserializeObject<ChatBubbles>(bubbleJson);
+                            foreach (var bubble in entries.bubbles)
+                            {
+                                if (!_settings.Settings.SeenChatBubbles.Contains(bubble.id))
+                                {
+                                    ShowChatBubble(bubble.title, bubble.text, bubble.url);
+                                    _settings.Settings.SeenChatBubbles.Add(bubble.id);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Write(Log.LogLevel.Error, $"Error loading bubbles. {ex.Message}");
+                        }
+                    }
+
+                    if (Utils.IsApplicationInstalled("Discord") && !_settings.Settings.ShowedDiscordInfo)
+                    {
+                        ShowChatBubble("Discord Server", "I noticed you have Discord installed. Click here to join our support server!", "https://discord.gg/g4M9fTs");
+                        _settings.Settings.ShowedDiscordInfo = true;
+                    }
+
+                    PanelStartChatPanel.Visible = true;
                 }
             }
             else
@@ -1583,7 +1727,7 @@ namespace SingleBoostr
         {
             if (e.m_cNewItems > 0 && _activeSession == Session.Cards)
             {
-                _log.Write(Log.LogLevel.Info, $"Received {e.m_cNewItems} item drops. Checking current badge progress.");
+                _log.Write(Log.LogLevel.Info, $"Received item drop. Checking current badge progress.");
                 TmrCheckCardProgress.Start();
                 Invoke(new Action(() =>
                 {
