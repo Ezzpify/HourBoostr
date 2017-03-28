@@ -5,7 +5,7 @@
 
 [![License](https://img.shields.io/github/license/Ezzpify/HourBoostr.svg?label=License&maxAge=86400)](./LICENSE)
 [![GitHub Release](https://img.shields.io/github/release/Ezzpify/HourBoostr.svg?label=Latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
-[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-40k-brightgreen.svg)](https://github.com/Ezzpify/HourBoostr/releases/latest)
+[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-41k-brightgreen.svg)](https://github.com/Ezzpify/HourBoostr/releases/latest)
 [![Github Downloads](https://img.shields.io/github/downloads/Ezzpify/HourBoostr/latest/total.svg?label=Downloads%20for%20latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
 
 [![Steam Group](https://img.shields.io/badge/Steam-group-yellowgreen.svg)](https://steamcommunity.com/groups/hourboostr)
@@ -25,4 +25,6 @@ Video tutorial of HourBoostr: https://www.youtube.com/watch?v=eqhPBEVMPDM
 
 This program is perfect for you if you only have one account that you want to boost. This program requires you to have Steam installed, however you can be logged into your account and play games and chat with your friends while you are boosting other games with SingleBoostr at the same time. SingleBoostr also offers a great way to farm Trading Cards.
 
-Program preview of SingleBoostr: ![Preview](http://i.imgur.com/nHiLGia.png)
+Program preview of SingleBoostr: 
+
+![Preview](http://i.imgur.com/nHiLGia.png)
