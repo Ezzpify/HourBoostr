@@ -1,28 +1,10 @@
 {
   "bubbles": [
     {
-      "title": "Hey Guys",
-      "text": "textText",
-      "url": "urlText",
-      "id": 1
-    },
-    {
-      "title": "Swag",
-      "text": "textText",
-      "url": "urlText",
-      "id": 2
-    },
-    {
-      "title": "New update",
-      "text": "Just released v3.0.2 - It contains some small fixes. Check it out!",
-      "url": "https://github.com/Ezzpify/HourBoostr/releases",
-      "id": 3
-    },
-    {
-      "title": "Testing bubble",
-      "text": "Hello there. This is just a test with a very long string just to make sure things are working fine.",
-      "url": "https://github.com/Ezzpify/HourBoostr/releases",
-      "id": 4
+      "title": "Hello there!",
+      "text": "Thanks for using SingleBoostr. If you experience any issues you can let me know on Discord.",
+      "url": "https://discord.gg/g4M9fTs",
+      "id": 0
     }
   ]
 }
