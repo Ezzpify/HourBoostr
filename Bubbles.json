@@ -1,0 +1,22 @@
+{
+  "bubbles": [
+    {
+      "title": "Hey Guys",
+      "text": "textText",
+      "url": "urlText",
+      "id": 1
+    },
+    {
+      "title": "Swag",
+      "text": "textText",
+      "url": "urlText",
+      "id": 2
+    },
+    {
+      "title": "New update",
+      "text": "Just released v3.0.2 - It contains some small fixes. Check it out!",
+      "url": "https://github.com/Ezzpify/HourBoostr/releases",
+      "id": 5
+    }
+  ]
+}
