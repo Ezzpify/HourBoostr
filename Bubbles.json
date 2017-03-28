@@ -16,13 +16,13 @@
       "title": "New update",
       "text": "Just released v3.0.2 - It contains some small fixes. Check it out!",
       "url": "https://github.com/Ezzpify/HourBoostr/releases",
-      "id": 5
+      "id": 3
     },
     {
       "title": "Testing bubble",
       "text": "Hello there. This is just a test with a very long string just to make sure things are working fine.",
       "url": "https://github.com/Ezzpify/HourBoostr/releases",
-      "id": 6
+      "id": 4
     }
   ]
 }
