@@ -25,4 +25,4 @@ Video tutorial of HourBoostr: https://www.youtube.com/watch?v=eqhPBEVMPDM
 
 This program is perfect for you if you only have one account that you want to boost. This program requires you to have Steam installed, however you can be logged into your account and play games and chat with your friends while you are boosting other games with SingleBoostr at the same time. SingleBoostr also offers a great way to farm Trading Cards.
 
-Program preview of SingleBoostr: http://i.imgur.com/uBg2rXO.png
+Program preview of SingleBoostr: http://i.imgur.com/nHiLGia.png
