@@ -187,9 +187,6 @@
   <data name="Min_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\Min-Selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="coin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\sound\coin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Block" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\Block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -198,5 +195,8 @@
   </data>
   <data name="discord_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\discord-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="storms" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\sound\storms.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

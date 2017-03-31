@@ -64,7 +64,7 @@
             // 
             this.PanelUserPicGoBack.BackgroundImage = global::SingleBoostr.Properties.Resources.Back;
             this.PanelUserPicGoBack.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelUserPicGoBack.Location = new System.Drawing.Point(12, 380);
+            this.PanelUserPicGoBack.Location = new System.Drawing.Point(12, 12);
             this.PanelUserPicGoBack.Name = "PanelUserPicGoBack";
             this.PanelUserPicGoBack.Size = new System.Drawing.Size(20, 48);
             this.PanelUserPicGoBack.TabIndex = 15;
@@ -90,7 +90,7 @@
             this.Name = "BrowserForm";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "BrowserForm";
+            this.Text = "Sign in";
             this.Load += new System.EventHandler(this.BrowserForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PicLoading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).EndInit();

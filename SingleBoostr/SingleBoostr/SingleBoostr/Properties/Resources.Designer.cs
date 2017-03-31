@@ -181,15 +181,6 @@ namespace SingleBoostr.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream coin {
-            get {
-                return ResourceManager.GetStream("coin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap discord_logo {
@@ -326,6 +317,15 @@ namespace SingleBoostr.Properties {
             get {
                 object obj = ResourceManager.GetObject("Settings_Selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream storms {
+            get {
+                return ResourceManager.GetStream("storms", resourceCulture);
             }
         }
     }

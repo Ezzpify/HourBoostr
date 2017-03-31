@@ -104,6 +104,7 @@ namespace SingleBoostr
                     else if (attr == "mainLoginPanel")
                     {
                         element.SetAttribute("className", "");
+                        element.Style = "margin-left: 20px;";
                     }
                 }
                 

@@ -11,7 +11,9 @@ using System.Threading;
 using System.Globalization;
 using System.Net;
 using System.Windows.Forms;
+using System.Media;
 using System.Runtime.InteropServices;
+using System.Reflection;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Win32;
@@ -57,11 +59,16 @@ namespace SingleBoostr
         private int _user;
         private int _pipe;
 
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+        
         private enum WindowPanel
         {
             Start, Loading, Tos, Idle, IdleStarted, Cards, CardsStarted
         }
-
+        
         private enum Session
         {
             None, Idle, Cards, CardsBatch
@@ -78,11 +85,6 @@ namespace SingleBoostr
             }
         }
 
-        public MainForm()
-        {
-            InitializeComponent();
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             _log = new Log("Main.txt");
@@ -97,14 +99,23 @@ namespace SingleBoostr
                         | SecurityProtocolType.Tls12
                         | SecurityProtocolType.Ssl3;
 
+            if (IsDuplicateAlreadyRunning())
+                ExitApplication();
+
+            /*Overwrites the cursor and renderer for the ContextMenuStrip we use for CardsStarted options panel.*/
+            CardsStartedOptionsMenu.Cursor = Cursors.Hand;
+            CardsStartedOptionsMenu.Renderer = new MyRenderer();
+
             if (!File.Exists(Const.GAME_EXE))
             {
+                /*I don't know if it's a good idea to embed the game exe into the main program. That might [trigger] some Anti-Virus software.*/
                 MsgBox.Show($"Missing {Const.GAME_EXE} please redownload program.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
                 ExitApplication();
             }
 
             try
             {
+                /*We need to register the application under Internet Explorer emulation registry key. Not doing this would cause the Steam Login web browser to render the css all wonky.*/
                 RegistryKey ie_root = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION");
                 RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true);
                 key.SetValue(AppDomain.CurrentDomain.FriendlyName, 10001, RegistryValueKind.DWord);
@@ -116,7 +127,9 @@ namespace SingleBoostr
                     MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
             }
 
+            /*Here we're just setting a placeholder text for the AppSearch textbox in the Idle panel*/
             NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
+
             if (_settings.Settings.VACWarningDisplayed)
             {
                 ShowWindow(WindowPanel.Loading);
@@ -124,12 +137,15 @@ namespace SingleBoostr
             }
             else
             {
+                /*We'll display the Terms of Service in whatever language the user is running on his computer.
+                 Provided that we have that translation, of course.*/
                 string language = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
                 PanelTosLblText.Text = localization.TermsOfService.GetTermsOfService(language);
                 ShowWindow(WindowPanel.Tos);
             }
 
             PanelStartLblVersion.Text = $"v{Application.ProductVersion}";
+            ToolTip.OwnerDraw = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -146,8 +162,9 @@ namespace SingleBoostr
 
             if (_settings.Settings.ClearRecentlyPlayedOnExit)
             {
+                /*These three games does not show up in the recently played section on your profile,
+                 however they still take a spot. So essentially they do clear the recently played games.*/
                 _appListActive.Clear();
-
                 _appListActive.Add(new App() { appid = 399220 });
                 _appListActive.Add(new App() { appid = 399080 });
                 _appListActive.Add(new App() { appid = 399480 });
@@ -160,10 +177,57 @@ namespace SingleBoostr
 
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
+            /*We set the active control to a random label else when the user tabs out of the form
+             it will automatically focus the next button which makes it get a clunky border
+             which looks absolutely awful.*/
             ActiveControl = PanelUserLblName;
         }
 
         #region ButtonEvents
+
+        private void PanelCardsStartedLblOptions_Click(object sender, EventArgs e)
+        {
+            /*The options button in CardsStarted opens a ContextMenuStrip on right click.
+             So here we will make it work with left click as well.*/
+            Label btnSender = (Label)sender;
+            Point ptLowerLeft = new Point(0, btnSender.Height);
+            ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
+            CardsStartedOptionsMenu.Show(ptLowerLeft);
+        }
+
+        private void CardsStartedOptionsMenuBtnBlacklist_Click(object sender, EventArgs e)
+        {
+            if (_appCurrentBadge == null)
+            {
+                _log.Write(Log.LogLevel.Error, $"Current app is null. Unable to add it to block list. Hmmmm ...");
+                return;
+            }
+
+            //https://github.com/dotnet/roslyn/pull/3507
+            var diag = MsgBox.Show($"Do you want to blacklist {_appCurrentBadge.name}? You can always undo this in Settings.", "Blacklist game", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Question);
+            if (diag == DialogResult.Yes)
+            {
+                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.appid);
+                StartNextCard();
+            }
+        }
+
+        private void CardsStartedOptionsMenuBtnSortQueue_Click(object sender, EventArgs e)
+        {
+            QueueForm frm = null;
+            if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
+            {
+                int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
+                frm = new QueueForm(_appListBadges.Where(o => o.card.minutesplayed > minimumMinutes).ToList(), _appCurrentBadge);
+            }
+            else
+            {
+                frm = new QueueForm(_appListBadges, _appCurrentBadge);
+            }
+
+            if (frm.ShowDialog() == DialogResult.OK)
+                _appListBadges = frm.AppList.Union(_appListBadges).ToList();
+        }
 
         private void PanelStartLblVersion_Click(object sender, EventArgs e)
         {
@@ -184,23 +248,6 @@ namespace SingleBoostr
                 PanelStartChatPanel.Controls.Remove(grandparent);
         }
 
-        private void PanelCardsStartedPicBlock_Click(object sender, EventArgs e)
-        {
-            if (_appCurrentBadge == null)
-            {
-                _log.Write(Log.LogLevel.Error, $"Current app is null. Unable to add it to block list. Hmmmm....");
-                return;
-            }
-
-            //https://github.com/dotnet/roslyn/pull/3507
-            var diag = MsgBox.Show($"Do you want to blacklist {_appCurrentBadge.name}? You can always undo this in Settings.", "Blacklist game", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Question);
-            if (diag == DialogResult.Yes)
-            {
-                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.appid);
-                StartNextCard();
-            }
-        }
-
         private void showToolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             ExitApplication();
@@ -208,12 +255,28 @@ namespace SingleBoostr
 
         private void PanelCardsStartedBtnHide_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
+            if (_settings.Settings.HideToTraybar)
+            {
+                Hide();
+                AppNotifyIcon.ShowBalloonTip(1000, "SingleBoostr", "I'm down here.", ToolTipIcon.Info);
+            }
+            else
+            {
+                WindowState = FormWindowState.Minimized;
+            }
         }
 
         private void PanelIdleStartedBtnHide_Click(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
+            if (_settings.Settings.HideToTraybar)
+            {
+                Hide();
+                AppNotifyIcon.ShowBalloonTip(1000, "SingleBoostr", "I'm down here.", ToolTipIcon.Info);
+            }
+            else
+            {
+                WindowState = FormWindowState.Minimized;
+            }
         }
 
         private void PanelCardsStartedBtnNext_Click(object sender, EventArgs e)
@@ -278,7 +341,7 @@ namespace SingleBoostr
                     if (diag == DialogResult.Yes)
                     {
                         StopApps();
-                        ShowWindow(WindowPanel.Cards);
+                        goto case Session.None;
                     }
                     break;
 
@@ -391,9 +454,20 @@ namespace SingleBoostr
             Process.Start(Const.GITHUB_PROFILE_URL);
         }
 
+        private void AppNotifyIcon_Click(object sender, EventArgs e)
+        {
+            Show();
+        }
+
         #endregion ButtonEvents
 
         #region OtherEvents
+
+        private void ToolTip_Draw(object sender, DrawToolTipEventArgs e)
+        {
+            e.DrawBackground();
+            e.DrawText();
+        }
 
         private void BgwSteamCallback_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -483,6 +557,9 @@ namespace SingleBoostr
         {
             foreach (var app in _appListActive)
             {
+                if (app.process == null)
+                    continue;
+
                 if (app.process.HasExited && _activeSession != Session.None)
                 {
                     app.process.Start();
@@ -542,10 +619,11 @@ namespace SingleBoostr
             _appListBadges = await LoadBadges();
             if (_appListBadges == null)
             {
-                MsgBox.Show("Unable to read Steam badges. Re-authenticate by logging into Steam again.",
-                    "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
                 ShowWindow(WindowPanel.Cards);
                 StopApps();
+
+                MsgBox.Show("Unable to read Steam badges. Re-authenticate by logging into Steam again.",
+                    "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
             }
             else
             {
@@ -565,7 +643,6 @@ namespace SingleBoostr
 
             _appListSelected.Add(game);
             _appList.Remove(game);
-
             RefreshGameList();
         }
 
@@ -581,7 +658,6 @@ namespace SingleBoostr
 
             _appListSelected.Remove(game);
             _appList.Add(game);
-
             RefreshGameList();
         }
 
@@ -703,16 +779,6 @@ namespace SingleBoostr
         {
             Label lbl = (Label)sender;
             lbl.ForeColor = Const.LABEL_HOVER;
-        }
-
-        private void PanelCardsStartedPicBlock_MouseEnter(object sender, EventArgs e)
-        {
-            PanelCardsStartedPicBlock.BackgroundImage = Properties.Resources.Block_Selected;
-        }
-
-        private void PanelCardsStartedPicBlock_MouseLeave(object sender, EventArgs e)
-        {
-            PanelCardsStartedPicBlock.BackgroundImage = Properties.Resources.Block;
         }
 
         private void PanelIdleStartedBtnHide_MouseEnter(object sender, EventArgs e)
@@ -1005,7 +1071,7 @@ namespace SingleBoostr
             TmrCheckProcess.Start();
         }
 
-        private void StopApps()
+        private void StopApps(bool killSession = true)
         {
             if (_activeSession == Session.None)
                 return;
@@ -1040,10 +1106,14 @@ namespace SingleBoostr
             
             PanelIdleStartedLblIdleTime.Text = "You've been idling for 00:00:00:00";
             PanelIdleStartedListGames.Items.Clear();
-            
+
+            if (killSession)
+            {
+                _activeSession = Session.None;
+                ShowWindow(WindowPanel.Start);
+            }
+
             _log.Write(Log.LogLevel.Info, $"Stopped {_activeSession} with {appErrors} app errors.");
-            _activeSession = Session.None;
-            ShowWindow(WindowPanel.Start);
             _appListActive.Clear();
         }
 
@@ -1079,12 +1149,11 @@ namespace SingleBoostr
 
         private void DoneCardFarming()
         {
-            Stream str = Properties.Resources.coin;
-            System.Media.SoundPlayer snd = new System.Media.SoundPlayer(str);
-            snd.Play();
+            using (var cnd = new SoundPlayer(Properties.Resources.storms))
+                cnd.Play();
 
-            MsgBox.Show("No cards left to idle!", "Done", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
             _log.Write(Log.LogLevel.Info, "User has no cards left to idle.");
+            ShowChatBubble("No cards left", "You've got no cards left to idle!");
             ShowWindow(WindowPanel.Start);
             StopApps();
         }
@@ -1126,7 +1195,7 @@ namespace SingleBoostr
             }
 
             _log.Write(Log.LogLevel.Info, $"Starting next card.");
-            StopApps();
+            StopApps(false);
             App app;
             
             if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
@@ -1137,7 +1206,7 @@ namespace SingleBoostr
                 if (app == null)
                 {
                     _log.Write(Log.LogLevel.Info, $"We don't have any apps matching required play time. Starting batch idle.");
-                    _appListActive = _appListBadges.Take(30).ToList();
+                    _appListActive = _appListBadges.Take(_settings.Settings.NumGamesIdleWhenNoCards).ToList();
                     StartApps(Session.CardsBatch);
                     return;
                 }
@@ -1156,14 +1225,14 @@ namespace SingleBoostr
                 if (imageBytes != null)
                 {
                     PanelCardsStartedPicGame.Image = Utils.BytesToImage(imageBytes);
-                    PanelCardsStartedPicBlock.Parent = PanelCardsStartedPicGame;
-                    PanelCardsStartedPicBlock.Location = new Point(2, 2);
+                    PanelCardsStartedLblOptions.Parent = PanelCardsStartedPicGame;
+                    PanelCardsStartedLblOptions.Location = new Point(4, 4);
                 }
 
                 PanelCardsStartedLblCurrentGame.Text = app.name;
                 PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
 
-                _log.Write(Log.LogLevel.Info, $"Started card {app.name}");
+                _log.Write(Log.LogLevel.Info, $"Started card {app.name} with {app.card.cardsremaining} cards remaining to drop");
                 _appListActive.Add(app);
                 StartApps(Session.Cards);
             }
@@ -1179,7 +1248,7 @@ namespace SingleBoostr
         {
             try
             {
-                var response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentBadge.appid}");
+                string response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentBadge.appid}");
                 if (string.IsNullOrWhiteSpace(response))
                 {
                     _log.Write(Log.LogLevel.Info, $"Card info response was empty.");
@@ -1418,15 +1487,6 @@ namespace SingleBoostr
                     ShowWindow(WindowPanel.Start);
                     BgwSteamCallback.RunWorkerAsync();
 
-                    if (await UpdateCheck.IsUpdateAvailable())
-                    {
-                        var diag = MsgBox.Show("There's an update available. Do you wish to check it out?", "Update", MsgBox.Buttons.YesNo, MsgBox.MsgIcon.Info);
-                        if (diag == DialogResult.Yes)
-                            Process.Start(Const.REPO_RELEASE_URL);
-
-                        PanelStartLblVersion.Text = "Update available";
-                    }
-
                     string bubbleJson = await DownloadString(Const.CHAT_BUBBLE_URL);
                     if (!string.IsNullOrWhiteSpace(bubbleJson))
                     {
@@ -1448,6 +1508,12 @@ namespace SingleBoostr
                         }
                     }
 
+                    if (await UpdateCheck.IsUpdateAvailable())
+                    {
+                        ShowChatBubble("Update available", "An update is available! Click here to check it out.", Const.REPO_RELEASE_URL);
+                        PanelStartLblVersion.Text = "Update available";
+                    }
+
                     if (Utils.IsApplicationInstalled("Discord") && !_settings.Settings.ShowedDiscordInfo)
                     {
                         ShowChatBubble("Discord Server", "I noticed you have Discord installed. Click here to join our support server!", "https://discord.gg/g4M9fTs");
@@ -1459,8 +1525,24 @@ namespace SingleBoostr
             }
             else
             {
-                MsgBox.Show("Could not connect to Steam.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                MsgBox.Show("Unable to connect to Steam. Make sure Steam is running.", "Error", 
+                    MsgBox.Buttons.Gotit, MsgBox.MsgIcon.Exclamation);
+                ExitApplication();
             }
+        }
+
+        private bool IsDuplicateAlreadyRunning()
+        {
+            var duplicates = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location))
+                .OrderBy(o => o.StartTime).ToList();
+
+            if (duplicates.Count > 1)
+            {
+                MsgBox.Show("SingleBoostr is already running.", "Duplicate", MsgBox.Buttons.Gotit, MsgBox.MsgIcon.Exclamation);
+                return true;
+            }
+
+            return false;
         }
 
         private async Task<int> GetAppList()
@@ -1688,12 +1770,13 @@ namespace SingleBoostr
 
         private void OnFriendChatMsg(string message, string senderName, CSteamID senderId, CSteamID friendId)
         {
-            _logChat.Write(Log.LogLevel.Info, $"{senderName}: {message}");
             if (!_settings.Settings.EnableChatResponse)
                 return;
 
             if (senderId.ConvertToUint64() == _steamUser016.GetSteamID().ConvertToUint64())
                 return;
+
+            _logChat.Write(Log.LogLevel.Info, $"{senderName}: {message}");
 
             if (_settings.Settings.ChatResponses.Count == 0)
                 return;
@@ -1742,5 +1825,23 @@ namespace SingleBoostr
         }
 
         #endregion Functions
+    }
+
+    class MyRenderer : ToolStripProfessionalRenderer
+    {
+        public MyRenderer() : base(new MyColors()) { }
+    }
+
+    class MyColors : ProfessionalColorTable
+    {
+        public override Color MenuItemSelected
+        {
+            get { return Color.FromArgb(37, 37, 37); }
+        }
+
+        public override Color MenuItemBorder
+        {
+            get { return Color.FromArgb(37, 37, 37); }
+        }
     }
 }

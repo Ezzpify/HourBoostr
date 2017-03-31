@@ -108,6 +108,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="QueueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QueueForm.Designer.cs">
+      <DependentUpon>QueueForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="QueueForm.resx">
+      <DependentUpon>QueueForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,10 +219,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="sound\storms.wav" />
     <None Include="media\Interface\Media\discord-logo.png" />
     <None Include="media\Interface\Media\Block.png" />
     <None Include="media\Interface\Media\Block-Selected.png" />
-    <None Include="sound\coin.wav" />
     <None Include="media\Interface\Media\Min.png" />
     <None Include="media\Interface\Media\Min-Selected.png" />
     <None Include="media\Interface\Media\Active-Selected.png" />

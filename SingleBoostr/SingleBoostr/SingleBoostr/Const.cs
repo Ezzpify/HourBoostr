@@ -27,6 +27,13 @@ namespace SingleBoostr
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         public const int MAX_GAMES = 33;
+        public const int SW_MAXIMIZE = 3;
+        public const int SW_MINIMIZE = 6;
+        public const int SW_HIDE = 0;
+        public const int SW_SHOW = 5;
+        public const int SB_HORZ = 0;
+        public const int SB_VERT = 1;
+        public const int SB_BOTH = 3;
 
         public static Color LABEL_HOVER = Color.FromArgb(255, 73, 131);
         public static Color LABEL_NORMAL = Color.Gray;

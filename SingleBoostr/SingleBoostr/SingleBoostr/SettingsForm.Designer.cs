@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
-            this.PanelFooter = new System.Windows.Forms.Panel();
-            this.BtnClose = new System.Windows.Forms.PictureBox();
             this.BtnSave = new System.Windows.Forms.Button();
             this.PanelContainer = new System.Windows.Forms.Panel();
+            this.CbHideToTraybar = new System.Windows.Forms.CheckBox();
             this.LblClearBlackList = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.NumGamesIdleWhenNoCards = new System.Windows.Forms.NumericUpDown();
@@ -68,8 +67,7 @@
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.CbEnableChatResponse = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.PanelFooter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.BtnClose)).BeginInit();
+            this.container = new System.Windows.Forms.Panel();
             this.PanelContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumGamesIdleWhenNoCards)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
@@ -83,46 +81,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumWaitBetweenReplies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            this.container.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // PanelFooter
-            // 
-            this.PanelFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.PanelFooter.Controls.Add(this.BtnClose);
-            this.PanelFooter.Controls.Add(this.BtnSave);
-            this.PanelFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelFooter.Location = new System.Drawing.Point(1, 429);
-            this.PanelFooter.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.PanelFooter.Name = "PanelFooter";
-            this.PanelFooter.Size = new System.Drawing.Size(348, 70);
-            this.PanelFooter.TabIndex = 2;
-            // 
-            // BtnClose
-            // 
-            this.BtnClose.BackgroundImage = global::SingleBoostr.Properties.Resources.Back;
-            this.BtnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnClose.Location = new System.Drawing.Point(29, 10);
-            this.BtnClose.Name = "BtnClose";
-            this.BtnClose.Size = new System.Drawing.Size(20, 48);
-            this.BtnClose.TabIndex = 66;
-            this.BtnClose.TabStop = false;
-            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
-            this.BtnClose.MouseEnter += new System.EventHandler(this.BtnClose_MouseEnter);
-            this.BtnClose.MouseLeave += new System.EventHandler(this.BtnClose_MouseLeave);
             // 
             // BtnSave
             // 
-            this.BtnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnSave.BackgroundImage")));
+            this.BtnSave.BackgroundImage = global::SingleBoostr.Properties.Resources.Back;
             this.BtnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnSave.FlatAppearance.BorderSize = 0;
             this.BtnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnSave.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnSave.ForeColor = System.Drawing.Color.White;
-            this.BtnSave.Location = new System.Drawing.Point(55, 10);
+            this.BtnSave.Location = new System.Drawing.Point(12, 12);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(265, 48);
+            this.BtnSave.Size = new System.Drawing.Size(20, 48);
             this.BtnSave.TabIndex = 4;
-            this.BtnSave.Text = "Save Settings";
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             this.BtnSave.MouseEnter += new System.EventHandler(this.BtnSave_MouseEnter);
@@ -131,6 +104,7 @@
             // PanelContainer
             // 
             this.PanelContainer.AutoScroll = true;
+            this.PanelContainer.Controls.Add(this.CbHideToTraybar);
             this.PanelContainer.Controls.Add(this.LblClearBlackList);
             this.PanelContainer.Controls.Add(this.label8);
             this.PanelContainer.Controls.Add(this.NumGamesIdleWhenNoCards);
@@ -168,19 +142,30 @@
             this.PanelContainer.Controls.Add(this.label1);
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelContainer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.PanelContainer.Location = new System.Drawing.Point(1, 1);
+            this.PanelContainer.Location = new System.Drawing.Point(25, 0);
             this.PanelContainer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PanelContainer.Name = "PanelContainer";
-            this.PanelContainer.Size = new System.Drawing.Size(348, 428);
+            this.PanelContainer.Size = new System.Drawing.Size(374, 498);
             this.PanelContainer.TabIndex = 3;
             this.PanelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelContainer_MouseDown);
+            // 
+            // CbHideToTraybar
+            // 
+            this.CbHideToTraybar.AutoSize = true;
+            this.CbHideToTraybar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CbHideToTraybar.Location = new System.Drawing.Point(17, 706);
+            this.CbHideToTraybar.Name = "CbHideToTraybar";
+            this.CbHideToTraybar.Size = new System.Drawing.Size(225, 21);
+            this.CbHideToTraybar.TabIndex = 73;
+            this.CbHideToTraybar.Text = "Hide to traybar instead of taskbar";
+            this.CbHideToTraybar.UseVisualStyleBackColor = true;
             // 
             // LblClearBlackList
             // 
             this.LblClearBlackList.AutoSize = true;
             this.LblClearBlackList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LblClearBlackList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblClearBlackList.Location = new System.Drawing.Point(14, 941);
+            this.LblClearBlackList.Location = new System.Drawing.Point(14, 968);
             this.LblClearBlackList.Name = "LblClearBlackList";
             this.LblClearBlackList.Size = new System.Drawing.Size(150, 17);
             this.LblClearBlackList.TabIndex = 72;
@@ -192,7 +177,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(133, 870);
+            this.label8.Location = new System.Drawing.Point(133, 897);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(191, 17);
             this.label8.TabIndex = 71;
@@ -204,7 +189,7 @@
             this.NumGamesIdleWhenNoCards.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.NumGamesIdleWhenNoCards.Cursor = System.Windows.Forms.Cursors.Hand;
             this.NumGamesIdleWhenNoCards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.NumGamesIdleWhenNoCards.Location = new System.Drawing.Point(48, 870);
+            this.NumGamesIdleWhenNoCards.Location = new System.Drawing.Point(48, 897);
             this.NumGamesIdleWhenNoCards.Maximum = new decimal(new int[] {
             33,
             0,
@@ -229,7 +214,7 @@
             this.LblDownloadNewAppList.AutoSize = true;
             this.LblDownloadNewAppList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LblDownloadNewAppList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblDownloadNewAppList.Location = new System.Drawing.Point(14, 703);
+            this.LblDownloadNewAppList.Location = new System.Drawing.Point(14, 740);
             this.LblDownloadNewAppList.Name = "LblDownloadNewAppList";
             this.LblDownloadNewAppList.Size = new System.Drawing.Size(214, 17);
             this.LblDownloadNewAppList.TabIndex = 68;
@@ -242,7 +227,7 @@
             // 
             this.CbIdleCardsWithMostValue.AutoSize = true;
             this.CbIdleCardsWithMostValue.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CbIdleCardsWithMostValue.Location = new System.Drawing.Point(17, 907);
+            this.CbIdleCardsWithMostValue.Location = new System.Drawing.Point(17, 934);
             this.CbIdleCardsWithMostValue.Name = "CbIdleCardsWithMostValue";
             this.CbIdleCardsWithMostValue.Size = new System.Drawing.Size(204, 21);
             this.CbIdleCardsWithMostValue.TabIndex = 67;
@@ -252,16 +237,16 @@
             // pictureBox8
             // 
             this.pictureBox8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox8.Location = new System.Drawing.Point(0, 958);
+            this.pictureBox8.Location = new System.Drawing.Point(0, 985);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(331, 20);
+            this.pictureBox8.Size = new System.Drawing.Size(357, 20);
             this.pictureBox8.TabIndex = 65;
             this.pictureBox8.TabStop = false;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(133, 833);
+            this.label7.Location = new System.Drawing.Point(133, 860);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 17);
             this.label7.TabIndex = 64;
@@ -270,7 +255,7 @@
             // pictureBox6
             // 
             this.pictureBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.pictureBox6.Location = new System.Drawing.Point(32, 833);
+            this.pictureBox6.Location = new System.Drawing.Point(32, 860);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(1, 58);
             this.pictureBox6.TabIndex = 63;
@@ -282,7 +267,7 @@
             this.NumOnlyIdleGamesWithCertainMinutes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.NumOnlyIdleGamesWithCertainMinutes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.NumOnlyIdleGamesWithCertainMinutes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.NumOnlyIdleGamesWithCertainMinutes.Location = new System.Drawing.Point(48, 833);
+            this.NumOnlyIdleGamesWithCertainMinutes.Location = new System.Drawing.Point(48, 860);
             this.NumOnlyIdleGamesWithCertainMinutes.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -306,7 +291,7 @@
             // 
             this.CbOnlyIdleGamesWithCertainMinutes.AutoSize = true;
             this.CbOnlyIdleGamesWithCertainMinutes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CbOnlyIdleGamesWithCertainMinutes.Location = new System.Drawing.Point(17, 796);
+            this.CbOnlyIdleGamesWithCertainMinutes.Location = new System.Drawing.Point(17, 823);
             this.CbOnlyIdleGamesWithCertainMinutes.Name = "CbOnlyIdleGamesWithCertainMinutes";
             this.CbOnlyIdleGamesWithCertainMinutes.Size = new System.Drawing.Size(277, 21);
             this.CbOnlyIdleGamesWithCertainMinutes.TabIndex = 61;
@@ -336,7 +321,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 766);
+            this.label5.Location = new System.Drawing.Point(14, 793);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 17);
             this.label5.TabIndex = 57;
@@ -345,7 +330,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.pictureBox5.Location = new System.Drawing.Point(17, 743);
+            this.pictureBox5.Location = new System.Drawing.Point(17, 770);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(295, 1);
             this.pictureBox5.TabIndex = 56;
@@ -596,14 +581,24 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Automatic Steam chat reply";
             // 
+            // container
+            // 
+            this.container.Controls.Add(this.PanelContainer);
+            this.container.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.container.Location = new System.Drawing.Point(1, 1);
+            this.container.Name = "container";
+            this.container.Padding = new System.Windows.Forms.Padding(25, 0, 0, 0);
+            this.container.Size = new System.Drawing.Size(399, 498);
+            this.container.TabIndex = 74;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
-            this.ClientSize = new System.Drawing.Size(350, 500);
-            this.Controls.Add(this.PanelContainer);
-            this.Controls.Add(this.PanelFooter);
+            this.ClientSize = new System.Drawing.Size(401, 500);
+            this.Controls.Add(this.BtnSave);
+            this.Controls.Add(this.container);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -611,10 +606,8 @@
             this.Name = "SettingsForm";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "SettingsForm";
+            this.Text = "Settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
-            this.PanelFooter.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.BtnClose)).EndInit();
             this.PanelContainer.ResumeLayout(false);
             this.PanelContainer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumGamesIdleWhenNoCards)).EndInit();
@@ -629,14 +622,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumWaitBetweenReplies)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            this.container.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel PanelFooter;
-        private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.Panel PanelContainer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox TxtChatResponses;
@@ -668,11 +659,13 @@
         private System.Windows.Forms.CheckBox CbSaveLoginCookies;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox BtnClose;
         private System.Windows.Forms.CheckBox CbIdleCardsWithMostValue;
         private System.Windows.Forms.Label LblDownloadNewAppList;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown NumGamesIdleWhenNoCards;
         private System.Windows.Forms.Label LblClearBlackList;
+        private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.CheckBox CbHideToTraybar;
+        private System.Windows.Forms.Panel container;
     }
 }

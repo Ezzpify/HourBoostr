@@ -80,6 +80,8 @@ namespace SingleBoostr
             }
 
             Settings = new Settings();
+            Settings.ChatResponses.Add("I'm idling with SingleBoostr.");
+            Settings.ChatResponses.Add("Right now I'm idling games with SingleBoostr!");
             return false;
         }
 
@@ -130,6 +132,7 @@ namespace SingleBoostr
             CbSaveAppIdleHistory.Checked = Settings.SaveAppIdleHistory;
             CbJoinSteamGroup.Checked = Settings.JoinSteamGroup;
             CbSaveLoginCookies.Checked = Settings.SaveLoginCookies;
+            CbHideToTraybar.Checked = Settings.HideToTraybar;
             CbOnlyIdleGamesWithCertainMinutes.Checked = Settings.OnlyIdleGamesWithCertainMinutes;
             NumOnlyIdleGamesWithCertainMinutes.Value = Settings.NumOnlyIdleGamesWithCertainMinutes;
             NumGamesIdleWhenNoCards.Value = Settings.NumGamesIdleWhenNoCards;
@@ -151,6 +154,7 @@ namespace SingleBoostr
             Settings.SaveAppIdleHistory = CbSaveAppIdleHistory.Checked;
             Settings.JoinSteamGroup = CbJoinSteamGroup.Checked;
             Settings.SaveLoginCookies = CbSaveLoginCookies.Checked;
+            Settings.HideToTraybar = CbHideToTraybar.Checked;
             Settings.OnlyIdleGamesWithCertainMinutes = CbOnlyIdleGamesWithCertainMinutes.Checked;
             Settings.NumOnlyIdleGamesWithCertainMinutes = (int)NumOnlyIdleGamesWithCertainMinutes.Value;
             Settings.NumGamesIdleWhenNoCards = (int)NumGamesIdleWhenNoCards.Value;
@@ -160,12 +164,6 @@ namespace SingleBoostr
             DialogResult = DialogResult.OK;
             ActiveControl = label1;
             SaveSettings();
-            Close();
-        }
-
-        private void BtnClose_Click(object sender, EventArgs e)
-        {
-            ActiveControl = label1;
             Close();
         }
 
@@ -180,22 +178,12 @@ namespace SingleBoostr
 
         private void BtnSave_MouseEnter(object sender, EventArgs e)
         {
-            BtnSave.BackgroundImage = Properties.Resources.Button_Selected;
+            BtnSave.BackgroundImage = Properties.Resources.Back_Selected;
         }
 
         private void BtnSave_MouseLeave(object sender, EventArgs e)
         {
-            BtnSave.BackgroundImage = Properties.Resources.Button;
-        }
-
-        private void BtnClose_MouseEnter(object sender, EventArgs e)
-        {
-            BtnClose.BackgroundImage = Properties.Resources.Back_Selected;
-        }
-
-        private void BtnClose_MouseLeave(object sender, EventArgs e)
-        {
-            BtnClose.BackgroundImage = Properties.Resources.Back;
+            BtnSave.BackgroundImage = Properties.Resources.Back;
         }
 
         private void LblDownloadNewAppList_MouseEnter(object sender, EventArgs e)
@@ -249,11 +237,7 @@ namespace SingleBoostr
     {
         public bool EnableChatResponse { get; set; }
 
-        public List<string> ChatResponses { get; set; } = new List<string>()
-        {
-            "I'm currently Idling with: https://github.com/Ezzpify/HourBoostr",
-            "I'm idling games. I'll get back to you later."
-        };
+        public List<string> ChatResponses { get; set; } = new List<string>();
 
         public bool OnlyReplyIfIdling { get; set; } = true;
 
@@ -272,6 +256,8 @@ namespace SingleBoostr
         public bool JoinSteamGroup { get; set; } = true;
 
         public bool SaveLoginCookies { get; set; } = true;
+
+        public bool HideToTraybar { get; set; }
 
         public bool OnlyIdleGamesWithCertainMinutes { get; set; } = true;
 
