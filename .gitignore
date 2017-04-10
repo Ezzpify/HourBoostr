@@ -7,7 +7,7 @@ Thumbs.db
 ehthumbs.db
 
 # media folder
-media/
+DontInclude/
 
 # Folder config file
 Desktop.ini
