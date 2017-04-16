@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
 namespace HourBoostr
@@ -22,7 +21,7 @@ namespace HourBoostr
                 try
                 {
                     var availableVersion = new Version(newest);
-                    var versionCurrent = new Version(Application.ProductVersion);
+                    var versionCurrent = new Version(Utils.GetVersion());
                     return versionCurrent.CompareTo(availableVersion) < 0;
                 }
                 catch

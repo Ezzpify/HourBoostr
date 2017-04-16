@@ -14,13 +14,6 @@ namespace Settings
         public class Settings
         {
             /// <summary>
-            /// If we should automatically hide the program to tray bar
-            /// I fucking hate this so I want to disable it
-            /// </summary>
-            public bool HideToTrayAutomatically { get; set; } = true;
-
-
-            /// <summary>
             /// If we should check for updates when we start the program
             /// </summary>
             public bool CheckForUpdates { get; set; } = true;

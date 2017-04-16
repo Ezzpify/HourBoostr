@@ -118,8 +118,6 @@ namespace Settings
 
                 accountListBox.Items.Add(username);
             }
-            
-            cbHideToTray.Checked = mSettings.HideToTrayAutomatically;
 
             /*Create an account if there's none in the settings*/
             if (accountListBox.Items.Count == 0)
@@ -164,8 +162,6 @@ namespace Settings
                     break;
                 }
             }
-
-            mSettings.HideToTrayAutomatically = cbHideToTray.Checked;
         }
 
 

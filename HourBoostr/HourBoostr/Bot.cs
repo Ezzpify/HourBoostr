@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
 using System.IO;
-using System.Windows.Forms;
 using System.Timers;
 using System.Linq;
 using System.Security.Cryptography;
@@ -166,7 +165,7 @@ namespace HourBoostr
             };
             mAccountSettings = info;
             mSteam.games = info.Games;
-            mSteam.sentryPath = Path.Combine(Application.StartupPath, string.Format("Sentryfiles\\{0}.sentry", info.Details.Username));
+            mSteam.sentryPath = string.Format("Sentryfiles/{0}.sentry", info.Details.Username);
 
             /*Set up steamweb*/
             mSteam.web = new SteamWeb();
@@ -503,6 +502,7 @@ namespace HourBoostr
 
             mSteam.uniqueId = callback.UniqueID.ToString();
             mSteam.user.AcceptNewLoginKey(callback);
+            Settings.UpdateAccount(mAccountSettings);
 
             if (mAccountSettings.ConnectToSteamCommunity)
             {

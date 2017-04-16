@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Reflection;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.IO;
 using SteamKit2;
 using SteamKit2.Discovery;
@@ -47,11 +45,7 @@ namespace HourBoostr
             mSettings = settings;
 
             if (settings.CheckForUpdates && Update.IsUpdateAvailable())
-            {
-                var diagResult = MessageBox.Show("There seems to be an update available.\nCheck it out?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (diagResult == DialogResult.Yes)
-                    Process.Start("https://github.com/Ezzpify/HourBoostr/releases/latest");
-            }
+                Console.WriteLine("There's an update available. Check out https://github.com/Ezzpify/HourBoostr/releases/latest");
 
             mBwg.DoWork += MBwg_DoWork;
             mBwg.RunWorkerAsync();
@@ -89,9 +83,9 @@ namespace HourBoostr
             Console.WriteLine($"  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
             Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
             Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
-            Console.WriteLine($"  Source: https://github.com/Ezzpify/");
+            Console.WriteLine($"  Source: https://github.com/Ezzpify/HourBoostr");
             Console.WriteLine($"  Build date: {File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location)}");
-            Console.WriteLine($"  Version: {Application.ProductVersion}\n");
+            Console.WriteLine($"  Version: {Utils.GetVersion()}\n");
             Console.WriteLine($"  ----------------------------------------");
             Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");
             mActiveBotList.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mAccountSettings.Details.Username, o.mSteam.games.Count));

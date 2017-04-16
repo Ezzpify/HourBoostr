@@ -1843,10 +1843,5 @@ namespace SingleBoostr
         {
             get { return Color.FromArgb(37, 37, 37); }
         }
-
-        public override Color MenuBorder
-        {
-            get { return Color.FromArgb(255, 73, 131); }
-        }
     }
 }

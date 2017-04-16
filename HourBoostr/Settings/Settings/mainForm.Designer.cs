@@ -52,8 +52,6 @@
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblNewAccount = new System.Windows.Forms.Label();
-            this.cbHideToTray = new System.Windows.Forms.CheckBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.panelSettings = new System.Windows.Forms.Panel();
             this.accountListBoxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +63,6 @@
             this.groupBox3.SuspendLayout();
             this.gameListMenu.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.panelSettings.SuspendLayout();
             this.accountListBoxMenu.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -89,7 +86,7 @@
             this.accountListBox.ItemHeight = 15;
             this.accountListBox.Location = new System.Drawing.Point(6, 22);
             this.accountListBox.Name = "accountListBox";
-            this.accountListBox.Size = new System.Drawing.Size(143, 132);
+            this.accountListBox.Size = new System.Drawing.Size(143, 190);
             this.accountListBox.TabIndex = 1;
             this.accountListBox.SelectedIndexChanged += new System.EventHandler(this.accountListBox_SelectedIndexChanged);
             this.accountListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.accountListBox_MouseDown);
@@ -299,7 +296,7 @@
             this.groupBox4.Controls.Add(this.accountListBox);
             this.groupBox4.Location = new System.Drawing.Point(12, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(155, 162);
+            this.groupBox4.Size = new System.Drawing.Size(155, 218);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             // 
@@ -311,31 +308,10 @@
             this.lblNewAccount.ForeColor = System.Drawing.SystemColors.Highlight;
             this.lblNewAccount.Location = new System.Drawing.Point(6, -2);
             this.lblNewAccount.Name = "lblNewAccount";
-            this.lblNewAccount.Size = new System.Drawing.Size(81, 17);
+            this.lblNewAccount.Size = new System.Drawing.Size(94, 17);
             this.lblNewAccount.TabIndex = 2;
-            this.lblNewAccount.Text = "Add account";
+            this.lblNewAccount.Text = "+ Add account";
             this.lblNewAccount.Click += new System.EventHandler(this.lblNewAccount_Click);
-            // 
-            // cbHideToTray
-            // 
-            this.cbHideToTray.AutoSize = true;
-            this.cbHideToTray.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbHideToTray.Location = new System.Drawing.Point(21, 22);
-            this.cbHideToTray.Name = "cbHideToTray";
-            this.cbHideToTray.Size = new System.Drawing.Size(109, 19);
-            this.cbHideToTray.TabIndex = 6;
-            this.cbHideToTray.Text = "Hide To Traybar";
-            this.cbHideToTray.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cbHideToTray);
-            this.groupBox5.Location = new System.Drawing.Point(12, 180);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(155, 50);
-            this.groupBox5.TabIndex = 10;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Extra";
             // 
             // panelSettings
             // 
@@ -396,7 +372,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(700, 334);
             this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.panelSettings);
             this.Controls.Add(this.pictureBox1);
@@ -421,8 +396,6 @@
             this.gameListMenu.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.panelSettings.ResumeLayout(false);
             this.accountListBoxMenu.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
@@ -446,8 +419,6 @@
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox cbHideToTray;
-        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox txtResponse;
         private System.Windows.Forms.ListBox gameList;
         private System.Windows.Forms.TextBox txtGameItem;

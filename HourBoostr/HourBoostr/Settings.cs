@@ -52,43 +52,25 @@ namespace HourBoostr
 
 
         /// <summary>
-        /// Saves the settings that has been modified during runtime
-        /// Should be called when the program is exited
-        /// It will first compare and see if the current file is the same as when the program was started
-        /// If it's not then it will make a copy of the file and then overwrite it, if the user has modified
-        /// the file during runtime
+        /// Writes settings to file
         /// </summary>
-        /// <param name="oldSettings">Old settings</param>
-        /// <param name="newSettings">New settings</param>
-        /// <returns>Returns true if succeeded</returns>
-        public static bool UpdateSettings(Config.Settings oldSettings, Config.Settings newSettings)
+        /// <param name="settings">Settings object</param>
+        /// <returns>Return true. Lol.</returns>
+        public static bool SaveSettings(Config.Settings settings)
         {
-            try
-            {
-                /*Now we'll go through all accounts and make sure we don't print out their password to the file
-                if no password was originally set in the settings file*/
-                foreach (var oldAcc in oldSettings.Accounts)
-                {
-                    if (!string.IsNullOrWhiteSpace(oldAcc.Details.Password))
-                        continue;
+            File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            return true;
+        }
 
-                    foreach (var newAcc in newSettings.Accounts)
-                    {
-                        if (oldAcc.Details.Username == newAcc.Details.Username)
-                            newAcc.Details.Password = string.Empty;
-                    }
-                }
+        public static void UpdateAccount(Config.AccountSettings acc)
+        {
+            var settings = GetSettings();
+            settings.Accounts.First(o => o.Details.Username == acc.Details.Username).Details.LoginKey = acc.Details.LoginKey;
+            File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
 
-                /*Now we'll overwrite the settings file with the new settings content*/
-                File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(newSettings, Formatting.Indented));
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error updating settings file\n{ex.Message}");
-            }
-
-            return false;
+            //var account = GetSettings().Accounts.First(o => o.Details.Username == acc.Details.Username);
+            //account = acc;
+            //File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
         }
     }
 }
