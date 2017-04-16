@@ -5,6 +5,12 @@
       "text": "Thanks for using SingleBoostr. If you experience any issues you can let me know on Discord.",
       "url": "https://discord.gg/g4M9fTs",
       "id": 0
+    },
+    {
+      "title": "Update 3.1.0",
+      "text": "With 3.1.0 you can sort the Trading Card queue while idling! HourBoostr also just got mono compatible.",
+      "url": "https://github.com/Ezzpify/HourBoostr/releases",
+      "id": 1
     }
   ]
 }

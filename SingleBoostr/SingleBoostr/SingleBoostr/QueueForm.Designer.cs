@@ -199,7 +199,7 @@
             this.Name = "QueueForm";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "QueueForm";
+            this.Text = "Queue";
             this.Load += new System.EventHandler(this.QueueForm_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.QueueForm_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.picGoBack)).EndInit();
