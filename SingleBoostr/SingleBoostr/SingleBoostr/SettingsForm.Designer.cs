@@ -413,9 +413,9 @@
             this.CbRestartGamesRandomly.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CbRestartGamesRandomly.Location = new System.Drawing.Point(48, 431);
             this.CbRestartGamesRandomly.Name = "CbRestartGamesRandomly";
-            this.CbRestartGamesRandomly.Size = new System.Drawing.Size(176, 21);
+            this.CbRestartGamesRandomly.Size = new System.Drawing.Size(270, 21);
             this.CbRestartGamesRandomly.TabIndex = 47;
-            this.CbRestartGamesRandomly.Text = "Restart games at random";
+            this.CbRestartGamesRandomly.Text = "Restart only one randomly selected game";
             this.CbRestartGamesRandomly.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -423,9 +423,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(133, 394);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 17);
+            this.label3.Size = new System.Drawing.Size(99, 17);
             this.label3.TabIndex = 46;
-            this.label3.Text = "minutes";
+            this.label3.Text = "minutes interval";
             // 
             // NumRestartGamesMinutes
             // 

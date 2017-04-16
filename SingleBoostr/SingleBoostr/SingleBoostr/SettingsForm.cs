@@ -201,7 +201,7 @@ namespace SingleBoostr
             LblDownloadNewAppList.Enabled = false;
             if (await DownloadAppList())
             {
-                MsgBox.Show("Downloaded new app list!", "Success", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
+                MsgBox.Show("Downloaded new app list! Restart application in order for new games to be loaded.", "Success", MsgBox.Buttons.OK, MsgBox.MsgIcon.Info);
                 LblDownloadNewAppList.Enabled = true;
             }
         }

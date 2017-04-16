@@ -28,20 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueueForm));
             this.picGoBack = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblNoItems = new System.Windows.Forms.Label();
+            this.lvApps = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblCurrentGame = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.lvApps = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblNoItems = new System.Windows.Forms.Label();
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.picGoBack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -97,6 +96,51 @@
             this.panel2.Size = new System.Drawing.Size(416, 236);
             this.panel2.TabIndex = 20;
             // 
+            // lblNoItems
+            // 
+            this.lblNoItems.AutoSize = true;
+            this.lblNoItems.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(73)))), ((int)(((byte)(131)))));
+            this.lblNoItems.Location = new System.Drawing.Point(150, 128);
+            this.lblNoItems.Name = "lblNoItems";
+            this.lblNoItems.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            this.lblNoItems.Size = new System.Drawing.Size(117, 27);
+            this.lblNoItems.TabIndex = 23;
+            this.lblNoItems.Text = "No apps in queue!";
+            this.lblNoItems.Visible = false;
+            // 
+            // lvApps
+            // 
+            this.lvApps.AllowDrop = true;
+            this.lvApps.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
+            this.lvApps.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lvApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader4});
+            this.lvApps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvApps.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.lvApps.FullRowSelect = true;
+            this.lvApps.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvApps.Location = new System.Drawing.Point(0, 30);
+            this.lvApps.MultiSelect = false;
+            this.lvApps.Name = "lvApps";
+            this.lvApps.Size = new System.Drawing.Size(416, 206);
+            this.lvApps.TabIndex = 22;
+            this.lvApps.UseCompatibleStateImageBehavior = false;
+            this.lvApps.View = System.Windows.Forms.View.Details;
+            this.lvApps.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvApps_ItemDrag);
+            this.lvApps.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvApps_DragDrop);
+            this.lvApps.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvApps_DragEnter);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Price";
+            this.columnHeader1.Width = 49;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Game";
+            this.columnHeader4.Width = 359;
+            // 
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
@@ -123,7 +167,7 @@
             this.lblCurrentGame.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(73)))), ((int)(((byte)(131)))));
             this.lblCurrentGame.Location = new System.Drawing.Point(0, 0);
             this.lblCurrentGame.Name = "lblCurrentGame";
-            this.lblCurrentGame.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
+            this.lblCurrentGame.Padding = new System.Windows.Forms.Padding(1, 1, 0, 0);
             this.lblCurrentGame.Size = new System.Drawing.Size(416, 27);
             this.lblCurrentGame.TabIndex = 20;
             this.lblCurrentGame.Text = "Current: The Witcher® 3: Wild Hunt";
@@ -137,62 +181,7 @@
             this.pictureBox2.Size = new System.Drawing.Size(1, 236);
             this.pictureBox2.TabIndex = 19;
             this.pictureBox2.TabStop = false;
-            // 
-            // lvApps
-            // 
-            this.lvApps.AllowDrop = true;
-            this.lvApps.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
-            this.lvApps.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvApps.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
-            this.lvApps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvApps.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.lvApps.FullRowSelect = true;
-            this.lvApps.Location = new System.Drawing.Point(0, 30);
-            this.lvApps.MultiSelect = false;
-            this.lvApps.Name = "lvApps";
-            this.lvApps.Size = new System.Drawing.Size(416, 206);
-            this.lvApps.TabIndex = 22;
-            this.lvApps.UseCompatibleStateImageBehavior = false;
-            this.lvApps.View = System.Windows.Forms.View.Details;
-            this.lvApps.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvApps_ItemDrag);
-            this.lvApps.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvApps_DragDrop);
-            this.lvApps.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvApps_DragEnter);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Price";
-            this.columnHeader1.Width = 49;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Hours";
-            this.columnHeader2.Width = 51;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Game";
-            this.columnHeader4.Width = 263;
-            // 
-            // lblNoItems
-            // 
-            this.lblNoItems.AutoSize = true;
-            this.lblNoItems.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(73)))), ((int)(((byte)(131)))));
-            this.lblNoItems.Location = new System.Drawing.Point(150, 128);
-            this.lblNoItems.Name = "lblNoItems";
-            this.lblNoItems.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.lblNoItems.Size = new System.Drawing.Size(117, 27);
-            this.lblNoItems.TabIndex = 23;
-            this.lblNoItems.Text = "No apps in queue!";
-            this.lblNoItems.Visible = false;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Cards";
-            this.columnHeader3.Width = 49;
+            this.pictureBox2.Visible = false;
             // 
             // QueueForm
             // 
@@ -205,8 +194,10 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "QueueForm";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QueueForm";
             this.Load += new System.EventHandler(this.QueueForm_Load);
@@ -235,9 +226,7 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.ListView lvApps;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Label lblNoItems;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }

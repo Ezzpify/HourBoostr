@@ -11,6 +11,15 @@ namespace SingleBoostr
         public List<App> AppList;
         private App _currentApp;
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
+            Pen pen = new Pen(Const.LABEL_HOVER);
+            e.Graphics.DrawRectangle(pen, rect);
+        }
+
         protected override CreateParams CreateParams
         {
             get
@@ -39,9 +48,6 @@ namespace SingleBoostr
 
                 ListViewItem item = new ListViewItem();
                 item.Text = $"{app.card.price.ToString("F")}$";
-                var ts = TimeSpan.FromMinutes(app.card.minutesplayed);
-                item.SubItems.Add($"{ts.Hours}:{ts.Minutes}");
-                item.SubItems.Add(app.card.cardsremaining.ToString());
                 item.SubItems.Add(Utils.Truncate(app.name, 35));
                 lvApps.Items.Add(item);
             }
