@@ -129,6 +129,7 @@ namespace SingleBoostr
             CbRestartGamesRandomly.Checked = Settings.RestartGamesAtRandom;
             CbCheckForUpdates.Checked = Settings.CheckForUpdates;
             CbClearRecentlyPlayed.Checked = Settings.ClearRecentlyPlayedOnExit;
+            CbForceOnlineStatus.Checked = Settings.ForceOnlineStatus;
             CbSaveAppIdleHistory.Checked = Settings.SaveAppIdleHistory;
             CbJoinSteamGroup.Checked = Settings.JoinSteamGroup;
             CbSaveLoginCookies.Checked = Settings.SaveLoginCookies;
@@ -151,6 +152,7 @@ namespace SingleBoostr
             Settings.RestartGamesAtRandom = CbRestartGamesRandomly.Checked;
             Settings.CheckForUpdates = CbCheckForUpdates.Checked;
             Settings.ClearRecentlyPlayedOnExit = CbClearRecentlyPlayed.Checked;
+            Settings.ForceOnlineStatus = CbForceOnlineStatus.Checked;
             Settings.SaveAppIdleHistory = CbSaveAppIdleHistory.Checked;
             Settings.JoinSteamGroup = CbJoinSteamGroup.Checked;
             Settings.SaveLoginCookies = CbSaveLoginCookies.Checked;
@@ -247,6 +249,8 @@ namespace SingleBoostr
 
         public bool RestartGamesAtRandom { get; set; } = true;
 
+        public bool ForceOnlineStatus { get; set; } = true;
+
         public bool CheckForUpdates { get; set; } = true;
 
         public bool ClearRecentlyPlayedOnExit { get; set; }
@@ -284,8 +288,6 @@ namespace SingleBoostr
         public List<uint> GameHistoryIds { get; set; } = new List<uint>();
 
         public List<uint> BlacklistedCardGames { get; set; } = new List<uint>();
-
-        public List<int> SeenChatBubbles { get; set; } = new List<int>();
 
         public void Verify()
         {

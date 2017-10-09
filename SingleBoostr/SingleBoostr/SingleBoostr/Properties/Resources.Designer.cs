@@ -83,6 +83,16 @@ namespace SingleBoostr.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap animation {
+            get {
+                object obj = ResourceManager.GetObject("animation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Back {
             get {
                 object obj = ResourceManager.GetObject("Back", resourceCulture);
@@ -186,6 +196,26 @@ namespace SingleBoostr.Properties {
         internal static System.Drawing.Bitmap discord_logo {
             get {
                 object obj = ResourceManager.GetObject("discord_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Donate {
+            get {
+                object obj = ResourceManager.GetObject("Donate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Donate_Selected {
+            get {
+                object obj = ResourceManager.GetObject("Donate_Selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -18,9 +18,10 @@ namespace SingleBoostr
         public const string APP_LIST_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v2";
         public const string STORE_JSON_URL = "http://store.steampowered.com/api/appdetails/?appids=";
         public static string REPO_RELEASE_URL = "https://github.com/Ezzpify/HourBoostr/releases/latest";
-        public static string VERSION_FILE_URL = "https://raw.githubusercontent.com/Ezzpify/HourBoostr/master/version.txt";
+        public static string VERSION_FILE_URL = "https://raw.githubusercontent.com/Ezzpify/HourBoostr/master/version.json";
         public const string CARD_PRICE_URL = "https://api.enhancedsteam.com/market_data/average_card_prices/?cur=eur&appids=";
         public const string CHAT_BUBBLE_URL = "https://raw.githubusercontent.com/Ezzpify/HourBoostr/master/Bubbles.json";
+        public const string DONATION_URL = "https://raw.githubusercontent.com/Ezzpify/HourBoostr/master/donation.json";
 
         public const int INTERNET_COOKIE_HTTP_ONLY = 0x2000;
         public const int EM_SETCUEBANNER = 0x1501;

@@ -36,6 +36,7 @@
             this.PanelUserPicGoBack = new System.Windows.Forms.PictureBox();
             this.PanelContainer = new System.Windows.Forms.Panel();
             this.PanelStart = new System.Windows.Forms.Panel();
+            this.PanelStartBtnDonate = new System.Windows.Forms.Button();
             this.PanelStartLblVersion = new System.Windows.Forms.Label();
             this.PanelStartChatPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.PanelStartPicGithub = new System.Windows.Forms.PictureBox();
@@ -181,6 +182,7 @@
             // PanelStart
             // 
             this.PanelStart.BackColor = System.Drawing.Color.Transparent;
+            this.PanelStart.Controls.Add(this.PanelStartBtnDonate);
             this.PanelStart.Controls.Add(this.PanelStartLblVersion);
             this.PanelStart.Controls.Add(this.PanelStartChatPanel);
             this.PanelStart.Controls.Add(this.PanelStartPicGithub);
@@ -194,6 +196,23 @@
             this.PanelStart.Size = new System.Drawing.Size(600, 350);
             this.PanelStart.TabIndex = 6;
             this.PanelStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelStart_MouseDown);
+            // 
+            // PanelStartBtnDonate
+            // 
+            this.PanelStartBtnDonate.BackgroundImage = global::SingleBoostr.Properties.Resources.Donate;
+            this.PanelStartBtnDonate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnDonate.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnDonate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnDonate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnDonate.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnDonate.Location = new System.Drawing.Point(405, 10);
+            this.PanelStartBtnDonate.Name = "PanelStartBtnDonate";
+            this.PanelStartBtnDonate.Size = new System.Drawing.Size(73, 40);
+            this.PanelStartBtnDonate.TabIndex = 18;
+            this.PanelStartBtnDonate.UseVisualStyleBackColor = true;
+            this.PanelStartBtnDonate.Click += new System.EventHandler(this.PanelStartBtnDonate_Click);
+            this.PanelStartBtnDonate.MouseEnter += new System.EventHandler(this.PanelStartBtnDonate_MouseEnter);
+            this.PanelStartBtnDonate.MouseLeave += new System.EventHandler(this.PanelStartBtnDonate_MouseLeave);
             // 
             // PanelStartLblVersion
             // 
@@ -254,9 +273,9 @@
             this.PanelStartBtnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PanelStartBtnSettings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelStartBtnSettings.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnSettings.Location = new System.Drawing.Point(405, 10);
+            this.PanelStartBtnSettings.Location = new System.Drawing.Point(484, 10);
             this.PanelStartBtnSettings.Name = "PanelStartBtnSettings";
-            this.PanelStartBtnSettings.Size = new System.Drawing.Size(128, 40);
+            this.PanelStartBtnSettings.Size = new System.Drawing.Size(50, 40);
             this.PanelStartBtnSettings.TabIndex = 12;
             this.PanelStartBtnSettings.UseVisualStyleBackColor = true;
             this.PanelStartBtnSettings.Click += new System.EventHandler(this.PanelStartBtnSettings_Click);
@@ -983,6 +1002,7 @@
         private System.Windows.Forms.ContextMenuStrip CardsStartedOptionsMenu;
         private System.Windows.Forms.ToolStripMenuItem CardsStartedOptionsMenuBtnBlacklist;
         private System.Windows.Forms.ToolStripMenuItem CardsStartedOptionsMenuBtnSortQueue;
+        private System.Windows.Forms.Button PanelStartBtnDonate;
     }
 }
 

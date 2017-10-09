@@ -28,6 +28,7 @@ namespace SingleBoostr
         private Log _log;
         private Log _logChat;
         private SteamWeb _steamWeb;
+        private DonateForm _donation;
         private SettingsForm _settings;
         private Dictionary<ulong, DateTime> _chatResponses = new Dictionary<ulong, DateTime>();
 
@@ -89,7 +90,10 @@ namespace SingleBoostr
         {
             _log = new Log("Main.txt");
             _logChat = new Log("Chat.txt");
+
             _settings = new SettingsForm();
+            _donation = new DonateForm();
+
             Directory.CreateDirectory("Error");
 
             ServicePointManager.Expect100Continue = true;
@@ -128,7 +132,8 @@ namespace SingleBoostr
             }
 
             /*Here we're just setting a placeholder text for the AppSearch textbox in the Idle panel*/
-            NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
+            if (!PanelIdleTxtSearch.IsDisposed)
+                NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
 
             if (_settings.Settings.VACWarningDisplayed)
             {
@@ -437,6 +442,11 @@ namespace SingleBoostr
             _settings.ShowDialog();
         }
 
+        private void PanelStartBtnDonate_Click(object sender, EventArgs e)
+        {
+            _donation.ShowDialog();
+        }
+
         private void PanelTosBtnAccept_Click(object sender, EventArgs e)
         {
             _settings.Settings.VACWarningDisplayed = true;
@@ -471,8 +481,8 @@ namespace SingleBoostr
 
         private void BgwSteamCallback_DoWork(object sender, DoWorkEventArgs e)
         {
-            var callbackMsg = new CallbackMsg_t();
             int callbackErrors = 0;
+            var callbackMsg = new CallbackMsg_t();
             while (!BgwSteamCallback.CancellationPending)
             {
                 try
@@ -493,6 +503,17 @@ namespace SingleBoostr
                                     string senderName = _steamFriends002.GetFriendPersonaName(msg.m_ulSenderID);
                                     OnFriendChatMsg(message, senderName, msg.m_ulSenderID, msg.m_ulFriendID);
                                 }
+                                break;
+
+                            case PersonaStateChange_t.k_iCallback:
+                                var persona = (PersonaStateChange_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(PersonaStateChange_t));
+                                if (persona.m_ulSteamID == _clientUser.GetSteamID())
+                                    onPersonaChange(persona.m_nChangeFlags);
+                                break;
+
+                            case LobbyInvite_t.k_iCallback:
+                                var invite = (LobbyInvite_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(LobbyInvite_t));
+                                OnLobbyInvite(invite.m_ulSteamIDUser, invite.m_ulGameID);
                                 break;
 
                             case AccountInformationUpdated_t.k_iCallback:
@@ -518,6 +539,17 @@ namespace SingleBoostr
                 finally
                 {
                     Thread.Sleep(100);
+                }
+            }
+        }
+
+        private void onPersonaChange(EPersonaChange change)
+        {
+            if (change == EPersonaChange.k_EPersonaChangeStatus && _steamFriends002.GetPersonaState() != EPersonaState.k_EPersonaStateOnline)
+            {
+                if (_settings.Settings.ForceOnlineStatus)
+                {
+                    _steamFriends002.SetPersonaState(EPersonaState.k_EPersonaStateOnline);
                 }
             }
         }
@@ -889,6 +921,16 @@ namespace SingleBoostr
         private void PanelStartBtnSettings_MouseLeave(object sender, EventArgs e)
         {
             PanelStartBtnSettings.BackgroundImage = Properties.Resources.Settings;
+        }
+
+        private void PanelStartBtnDonate_MouseEnter(object sender, EventArgs e)
+        {
+            PanelStartBtnDonate.BackgroundImage = Properties.Resources.Donate_Selected;
+        }
+
+        private void PanelStartBtnDonate_MouseLeave(object sender, EventArgs e)
+        {
+            PanelStartBtnDonate.BackgroundImage = Properties.Resources.Donate;
         }
 
         private void PanelStartBtnExit_MouseEnter(object sender, EventArgs e)
@@ -1493,14 +1535,8 @@ namespace SingleBoostr
                         try
                         {
                             var entries = JsonConvert.DeserializeObject<ChatBubbles>(bubbleJson);
-                            foreach (var bubble in entries.bubbles)
-                            {
-                                if (!_settings.Settings.SeenChatBubbles.Contains(bubble.id))
-                                {
-                                    ShowChatBubble(bubble.title, bubble.text, bubble.url);
-                                    _settings.Settings.SeenChatBubbles.Add(bubble.id);
-                                }
-                            }
+                            foreach (var bubble in entries.bubbles.Take(4))
+                                ShowChatBubble(bubble.title, bubble.text, bubble.url);
                         }
                         catch (Exception ex)
                         {
@@ -1508,9 +1544,10 @@ namespace SingleBoostr
                         }
                     }
 
-                    if (await UpdateCheck.IsUpdateAvailable())
+                    string updateInfo = await UpdateCheck.IsUpdateAvailable();
+                    if (updateInfo.Length > 0)
                     {
-                        ShowChatBubble("Update available", "An update is available! Click here to check it out.", Const.REPO_RELEASE_URL);
+                        ShowChatBubble("Update available", $"Click here to download new update. ({updateInfo})", Const.REPO_RELEASE_URL);
                         PanelStartLblVersion.Text = "Update available";
                     }
 
@@ -1766,6 +1803,53 @@ namespace SingleBoostr
             int baseRestartTime = _settings.Settings.RestartGamesTime;
             baseRestartTime += Utils.GetRandom().Next(0, 10);
             TmrRestartApp.Interval = (int)TimeSpan.FromMinutes(baseRestartTime).TotalMilliseconds;
+        }
+
+        private string GetGameNameById(uint appId)
+        {
+            App app = null;
+            return (app = _appList
+                .FirstOrDefault(o => o.appid == appId)) == null ? appId.ToString() : app.name;
+        }
+
+        private void OnLobbyInvite(CSteamID senderId, GameID_t game)
+        {
+            if (!_settings.Settings.EnableChatResponse)
+                return;
+
+            if (senderId.ConvertToUint64() == _steamUser016.GetSteamID().ConvertToUint64())
+                return;
+
+            string senderName = _steamFriends002.GetFriendPersonaName(senderId);
+
+            _logChat.Write(Log.LogLevel.Info, $"{senderName} send a lobby invite for game {GetGameNameById(game.m_nAppID)}");
+
+            if (_settings.Settings.ChatResponses.Count == 0)
+                return;
+
+            if (_activeSession == Session.None && _settings.Settings.OnlyReplyIfIdling)
+                return;
+
+            if (_settings.Settings.WaitBetweenReplies)
+            {
+                if (_chatResponses.TryGetValue(senderId.ConvertToUint64(), out DateTime value))
+                {
+                    TimeSpan diff = DateTime.Now.Subtract(value);
+                    if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)
+                        return;
+                }
+            }
+
+            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)];
+            if (SendChatMessage(senderId, response))
+            {
+                _chatResponses[senderId.ConvertToUint64()] = DateTime.Now;
+                _logChat.Write(Log.LogLevel.Info, $"Replied to {senderName} with '{response}'");
+            }
+            else
+            {
+                _logChat.Write(Log.LogLevel.Info, $"Failed to reply to {senderName} with '{response}'");
+            }
         }
 
         private void OnFriendChatMsg(string message, string senderName, CSteamID senderId, CSteamID friendId)

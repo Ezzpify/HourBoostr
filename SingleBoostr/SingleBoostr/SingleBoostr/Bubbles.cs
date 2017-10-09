@@ -13,8 +13,6 @@ namespace SingleBoostr
         public string text { get; set; }
 
         public string url { get; set; }
-
-        public int id { get; set; }
     }
 
     public class ChatBubbles

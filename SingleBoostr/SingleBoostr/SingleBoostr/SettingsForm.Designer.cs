@@ -68,6 +68,7 @@
             this.CbEnableChatResponse = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.container = new System.Windows.Forms.Panel();
+            this.CbForceOnlineStatus = new System.Windows.Forms.CheckBox();
             this.PanelContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumGamesIdleWhenNoCards)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
@@ -104,6 +105,7 @@
             // PanelContainer
             // 
             this.PanelContainer.AutoScroll = true;
+            this.PanelContainer.Controls.Add(this.CbForceOnlineStatus);
             this.PanelContainer.Controls.Add(this.CbHideToTraybar);
             this.PanelContainer.Controls.Add(this.LblClearBlackList);
             this.PanelContainer.Controls.Add(this.label8);
@@ -214,7 +216,7 @@
             this.LblDownloadNewAppList.AutoSize = true;
             this.LblDownloadNewAppList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LblDownloadNewAppList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblDownloadNewAppList.Location = new System.Drawing.Point(14, 740);
+            this.LblDownloadNewAppList.Location = new System.Drawing.Point(82, 491);
             this.LblDownloadNewAppList.Name = "LblDownloadNewAppList";
             this.LblDownloadNewAppList.Size = new System.Drawing.Size(214, 17);
             this.LblDownloadNewAppList.TabIndex = 68;
@@ -394,9 +396,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(14, 491);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 17);
+            this.label4.Size = new System.Drawing.Size(62, 17);
             this.label4.TabIndex = 49;
-            this.label4.Text = "General";
+            this.label4.Text = "General -";
             // 
             // pictureBox3
             // 
@@ -591,6 +593,17 @@
             this.container.Size = new System.Drawing.Size(399, 498);
             this.container.TabIndex = 74;
             // 
+            // CbForceOnlineStatus
+            // 
+            this.CbForceOnlineStatus.AutoSize = true;
+            this.CbForceOnlineStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CbForceOnlineStatus.Location = new System.Drawing.Point(17, 743);
+            this.CbForceOnlineStatus.Name = "CbForceOnlineStatus";
+            this.CbForceOnlineStatus.Size = new System.Drawing.Size(136, 21);
+            this.CbForceOnlineStatus.TabIndex = 74;
+            this.CbForceOnlineStatus.Text = "Force online status";
+            this.CbForceOnlineStatus.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -605,7 +618,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SettingsForm";
             this.Padding = new System.Windows.Forms.Padding(1);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.PanelContainer.ResumeLayout(false);
@@ -667,5 +680,6 @@
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.CheckBox CbHideToTraybar;
         private System.Windows.Forms.Panel container;
+        private System.Windows.Forms.CheckBox CbForceOnlineStatus;
     }
 }

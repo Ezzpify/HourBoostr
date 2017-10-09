@@ -7,39 +7,32 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Net;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace SingleBoostr
 {
     class UpdateCheck
     {
-        public static async Task<bool> IsUpdateAvailable()
+        public class UpdateHolder
         {
-            string newest = await DownloadString(Const.VERSION_FILE_URL);
-            if (!string.IsNullOrWhiteSpace(newest) && new Regex(@"^[0-9.]+$").IsMatch(newest))
-            {
-                var availableVersion = new Version(newest);
-                var versionCurrent = new Version(Application.ProductVersion);
-                return versionCurrent.CompareTo(availableVersion) < 0;
-            }
+            public string Version { get; set; }
 
-            return false;
+            public string Info { get; set; }
         }
 
-        private static async Task<string> DownloadString(string url)
+        public static async Task<string> IsUpdateAvailable()
         {
-            using (WebClient wc = new WebClient())
-            {
-                try
-                {
-                    wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36");
-                    return await wc.DownloadStringTaskAsync(url);
-                }
-                catch
-                {
-                    return string.Empty;
-                }
-            }
+            var req = new RestRequest();
+            var resp = await new RestClient(Const.VERSION_FILE_URL).ExecuteTaskAsync(req);
+
+            if (resp.StatusCode != HttpStatusCode.OK)
+                return string.Empty;
+
+            var update = JsonConvert.DeserializeObject<UpdateHolder>(resp.Content);
+            var availableVersion = new Version(update.Version);
+            var versionCurrent = new Version(Application.ProductVersion);
+            return versionCurrent.CompareTo(availableVersion) < 0 ? update.Info : string.Empty;
         }
     }
 }
