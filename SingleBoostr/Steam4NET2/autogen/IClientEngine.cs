@@ -69,7 +69,7 @@ namespace Steam4NET
 		private IntPtr DTorIClientEngine57;
 	};
 	
-	[InteropHelp.InterfaceVersion("CLIENTENGINE_INTERFACE_VERSION004")]
+	[InteropHelp.InterfaceVersion("CLIENTENGINE_INTERFACE_VERSION005")]
 	public class IClientEngine : InteropHelp.NativeWrapper<IClientEngineVTable>
 	{
 		[UnmanagedFunctionPointer(CallingConvention.ThisCall)] private delegate Int32 NativeCreateSteamPipe( IntPtr thisptr );
