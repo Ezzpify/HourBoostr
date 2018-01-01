@@ -80,7 +80,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Steam4NET">
-      <HintPath>.\Steam4NET.dll</HintPath>
+      <HintPath>libs\Steam4NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

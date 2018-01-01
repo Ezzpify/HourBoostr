@@ -18,6 +18,12 @@ namespace HourBoostr
 
 
             /// <summary>
+            /// If we should hide application to tray
+            /// </summary>
+            public bool HideToTray { get; set; } = true;
+
+
+            /// <summary>
             /// List of accounts
             /// </summary>
             public List<AccountSettings> Accounts { get; set; } = new List<AccountSettings>();

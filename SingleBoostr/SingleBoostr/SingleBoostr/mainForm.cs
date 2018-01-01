@@ -1032,7 +1032,8 @@ namespace SingleBoostr
             messageText.Padding = new Padding(1, 0, 0, 0);
             if (!string.IsNullOrEmpty(url))
             {
-                if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
+                Uri uriResult;
+                if (Uri.TryCreate(url, UriKind.Absolute, out uriResult))
                 {
                     messageText.MouseEnter += MessageText_MouseEnter;
                     messageText.MouseLeave += MessageText_MouseLeave;
@@ -1304,7 +1305,9 @@ namespace SingleBoostr
                 if (cardNode != null && !string.IsNullOrWhiteSpace(cardNode.InnerText))
                 {
                     string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
-                    if (int.TryParse(cards, out int cardsremaining))
+
+                    int cardsremaining;
+                    if (int.TryParse(cards, out cardsremaining))
                     {
                         _appCurrentBadge.card.cardsremaining = cardsremaining;
                     }
@@ -1395,7 +1398,9 @@ namespace SingleBoostr
                             foreach (var card in dyn.avg_values)
                             {
                                 string s_appid = card.Name, s_price = card.Value;
-                                if (uint.TryParse(s_appid, out uint appid) && double.TryParse(s_price, out double price))
+                                uint appid;
+                                double price;
+                                if (uint.TryParse(s_appid, out appid) && double.TryParse(s_price, out price))
                                 {
                                     var app = appList.FirstOrDefault(o => o.appid == appid);
                                     if (app != null)
@@ -1443,21 +1448,24 @@ namespace SingleBoostr
                 {
                     string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
                     cards = string.IsNullOrWhiteSpace(cards) ? "0" : cards;
-                    
-                    if (uint.TryParse(appid, out uint id))
+
+                    uint id;
+                    if (uint.TryParse(appid, out id))
                     {
                         var game = _appList.FirstOrDefault(o => o.appid == id);
                         if (game != null)
                         {
                             var tc = new TradeCard();
 
-                            if (double.TryParse(hours, out double hoursplayed))
+                            double hoursplayed;
+                            if (double.TryParse(hours, out hoursplayed))
                             {
                                 var span = TimeSpan.FromHours(hoursplayed);
                                 tc.minutesplayed = span.TotalMinutes;
                             }
 
-                            if (int.TryParse(cards, out int cardsremaining))
+                            int cardsremaining;
+                            if (int.TryParse(cards, out cardsremaining))
                                 tc.cardsremaining = cardsremaining;
 
                             game.card = tc;
@@ -1514,6 +1522,7 @@ namespace SingleBoostr
                 int appCount = await Task.Run(() => GetAppList());
                 if (appCount > 0)
                 {
+                    ShowLoadingText("Setting user information");
                     foreach (uint appid in _settings.Settings.GameHistoryIds)
                     {
                         var app = _appList.FirstOrDefault(o => o.appid == appid);
@@ -1528,7 +1537,7 @@ namespace SingleBoostr
                     RefreshGameList();
                     ShowWindow(WindowPanel.Start);
                     BgwSteamCallback.RunWorkerAsync();
-
+                    
                     string bubbleJson = await DownloadString(Const.CHAT_BUBBLE_URL);
                     if (!string.IsNullOrWhiteSpace(bubbleJson))
                     {
@@ -1582,16 +1591,36 @@ namespace SingleBoostr
             return false;
         }
 
+        private void ShowLoadingText(string text)
+        {
+            PanelLoadingText.Invoke((MethodInvoker)delegate {
+                PanelLoadingText.Visible = true;
+                PanelLoadingText.Text = text.ToUpper();
+            });
+        }
+
         private async Task<int> GetAppList()
         {
             if (!File.Exists(Const.APP_LIST))
             {
+                ShowLoadingText("Downloading Steam app list");
+                if (!await _settings.DownloadAppList())
+                    return 0;
+            }
+
+            var lastChanged = File.GetLastWriteTime(Const.APP_LIST);
+            int daysSinceChanged = (int)(DateTime.Now - lastChanged).TotalDays;
+            if (daysSinceChanged > 10)
+            {
+                ShowLoadingText("Updating Steam app list");
+                _log.Write(Log.LogLevel.Info, "More than 10 days since last app list updated. Downloading new list.");
                 if (!await _settings.DownloadAppList())
                     return 0;
             }
 
             string json = File.ReadAllText(Const.APP_LIST);
             var apps = JsonConvert.DeserializeObject<SteamApps>(json);
+            ShowLoadingText("Setting up subscribed apps");
             foreach (var app in apps.applist.apps)
             {
                 if (_steamApps003.BIsSubscribedApp(app.appid))
@@ -1666,6 +1695,20 @@ namespace SingleBoostr
 
             _steamClient012 = Steamworks.CreateInterface<ISteamClient012>();
             _clientEngine = Steamworks.CreateInterface<IClientEngine>();
+
+            if (_steamClient012 == null)
+            {
+                MsgBox.Show("ISteamClient012 is null. Unable to create interface.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"ISteamClient012 is null. Unable to create interface.");
+                return false;
+            }
+
+            if (_clientEngine == null)
+            {
+                MsgBox.Show("IClientEngine is null. Unable to create interface.", "Error", MsgBox.Buttons.OK, MsgBox.MsgIcon.Error);
+                _log.Write(Log.LogLevel.Error, $"IClientEngine is null. Unable to create interface.");
+                return false;
+            }
 
             _pipe = _steamClient012.CreateSteamPipe();
             if (_pipe == 0)
@@ -1832,7 +1875,8 @@ namespace SingleBoostr
 
             if (_settings.Settings.WaitBetweenReplies)
             {
-                if (_chatResponses.TryGetValue(senderId.ConvertToUint64(), out DateTime value))
+                DateTime value;
+                if (_chatResponses.TryGetValue(senderId.ConvertToUint64(), out value))
                 {
                     TimeSpan diff = DateTime.Now.Subtract(value);
                     if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)
@@ -1870,7 +1914,8 @@ namespace SingleBoostr
 
             if (_settings.Settings.WaitBetweenReplies)
             {
-                if (_chatResponses.TryGetValue(friendId.ConvertToUint64(), out DateTime value))
+                DateTime value;
+                if (_chatResponses.TryGetValue(friendId.ConvertToUint64(), out value))
                 {
                     TimeSpan diff = DateTime.Now.Subtract(value);
                     if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)

@@ -126,7 +126,8 @@ namespace SingleBoostrGame
             {
                 SetConsoleWindowName(appId);
 
-                if (args.Length >= 2 && int.TryParse(args[1], out int parentProcessId) && parentProcessId != 0)
+                int parentProcessId = -1;
+                if (args.Length >= 2 && int.TryParse(args[1], out parentProcessId) && parentProcessId != -1)
                     _bwg.RunWorkerAsync(parentProcessId);
 
                 Console.Clear();

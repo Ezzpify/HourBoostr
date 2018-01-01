@@ -200,7 +200,6 @@ namespace HourBoostr
             Connect();
         }
 
-
         /// <summary>
         /// Connect to Steam
         /// </summary>
@@ -275,13 +274,6 @@ namespace HourBoostr
         /// <param name="callback">SteamClient.ConnectedCallback</param>
         private void OnConnected(SteamClient.ConnectedCallback callback)
         {
-            if (callback.Result != EResult.OK)
-            {
-                mLog.Write(Log.LogLevel.Warn, $"OnConnected error: {callback.Result}");
-                mIsRunning = false;
-                return;
-            }
-
             /*Set sentry hash*/
             byte[] sentryHash = null;
             if (File.Exists(mSteam.sentryPath))

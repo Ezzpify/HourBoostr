@@ -138,7 +138,7 @@
             this.MinimizeBox = false;
             this.Name = "MsgBox";
             this.Padding = new System.Windows.Forms.Padding(3);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SingleBoostr";
             this.PanelFooter.ResumeLayout(false);
             this.PanelHeader.ResumeLayout(false);

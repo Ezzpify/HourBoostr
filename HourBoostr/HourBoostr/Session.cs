@@ -58,8 +58,6 @@ namespace HourBoostr
         private void MBwg_DoWork(object sender, DoWorkEventArgs e)
         {
             /*Go through account and log them into steam*/
-            //SteamDirectory.Initialize().ConfigureAwait(true);
-            InitializeCMs(Program.mGlobalDB.CellID, Program.mGlobalDB.ServerListProvider);
             foreach (var account in mSettings.Accounts)
             {
                 if (account.IgnoreAccount)
@@ -94,29 +92,16 @@ namespace HourBoostr
             /*Start status thread*/
             mThreadStatus = new Thread(ThreadStatus);
             mThreadStatus.Start();
+
+            if (mSettings.HideToTray)
+            {
+
+            }
         }
 
-
-        /// <summary>
-        /// Borrowed this part from
-        /// https://github.com/JustArchi/ArchiSteamFarm
-        /// </summary>
-        /// <param name="cellId">steam cellid</param>
-        /// <param name="serverList">list of cm servers</param>
-        private void InitializeCMs(uint cellId, IServerListProvider serverList)
+        private void HideAppToTray()
         {
-            CMClient.Servers.CellID = cellId;
-            CMClient.Servers.ServerListProvider = serverList;
-            Console.WriteLine("Initializing SteamDirectory ...");
-
-            try
-            {
-                SteamDirectory.Initialize(cellId).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error configuring CM. Connecting might take longer than usual. {ex.Message}");
-            }
+            
         }
 
 

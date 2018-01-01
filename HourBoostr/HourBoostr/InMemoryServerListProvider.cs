@@ -38,6 +38,16 @@ namespace HourBoostr
             return Task.Delay(0);
         }
 
+        Task<IEnumerable<ServerRecord>> IServerListProvider.FetchServerListAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateServerListAsync(IEnumerable<ServerRecord> endpoints)
+        {
+            throw new NotImplementedException();
+        }
+
         internal event EventHandler ServerListUpdated;
     }
 }

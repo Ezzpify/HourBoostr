@@ -57,6 +57,9 @@
             this.removeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblStartBooster = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbCheckForUpdates = new System.Windows.Forms.CheckBox();
+            this.cbHideToTray = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -66,6 +69,7 @@
             this.panelSettings.SuspendLayout();
             this.accountListBoxMenu.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -86,7 +90,7 @@
             this.accountListBox.ItemHeight = 15;
             this.accountListBox.Location = new System.Drawing.Point(6, 22);
             this.accountListBox.Name = "accountListBox";
-            this.accountListBox.Size = new System.Drawing.Size(143, 190);
+            this.accountListBox.Size = new System.Drawing.Size(143, 134);
             this.accountListBox.TabIndex = 1;
             this.accountListBox.SelectedIndexChanged += new System.EventHandler(this.accountListBox_SelectedIndexChanged);
             this.accountListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.accountListBox_MouseDown);
@@ -296,7 +300,7 @@
             this.groupBox4.Controls.Add(this.accountListBox);
             this.groupBox4.Location = new System.Drawing.Point(12, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(155, 218);
+            this.groupBox4.Size = new System.Drawing.Size(155, 162);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             // 
@@ -346,7 +350,7 @@
             // 
             this.lblStartBooster.AutoSize = true;
             this.lblStartBooster.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblStartBooster.Location = new System.Drawing.Point(35, 40);
+            this.lblStartBooster.Location = new System.Drawing.Point(36, 25);
             this.lblStartBooster.Name = "lblStartBooster";
             this.lblStartBooster.Size = new System.Drawing.Size(81, 15);
             this.lblStartBooster.TabIndex = 5;
@@ -358,12 +362,45 @@
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.lblStartBooster);
-            this.groupBox6.Location = new System.Drawing.Point(12, 236);
+            this.groupBox6.Location = new System.Drawing.Point(12, 265);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(155, 84);
+            this.groupBox6.Size = new System.Drawing.Size(155, 55);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "HourBoostr";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbHideToTray);
+            this.groupBox5.Controls.Add(this.cbCheckForUpdates);
+            this.groupBox5.Location = new System.Drawing.Point(12, 180);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(155, 79);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "General";
+            // 
+            // cbCheckForUpdates
+            // 
+            this.cbCheckForUpdates.AutoSize = true;
+            this.cbCheckForUpdates.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbCheckForUpdates.Location = new System.Drawing.Point(9, 22);
+            this.cbCheckForUpdates.Name = "cbCheckForUpdates";
+            this.cbCheckForUpdates.Size = new System.Drawing.Size(122, 19);
+            this.cbCheckForUpdates.TabIndex = 7;
+            this.cbCheckForUpdates.Text = "Check for updates";
+            this.cbCheckForUpdates.UseVisualStyleBackColor = true;
+            // 
+            // cbHideToTray
+            // 
+            this.cbHideToTray.AutoSize = true;
+            this.cbHideToTray.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbHideToTray.Location = new System.Drawing.Point(9, 46);
+            this.cbHideToTray.Name = "cbHideToTray";
+            this.cbHideToTray.Size = new System.Drawing.Size(88, 19);
+            this.cbHideToTray.TabIndex = 8;
+            this.cbHideToTray.Text = "Hide to tray";
+            this.cbHideToTray.UseVisualStyleBackColor = true;
             // 
             // mainForm
             // 
@@ -371,6 +408,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(700, 334);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.panelSettings);
@@ -400,6 +438,8 @@
             this.accountListBoxMenu.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -433,6 +473,9 @@
         private System.Windows.Forms.Label lblStartBooster;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox cbIgnoreAccount;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox cbHideToTray;
+        private System.Windows.Forms.CheckBox cbCheckForUpdates;
     }
 }
 

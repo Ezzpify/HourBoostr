@@ -117,6 +117,8 @@ namespace Steam4Test
                 return -1;
             }
 
+            Console.ReadKey();
+
             int pipe = steamclient.CreateSteamPipe();
             if (pipe == 0)
             {

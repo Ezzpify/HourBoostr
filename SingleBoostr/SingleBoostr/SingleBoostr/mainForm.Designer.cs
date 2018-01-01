@@ -81,6 +81,8 @@
             this.PanelCards = new System.Windows.Forms.Panel();
             this.PanelCardsBtnLogin = new System.Windows.Forms.Button();
             this.PanelLoading = new System.Windows.Forms.Panel();
+            this.PanelLoadingText = new System.Windows.Forms.Label();
+            this.PanelLoadingSpacer = new System.Windows.Forms.PictureBox();
             this.PanelLoadingPic = new System.Windows.Forms.PictureBox();
             this.BgwSteamCallback = new System.ComponentModel.BackgroundWorker();
             this.AppNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -112,6 +114,7 @@
             this.PanelTosBottom.SuspendLayout();
             this.PanelCards.SuspendLayout();
             this.PanelLoading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).BeginInit();
             this.AppNotifyIconMenu.SuspendLayout();
             this.SuspendLayout();
@@ -801,6 +804,8 @@
             // PanelLoading
             // 
             this.PanelLoading.BackColor = System.Drawing.Color.Transparent;
+            this.PanelLoading.Controls.Add(this.PanelLoadingText);
+            this.PanelLoading.Controls.Add(this.PanelLoadingSpacer);
             this.PanelLoading.Controls.Add(this.PanelLoadingPic);
             this.PanelLoading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelLoading.Location = new System.Drawing.Point(0, 0);
@@ -808,6 +813,25 @@
             this.PanelLoading.Size = new System.Drawing.Size(600, 350);
             this.PanelLoading.TabIndex = 5;
             this.PanelLoading.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelLoading_MouseDown);
+            // 
+            // PanelLoadingText
+            // 
+            this.PanelLoadingText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.PanelLoadingText.Location = new System.Drawing.Point(0, 323);
+            this.PanelLoadingText.Name = "PanelLoadingText";
+            this.PanelLoadingText.Size = new System.Drawing.Size(600, 17);
+            this.PanelLoadingText.TabIndex = 1;
+            this.PanelLoadingText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // PanelLoadingSpacer
+            // 
+            this.PanelLoadingSpacer.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelLoadingSpacer.Location = new System.Drawing.Point(0, 340);
+            this.PanelLoadingSpacer.Name = "PanelLoadingSpacer";
+            this.PanelLoadingSpacer.Size = new System.Drawing.Size(600, 10);
+            this.PanelLoadingSpacer.TabIndex = 2;
+            this.PanelLoadingSpacer.TabStop = false;
             // 
             // PanelLoadingPic
             // 
@@ -933,6 +957,7 @@
             this.PanelTosBottom.ResumeLayout(false);
             this.PanelCards.ResumeLayout(false);
             this.PanelLoading.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).EndInit();
             this.AppNotifyIconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1003,6 +1028,8 @@
         private System.Windows.Forms.ToolStripMenuItem CardsStartedOptionsMenuBtnBlacklist;
         private System.Windows.Forms.ToolStripMenuItem CardsStartedOptionsMenuBtnSortQueue;
         private System.Windows.Forms.Button PanelStartBtnDonate;
+        private System.Windows.Forms.Label PanelLoadingText;
+        private System.Windows.Forms.PictureBox PanelLoadingSpacer;
     }
 }
 

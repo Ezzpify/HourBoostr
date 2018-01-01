@@ -84,6 +84,9 @@ namespace Settings
 
                     if (!string.IsNullOrWhiteSpace(fileContent))
                         mSettings = JsonConvert.DeserializeObject<Config.Settings>(fileContent);
+
+                    cbCheckForUpdates.Checked = mSettings.CheckForUpdates;
+                    cbHideToTray.Checked = mSettings.HideToTray;
                 }
                 catch (Exception ex)
                 {
@@ -223,6 +226,9 @@ namespace Settings
         {
             SaveCurrentAccount();
             mSettings.Accounts.RemoveAll(o => string.IsNullOrWhiteSpace(o.Details.Username));
+
+            mSettings.CheckForUpdates = cbCheckForUpdates.Checked;
+            mSettings.HideToTray = cbHideToTray.Checked;
 
             try
             {

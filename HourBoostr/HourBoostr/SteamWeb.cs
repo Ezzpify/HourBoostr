@@ -95,7 +95,7 @@ namespace HourBoostr
 
                 // rsa encrypt it with the public key for the universe we're on
                 byte[] cryptedSessionKey = null;
-                using (RSACrypto rsa = new RSACrypto(KeyDictionary.GetPublicKey(client.ConnectedUniverse)))
+                using (RSACrypto rsa = new RSACrypto(KeyDictionary.GetPublicKey(client.Universe)))
                 {
                     cryptedSessionKey = rsa.Encrypt(sessionKey);
                 }
