@@ -56,8 +56,8 @@ namespace Settings
             SendMessage(txtLoginKey.Handle, EM_SETCUEBANNER, 0, "Login Key");
             SendMessage(txtResponse.Handle, EM_SETCUEBANNER, 0, "Chat Response");
             SendMessage(txtGameItem.Handle, EM_SETCUEBANNER, 0, "Game ID");
+            SendMessage(customTextBox.Handle, EM_SETCUEBANNER, 0, "Custom Text");
         }
-
 
         /// <summary>
         /// Form load
@@ -159,6 +159,10 @@ namespace Settings
                     user.ConnectToSteamCommunity = cbCommunity.Checked;
                     user.RestartGamesEveryThreeHours = cbRestartGames.Checked;
                     user.IgnoreAccount = cbIgnoreAccount.Checked;
+
+                    if(!string.IsNullOrEmpty(customTextBox.Text))
+                        user.CustomText = customTextBox.Text;
+
                     user.ChatResponse = txtResponse.Text;
                     user.Games = gameList.Items.Cast<int>().ToList();
 
@@ -193,6 +197,7 @@ namespace Settings
             txtUsername.Text = mActiveAccount.Details.Username;
             txtPassword.Text = mActiveAccount.Details.Password;
             txtLoginKey.Text = mActiveAccount.Details.LoginKey;
+            customTextBox.Text = mActiveAccount.CustomText;
             txtResponse.Text = mActiveAccount.ChatResponse;
 
             /*Clear previous entries in game listbox and add new ones*/

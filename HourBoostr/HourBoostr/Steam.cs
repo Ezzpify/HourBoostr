@@ -16,6 +16,11 @@ namespace HourBoostr
         /// </summary>
         public string nounce { get; set; }
 
+        /// <summary>
+        /// The Custom text
+        /// </summary>
+        public string customText { get; set; }
+
 
         /// <summary>
         /// List of games that we will be playing

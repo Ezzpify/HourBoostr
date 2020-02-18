@@ -8,6 +8,10 @@ using System.Web;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using SteamKit2;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Collections.Generic;
 
 namespace HourBoostr
 {
@@ -80,13 +84,68 @@ namespace HourBoostr
             // Get the response
             return request.GetResponse() as HttpWebResponse;
         }
-        
 
+        public async Task<bool> AuthenticateAsync(ulong steamId, SteamClient client, string myLoginKey)
+        {
+            mToken = mTokenSecure = "";
+            mSessionId = Convert.ToBase64String(Encoding.UTF8.GetBytes(steamId.ToString()));
+            mCookieContainer = new CookieContainer();
+            KeyValue response;
+
+            using (WebAPI.AsyncInterface iSteamUserAuth = client.Configuration.GetAsyncWebAPIInterface("ISteamUserAuth"))
+            {
+                // generate an AES session key
+                var sessionKey = CryptoHelper.GenerateRandomBlock(32);
+
+                // rsa encrypt it with the public key for the universe we're on
+                byte[] cryptedSessionKey = null;
+                using (RSACrypto rsa = new RSACrypto(KeyDictionary.GetPublicKey(client.Universe)))
+                {
+                    cryptedSessionKey = rsa.Encrypt(sessionKey);
+                }
+
+                byte[] loginKey = Encoding.UTF8.GetBytes(myLoginKey);                
+
+                // aes encrypt the loginkey with our session key
+                byte[] cryptedLoginKey = CryptoHelper.SymmetricEncrypt(loginKey, sessionKey);
+
+                try
+                {
+                    response = await iSteamUserAuth.CallAsync(
+                            HttpMethod.Post, "AuthenticateUser", args: new Dictionary<string, object>(3, StringComparer.Ordinal) {
+                                { "encrypted_loginkey", cryptedLoginKey },
+                                { "sessionkey", cryptedSessionKey },
+                                { "steamid", client.SteamID.ConvertToUInt64() }
+                            });
+                }
+                catch (TaskCanceledException e)
+                {
+                    mToken = mTokenSecure = null;
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    mToken = mTokenSecure = null;
+                    return false;
+                }
+
+                mToken = response["token"].AsString();
+                mTokenSecure = response["tokensecure"].AsString();
+
+                mCookieContainer.Add(new Cookie("sessionid", mSessionId, String.Empty, mSteamCommunityDomain));
+                mCookieContainer.Add(new Cookie("steamLogin", mToken, String.Empty, mSteamCommunityDomain));
+                mCookieContainer.Add(new Cookie("steamLoginSecure", mTokenSecure, String.Empty, mSteamCommunityDomain));
+
+                return true;
+            }
+        }
+        
+        [Obsolete("Code so old bruh.")]
         public bool Authenticate(string myUniqueId, SteamClient client, string myLoginKey)
         {
             mToken = mTokenSecure = "";
             mSessionId = Convert.ToBase64String(Encoding.UTF8.GetBytes(myUniqueId));
-            mCookieContainer = new CookieContainer();
+            mCookieContainer = new CookieContainer();           
 
             using (dynamic userAuth = WebAPI.GetInterface("ISteamUserAuth"))
             {
@@ -104,7 +163,7 @@ namespace HourBoostr
                 Array.Copy(Encoding.ASCII.GetBytes(myLoginKey), loginKey, myLoginKey.Length);
 
                 // aes encrypt the loginkey with our session key
-                byte[] cryptedLoginKey = CryptoHelper.SymmetricEncrypt(loginKey, sessionKey);
+                 byte[] cryptedLoginKey = CryptoHelper.SymmetricEncrypt(loginKey, sessionKey);
 
                 KeyValue authResult;
 
@@ -118,8 +177,8 @@ namespace HourBoostr
                         secure: true
                         );
                 }
-                catch (Exception)
-                {
+                catch (Exception e)
+                {                    
                     mToken = mTokenSecure = null;
                     return false;
                 }

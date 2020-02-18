@@ -92,7 +92,7 @@ namespace HourBoostr
             {
                 globalDatabase = JsonConvert.DeserializeObject<GlobalDB>(File.ReadAllText(filePath), CustomSerializerSettings);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -125,7 +125,7 @@ namespace HourBoostr
                         File.WriteAllText(FilePath, json);
                         break;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }

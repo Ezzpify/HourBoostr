@@ -11,6 +11,7 @@ using System.Net;
 using SteamKit2.Internal;
 using SteamKit2.Discovery;
 using SteamKit2;
+using System.Threading.Tasks;
 
 namespace HourBoostr
 {
@@ -66,6 +67,8 @@ namespace HourBoostr
         /// We can instance this on load
         /// </summary>
         public Steam mSteam { get; set; } = new Steam();
+
+        public static EOSType OSType { get; private set; } = EOSType.Unknown;
 
 
         /// <summary>
@@ -165,6 +168,7 @@ namespace HourBoostr
             };
             mAccountSettings = info;
             mSteam.games = info.Games;
+            mSteam.customText = info.CustomText;
             mSteam.sentryPath = string.Format("Sentryfiles/{0}.sentry", info.Details.Username);
 
             /*Set up steamweb*/
@@ -285,6 +289,7 @@ namespace HourBoostr
             /*Attempt to login*/
             mLog.Write(Log.LogLevel.Info, $"Connected! Logging in ...");
             mSteam.loginDetails.SentryFileHash = sentryHash;
+            OSType = mSteam.loginDetails.ClientOSType;
             mSteam.user.LogOn(mSteam.loginDetails);
         }
 
@@ -562,40 +567,45 @@ namespace HourBoostr
         {
             try
             {
-                if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
+                if (mSteam.web.AuthenticateAsync(mSteam.client.SteamID.ConvertToUInt64(), mSteam.client, mSteam.nounce).Result)
                 {
-                    mLog.Write(Log.LogLevel.Success, $"User authenticated!");
-                    mBotState = BotState.LoggedInWeb;
-
-                    /*If we should go online*/
-                    if (mAccountSettings.ShowOnlineStatus)
-                        mSteam.friends.SetPersonaState(EPersonaState.Online);
-
-                    /*If we should join the steam group
-                    This is done mainly for statistical purposes*/
-                    if (mAccountSettings.JoinSteamGroup)
-                    {
-                        var data = new NameValueCollection()
-                        {
-                            { "sessionID", mSteam.web.mSessionId },
-                            { "action", "join" }
-                        };
-
-                        mSteam.web.Request(EndPoint.STEAM_GROUP_URL, "POST", data);
-                    }
-
-                    /*Start the timer to periodically refresh community connection*/
-                    if (!mCommunityTimer.Enabled)
-                    {
-                        mCommunityTimer.Interval = TimeSpan.FromMinutes(15).TotalMilliseconds;
-                        mCommunityTimer.Elapsed += new ElapsedEventHandler(VerifyCommunityConnection);
-                        mCommunityTimer.Start();
-                    }
+                    OnAuth();
                 }
             }
             catch (Exception ex)
             {
                 mLog.Write(Log.LogLevel.Error, $"Error on UserWebLogon: {ex.Message}");
+            }
+        }
+
+        private void OnAuth()
+        {
+            mLog.Write(Log.LogLevel.Success, $"User authenticated!");
+            mBotState = BotState.LoggedInWeb;
+
+            /*If we should go online*/
+            if (mAccountSettings.ShowOnlineStatus)
+                mSteam.friends.SetPersonaState(EPersonaState.Online);
+
+            /*If we should join the steam group
+            This is done mainly for statistical purposes*/
+            if (mAccountSettings.JoinSteamGroup)
+            {
+                var data = new NameValueCollection()
+                        {
+                            { "sessionID", mSteam.web.mSessionId },
+                            { "action", "join" }
+                        };
+
+                mSteam.web.Request(EndPoint.STEAM_GROUP_URL, "POST", data);
+            }
+
+            /*Start the timer to periodically refresh community connection*/
+            if (!mCommunityTimer.Enabled)
+            {
+                mCommunityTimer.Interval = TimeSpan.FromMinutes(15).TotalMilliseconds;
+                mCommunityTimer.Elapsed += new ElapsedEventHandler(VerifyCommunityConnection);
+                mCommunityTimer.Start();
             }
         }
 
@@ -651,22 +661,47 @@ namespace HourBoostr
             if (state)
                 gameList = mSteam.games;
 
-            var gamesPlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            ClientMsgProtobuf<CMsgClientGamesPlayed> request = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayedWithDataBlob)
+            {
+                Body = {
+                    client_os_type = (uint) OSType
+                }
+            };
+
+            if (!string.IsNullOrEmpty(mSteam.customText))
+            {
+                // send request on clean non gaming session to properly display the custom game
+                mSteam.client.Send(request);
+                Task.Delay(500).Wait();
+                request.Body.games_played.Add(
+                    new CMsgClientGamesPlayed.GamePlayed
+                    {
+                        game_extra_info = mSteam.customText,
+                        game_id = new GameID
+                        {
+                            AppType = GameID.GameType.Shortcut,
+                            ModID = uint.MaxValue
+                        }
+                    }
+                );
+            }
+           
             if (!mPlayingBlocked)
             {
                 /*Set up requested games*/
-                foreach (int game in gameList)
+                foreach (uint gameID in gameList.Where(gameID => gameID != 0))
                 {
-                    gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
-                    {
-                        game_id = new GameID(game)
-                    });
+                    request.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed { game_id = new GameID(gameID) });
                 }
             }
 
             /*Tell the client that we're playing these games*/
-            mSteam.client.Send(gamesPlaying);
-            mLog.Write(Log.LogLevel.Info, $"{gameList.Count} games has been set as playing.");
+            mSteam.client.Send(request);
+
+            if(!string.IsNullOrEmpty(mSteam.customText))
+                mLog.Write(Log.LogLevel.Info, $"{gameList.Count} games and {mSteam.customText} custom game has been set as playing.");
+            else
+                mLog.Write(Log.LogLevel.Info, $"{gameList.Count} games has been set as playing.");
         }
     }
 }

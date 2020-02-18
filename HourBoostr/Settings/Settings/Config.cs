@@ -127,6 +127,11 @@ namespace Settings
             /// </summary>
             public string ChatResponse { get; set; } = "";
 
+            /// <summary>
+            /// The Custom text to display during boosting state
+            /// </summary>
+            public string CustomText { get; set; } = "";
+
 
             /// <summary>
             /// List of games we should set as playing

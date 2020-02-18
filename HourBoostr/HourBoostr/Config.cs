@@ -107,6 +107,11 @@ namespace HourBoostr
             /// </summary>
             public string ChatResponse { get; set; } = "";
 
+            /// <summary>
+            /// Custom game name which should be displayed when boosting hours.
+            /// </summary>
+            public string CustomText { get; set; } = "";
+
 
             /// <summary>
             /// List of games we should set as playing
