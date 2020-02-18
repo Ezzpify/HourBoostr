@@ -32,6 +32,8 @@ namespace HourBoostr
         }
 
 
+        public const int RATE_LIMITED_DELAY = 30; // in minutes;
+
         /// <summary>
         /// List of users we've already replied to in chat
         /// </summary>
@@ -432,14 +434,17 @@ namespace HourBoostr
                 case EResult.TwoFactorCodeMismatch:
                     mLog.Write(Log.LogLevel.Text, $"Invalid two factor code! Try again:");
                     mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
-                    return;
-
+                    return;                    
                 case EResult.Timeout:
                 case EResult.NoConnection:
                 case EResult.TryAnotherCM:
                 case EResult.ServiceUnavailable:
                     mLog.Write(Log.LogLevel.Warn, $"Service unavailable. Waiting 1 minute.");
                     Thread.Sleep(TimeSpan.FromMinutes(1));
+                    return;
+                case EResult.RateLimitExceeded:
+                    mLog.Write(Log.LogLevel.Error, $"IP has been rate limited. We will wait for {RATE_LIMITED_DELAY} minutes and try again.");
+                    Thread.Sleep(TimeSpan.FromMinutes(RATE_LIMITED_DELAY));
                     return;
             }
 
