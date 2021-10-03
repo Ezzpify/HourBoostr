@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading;
 using SingleBoostr.Game.Core;
+using SingleBoostr.Game.Objects;
 
-namespace SingleBoostrGame
+namespace SingleBoostr.Game
 {
     public class Program
     { 
@@ -28,12 +30,10 @@ namespace SingleBoostrGame
             if (steamApp.Connect())
             {
                 var appBackgroundWorker = new AppBackgroundWorker();
-
-                Console.Title = $"Idling {steamApp.Title} - {steamApp.ID}";
-
+                 
                 //arg 0 = appID, arg 1 = appName
                 if (args.Length >= 2 && int.TryParse(args[1], out int parentProcessId) && parentProcessId != -1) appBackgroundWorker.Instance.RunWorkerAsync(parentProcessId);
-
+                  
                 //wait
                 Console.Clear();
                 Console.WriteLine("Running! Press any key or close window to stop idling.");
@@ -41,6 +41,7 @@ namespace SingleBoostrGame
 
                 //close
                 if (appBackgroundWorker.Instance.IsBusy) appBackgroundWorker.Instance.CancelAsync();
+                steamApp.TitleThread.Abort();
             }
         }
     }
