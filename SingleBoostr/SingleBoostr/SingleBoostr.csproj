@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A0C0009A-6C5D-4EB3-A8B3-1E81488B3D8C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SingleBoostr</RootNamespace>
+    <AssemblyName>SingleBoostr</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SingleBoostr.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.11.37.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.12.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\LogLevel.cs" />
+    <Compile Include="Objects\App.cs" />
+    <Compile Include="Objects\Applist.cs" />
+    <Compile Include="Objects\Bubble.cs" />
+    <Compile Include="Objects\Settings.cs" />
+    <Compile Include="Objects\SteamApps.cs" />
+    <Compile Include="Objects\TradeCard.cs" />
+    <Compile Include="Objects\UpdateHolder.cs" />
+    <Compile Include="Ui\AppWebBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppWebBrowser.Designer.cs">
+      <DependentUpon>AppWebBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\ChatBubbles.cs" />
+    <Compile Include="Core\Const.cs" />
+    <Compile Include="Ui\AppDonate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppDonate.Designer.cs">
+      <DependentUpon>AppDonate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\TermsOfService.cs" />
+    <Compile Include="Core\Log.cs" />
+    <Compile Include="Ui\AppHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppHome.Designer.cs">
+      <DependentUpon>AppHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\AppMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppMessageBox.Designer.cs">
+      <DependentUpon>AppMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\NativeMethods.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\AppQueue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppQueue.Designer.cs">
+      <DependentUpon>AppQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\AppSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\AppSettings.Designer.cs">
+      <DependentUpon>AppSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\SteamWeb.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Objects\Store.cs" />
+    <Compile Include="Core\UpdateCheck.cs" />
+    <Compile Include="Core\Utils.cs" />
+    <EmbeddedResource Include="Ui\AppWebBrowser.resx">
+      <DependentUpon>AppWebBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\AppDonate.resx">
+      <DependentUpon>AppDonate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\AppHome.resx">
+      <DependentUpon>AppHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\AppMessageBox.resx">
+      <DependentUpon>AppMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Ui\AppQueue.resx">
+      <DependentUpon>AppQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\AppSettings.resx">
+      <DependentUpon>AppSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Button-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Cards.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Cards-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Idle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Idle-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\UI items\icon-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\UI items\ss_dc55eeb409d6e187456a8e159018e8da098fa468.600x338.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Back-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Exit-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\Settings-Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\GamePlaceholder.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Media\Interface\Media\header.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <None Include="Media\Interface\Media\animation.gif" />
+    <None Include="Media\Interface\Media\Donate.png" />
+    <None Include="Media\Interface\Media\Donate-Selected.png" />
+    <None Include="Sound\storms.wav" />
+    <None Include="Media\Interface\Media\discord-logo.png" />
+    <None Include="Media\Interface\Media\Block.png" />
+    <None Include="Media\Interface\Media\Block-Selected.png" />
+    <None Include="Media\Interface\Media\Min.png" />
+    <None Include="Media\Interface\Media\Min-Selected.png" />
+    <None Include="Media\Interface\Media\Active-Selected.png" />
+    <None Include="Media\Interface\Media\Active_Selected.png" />
+    <None Include="Media\Interface\Media\Active.png" />
+    <None Include="Media\Interface\Media\Load.png" />
+    <None Include="Media\Interface\Media\Icon.png" />
+    <None Include="Media\Interface\Media\Icon.ico" />
+    <None Include="Media\Interface\Media\Icon-Transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Steam4NET2\Steam4NET.csproj">
+      <Project>{1a204257-fe82-4bbe-9ed4-40694821c31f}</Project>
+      <Name>Steam4NET</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
