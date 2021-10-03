@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("HourBoostr")]
-[assembly: AssemblyCopyright("Copyright © Ezzpify 2017")]
+[assembly: AssemblyCopyright("Copyright © Ezzpify & Ni1kko 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
