@@ -53,7 +53,6 @@ namespace SingleBoostr
         private ISteamApps003 _steamApps003;
         private IClientEngine _clientEngine;
         private ISteamUser016 _steamUser016;
-        private IClientFriends _clientFriends;
         private ISteamClient012 _steamClient012;
         private ISteamFriends002 _steamFriends002;
 
@@ -1728,14 +1727,12 @@ namespace SingleBoostr
 
             _steamUser016 = _steamClient012.GetISteamUser<ISteamUser016>(_user, _pipe);
             _clientUser = _clientEngine.GetIClientUser<IClientUser>(_user, _pipe);
-            _clientFriends = _clientEngine.GetIClientFriends<IClientFriends>(_user, _pipe);
             _steamApps001 = _steamClient012.GetISteamApps<ISteamApps001>(_user, _pipe);
             _steamApps003 = _steamClient012.GetISteamApps<ISteamApps003>(_user, _pipe);
             _steamFriends002 = _steamClient012.GetISteamFriends<ISteamFriends002>(_user, _pipe);
             
             return _steamUser016 != null 
                 && _clientUser != null
-                && _clientFriends != null
                 && _steamApps001 != null
                 && _steamApps003 != null
                 && _steamFriends002 != null;
@@ -1744,7 +1741,7 @@ namespace SingleBoostr
         private void SetUserInfo()
         {
             string games = $"{_appList.Count} Games";
-            string displayName = _clientFriends.GetPersonaName();
+            string displayName = _steamFriends002.GetPersonaName();
             displayName = string.IsNullOrWhiteSpace(displayName) ? "Unknown" : Utils.GetUnicodeString(displayName);
             
             Invoke(new Action(() =>
