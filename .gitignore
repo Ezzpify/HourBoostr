@@ -54,4 +54,17 @@ Temporary Items
 *.lock
 *.suo
 *.pdb
+
 SingleBoostr/packages/
+SingleBoostr/build/
+SingleBoostr/obj
+SingleBoostrGame/obj
+Steam4NET2/obj
+SingleBoostr/bin
+SingleBoostrGame/bin
+Steam4NET2/bin
+
+HourBoostr/packages/
+HourBoostr/build/
+HourBoostr/obj
+HourBoostr/bin
