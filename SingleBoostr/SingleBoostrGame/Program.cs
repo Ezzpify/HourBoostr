@@ -29,8 +29,9 @@ namespace SingleBoostrGame
             {
                 var appBackgroundWorker = new AppBackgroundWorker();
 
-                Console.Title = $"Idling {steamApp.ToString()} - {steamApp.ID}";
+                Console.Title = $"Idling {steamApp.Title} - {steamApp.ID}";
 
+                //arg 0 = appID, arg 1 = appName
                 if (args.Length >= 2 && int.TryParse(args[1], out int parentProcessId) && parentProcessId != -1) appBackgroundWorker.Instance.RunWorkerAsync(parentProcessId);
 
                 //wait
