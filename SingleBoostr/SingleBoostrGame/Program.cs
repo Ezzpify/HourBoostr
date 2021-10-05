@@ -1,46 +1,71 @@
-﻿using System;
-using SingleBoostr.Game.Misc;
-using SingleBoostr.Core;
+﻿using System; 
+using SingleBoostr.Core.Objects;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SingleBoostr.Game
 {
     public class Program
-    { 
-        public static void Main(string[] args)
-        { 
-            uint appId;
-            if (args.Length == 0)
+    {
+        private static Core.Objects.Steam Base;
+        private static Thread DynamicTextThread { get; set; } = new Thread(() =>
+        {
+            Thread.CurrentThread.IsBackground = true;
+            double playtime = 0;
+            while (true)
             {
-                do Console.WriteLine("Enter appId of game you wish to boost:");
-                while (!uint.TryParse(Console.ReadLine().Trim(), out appId));
-            }
-            else
-            {
-                if (!uint.TryParse(args[0], out appId))
-                { 
-                    Console.WriteLine($"ERROR: Unable to parse '{args[0]}' as an app id.\n\nPress any key to exit...");
-                    Console.ReadKey();
-                    return;
-                }
-            }
+                Console.Title = $"Idling \"{Base.APP.Title}\" [{Base.APP.ID}] | Uptime: {Base.APP.UpTime}";
 
-            var steamApp = new SteamApp(appId, "");
-            
-            if (steamApp.Connect)
+                if(playtime != Base.APP.Playtime)
+                {
+                    playtime = Base.APP.Playtime;
+                    Console.WriteLine($"Total hours on record: {Base.APP.Playtime}");
+                }
+                Thread.Sleep(1 * 900);
+            }
+        });
+
+        public static void Main(string[] args) => MainAsync(args.Length > 0 ? args[0] : "").GetAwaiter().GetResult();
+         
+        public static async Task MainAsync(string appID)
+        {
+            uint AppID = await ParseAppID(appID);
+            string ApiKey = "";
+            Base = new Core.Objects.Steam(ApiKey, AppID);
+             
+            if (await Base.Connect())
             {
-                var appBackgroundWorker = new AppBackgroundWorker();
-                 
-                //arg 0 = appID, arg 1 = appName
-                if (args.Length >= 2 && int.TryParse(args[1], out int parentProcessId) && parentProcessId != -1) appBackgroundWorker.Instance.RunWorkerAsync(parentProcessId);
-                  
+                DynamicTextThread.Start();
+
                 //wait
-                Console.Clear();
                 Console.WriteLine("Running! Press any key or close window to stop idling.");
                 Console.ReadKey();
 
-                //close
-                if (steamApp.Disconnect && appBackgroundWorker.Instance.IsBusy) appBackgroundWorker.Instance.CancelAsync();
+                //close 
+                await Base.Disconnect();
             }
+        }
+
+        public static async Task<uint> ParseAppID(string appID)
+        {
+            uint AppID;
+            if (string.IsNullOrEmpty(appID))
+            {
+                do Console.WriteLine("Enter appId of game you wish to boost:");
+                while (!uint.TryParse(Console.ReadLine().Trim(), out AppID));
+                await Task.Delay(1 * 1000);
+                Console.Clear();
+            }
+            else
+            {
+                if (!uint.TryParse(appID, out AppID))
+                {
+                    Console.WriteLine($"ERROR: Unable to parse '{appID}' as an app id.\n\nPress any key to exit...");
+                    Console.ReadKey();
+                    return 0;
+                }
+            }
+            return AppID;
         }
     }
 }

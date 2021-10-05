@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace SingleBoostr.Game.Misc
+namespace SingleBoostr.Core.Misc
 {
-    internal class AppBackgroundWorker
+    public class AppBackgroundWorker
     {
         private const int SecondsBetweenChecks = 5;
-        internal BackgroundWorker Instance;
-        internal AppBackgroundWorker()
+        public BackgroundWorker Instance;
+        public AppBackgroundWorker()
         {
             Instance = new BackgroundWorker() { WorkerSupportsCancellation = true };
             Instance.DoWork += DoWork;

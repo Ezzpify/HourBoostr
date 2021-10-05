@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\AppBackgroundWorker.cs" />
+    <Compile Include="Objects\Steam.cs" />
     <Compile Include="Objects\SteamApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
