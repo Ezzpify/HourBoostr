@@ -4,7 +4,7 @@ using System.Threading;
 using System.IO;
 using System.Linq;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     internal class Log
     {

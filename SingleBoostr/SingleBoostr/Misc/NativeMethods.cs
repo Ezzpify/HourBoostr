@@ -2,7 +2,7 @@
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     internal class NativeMethods
     {

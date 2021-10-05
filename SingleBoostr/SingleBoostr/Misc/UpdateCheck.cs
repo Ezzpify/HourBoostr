@@ -6,7 +6,7 @@ using RestSharp;
 using Newtonsoft.Json;
 using SingleBoostr.objects;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     class UpdateCheck
     {

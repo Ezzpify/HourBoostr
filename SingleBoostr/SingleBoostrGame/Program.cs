@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Threading;
-using SingleBoostr.Game.Core;
-using SingleBoostr.Game.Objects;
+using SingleBoostr.Game.Misc;
+using SingleBoostr.Core;
 
 namespace SingleBoostr.Game
 {

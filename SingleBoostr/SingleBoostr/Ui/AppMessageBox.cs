@@ -1,4 +1,4 @@
-﻿using SingleBoostr.Core;
+﻿using SingleBoostr.Misc;
 using System;
 using System.Collections.Generic;
 using System.Data;

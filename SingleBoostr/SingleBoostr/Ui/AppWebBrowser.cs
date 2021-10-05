@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SingleBoostr.Core;
+using SingleBoostr.Misc;
 
 namespace SingleBoostr.Ui
 {

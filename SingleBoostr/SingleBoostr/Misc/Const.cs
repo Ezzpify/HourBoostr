@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     internal class Const
     {

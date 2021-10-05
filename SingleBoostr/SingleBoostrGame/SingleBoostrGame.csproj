@@ -160,8 +160,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AppBackgroundWorker.cs" />
-    <Compile Include="Objects\SteamApp.cs" />
+    <Compile Include="Misc\AppBackgroundWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -173,6 +172,10 @@
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SingleBoostr.Core\SingleBoostr.Core.csproj">
+      <Project>{5f6378f7-e67a-470d-bae6-397718279068}</Project>
+      <Name>SingleBoostr.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Steam4NET2\Steam4NET.csproj">
       <Project>{1a204257-fe82-4bbe-9ed4-40694821c31f}</Project>
       <Name>Steam4NET</Name>

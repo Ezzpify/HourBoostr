@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
-using SingleBoostr.Core;
+using SingleBoostr.Misc;
 using SingleBoostr.Objects;
 
 namespace SingleBoostr.Ui

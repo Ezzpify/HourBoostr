@@ -6,7 +6,7 @@ using System.Diagnostics;
 using RestSharp;
 using System.Net;
 using Newtonsoft.Json;
-using SingleBoostr.Core;
+using SingleBoostr.Misc;
 
 namespace SingleBoostr.Ui
 {

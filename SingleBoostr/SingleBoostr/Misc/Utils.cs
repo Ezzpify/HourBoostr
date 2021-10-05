@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using Microsoft.Win32;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     class Utils
     {

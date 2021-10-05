@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace SingleBoostr.Game.Core
+namespace SingleBoostr.Game.Misc
 {
     internal class AppBackgroundWorker
     {

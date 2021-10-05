@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using SingleBoostr.Ui;
 
-namespace SingleBoostr.Core
+namespace SingleBoostr.Misc
 {
     class SteamWeb : WebClient
     {

@@ -20,8 +20,9 @@ using Microsoft.Win32;
 using Steam4NET;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SingleBoostr.Core;
+using SingleBoostr.Misc;
 using SingleBoostr.objects;
+using SingleBoostr.Core;
 
 namespace SingleBoostr.Ui
 {

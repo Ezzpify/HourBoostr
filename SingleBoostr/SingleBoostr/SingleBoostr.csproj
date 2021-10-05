@@ -145,7 +145,7 @@
       <DependentUpon>AppWebBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Objects\ChatBubbles.cs" />
-    <Compile Include="Core\Const.cs" />
+    <Compile Include="Misc\Const.cs" />
     <Compile Include="Ui\AppDonate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,7 +153,7 @@
       <DependentUpon>AppDonate.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\TermsOfService.cs" />
-    <Compile Include="Core\Log.cs" />
+    <Compile Include="Misc\Log.cs" />
     <Compile Include="Ui\AppHome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,7 +166,7 @@
     <Compile Include="Ui\AppMessageBox.Designer.cs">
       <DependentUpon>AppMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\NativeMethods.cs" />
+    <Compile Include="Misc\NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -186,23 +186,27 @@
     <Compile Include="Ui\AppSettings.Designer.cs">
       <DependentUpon>AppSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\SteamWeb.cs">
+    <Compile Include="Misc\SteamWeb.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Objects\Store.cs" />
-    <Compile Include="Core\UpdateCheck.cs" />
-    <Compile Include="Core\Utils.cs" />
+    <Compile Include="Misc\UpdateCheck.cs" />
+    <Compile Include="Misc\Utils.cs" />
     <EmbeddedResource Include="Ui\AppWebBrowser.resx">
       <DependentUpon>AppWebBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\AppDonate.resx">
       <DependentUpon>AppDonate.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\AppHome.resx">
       <DependentUpon>AppHome.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\AppMessageBox.resx">
       <DependentUpon>AppMessageBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -219,6 +223,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\AppSettings.resx">
       <DependentUpon>AppSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -306,6 +311,10 @@
     <None Include="Media\Interface\Media\Icon-Transparent.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SingleBoostr.Core\SingleBoostr.Core.csproj">
+      <Project>{5f6378f7-e67a-470d-bae6-397718279068}</Project>
+      <Name>SingleBoostr.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Steam4NET2\Steam4NET.csproj">
       <Project>{1a204257-fe82-4bbe-9ed4-40694821c31f}</Project>
       <Name>Steam4NET</Name>
