@@ -58,7 +58,7 @@ namespace SingleBoostr.Core.Objects
             if (appID > 0) APP = new SteamApp(this, appID);
 
             //Create API Thread too periodically fetch data from steam
-            APIThread = !APIConnected ? null : new Thread(() =>
+            APIThread = !APIConnected || appID <= 0 ? null : new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 

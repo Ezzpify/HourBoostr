@@ -49,18 +49,6 @@ namespace SingleBoostr.Ui
         private List<App> _appListSelected = new List<App>();
 
         private App _appCurrentBadge;
-            
-        private ISteam006 _steam006;
-        private IClientUser _clientUser;
-        private ISteamApps001 _steamApps001;
-        private ISteamApps003 _steamApps003;
-        private IClientEngine _clientEngine;
-        private ISteamUser016 _steamUser016;
-        private ISteamClient012 _steamClient012;
-        private ISteamFriends002 _steamFriends002;
-
-        private int _user;
-        private int _pipe;
 
         public AppHome()
         {
@@ -489,7 +477,7 @@ namespace SingleBoostr.Ui
             {
                 try
                 {
-                    while (Steamworks.GetCallback(_pipe, ref callbackMsg))
+                    while (Steamworks.GetCallback(Program.Base.Pipe, ref callbackMsg))
                     {
                         switch (callbackMsg.m_iCallback)
                         {
@@ -499,17 +487,17 @@ namespace SingleBoostr.Ui
                                 {
                                     var data = new Byte[4096];
                                     EChatEntryType type = EChatEntryType.k_EChatEntryTypeChatMsg;
-                                    var length = _steamFriends002.GetChatMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
+                                    var length = Program.Base.SteamFriends002.GetChatMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
 
                                     string message = Encoding.UTF8.GetString(data, 0, length).Replace("\0", "");
-                                    string senderName = _steamFriends002.GetFriendPersonaName(msg.m_ulSenderID);
+                                    string senderName = Program.Base.SteamFriends002.GetFriendPersonaName(msg.m_ulSenderID);
                                     OnFriendChatMsg(message, senderName, msg.m_ulSenderID, msg.m_ulFriendID);
                                 }
                                 break;
 
                             case PersonaStateChange_t.k_iCallback:
                                 var persona = (PersonaStateChange_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(PersonaStateChange_t));
-                                if (persona.m_ulSteamID == _clientUser.GetSteamID())
+                                if (persona.m_ulSteamID == Program.Base.ClientUser.GetSteamID())
                                     onPersonaChange(persona.m_nChangeFlags);
                                 break;
 
@@ -527,7 +515,7 @@ namespace SingleBoostr.Ui
                                 break;
                         }
 
-                        if (!Steamworks.FreeLastCallback(_pipe))
+                        if (!Steamworks.FreeLastCallback(Program.Base.Pipe))
                             callbackErrors = 0;
                     }
                 }
@@ -547,11 +535,11 @@ namespace SingleBoostr.Ui
 
         private void onPersonaChange(EPersonaChange change)
         {
-            if (change == EPersonaChange.k_EPersonaChangeStatus && _steamFriends002.GetPersonaState() != EPersonaState.k_EPersonaStateOnline)
+            if (change == EPersonaChange.k_EPersonaChangeStatus && Program.Base.SteamFriends002.GetPersonaState() != EPersonaState.k_EPersonaStateOnline)
             {
                 if (_settings.Settings.ForceOnlineStatus)
                 {
-                    _steamFriends002.SetPersonaState(EPersonaState.k_EPersonaStateOnline);
+                    Program.Base.SteamFriends002.SetPersonaState(EPersonaState.k_EPersonaStateOnline);
                 }
             }
         }
@@ -1293,7 +1281,7 @@ namespace SingleBoostr.Ui
         {
             try
             {
-                string response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentBadge.appid}");
+                string response = await _steamWeb.Request($"http://steamcommunity.com/profiles/{Program.Base.SteamUser016.GetSteamID().ConvertToUint64()}/gamecards/{_appCurrentBadge.appid}");
                 if (string.IsNullOrWhiteSpace(response))
                 {
                     _log.Write(Log.LogLevel.Info, $"Card info response was empty.");
@@ -1338,7 +1326,7 @@ namespace SingleBoostr.Ui
         private async Task<List<App>> LoadBadges()
         {
             _log.Write(Log.LogLevel.Info, $"Loading badges");
-            string profileUrl = $"http://steamcommunity.com/profiles/{_steamUser016.GetSteamID().ConvertToUint64()}";
+            string profileUrl = $"http://steamcommunity.com/profiles/{Program.Base.SteamUser016.GetSteamID().ConvertToUint64()}";
             var document = new HtmlAgilityPack.HtmlDocument();
             var appList = new List<App>();
             int pages = 0;
@@ -1519,7 +1507,7 @@ namespace SingleBoostr.Ui
 
         private async void InitializeApp()
         {
-            if (ConnectToSteam())
+            if (await Program.Base.Connect())
             {
                 int appCount = await Task.Run(() => GetAppList());
                 if (appCount > 0)
@@ -1625,7 +1613,7 @@ namespace SingleBoostr.Ui
             ShowLoadingText("Setting up subscribed apps");
             foreach (var app in apps.applist.apps)
             {
-                if (_steamApps003.BIsSubscribedApp(app.appid))
+                if (Program.Base.SteamApps003.BIsSubscribedApp(app.appid))
                 {
                     app.name = app.name;
                     _appList.Add(app);
@@ -1670,81 +1658,11 @@ namespace SingleBoostr.Ui
             }
         }
 
-        private bool ConnectToSteam()
-        {
-            TSteamError steamError = new TSteamError();
-            if (!Steamworks.Load(true))
-            {
-                AppMessageBox.Show("Steamworks failed to load.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"Steamworks failed to load.");
-                return false;
-            }
-
-            if (Application.StartupPath == Steamworks.GetInstallPath())
-            {
-                AppMessageBox.Show("You are not allowed to run this application from the Steam directory folder.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"You are not allowed to run this application from the Steam directory folder.");
-                return false;
-            }
-
-            _steam006 = Steamworks.CreateSteamInterface<ISteam006>();
-            if (_steam006.Startup(0, ref steamError) == 0)
-            {
-                AppMessageBox.Show("ISteam006 failed to start. it returned 0.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"ISteam006 failed to start. it returned 0.");
-                return false;
-            }
-
-            _steamClient012 = Steamworks.CreateInterface<ISteamClient012>();
-            _clientEngine = Steamworks.CreateInterface<IClientEngine>();
-
-            if (_steamClient012 == null)
-            {
-                AppMessageBox.Show("ISteamClient012 is null. Unable to create interface.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"ISteamClient012 is null. Unable to create interface.");
-                return false;
-            }
-
-            if (_clientEngine == null)
-            {
-                AppMessageBox.Show("IClientEngine is null. Unable to create interface.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"IClientEngine is null. Unable to create interface.");
-                return false;
-            }
-
-            _pipe = _steamClient012.CreateSteamPipe();
-            if (_pipe == 0)
-            {
-                AppMessageBox.Show("ISteamClient012 failed to create pipe connection to Steam.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"ISteamClient012 failed to create pipe connection to Steam.");
-                return false;
-            }
-
-            _user = _steamClient012.ConnectToGlobalUser(_pipe);
-            if (_user == 0 || _user == -1)
-            {
-                AppMessageBox.Show($"ISteamClient012 failed to connect to global user. Value: {_user}", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
-                _log.Write(Log.LogLevel.Error, $"ISteamClient012 failed to connect to global user. Value: {_user}");
-                return false;
-            }
-
-            _steamUser016 = _steamClient012.GetISteamUser<ISteamUser016>(_user, _pipe);
-            _clientUser = _clientEngine.GetIClientUser<IClientUser>(_user, _pipe);
-            _steamApps001 = _steamClient012.GetISteamApps<ISteamApps001>(_user, _pipe);
-            _steamApps003 = _steamClient012.GetISteamApps<ISteamApps003>(_user, _pipe);
-            _steamFriends002 = _steamClient012.GetISteamFriends<ISteamFriends002>(_user, _pipe);
-            
-            return _steamUser016 != null 
-                && _clientUser != null
-                && _steamApps001 != null
-                && _steamApps003 != null
-                && _steamFriends002 != null;
-        }
-
+     
         private void SetUserInfo()
         {
             string games = $"{_appList.Count} Games";
-            string displayName = _steamFriends002.GetPersonaName();
+            string displayName = Program.Base.SteamFriends002.GetPersonaName();
             displayName = string.IsNullOrWhiteSpace(displayName) ? "Unknown" : Utils.GetUnicodeString(displayName);
             
             Invoke(new Action(() =>
@@ -1860,10 +1778,10 @@ namespace SingleBoostr.Ui
             if (!_settings.Settings.EnableChatResponse)
                 return;
 
-            if (senderId.ConvertToUint64() == _steamUser016.GetSteamID().ConvertToUint64())
+            if (senderId.ConvertToUint64() == Program.Base.SteamUser016.GetSteamID().ConvertToUint64())
                 return;
 
-            string senderName = _steamFriends002.GetFriendPersonaName(senderId);
+            string senderName = Program.Base.SteamFriends002.GetFriendPersonaName(senderId);
 
             _logChat.Write(Log.LogLevel.Info, $"{senderName} send a lobby invite for game {GetGameNameById(game.m_nAppID)}");
 
@@ -1901,7 +1819,7 @@ namespace SingleBoostr.Ui
             if (!_settings.Settings.EnableChatResponse)
                 return;
 
-            if (senderId.ConvertToUint64() == _steamUser016.GetSteamID().ConvertToUint64())
+            if (senderId.ConvertToUint64() == Program.Base.SteamUser016.GetSteamID().ConvertToUint64())
                 return;
 
             _logChat.Write(Log.LogLevel.Info, $"{senderName}: {message}");
@@ -1950,7 +1868,7 @@ namespace SingleBoostr.Ui
 
         private bool SendChatMessage(CSteamID receiver, string message)
         {
-            return _steamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+            return Program.Base.SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
         }
 
         #endregion Functions

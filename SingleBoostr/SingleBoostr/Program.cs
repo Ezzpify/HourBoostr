@@ -4,16 +4,20 @@ using SingleBoostr.Ui;
 
 namespace SingleBoostr
 {
-    static class Program
+    public static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        internal static Core.Objects.Steam Base;
+
         [STAThread]
-        static void Main()
-        {
+        public static void Main(string[] args) 
+        { 
+            string ApiKey = "";
+             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Base = new Core.Objects.Steam(ApiKey);
+
             Application.Run(new AppHome());
         }
     }

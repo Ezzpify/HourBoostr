@@ -30,8 +30,9 @@ namespace SingleBoostr.Game
 
         public static async Task MainAsync(string appID)
         {
-            uint AppID = await ParseAppID(appID);
             string ApiKey = "";
+            uint AppID = await ParseAppID(appID);
+            
             Base = new Core.Objects.Steam(ApiKey, AppID);
              
             if (await Base.Connect())
@@ -44,6 +45,7 @@ namespace SingleBoostr.Game
 
                 //close 
                 await Base.Disconnect();
+                DynamicTextThread.Abort();
             }
         }
 
