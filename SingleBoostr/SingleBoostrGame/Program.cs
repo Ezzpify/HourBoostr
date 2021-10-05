@@ -25,7 +25,7 @@ namespace SingleBoostr.Game
                 }
             }
 
-            var steamApp = new SteamApp(appId, "9EDCCF8D44B5AB8B1791E61E43079EE4");
+            var steamApp = new SteamApp(appId, "");
             
             if (steamApp.Connect)
             {
