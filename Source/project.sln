@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleBoostr", "SingleBoost
 		{5F6378F7-E67A-470D-BAE6-397718279068} = {5F6378F7-E67A-470D-BAE6-397718279068}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleBoostr.Game", "SingleBoostrGame\SingleBoostr.Game.csproj", "{6FC02D30-663B-4262-B094-BC81C0A09B6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleBoostr.Game", "SingleBoostr.Game\SingleBoostr.Game.csproj", "{6FC02D30-663B-4262-B094-BC81C0A09B6E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5F6378F7-E67A-470D-BAE6-397718279068} = {5F6378F7-E67A-470D-BAE6-397718279068}
 	EndProjectSection

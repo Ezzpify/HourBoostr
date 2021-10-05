@@ -55,16 +55,23 @@ Temporary Items
 *.suo
 *.pdb
 
-SingleBoostr/packages/
-SingleBoostr/build/
-SingleBoostr/obj
-SingleBoostrGame/obj
-Steam4NET2/obj
-SingleBoostr/bin
-SingleBoostrGame/bin
-Steam4NET2/bin
+Source/packages
+Source/build
 
-HourBoostr/packages/
-HourBoostr/build/
-HourBoostr/obj
-HourBoostr/bin
+Source/HourBoostr/obj
+Source/HourBoostr/bin 
+
+Source/HourBoostr.Settings/obj
+Source/HourBoostr.Settings/bin 
+
+Source/SingleBoostr/obj
+Source/SingleBoostr/bin
+
+Source/SingleBoostr.Core/obj
+Source/SingleBoostr.Core/bin
+
+Source/SingleBoostr.Game/obj
+Source/SingleBoostr.Game/bin
+
+Source/Steam4NET2/obj
+Source/Steam4NET2/bin
