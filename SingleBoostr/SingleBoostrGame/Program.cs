@@ -2,6 +2,7 @@
 using SingleBoostr.Core.Objects;
 using System.Threading;
 using System.Threading.Tasks;
+using Nito.AsyncEx;
 
 namespace SingleBoostr.Game
 {
@@ -25,8 +26,8 @@ namespace SingleBoostr.Game
             }
         });
 
-        public static void Main(string[] args) => MainAsync(args.Length > 0 ? args[0] : "").GetAwaiter().GetResult();
-         
+        public static void Main(string[] args) => AsyncContext.Run(() => MainAsync(args.Length > 0 ? args[0] : ""));
+
         public static async Task MainAsync(string appID)
         {
             uint AppID = await ParseAppID(appID);
