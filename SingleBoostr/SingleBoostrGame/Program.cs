@@ -25,9 +25,9 @@ namespace SingleBoostr.Game
                 }
             }
 
-            var steamApp = new SteamApp(appId);
-
-            if (steamApp.Connect())
+            var steamApp = new SteamApp(appId, "9EDCCF8D44B5AB8B1791E61E43079EE4");
+            
+            if (steamApp.Connect)
             {
                 var appBackgroundWorker = new AppBackgroundWorker();
                  
@@ -40,8 +40,7 @@ namespace SingleBoostr.Game
                 Console.ReadKey();
 
                 //close
-                if (appBackgroundWorker.Instance.IsBusy) appBackgroundWorker.Instance.CancelAsync();
-                steamApp.TitleThread.Abort();
+                if (steamApp.Disconnect && appBackgroundWorker.Instance.IsBusy) appBackgroundWorker.Instance.CancelAsync();
             }
         }
     }
