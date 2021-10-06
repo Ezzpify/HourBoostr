@@ -36,8 +36,8 @@ namespace SingleBoostr.Ui
         {
             InitializeComponent();
             _currentApp = current;
-            AppList = queue.Where(o => current.appid != o.appid).ToList();
-            lblCurrentGame.Text = $"Current: {_currentApp.name}";
+            AppList = queue.Where(o => current.Appid != o.Appid).ToList();
+            lblCurrentGame.Text = $"Current: {_currentApp.Name}";
         }
 
         private void QueueForm_Load(object sender, EventArgs e)
@@ -48,8 +48,8 @@ namespace SingleBoostr.Ui
                     continue;
 
                 ListViewItem item = new ListViewItem();
-                item.Text = $"{app.card.price.ToString("F")}$";
-                item.SubItems.Add(Utils.Truncate(app.name, 35));
+                item.Text = $"{app.Card.Price.ToString("F")}$";
+                item.SubItems.Add(Utils.Truncate(app.Name, 35));
                 lvApps.Items.Add(item);
             }
 
@@ -110,7 +110,7 @@ namespace SingleBoostr.Ui
             if (dragToItem == null)
                 return;
 
-            App app = AppList.FirstOrDefault(o => itemToDrag.SubItems[3].Text == o.name);
+            App app = AppList.FirstOrDefault(o => itemToDrag.SubItems[3].Text == o.Name);
             if (app != null)
             {
                 int dropIndex = dragToItem.Index;

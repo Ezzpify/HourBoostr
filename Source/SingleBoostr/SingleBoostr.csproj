@@ -137,7 +137,6 @@
     <Compile Include="Objects\Bubble.cs" />
     <Compile Include="Objects\Settings.cs" />
     <Compile Include="Objects\SteamApps.cs" />
-    <Compile Include="Objects\TradeCard.cs" />
     <Compile Include="Objects\UpdateHolder.cs" />
     <Compile Include="Ui\AppWebBrowser.cs">
       <SubType>Form</SubType>

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using SingleBoostr.Core.Objects;
 using SingleBoostr.objects;
 
 namespace SingleBoostr
 {
     public class App : IComparable<App>
     {
-        public uint appid { get; set; }
-        public string name { get; set; }
-        public Process process { get; set; }
-        public TradeCard card { get; set; }
+        public uint Appid { get; set; }
+        public string Name { get; set; }
+        public Process Process { get; set; }
+        public TradingCard Card { get; set; }
 
-        public int CompareTo(App other) => name.CompareTo(other.name);
-        public string GetIdAndName() => $"{appid} | {name}";
+        public int CompareTo(App other) => Name.CompareTo(other.Name);
+        public string GetIdAndName() => $"{Appid} | {Name}";
     }
 }

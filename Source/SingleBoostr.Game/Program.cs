@@ -34,10 +34,11 @@ namespace SingleBoostr.Game
         public static async Task MainAsync(string appID)
         {
             string ApiKey = "";
-            AppID = await ParseAppID(appID);
-            
-            Base = new Core.Objects.Steam(ApiKey, AppID);
              
+            Base = new Core.Objects.Steam(ApiKey);
+            AppID = await ParseAppID(appID); 
+            Base.RegisterAppID(AppID);
+
             if (await Base.Connect())
             {
                 DynamicTextThread.Start();
@@ -51,20 +52,23 @@ namespace SingleBoostr.Game
                 DynamicTextThread.Abort();
             }
         }
-
-        public static async Task<uint> ParseAppID(string appID)
+        private static async Task<uint> ParseAppID(string appID)
         {
-            uint AppID;
-            if (string.IsNullOrEmpty(appID))
+            uint AppID = 0;
+            if (appID == "")
             {
-                do Console.WriteLine("Enter appId of game you wish to boost:");
-                while (!uint.TryParse(Console.ReadLine().Trim(), out AppID));
-                await Task.Delay(1 * 1000);
-                Console.Clear();
+                while (AppID == 0) 
+                {
+                    Console.WriteLine("Enter appId of game you wish to boost:");
+                    appID = Console.ReadLine().Trim();
+                    AppID = await Base.ParseAppID(appID);
+                    Console.Clear();
+                } 
             }
             else
             {
-                if (!uint.TryParse(appID, out AppID))
+                AppID = await Base.ParseAppID(appID);
+                if (AppID <= 0)
                 {
                     Console.WriteLine($"ERROR: Unable to parse '{appID}' as an app id.\n\nPress any key to exit...");
                     Console.ReadKey();
@@ -72,6 +76,6 @@ namespace SingleBoostr.Game
                 }
             }
             return AppID;
-        }
+        } 
     }
 }

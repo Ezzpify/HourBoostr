@@ -24,6 +24,7 @@ using SingleBoostr.objects;
 using SingleBoostr.Core;
 using SingleBoostr.Core.Enums;
 using SingleBoostr.Core.Misc;
+using SingleBoostr.Core.Objects;
 
 namespace SingleBoostr.Ui
 {
@@ -142,7 +143,7 @@ namespace SingleBoostr.Ui
 
             if (_settings.Settings.SaveAppIdleHistory)
             {
-                _settings.Settings.GameHistoryIds = _appListSelected.Select(o => o.appid).ToList();
+                _settings.Settings.GameHistoryIds = _appListSelected.Select(o => o.Appid).ToList();
                 _settings.SaveSettings();
             }
 
@@ -151,9 +152,9 @@ namespace SingleBoostr.Ui
                 /*These three games does not show up in the recently played section on your profile,
                  however they still take a spot. So essentially they do clear the recently played games.*/
                 _appListActive.Clear();
-                _appListActive.Add(new App() { appid = 399220 });
-                _appListActive.Add(new App() { appid = 399080 });
-                _appListActive.Add(new App() { appid = 399480 });
+                _appListActive.Add(new App() { Appid = 399220 });
+                _appListActive.Add(new App() { Appid = 399080 });
+                _appListActive.Add(new App() { Appid = 399480 });
                 StartApps(Session.Idle);
             }
 
@@ -190,10 +191,10 @@ namespace SingleBoostr.Ui
             }
 
             //https://github.com/dotnet/roslyn/pull/3507
-            var diag = AppMessageBox.Show($"Do you want to blacklist {_appCurrentBadge.name}? You can always undo this in Settings.", "Blacklist game", AppMessageBox.Buttons.YesNo, AppMessageBox.MsgIcon.Question);
+            var diag = AppMessageBox.Show($"Do you want to blacklist {_appCurrentBadge.Name}? You can always undo this in Settings.", "Blacklist game", AppMessageBox.Buttons.YesNo, AppMessageBox.MsgIcon.Question);
             if (diag == DialogResult.Yes)
             {
-                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.appid);
+                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.Appid);
                 StartNextCard();
             }
         }
@@ -204,7 +205,7 @@ namespace SingleBoostr.Ui
             if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
             {
                 int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
-                frm = new AppQueue(_appListBadges.Where(o => o.card.minutesplayed > minimumMinutes).ToList(), _appCurrentBadge);
+                frm = new AppQueue(_appListBadges.Where(o => o.Card.Minutesplayed > minimumMinutes).ToList(), _appCurrentBadge);
             }
             else
             {
@@ -468,7 +469,7 @@ namespace SingleBoostr.Ui
             {
                 try
                 {
-                    while (Steamworks.GetCallback(Program.Base.Pipe, ref callbackMsg))
+                    while (Program.Base.Callback(ref callbackMsg))
                     {
                         switch (callbackMsg.m_iCallback)
                         {
@@ -506,7 +507,7 @@ namespace SingleBoostr.Ui
                                 break;
                         }
 
-                        if (!Steamworks.FreeLastCallback(Program.Base.Pipe))
+                        if (!Program.Base.FreeCallback())
                             callbackErrors = 0;
                     }
                 }
@@ -552,7 +553,7 @@ namespace SingleBoostr.Ui
             var firstApp = _appListActive.FirstOrDefault();
             if (firstApp != null)
             {
-                Bitmap bg = await GetAppBackground(firstApp.appid);
+                Bitmap bg = await GetAppBackground(firstApp.Appid);
                 if (bg != null)
                 {
                     BackgroundImage = bg;
@@ -570,13 +571,13 @@ namespace SingleBoostr.Ui
         {
             foreach (var app in _appListActive)
             {
-                if (app.process == null)
+                if (app.Process == null)
                     continue;
 
-                if (app.process.HasExited && _activeSession != Session.None)
+                if (app.Process.HasExited && _activeSession != Session.None)
                 {
-                    app.process.Start();
-                    _log.Write(LogLevel.Info, $"{app.name} had exited and has now been restarted.");
+                    app.Process.Start();
+                    _log.Write(LogLevel.Info, $"{app.Name} had exited and has now been restarted.");
                 }
             }
         }
@@ -586,16 +587,16 @@ namespace SingleBoostr.Ui
             if (_settings.Settings.RestartGamesAtRandom)
             {
                 var app = _appListActive[Utils.GetRandom().Next(_appListActive.Count)];
-                if (!app.process.HasExited)
+                if (!app.Process.HasExited)
                 {
                     try
                     {
-                        app.process.Kill();
-                        _log.Write(LogLevel.Info, $"Randomly restarted {app.name}");
+                        app.Process.Kill();
+                        _log.Write(LogLevel.Info, $"Randomly restarted {app.Name}");
                     }
                     catch (Exception ex)
                     {
-                        _log.Write(LogLevel.Error, $"Unable to restart {app.name}. Error: {ex.Message}");
+                        _log.Write(LogLevel.Error, $"Unable to restart {app.Name}. Error: {ex.Message}");
                     }
                 }
             }
@@ -603,16 +604,16 @@ namespace SingleBoostr.Ui
             {
                 foreach (var app in _appListActive)
                 {
-                    if (!app.process.HasExited)
+                    if (!app.Process.HasExited)
                     {
                         try
                         {
-                            app.process.Kill();
-                            _log.Write(LogLevel.Info, $"Restarted {app.name}");
+                            app.Process.Kill();
+                            _log.Write(LogLevel.Info, $"Restarted {app.Name}");
                         }
                         catch (Exception ex)
                         {
-                            _log.Write(LogLevel.Error, $"Unable to restart {app.name}. Error: {ex.Message}");
+                            _log.Write(LogLevel.Error, $"Unable to restart {app.Name}. Error: {ex.Message}");
                         }
                     }
                 }
@@ -1055,11 +1056,11 @@ namespace SingleBoostr.Ui
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     FileName = Path.Combine(Application.StartupPath, Misc.Const.GAME_EXE),
-                    Arguments = $"{app.appid} {Process.GetCurrentProcess().Id}"
+                    Arguments = $"{app.Appid} {Process.GetCurrentProcess().Id}"
                 };
 
-                app.process = new Process() { StartInfo = pinfo };
-                app.process.Start();
+                app.Process = new Process() { StartInfo = pinfo };
+                app.Process.Start();
             }
 
             switch (session)
@@ -1109,22 +1110,22 @@ namespace SingleBoostr.Ui
             int appErrors = 0;
             foreach (var app in _appListActive)
             {
-                if (app.process.HasExited)
+                if (app.Process.HasExited)
                 {
-                    _log.Write(LogLevel.Warn, $"{app.name} process already exited... hmm...");
+                    _log.Write(LogLevel.Warn, $"{app.Name} process already exited... hmm...");
                     continue;
                 }
 
                 try
                 {
-                    app.process.Kill();
-                    app.process.WaitForExit();
-                    _log.Write(LogLevel.Info, $"Killed app {app.name}");
+                    app.Process.Kill();
+                    app.Process.WaitForExit();
+                    _log.Write(LogLevel.Info, $"Killed app {app.Name}");
                 }
                 catch (Exception ex)
                 {
                     appErrors++;
-                    _log.Write(LogLevel.Error, $"Error when attempting to stop app '{app.name}' - {ex.Message}");
+                    _log.Write(LogLevel.Error, $"Error when attempting to stop app '{app.Name}' - {ex.Message}");
                 }
             }
             
@@ -1162,7 +1163,7 @@ namespace SingleBoostr.Ui
                 {
                     if (_settings.Settings.IdleCardsWithMostValue)
                     {
-                        _appListBadges = _appListBadges.OrderByDescending(o => o.card.price).ToList();
+                        _appListBadges = _appListBadges.OrderByDescending(o => o.Card.Price).ToList();
                         _log.Write(LogLevel.Info, $"Sorted badge list by price gathered from Enhanced Steam.");
                     }
 
@@ -1192,7 +1193,7 @@ namespace SingleBoostr.Ui
 
             if (await UpdateCurrentCard())
             {
-                if (_appCurrentBadge.card.cardsremaining == 0)
+                if (_appCurrentBadge.Card.Cardsremaining == 0)
                 {
                     _log.Write(LogLevel.Info, $"No cards remaining for this badge, so stop app and pick next card.");
                     _appListBadges.Remove(_appCurrentBadge);
@@ -1200,8 +1201,8 @@ namespace SingleBoostr.Ui
                 }
                 else
                 {
-                    _log.Write(LogLevel.Info, $"Cards left for current card: {_appCurrentBadge.card.cardsremaining}");
-                    PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
+                    _log.Write(LogLevel.Info, $"Cards left for current card: {_appCurrentBadge.Card.Cardsremaining}");
+                    PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.Card.Cardsremaining} Cards left for game | {_appListBadges.Count} in total";
                 }
             }
             else
@@ -1225,7 +1226,7 @@ namespace SingleBoostr.Ui
             if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
             {
                 int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
-                app = _appListBadges.FirstOrDefault(o => o.card.minutesplayed >= minimumMinutes);
+                app = _appListBadges.FirstOrDefault(o => o.Card.Minutesplayed >= minimumMinutes);
 
                 if (app == null)
                 {
@@ -1245,7 +1246,7 @@ namespace SingleBoostr.Ui
                 _log.Write(LogLevel.Info, $"We have an app to idle.");
                 _appCurrentBadge = app;
 
-                var APP = Program.Base.APPS.Where(a => a.ID == app.appid).ToList()[0];
+                var APP = Program.Base.APPS.Where(a => a.ID == app.Appid).ToList()[0];
 
                 var imageBytes = await _steamWeb.RequestData(APP.ImageUrl);
                 if (imageBytes != null)
@@ -1255,10 +1256,10 @@ namespace SingleBoostr.Ui
                     PanelCardsStartedLblOptions.Location = new Point(4, 4);
                 }
 
-                PanelCardsStartedLblCurrentGame.Text = app.name;
-                PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.card.cardsremaining} Cards left for game | {_appListBadges.Count} in total";
+                PanelCardsStartedLblCurrentGame.Text = app.Name;
+                PanelCardsStartedLblCardsLeft.Text = $"{_appCurrentBadge.Card.Cardsremaining} Cards left for game | {_appListBadges.Count} in total";
 
-                _log.Write(LogLevel.Info, $"Started card {app.name} with {app.card.cardsremaining} cards remaining to drop");
+                _log.Write(LogLevel.Info, $"Started card {app.Name} with {app.Card.Cardsremaining} cards remaining to drop");
                 _appListActive.Add(app);
                 StartApps(Session.Cards);
             }
@@ -1274,7 +1275,7 @@ namespace SingleBoostr.Ui
         {
             try
             {
-                var APP = Program.Base.APPS.Where(a => a.ID == _appCurrentBadge.appid).ToList()[0];
+                var APP = Program.Base.APPS.Where(a => a.ID == _appCurrentBadge.Appid).ToList()[0];
                 string response = await _steamWeb.Request(APP.CardUrl);
                 if (string.IsNullOrWhiteSpace(response))
                 {
@@ -1290,8 +1291,8 @@ namespace SingleBoostr.Ui
                 {
                     string cards = Regex.Match(cardNode.InnerText, @"[0-9]+").Value;
 
-                    if (int.TryParse(cards, out int cardsremaining)) _appCurrentBadge.card.cardsremaining = cardsremaining;
-                    else _appCurrentBadge.card.cardsremaining = 0;
+                    if (int.TryParse(cards, out int cardsremaining)) _appCurrentBadge.Card.Cardsremaining = cardsremaining;
+                    else _appCurrentBadge.Card.Cardsremaining = 0;
 
                     _log.Write(LogLevel.Info, $"Updated card info. {cardsremaining} card(s) left to drop.");
                     return true;
@@ -1354,7 +1355,7 @@ namespace SingleBoostr.Ui
                     {
                         /*We'll use Enhanced Steam api to get the prices of each card here.
                          Hihihihihihihihihihihihi don't hate me cuz i am just a silly anime girl*/
-                        string appids = string.Join(",", appList.Select(o => o.appid));
+                        string appids = string.Join(",", appList.Select(o => o.Appid));
                         string priceUrl = $"{Misc.Const.CARD_PRICE_URL}{appids}";
                         response = await _steamWeb.Request(priceUrl);
 
@@ -1378,10 +1379,10 @@ namespace SingleBoostr.Ui
                                 double price;
                                 if (uint.TryParse(s_appid, out appid) && double.TryParse(s_price, out price))
                                 {
-                                    var app = appList.FirstOrDefault(o => o.appid == appid);
+                                    var app = appList.FirstOrDefault(o => o.Appid == appid);
                                     if (app != null)
                                     {
-                                        app.card.price = price;
+                                        app.Card.Price = price;
                                     }
                                 }
                             }
@@ -1401,7 +1402,7 @@ namespace SingleBoostr.Ui
                 AppMessageBox.Show("Error loading Steam badges. Steam could be down.", "Error", AppMessageBox.Buttons.Fuck, AppMessageBox.MsgIcon.Error);
             }
             
-            return appList.Where(o => o.card.cardsremaining > 0 && !_settings.Settings.BlacklistedCardGames.Contains(o.appid)).ToList();
+            return appList.Where(o => o.Card.Cardsremaining > 0 && !_settings.Settings.BlacklistedCardGames.Contains(o.Appid)).ToList();
         }
 
         private List<App> ProcessBadgesOnPage(HtmlAgilityPack.HtmlDocument document)
@@ -1428,23 +1429,23 @@ namespace SingleBoostr.Ui
                     uint id;
                     if (uint.TryParse(appid, out id))
                     {
-                        var game = _appList.FirstOrDefault(o => o.appid == id);
+                        var game = _appList.FirstOrDefault(o => o.Appid == id);
                         if (game != null)
                         {
-                            var tc = new TradeCard();
+                            var tc = new TradingCard();
 
                             double hoursplayed;
                             if (double.TryParse(hours, out hoursplayed))
                             {
                                 var span = TimeSpan.FromHours(hoursplayed);
-                                tc.minutesplayed = span.TotalMinutes;
+                                tc.Minutesplayed = span.TotalMinutes;
                             }
 
                             int cardsremaining;
                             if (int.TryParse(cards, out cardsremaining))
-                                tc.cardsremaining = cardsremaining;
+                                tc.Cardsremaining = cardsremaining;
 
-                            game.card = tc;
+                            game.Card = tc;
                             list.Add(game);
                         }
                     }
@@ -1497,7 +1498,7 @@ namespace SingleBoostr.Ui
                     ShowLoadingText("Setting user information");
                     foreach (uint appid in _settings.Settings.GameHistoryIds)
                     {
-                        var app = _appList.FirstOrDefault(o => o.appid == appid);
+                        var app = _appList.FirstOrDefault(o => o.Appid == appid);
                         if (app != null)
                         {
                             _appListSelected.Add(app);
@@ -1595,9 +1596,9 @@ namespace SingleBoostr.Ui
             ShowLoadingText("Setting up subscribed apps");
             foreach (var app in apps.applist.apps)
             {
-                if (Program.Base.SteamApps003.BIsSubscribedApp(app.appid))
+                if (Program.Base.SteamApps003.BIsSubscribedApp(app.Appid))
                 {
-                    app.name = app.name;
+                    app.Name = app.Name;
                     _appList.Add(app);
                 }
             }
@@ -1748,7 +1749,7 @@ namespace SingleBoostr.Ui
         {
             App app = null;
             return (app = _appList
-                .FirstOrDefault(o => o.appid == appId)) == null ? appId.ToString() : app.name;
+                .FirstOrDefault(o => o.Appid == appId)) == null ? appId.ToString() : app.Name;
         }
 
         private void OnLobbyInvite(CSteamID senderId, GameID_t game)
@@ -1797,7 +1798,7 @@ namespace SingleBoostr.Ui
             if (!_settings.Settings.EnableChatResponse)
                 return;
 
-            if (senderId.ConvertToUint64() == Program.Base.SteamUser016.GetSteamID().ConvertToUint64())
+            if (senderId.ConvertToUint64() == Program.Base.Steam64ID)
                 return;
 
             _logChat.Write(LogLevel.Info, $"{senderName}: {message}");

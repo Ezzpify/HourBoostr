@@ -24,92 +24,61 @@ namespace SingleBoostr.Core.Objects
         public ISteamClient012 SteamClient012 { get; private set; }
         public ISteamFriends002 SteamFriends002 { get; private set; }
 
-        public int User { get; private set; }
-        public int Pipe { get; private set; }
-        public string APIKey { private get; set; } = null;
-        public bool APIkeyValid => !string.IsNullOrEmpty(APIKey);
-
-        public string DisplayName => Utils.GetUnicodeString(SteamFriends002.GetPersonaName());
-        // public ulong Steam64ID => SteamUser015.GetSteamID().ConvertToUint64();
-        public ulong Steam64ID => SteamUser016.GetSteamID().ConvertToUint64();
-        public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
-         
-        public string GetFriendName(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.GetFriendPersonaName(senderId) : DisplayName;
-        public bool AddFriend(string emailOrAccountName) => SteamFriends002.AddFriendByName(emailOrAccountName) > -1;
-        public bool AddFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.AddFriend(senderId) : false;
-        public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
-        public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
-       
-        public TSteamError steamError = new TSteamError();
-
-        public PlayerService InterfacePlayerService { get; private set; } = null;
-        public bool APIConnected => APIkeyValid && InterfacePlayerService != null;
-        public TimeSpan APILastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
-        public TimeSpan APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
-        public bool APICanFetch => TimeSpan.FromTicks(DateTime.Now.Ticks) >= APILastFetch.Add(TimeSpan.FromSeconds(15));//API can fetch every 15 secs
-        public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
-
-        public List<SteamApp> APPS = new List<SteamApp> { };
+        public PlayerService APIPlayerService { get; private set; } = null;
         public Thread APIThread { get; private set; } = null;
+        public List<SteamApp> APPS = new List<SteamApp> { };
 
-        public IReadOnlyCollection<OwnedGameModel> UserGames()
+        public TSteamError steamError = new TSteamError();
+        public TimeSpan APILastFetch { get; private set; } = TimeSpan.FromTicks(DateTime.Now.Ticks);
+        public TimeSpan APIPlaytimeLastFetch { get; private set; } = TimeSpan.FromTicks(DateTime.Now.Ticks);
+
+        private int User { get; set; } = 0;
+        private int Pipe { get; set; } = 0;
+        private string APIAuthKey { get; set; } = "";
+        public string APIKey
         {
-            APILastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
-            return InterfacePlayerService.GetOwnedGamesAsync(Steam64ID, true, true).GetAwaiter().GetResult().Data.OwnedGames;
+            private get => APIAuthKey;
+            set
+            {
+                APIAuthKey = value;
+                if (APIkeyValid && !APIConnected) APIPlayerService = new PlayerService(APIAuthKey);
+            }
         }
 
-        public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
- 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="apikey"></param>
+        /// <param name="appID"></param>
         public Steam(string apikey = "", uint appID = 0)
         {
             //setup API
             APIKey = apikey;
-            if (APIkeyValid) InterfacePlayerService = new PlayerService(APIKey);
-
+             
             //setup app to idle
-            if (appID > 0)
-            {
-                var app = new SteamApp(this, appID);
-                APPS.Add(app);
-            }
-
+            if (appID > 0) RegisterAppID(appID);
+             
             //Create API Thread too periodically fetch data from steam
-            APIThread = !APIConnected || !APPS.Any() ? null : new Thread(() =>
+            APIThread = new Thread(async () =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                Console.WriteLine("API Thread: Started");
-
                 var firstload = true;
-
-                while (APPS.Any())
-                {
-                    //Fetch playtime
-                    if (APICanFetchPlaytime || (firstload && APICanFetch))
-                    {
-                        foreach (SteamApp APP in APPS)
-                        { 
-                            Console.WriteLine("API Thread: Fetching Playtime");
-
-                            //get user game info
-                            var game = GetGameInfo(APP.ID);
-
-                            if (game != null)
-                            {
-                                //set playtime
-                                var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
-                                if (APP.Playtime != playtime) APP.Playtime = playtime;
-                            }
-
-                            APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
-                            firstload = false;
-                        }
-                    }
-                    
-                    Thread.Sleep(5 * 1000);
-                }
+                Console.WriteLine("API Thread: Started");
+                while (true) firstload = await APIFetch(firstload); 
             });
         }
 
+        #region Auto Methods
+        public bool APIkeyValid => !string.IsNullOrEmpty(APIAuthKey) && !string.IsNullOrWhiteSpace(APIAuthKey);
+        public bool APIConnected => APIkeyValid && APIPlayerService != null;
+        public bool APICanFetch => TimeSpan.FromTicks(DateTime.Now.Ticks) >= APILastFetch.Add(TimeSpan.FromSeconds(15));//API can fetch every 15 secs
+        public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
+        public string DisplayName => Utils.GetUnicodeString(SteamFriends002.GetPersonaName());
+        public ulong Steam64ID => SteamUser016.GetSteamID().ConvertToUint64(); // SteamUser015.GetSteamID().ConvertToUint64();
+        public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
+        #endregion
+
+        #region Methods()
         public async Task<bool> Connect()
         {
             //Idler
@@ -151,7 +120,6 @@ namespace SingleBoostr.Core.Objects
                 && SteamApps003 != null
                 && SteamFriends002 != null;
         }
-
         public async Task Disconnect(bool terminate = true)
         {
             //Stop idler
@@ -163,5 +131,67 @@ namespace SingleBoostr.Core.Objects
             //Kill App
             if (terminate) Environment.Exit(-1);
         }
+        private async Task<bool> APIFetch(bool fastfetch)
+        {
+            //API ready and games loaded
+            if (APIConnected && APPS.Any())
+            {
+                //Fetch playtime
+                if (APICanFetchPlaytime || (fastfetch && APICanFetch))
+                {
+                    foreach (SteamApp APP in APPS)
+                    {
+                        Console.WriteLine("API Thread: Fetching Playtime");
+
+                        //get user game info
+                        var game = GetGameInfo(APP.ID);
+
+                        if (game != null)
+                        {
+                            //set playtime
+                            var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
+                            if (APP.Playtime != playtime) APP.Playtime = playtime;
+                        }
+
+                        APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
+                        fastfetch = false;
+                    }
+                }
+            }
+
+            await Task.Delay(5 * 1000);
+
+            return fastfetch;
+        }
+        public IReadOnlyCollection<OwnedGameModel> UserGames()
+        {
+            APILastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
+            return APIPlayerService.GetOwnedGamesAsync(Steam64ID, true, true).GetAwaiter().GetResult().Data.OwnedGames;
+        }
+        public bool Callback(ref CallbackMsg_t callbackMsg) => Steamworks.GetCallback(Pipe, ref callbackMsg);
+        public bool FreeCallback() => Steamworks.FreeLastCallback(Pipe);
+        public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
+        public string GetFriendName(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.GetFriendPersonaName(senderId) : DisplayName;
+        public bool AddFriend(string emailOrAccountName) => SteamFriends002.AddFriendByName(emailOrAccountName) > -1;
+        public bool AddFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.AddFriend(senderId) : false;
+        public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
+        public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+        public bool RegisterAppID(uint appID)
+        {
+            var APP = new SteamApp(this, appID);
+            if (APP.IDSet)
+            {
+                APPS.Add(APP);
+                return true;
+            }
+            return false;
+        }
+        public async Task<uint> ParseAppID(string appID)
+        {
+            if (string.IsNullOrEmpty(appID) || !uint.TryParse(appID, out uint AppID)) return 0;
+            await Task.Delay(50);
+            return AppID;
+        }
+        #endregion
     }
 }
