@@ -20,8 +20,7 @@ using Microsoft.Win32;
 using Steam4NET;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq; 
-using SingleBoostr.objects;
-using SingleBoostr.Core;
+using SingleBoostr.objects; 
 using SingleBoostr.Core.Enums;
 using SingleBoostr.Core.Misc;
 using SingleBoostr.Core.Objects;
@@ -32,7 +31,7 @@ namespace SingleBoostr.Ui
     {
         private Log _log;
         private Log _logChat;
-        private Misc.SteamWeb _steamWeb;
+        private SteamWeb _steamWeb;
         private AppDonate _donation;
         private AppSettings _settings;
         private Dictionary<ulong, DateTime> _chatResponses = new Dictionary<ulong, DateTime>();
@@ -115,7 +114,7 @@ namespace SingleBoostr.Ui
 
             /*Here we're just setting a placeholder text for the AppSearch textbox in the Idle panel*/
             if (!PanelIdleTxtSearch.IsDisposed)
-                Misc.NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Misc.Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
+                NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Misc.Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
 
             if (_settings.Settings.VACWarningDisplayed)
             {
@@ -131,7 +130,7 @@ namespace SingleBoostr.Ui
                 ShowWindow(WindowPanel.Tos);
             }
 
-            PanelStartLblVersion.Text = $"v{Application.ProductVersion}";
+            PanelStartLblVersion.Text = $"v{System.Windows.Forms.Application.ProductVersion}";
             ToolTip.OwnerDraw = true;
         }
 
@@ -335,7 +334,7 @@ namespace SingleBoostr.Ui
                 case Session.None:
                     if (_settings.Settings.WebSession.IsLoggedIn())
                     {
-                        _steamWeb = new Misc.SteamWeb(_settings.Settings.WebSession);
+                        _steamWeb = new SteamWeb(_settings.Settings.WebSession);
                         ShowWindow(WindowPanel.Loading);
                         StartCardsFarming();
                     }
@@ -399,7 +398,7 @@ namespace SingleBoostr.Ui
                     if (_settings.Settings.SaveLoginCookies)
                         _settings.AddBrowserSessionInfo(browser.Session);
 
-                    _steamWeb = new Misc.SteamWeb(_settings.Settings.WebSession);
+                    _steamWeb = new SteamWeb(_settings.Settings.WebSession);
                     if (_settings.Settings.JoinSteamGroup)
                     {
                         string joinGroupUrl = $"{Misc.Const.STEAM_GROUP_URL}?sessionID={browser.Session.SessionId}&action=join";
@@ -688,8 +687,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -697,8 +696,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -706,8 +705,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -715,8 +714,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -724,8 +723,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -733,8 +732,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -742,8 +741,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -751,8 +750,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -760,8 +759,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
@@ -1055,7 +1054,7 @@ namespace SingleBoostr.Ui
                 {
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    FileName = Path.Combine(Application.StartupPath, Misc.Const.GAME_EXE),
+                    FileName = Path.Combine(System.Windows.Forms.Application.StartupPath, Misc.Const.GAME_EXE),
                     Arguments = $"{app.Appid} {Process.GetCurrentProcess().Id}"
                 };
 
@@ -1487,7 +1486,7 @@ namespace SingleBoostr.Ui
             wc.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36");
             return await wc.DownloadDataTaskAsync(url);
         }
-
+         
         private async void InitializeApp()
         {
             if (await Program.Base.Connect())
@@ -1526,8 +1525,8 @@ namespace SingleBoostr.Ui
                         }
                     }
 
-                    string updateInfo = await Misc.UpdateCheck.IsUpdateAvailable();
-                    if (updateInfo.Length > 0)
+                    string updateInfo = await UpdateCheck.IsUpdateAvailable(Assembly.GetExecutingAssembly());
+                    if (!string.IsNullOrEmpty(updateInfo))
                     {
                         ShowChatBubble("Update available", $"Click here to download new update. ({updateInfo})", Misc.Const.REPO_RELEASE_URL);
                         PanelStartLblVersion.Text = "Update available";
@@ -1663,7 +1662,7 @@ namespace SingleBoostr.Ui
             }
 
             StopApps();
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void CanGoBack(bool enable)

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using SingleBoostr.Core.Enums;
-using SingleBoostr.Core.Misc;
-using SingleBoostr.Ui;
+using SingleBoostr.Core.Enums; 
+using SingleBoostr.Core.Objects;
 
-namespace SingleBoostr.Misc
+namespace SingleBoostr.Core.Misc
 {
-    class SteamWeb : WebClient
+    public class SteamWeb : WebClient
     {
         private CookieContainer _cookies;
         private SessionInfo _session;

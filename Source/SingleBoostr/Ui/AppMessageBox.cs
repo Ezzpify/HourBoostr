@@ -1,4 +1,5 @@
-﻿using SingleBoostr.Misc;
+﻿using SingleBoostr.Core.Misc;
+using SingleBoostr.Misc;
 using System;
 using System.Collections.Generic;
 using System.Data;

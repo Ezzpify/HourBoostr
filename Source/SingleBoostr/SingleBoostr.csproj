@@ -137,7 +137,6 @@
     <Compile Include="Objects\Bubble.cs" />
     <Compile Include="Objects\Settings.cs" />
     <Compile Include="Objects\SteamApps.cs" />
-    <Compile Include="Objects\UpdateHolder.cs" />
     <Compile Include="Ui\AppWebBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,7 +164,6 @@
     <Compile Include="Ui\AppMessageBox.Designer.cs">
       <DependentUpon>AppMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -185,11 +183,7 @@
     <Compile Include="Ui\AppSettings.Designer.cs">
       <DependentUpon>AppSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\SteamWeb.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Objects\Store.cs" />
-    <Compile Include="Misc\UpdateCheck.cs" />
     <Compile Include="Misc\Utils.cs" />
     <EmbeddedResource Include="Ui\AppWebBrowser.resx">
       <DependentUpon>AppWebBrowser.cs</DependentUpon>

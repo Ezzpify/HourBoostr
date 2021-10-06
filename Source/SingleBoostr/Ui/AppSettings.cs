@@ -10,6 +10,8 @@ using System.Net;
 using Newtonsoft.Json;
 using SingleBoostr.Misc;
 using SingleBoostr.Objects;
+using SingleBoostr.Core.Objects;
+using SingleBoostr.Core.Misc;
 
 namespace SingleBoostr.Ui
 {

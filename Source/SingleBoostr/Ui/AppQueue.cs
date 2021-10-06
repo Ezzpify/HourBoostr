@@ -77,8 +77,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                Misc.NativeMethods.ReleaseCapture();
-                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.ReleaseCapture();
+                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 

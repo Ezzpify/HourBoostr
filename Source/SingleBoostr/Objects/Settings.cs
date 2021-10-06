@@ -1,4 +1,5 @@
-﻿using SingleBoostr.Ui;
+﻿using SingleBoostr.Core.Objects;
+using SingleBoostr.Ui;
 using System.Collections.Generic;
 
 namespace SingleBoostr.Objects

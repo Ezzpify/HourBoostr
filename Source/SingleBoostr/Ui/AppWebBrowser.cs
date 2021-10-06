@@ -5,6 +5,8 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SingleBoostr.Misc;
+using SingleBoostr.Core.Objects;
+using SingleBoostr.Core.Misc;
 
 namespace SingleBoostr.Ui
 {
@@ -190,23 +192,5 @@ namespace SingleBoostr.Ui
             DialogResult = DialogResult.Cancel;
             Close();
         }
-    }
-
-    public class SessionInfo
-    {
-        public string SteamMachineAuth { get; set; } = string.Empty;
-
-        public string SessionId { get; set; } = string.Empty;
-
-        public string SteamLogin { get; set; } = string.Empty;
-
-        public string SteamRememberLogin { get; set; } = string.Empty;
-
-        public string SteamParental { get; set; } = string.Empty;
-
-        public bool IsLoggedIn()
-        {
-            return !string.IsNullOrWhiteSpace(SessionId) && !string.IsNullOrWhiteSpace(SteamLogin);
-        }
-    }
+    } 
 }
