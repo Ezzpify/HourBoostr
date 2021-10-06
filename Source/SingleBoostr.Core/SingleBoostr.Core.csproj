@@ -55,7 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\LogLevel.cs" />
+    <Compile Include="Enums\Session.cs" />
+    <Compile Include="Enums\WindowPanel.cs" />
     <Compile Include="Misc\AppBackgroundWorker.cs" />
+    <Compile Include="Misc\Log.cs" />
+    <Compile Include="Misc\Utils.cs" />
     <Compile Include="Objects\Steam.cs" />
     <Compile Include="Objects\SteamApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

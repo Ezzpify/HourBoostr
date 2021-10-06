@@ -3,48 +3,31 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using System.Linq;
+using HourBoostr.Enums;
 
-namespace HourBoostr
+namespace HourBoostr.Core
 {
-    class Log
+    public class Log
     {
         /// <summary>
         /// Queue of messages
         /// </summary>
         private List<string> mLogQueue;
 
-
         /// <summary>
         /// Size of queue before we flush to file
         /// </summary>
         private int mLogQueueSize;
-
 
         /// <summary>
         /// Path to the log file
         /// </summary>
         private string mLogPath;
 
-
         /// <summary>
         /// Name of the log file
         /// </summary>
         public string mLogName;
-
-
-        /// <summary>
-        /// LogLevel to specify type of log call
-        /// </summary>
-        public enum LogLevel
-        {
-            Debug,
-            Info,
-            Success,
-            Warn,
-            Text,
-            Error
-        }
-
 
         /// <summary>
         /// Class constructor
@@ -68,17 +51,12 @@ namespace HourBoostr
             }
         }
 
-
         /// <summary>
         /// Returns a datetime timestmap
         /// </summary>
         /// <returns>Returns timestamp string</returns>
-        private string GetTimestamp()
-        {
-            return DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
-        }
-
-
+        private string GetTimestamp() => DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
+     
         /// <summary>
         /// Writes a log message
         /// </summary>
@@ -108,17 +86,13 @@ namespace HourBoostr
 
             string formattedMessage = $"[{GetTimestamp()}] {level}: {str}";
 
-            if (writeToConsole)
-                Console.WriteLine($"{mLogName} {formattedMessage}");
+            if (writeToConsole) Console.WriteLine($"{mLogName} {formattedMessage}");
 
             if (logToFile)
             {
-                if (rawMessage)
-                    mLogQueue.Add(str);
-                else
-                    mLogQueue.Add(formattedMessage);
+                if (rawMessage) mLogQueue.Add(str);
+                else mLogQueue.Add(formattedMessage);
             }
-
 
             Console.ForegroundColor = ConsoleColor.White;
             FlushLog();
@@ -130,25 +104,18 @@ namespace HourBoostr
         /// </summary>
         private void FlushLog()
         {
-            if (mLogQueue.Count < mLogQueueSize)
-                return;
-
-            if (!File.Exists(mLogPath))
-                File.Create(mLogPath);
+            if (mLogQueue.Count < mLogQueueSize) return;
+            if (!File.Exists(mLogPath)) File.Create(mLogPath);
 
             try
             {
                 var queueList = mLogQueue.ToList();
-                using (FileStream fs = File.Open(mLogPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        foreach (var str in queueList)
-                            sw.WriteLine(str);
+                using FileStream fs = File.Open(mLogPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                using StreamWriter sw = new StreamWriter(fs);
+                foreach (var str in queueList)
+                    sw.WriteLine(str);
 
-                        mLogQueue.Clear();
-                    }
-                }
+                mLogQueue.Clear();
             }
             catch (Exception ex)
             {

@@ -1,45 +1,13 @@
 ﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using System.IO;
-using Microsoft.Win32;
+using System.IO; 
 
 namespace SingleBoostr.Misc
 {
-    class Utils
-    {
-        private static Random _random = new Random();
-
-        public static Random GetRandom()
-        {
-            return _random;
-        }
-
-        public static string GetTimestamp()
-        {
-            return DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
-        }
-
-        public static bool IsOnlyNumbers(string str)
-        {
-            return new Regex("^[0-9]+$").IsMatch(str);
-        }
-
-        public static string GetUnicodeString(string str)
-        {
-            byte[] bytes = Encoding.Default.GetBytes(str);
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        public static string Truncate(string value, int maxLength)
-        {
-            if (string.IsNullOrEmpty(value)) return value;
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
-        }
-
+    internal class Utils
+    {  
         public static Image BytesToImage(byte[] bytes)
         {
             using (var ms = new MemoryStream(bytes))
@@ -105,57 +73,6 @@ namespace SingleBoostr.Misc
                 return bmPhoto;
             }
         }
-
-        public static bool IsApplicationInstalled(string p_name)
-        {
-            string displayName;
-            RegistryKey key;
-
-            try
-            {
-                // search in: CurrentUser
-                key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-                foreach (String keyName in key.GetSubKeyNames())
-                {
-                    RegistryKey subkey = key.OpenSubKey(keyName);
-                    displayName = subkey.GetValue("DisplayName") as string;
-                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
-                }
-
-                // search in: LocalMachine_32
-                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-                foreach (String keyName in key.GetSubKeyNames())
-                {
-                    RegistryKey subkey = key.OpenSubKey(keyName);
-                    displayName = subkey.GetValue("DisplayName") as string;
-                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
-                }
-
-                // search in: LocalMachine_64
-                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
-                foreach (String keyName in key.GetSubKeyNames())
-                {
-                    RegistryKey subkey = key.OpenSubKey(keyName);
-                    displayName = subkey.GetValue("DisplayName") as string;
-                    if (p_name.Equals(displayName, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
-            // NOT FOUND
-            return false;
-        }
+         
     }
 }

@@ -10,14 +10,10 @@ namespace SingleBoostr
 
         [STAThread]
         public static void Main(string[] args) 
-        { 
-            string ApiKey = "";
-             
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Base = new Core.Objects.Steam(ApiKey);
-
+            Base = new Core.Objects.Steam();
             Application.Run(new AppHome());
         }
     }

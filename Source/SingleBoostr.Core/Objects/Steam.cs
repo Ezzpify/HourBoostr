@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Steam.Models.SteamCommunity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SingleBoostr.Core.Misc;
+using System.Text;
 
 namespace SingleBoostr.Core.Objects
 {
@@ -27,7 +29,17 @@ namespace SingleBoostr.Core.Objects
         public string APIKey { private get; set; } = null;
         public bool APIkeyValid => !string.IsNullOrEmpty(APIKey);
 
-        public ulong Steam64ID => SteamUser015.GetSteamID().ConvertToUint64();
+        public string DisplayName => Utils.GetUnicodeString(SteamFriends002.GetPersonaName());
+        // public ulong Steam64ID => SteamUser015.GetSteamID().ConvertToUint64();
+        public ulong Steam64ID => SteamUser016.GetSteamID().ConvertToUint64();
+        public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
+         
+        public string GetFriendName(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.GetFriendPersonaName(senderId) : DisplayName;
+        public bool AddFriend(string emailOrAccountName) => SteamFriends002.AddFriendByName(emailOrAccountName) > -1;
+        public bool AddFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.AddFriend(senderId) : false;
+        public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
+        public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+       
         public TSteamError steamError = new TSteamError();
 
         public PlayerService InterfacePlayerService { get; private set; } = null;
@@ -37,7 +49,7 @@ namespace SingleBoostr.Core.Objects
         public bool APICanFetch => TimeSpan.FromTicks(DateTime.Now.Ticks) >= APILastFetch.Add(TimeSpan.FromSeconds(15));//API can fetch every 15 secs
         public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
 
-        public SteamApp APP { get; set; } = null;
+        public List<SteamApp> APPS { get; private set; } = null;
         public Thread APIThread { get; private set; } = null;
 
         public IReadOnlyCollection<OwnedGameModel> UserGames()
@@ -55,34 +67,39 @@ namespace SingleBoostr.Core.Objects
             if (APIkeyValid) InterfacePlayerService = new PlayerService(APIKey);
 
             //setup app to idle
-            if (appID > 0) APP = new SteamApp(this, appID);
+            APPS = new List<SteamApp> {};
+            if (appID > 0) APPS.Add(new SteamApp(this, appID));
 
             //Create API Thread too periodically fetch data from steam
             APIThread = !APIConnected || appID <= 0 ? null : new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                while (APP.IDSet)
+                while (APPS.Count > 0)
                 {
                     //Fetch playtime
-                    if (APICanFetchPlaytime || (APP.Playtime == 0 && APICanFetch))
+                    if (APICanFetchPlaytime)
                     {
-                        //get user game info
-                        var game = GetGameInfo(APP.ID);
-
-                        if (game != null)
+                        foreach (var APP in APPS)
                         {
-                            //set image url
-                            if (APP.ImageUrl == "") APP.ImageUrl = string.Format("http://media.steampowered.com/steamcommunity/public/images/apps/{0}/{1}.jpg", game.AppId, game.ImgLogoUrl);
+                            //Fetch playtime
+                            if (APP.Playtime == 0 && APICanFetch)
+                            {
+                                //get user game info
+                                var game = GetGameInfo(APP.ID);
 
-                            //set playtime
-                            var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
-                            if (APP.Playtime != playtime) APP.Playtime = playtime;
+                                if (game != null)
+                                {
+                                    //set playtime
+                                    var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
+                                    if (APP.Playtime != playtime) APP.Playtime = playtime;
+                                }
+
+                                APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
+                            }
                         }
-
-                        APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
                     }
-
+                    
                     Thread.Sleep(1 * 900);
                 }
             });
@@ -91,7 +108,7 @@ namespace SingleBoostr.Core.Objects
         public async Task<bool> Connect()
         {
             //Idler
-            if (APP != null) await APP.Start();
+            if (APPS.Count > 0) foreach (var APP in APPS) await APP.Start();
 
             //API
             if (APIThread != null) APIThread.Start();
@@ -133,7 +150,7 @@ namespace SingleBoostr.Core.Objects
         public async Task Disconnect(bool terminate = true)
         {
             //Stop idler
-            if (APP != null) await APP.Stop();
+            if (APPS.Count > 0) foreach (var APP in APPS) await APP.Stop();
 
             //Stop API
             if (APIThread != null) APIThread.Abort();

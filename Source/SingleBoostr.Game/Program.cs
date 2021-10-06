@@ -3,24 +3,27 @@ using SingleBoostr.Core.Objects;
 using System.Threading;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
+using System.Linq;
 
 namespace SingleBoostr.Game
 {
     public class Program
     {
         private static Core.Objects.Steam Base;
+        private static uint AppID = 0;
+        private static SteamApp APP => Base.APPS.Where(a => a.ID == AppID).ToList()[0];
         private static Thread DynamicTextThread { get; set; } = new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
             double playtime = 0;
             while (true)
             {
-                Console.Title = $"Idling \"{Base.APP.Title}\" [{Base.APP.ID}] | Uptime: {Base.APP.UpTime}";
+                Console.Title = $"Idling \"{APP.Title}\" [{APP.ID}] | Uptime: {APP.UpTime}";
 
-                if(playtime != Base.APP.Playtime)
+                if(playtime != APP.Playtime)
                 {
-                    playtime = Base.APP.Playtime;
-                    Console.WriteLine($"Total hours on record: {Base.APP.Playtime}");
+                    playtime = APP.Playtime;
+                    Console.WriteLine($"Total hours on record: {APP.Playtime}");
                 }
                 Thread.Sleep(1 * 900);
             }
@@ -31,7 +34,7 @@ namespace SingleBoostr.Game
         public static async Task MainAsync(string appID)
         {
             string ApiKey = "";
-            uint AppID = await ParseAppID(appID);
+            AppID = await ParseAppID(appID);
             
             Base = new Core.Objects.Steam(ApiKey, AppID);
              

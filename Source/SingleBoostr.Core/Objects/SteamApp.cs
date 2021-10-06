@@ -9,7 +9,8 @@ namespace SingleBoostr.Core.Objects
         private Steam Base { get; set; } = null;
         public uint ID { get; private set; } = 0;
         public string Title => this.ToString();
-        public string ImageUrl { get; set; } = "";
+        public string ImageUrl => $"http://cdn.akamai.steamstatic.com/steam/apps/{ID}/header.jpg";
+        public string CardUrl => $"{Base.ProfileUrl}/{Base.Steam64ID}/gamecards/{ID}";
         public double Playtime { get; set; } = 0;
         public DateTime? StartTime { get; private set; }
         private bool _running = false;

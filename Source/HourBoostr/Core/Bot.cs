@@ -12,6 +12,7 @@ using SteamKit2.Internal;
 using SteamKit2;
 using HourBoostr.Objects;
 using HourBoostr.Enums;
+using HourBoostr.Core;
 
 namespace HourBoostr
 {
@@ -169,7 +170,7 @@ namespace HourBoostr
         private void Connect()
         {
             mIsRunning = true;
-            mLog.Write(Log.LogLevel.Info, $"Connecting to Steam ...");
+            mLog.Write(LogLevel.Info, $"Connecting to Steam ...");
 
             try
             {
@@ -177,7 +178,7 @@ namespace HourBoostr
             }
             catch (Exception ex)
             {
-                mLog.Write(Log.LogLevel.Error, $"Error connecting to Steam: {ex}");
+                mLog.Write(LogLevel.Error, $"Error connecting to Steam: {ex}");
             }
         }
 
@@ -198,12 +199,12 @@ namespace HourBoostr
                 }
                 catch (Exception ex)
                 {
-                    mLog.Write(Log.LogLevel.Warn, $"Exception occured for callbackManager: {ex.Message}");
+                    mLog.Write(LogLevel.Warn, $"Exception occured for callbackManager: {ex.Message}");
                     if (errors++ >= 3)
                     {
                         /*This has historically only really occured when Steam is down,
                         but if too many errors happen here we'll pause*/
-                        mLog.Write(Log.LogLevel.Info, $"Pausing for 15 minutes due to too many errors occuring.");
+                        mLog.Write(LogLevel.Info, $"Pausing for 15 minutes due to too many errors occuring.");
                         Thread.Sleep(TimeSpan.FromMinutes(15));
                     }
 
@@ -222,10 +223,10 @@ namespace HourBoostr
             if (runWorkerCompletedEventArgs.Error != null)
             {
                 Exception ex = runWorkerCompletedEventArgs.Error;
-                mLog.Write(Log.LogLevel.Error, $"Unhandled exception occured in callbackManager background worker: {ex.Message}");
+                mLog.Write(LogLevel.Error, $"Unhandled exception occured in callbackManager background worker: {ex.Message}");
             }
 
-            mLog.Write(Log.LogLevel.Warn, $"Bot has stopped running!");
+            mLog.Write(LogLevel.Warn, $"Bot has stopped running!");
             mIsRunning = false;
         }
 
@@ -246,7 +247,7 @@ namespace HourBoostr
             }
 
             /*Attempt to login*/
-            mLog.Write(Log.LogLevel.Info, $"Connected! Logging in ...");
+            mLog.Write(LogLevel.Info, $"Connected! Logging in ...");
             mSteam.loginDetails.SentryFileHash = sentryHash;
             mSteam.user.LogOn(mSteam.loginDetails);
         }
@@ -271,12 +272,12 @@ namespace HourBoostr
                     their account and started playing, or steam is down. Either way we'll want
                     to pause so we don't get locked out from Steam due to too many requests in
                     a short period of time*/
-                    mLog.Write(Log.LogLevel.Warn, $"Too many disconnects occured in a short period of time. Sleeping for 15 minutes.");
+                    mLog.Write(LogLevel.Warn, $"Too many disconnects occured in a short period of time. Sleeping for 15 minutes.");
                     Thread.Sleep(TimeSpan.FromMinutes(15));
                     mDisconnectedCounter = 0;
                 }
 
-                mLog.Write(Log.LogLevel.Info, $"Reconnecting in 3s ...");
+                mLog.Write(LogLevel.Info, $"Reconnecting in 3s ...");
                 Thread.Sleep(3000);
 
                 Connect();
@@ -340,13 +341,13 @@ namespace HourBoostr
             {
                 mPlayingBlocked = true;
                 SetGamesPlaying(false);
-                mLog.Write(Log.LogLevel.Info, $"Account is currently being used, idling will be resumed when it's free again.");
+                mLog.Write(LogLevel.Info, $"Account is currently being used, idling will be resumed when it's free again.");
             }
             else
             {
                 mPlayingBlocked = false;
                 SetGamesPlaying(true);
-                mLog.Write(Log.LogLevel.Info, $"Account is no longer being used, resuming idling.");
+                mLog.Write(LogLevel.Info, $"Account is no longer being used, resuming idling.");
             }
         }
 
@@ -361,34 +362,34 @@ namespace HourBoostr
             switch (callback.Result)
             {
                 case EResult.AccountLogonDenied:
-                    mLog.Write(Log.LogLevel.Text, $"Enter the SteamGuard code from your email:");
+                    mLog.Write(LogLevel.Text, $"Enter the SteamGuard code from your email:");
                     mSteam.loginDetails.AuthCode = Console.ReadLine();
                     return;
 
                 case EResult.AccountLoginDeniedNeedTwoFactor:
-                    mLog.Write(Log.LogLevel.Text, $"Enter your two-way authentication code:");
+                    mLog.Write(LogLevel.Text, $"Enter your two-way authentication code:");
                     mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
                     return;
 
                 case EResult.InvalidPassword:
-                    mLog.Write(Log.LogLevel.Warn, $"The password was not accepted.");
+                    mLog.Write(LogLevel.Warn, $"The password was not accepted.");
                     if (!mHasConnectedOnce && !string.IsNullOrWhiteSpace(mAccountSettings.Details.LoginKey))
                     {
                         /*Remove LoginKey if we haven't been logged in before*/
-                        mLog.Write(Log.LogLevel.Info, $"Removed LoginKey for this account because it's invalid");
+                        mLog.Write(LogLevel.Info, $"Removed LoginKey for this account because it's invalid");
                         mSteam.loginDetails.LoginKey = string.Empty;
                         mAccountSettings.Details.LoginKey = string.Empty;
                     }
                     else if (string.IsNullOrWhiteSpace(mAccountSettings.Details.Password))
                     {
                         /*Re-input password if no password was set in settings*/
-                        mLog.Write(Log.LogLevel.Text, $"Re-enter your Steam password:");
+                        mLog.Write(LogLevel.Text, $"Re-enter your Steam password:");
                         mSteam.loginDetails.Password = Utils.ReadPassword('*');
                     }
                     return;
 
                 case EResult.TwoFactorCodeMismatch:
-                    mLog.Write(Log.LogLevel.Text, $"Invalid two factor code! Try again:");
+                    mLog.Write(LogLevel.Text, $"Invalid two factor code! Try again:");
                     mSteam.loginDetails.TwoFactorCode = Console.ReadLine();
                     return;
 
@@ -396,7 +397,7 @@ namespace HourBoostr
                 case EResult.NoConnection:
                 case EResult.TryAnotherCM:
                 case EResult.ServiceUnavailable:
-                    mLog.Write(Log.LogLevel.Warn, $"Service unavailable. Waiting 1 minute.");
+                    mLog.Write(LogLevel.Warn, $"Service unavailable. Waiting 1 minute.");
                     Thread.Sleep(TimeSpan.FromMinutes(1));
                     return;
             }
@@ -404,12 +405,12 @@ namespace HourBoostr
             /*We didn't account for what happened*/
             if (callback.Result != EResult.OK)
             {
-                mLog.Write(Log.LogLevel.Warn, $"Unhandled EResult response. Please report this issue. --> {callback.Result}");
+                mLog.Write(LogLevel.Warn, $"Unhandled EResult response. Please report this issue. --> {callback.Result}");
                 return;
             }
 
             /*Logged in successfully*/
-            mLog.Write(Log.LogLevel.Success, $"Successfully logged in!");
+            mLog.Write(LogLevel.Success, $"Successfully logged in!");
             mSteam.nounce = callback.WebAPIUserNonce;
             mBotState = BotState.LoggedIn;
 
@@ -451,7 +452,7 @@ namespace HourBoostr
         {
             /*With the LoginKey we'll be able to auto-login to the account
             without the user needing to enter their Authentication code*/
-            mLog.Write(Log.LogLevel.Info, $"Received LoginKey from Steam");
+            mLog.Write(LogLevel.Info, $"Received LoginKey from Steam");
             mAccountSettings.Details.LoginKey = callback.LoginKey;
             mSteam.loginDetails.LoginKey = callback.LoginKey;
 
@@ -461,7 +462,7 @@ namespace HourBoostr
 
             if (mAccountSettings.ConnectToSteamCommunity)
             {
-                mLog.Write(Log.LogLevel.Info, $"Authenticating user ...");
+                mLog.Write(LogLevel.Info, $"Authenticating user ...");
                 UserWebLogOn();
             }
         }
@@ -473,7 +474,7 @@ namespace HourBoostr
         /// <param name="callback">SteamUser.WebAPIUserNonceCallback</param>
         private void OnWebAPIUserNonce(SteamUser.WebAPIUserNonceCallback callback)
         {
-            mLog.Write(Log.LogLevel.Info, $"Received new user nonce from Steam");
+            mLog.Write(LogLevel.Info, $"Received new user nonce from Steam");
             if (callback.Result != EResult.OK)
                 return;
         }
@@ -489,7 +490,7 @@ namespace HourBoostr
             {
                 /*Log the message we just received*/
                 string friendUserName = mSteam.friends.GetFriendPersonaName(callback.Sender);
-                mLogChat.Write(Log.LogLevel.Text, $"Msg from {friendUserName}: {callback.Message}");
+                mLogChat.Write(LogLevel.Text, $"Msg from {friendUserName}: {callback.Message}");
 
                 /*Clear blocked users that are older than 10 minutes
                 This is to avoid responding every time a user is spamming us in the chat*/
@@ -511,7 +512,7 @@ namespace HourBoostr
 
                     /*Respond to user*/
                     mSteam.friends.SendChatMessage(callback.Sender, EChatEntryType.ChatMsg, mAccountSettings.ChatResponse);
-                    mLogChat.Write(Log.LogLevel.Info, $"Responded to {friendUserName}");
+                    mLogChat.Write(LogLevel.Info, $"Responded to {friendUserName}");
                     mSteamChatBlockList.Add(msgData);
                 }
             }
@@ -527,7 +528,7 @@ namespace HourBoostr
             {
                 if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
                 {
-                    mLog.Write(Log.LogLevel.Success, $"User authenticated!");
+                    mLog.Write(LogLevel.Success, $"User authenticated!");
                     mBotState = BotState.LoggedInWeb;
 
                     /*If we should go online*/
@@ -558,7 +559,7 @@ namespace HourBoostr
             }
             catch (Exception ex)
             {
-                mLog.Write(Log.LogLevel.Error, $"Error on UserWebLogon: {ex.Message}");
+                mLog.Write(LogLevel.Error, $"Error on UserWebLogon: {ex.Message}");
             }
         }
 
@@ -576,7 +577,7 @@ namespace HourBoostr
 
             if (!mSteam.web.VerifyCookies())
             {
-                mLog.Write(Log.LogLevel.Warn, $"Cookies were out of date, requesting new user nonce ...");
+                mLog.Write(LogLevel.Warn, $"Cookies were out of date, requesting new user nonce ...");
                 mSteam.user.RequestWebAPIUserNonce();
                 mBotState = BotState.LoggedIn;
             }
@@ -591,11 +592,11 @@ namespace HourBoostr
         {
             /*Stop games*/
             SetGamesPlaying(false);
-            mLog.Write(Log.LogLevel.Info, $"Stopping games for 5 minutes ...");
+            mLog.Write(LogLevel.Info, $"Stopping games for 5 minutes ...");
             Thread.Sleep(TimeSpan.FromMinutes(5));
 
             /*Start games*/
-            mLog.Write(Log.LogLevel.Info, $"Started games again!");
+            mLog.Write(LogLevel.Info, $"Started games again!");
             SetGamesPlaying(true);
         }
 
@@ -629,7 +630,7 @@ namespace HourBoostr
 
             /*Tell the client that we're playing these games*/
             mSteam.client.Send(gamesPlaying);
-            mLog.Write(Log.LogLevel.Info, $"{gameList.Count} games has been set as playing.");
+            mLog.Write(LogLevel.Info, $"{gameList.Count} games has been set as playing.");
         }
     }
 }

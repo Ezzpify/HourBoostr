@@ -130,7 +130,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\LogLevel.cs" />
+    <Compile Include="Enums\Session.cs" />
+    <Compile Include="Enums\WindowPanel.cs" />
     <Compile Include="Objects\App.cs" />
     <Compile Include="Objects\Applist.cs" />
     <Compile Include="Objects\Bubble.cs" />
@@ -153,7 +154,6 @@
       <DependentUpon>AppDonate.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\TermsOfService.cs" />
-    <Compile Include="Misc\Log.cs" />
     <Compile Include="Ui\AppHome.cs">
       <SubType>Form</SubType>
     </Compile>

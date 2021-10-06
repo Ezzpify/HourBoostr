@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using SingleBoostr.Core.Enums;
+using SingleBoostr.Core.Misc;
 using SingleBoostr.Ui;
 
 namespace SingleBoostr.Misc
@@ -46,7 +48,7 @@ namespace SingleBoostr.Misc
             }
             catch (Exception ex)
             {
-                _log.Write(Log.LogLevel.Error, $"Error at GetWebResponse with: {ex.Message}");
+                _log.Write(LogLevel.Error, $"Error at GetWebResponse with: {ex.Message}");
                 return null;
             }
         }
@@ -82,7 +84,7 @@ namespace SingleBoostr.Misc
             }
             catch (Exception ex)
             {
-                _log.Write(Log.LogLevel.Error, $"Error downloading string at '{url}' with error: {ex.Message}");
+                _log.Write(LogLevel.Error, $"Error downloading string at '{url}' with error: {ex.Message}");
                 return string.Empty;
             }
         }
@@ -96,7 +98,7 @@ namespace SingleBoostr.Misc
             }
             catch (Exception ex)
             {
-                _log.Write(Log.LogLevel.Error, $"Error downloading data at '{url}' with error: {ex.Message}");
+                _log.Write(LogLevel.Error, $"Error downloading data at '{url}' with error: {ex.Message}");
                 return null;
             }
         }

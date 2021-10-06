@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SingleBoostr.Misc;
+using SingleBoostr.Core.Misc;
 
 namespace SingleBoostr.Ui
 {
@@ -17,7 +17,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Const.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -77,8 +77,8 @@ namespace SingleBoostr.Ui
         {
             if (e.Button == MouseButtons.Left)
             {
-                NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
+                Misc.NativeMethods.ReleaseCapture();
+                Misc.NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
             }
         }
 
