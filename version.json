@@ -2,12 +2,12 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.3",
+      "Version": "4.1.4",
       "Info": "Work in progress"
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.3",
+      "Version": "4.1.4",
       "Info": "Work in progress"
     }
   ]
