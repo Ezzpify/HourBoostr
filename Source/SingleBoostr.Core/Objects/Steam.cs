@@ -49,7 +49,7 @@ namespace SingleBoostr.Core.Objects
         public bool APICanFetch => TimeSpan.FromTicks(DateTime.Now.Ticks) >= APILastFetch.Add(TimeSpan.FromSeconds(15));//API can fetch every 15 secs
         public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
 
-        public List<SteamApp> APPS { get; private set; } = null;
+        public List<SteamApp> APPS = new List<SteamApp> { };
         public Thread APIThread { get; private set; } = null;
 
         public IReadOnlyCollection<OwnedGameModel> UserGames()
@@ -58,7 +58,7 @@ namespace SingleBoostr.Core.Objects
             return InterfacePlayerService.GetOwnedGamesAsync(Steam64ID, true, true).GetAwaiter().GetResult().Data.OwnedGames;
         }
 
-        public OwnedGameModel GetGameInfo(uint appID) => APICanFetch ? UserGames().Where(g => g.AppId == appID).ToList()[0] : null;
+        public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
  
         public Steam(string apikey = "", uint appID = 0)
         {
@@ -67,40 +67,45 @@ namespace SingleBoostr.Core.Objects
             if (APIkeyValid) InterfacePlayerService = new PlayerService(APIKey);
 
             //setup app to idle
-            APPS = new List<SteamApp> {};
-            if (appID > 0) APPS.Add(new SteamApp(this, appID));
+            if (appID > 0)
+            {
+                var app = new SteamApp(this, appID);
+                APPS.Add(app);
+            }
 
             //Create API Thread too periodically fetch data from steam
-            APIThread = !APIConnected || appID <= 0 ? null : new Thread(() =>
+            APIThread = !APIConnected || !APPS.Any() ? null : new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
+                Console.WriteLine("API Thread: Started");
 
-                while (APPS.Count > 0)
+                var firstload = true;
+
+                while (APPS.Any())
                 {
                     //Fetch playtime
-                    if (APICanFetchPlaytime)
+                    if (APICanFetchPlaytime || (firstload && APICanFetch))
                     {
-                        foreach (var APP in APPS)
-                        {
-                            //Fetch playtime
-                            if (APP.Playtime == 0 && APICanFetch)
+                        foreach (SteamApp APP in APPS)
+                        { 
+                            Console.WriteLine("API Thread: Fetching Playtime");
+
+                            //get user game info
+                            var game = GetGameInfo(APP.ID);
+
+                            if (game != null)
                             {
-                                //get user game info
-                                var game = GetGameInfo(APP.ID);
-
-                                if (game != null)
-                                {
-                                    //set playtime
-                                    var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
-                                    if (APP.Playtime != playtime) APP.Playtime = playtime;
-                                }
-
-                                APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
+                                //set playtime
+                                var playtime = Math.Round(game.PlaytimeForever.TotalHours, 0);
+                                if (APP.Playtime != playtime) APP.Playtime = playtime;
                             }
+
+                            APIPlaytimeLastFetch = TimeSpan.FromTicks(DateTime.Now.Ticks);
+                            firstload = false;
                         }
                     }
                     
-                    Thread.Sleep(1 * 900);
+                    Thread.Sleep(5 * 1000);
                 }
             });
         }
