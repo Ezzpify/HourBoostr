@@ -2,8 +2,8 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.5",
-      "Info": "Updated core DLL"
+      "Version": "4.1.6",
+      "Info": "Version Test"
     },
     {
       "Name":"HourBoostr",
