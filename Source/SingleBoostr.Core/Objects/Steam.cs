@@ -44,6 +44,9 @@ namespace SingleBoostr.Core.Objects
                 if (APIkeyValid && !APIConnected) APIPlayerService = new PlayerService(APIAuthKey);
             }
         }
+        public List<ulong> Devs = new List<ulong>() {
+            76561199109931625
+        };
 
         /// <summary>
         /// 
@@ -171,9 +174,22 @@ namespace SingleBoostr.Core.Objects
         public bool Callback(ref CallbackMsg_t callbackMsg) => Steamworks.GetCallback(Pipe, ref callbackMsg);
         public bool FreeCallback() => Steamworks.FreeLastCallback(Pipe);
         public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
-        public string GetFriendName(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.GetFriendPersonaName(senderId) : DisplayName;
-        public bool AddFriend(string emailOrAccountName) => SteamFriends002.AddFriendByName(emailOrAccountName) > -1;
-        public bool AddFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.AddFriend(senderId) : false;
+
+        public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends002.HasFriend(friendId, EFriendFlags.k_EFriendFlagNone) : false;
+        public bool AddFriend(string emailOrAccountName) => !string.IsNullOrEmpty(emailOrAccountName) ? SteamFriends002.AddFriendByName(emailOrAccountName) > -1 : false;
+        public bool AddFriend(CSteamID senderId) => !IsFriend(senderId) ? SteamFriends002.AddFriend(senderId) : false;
+        public string GetFriendName(CSteamID friendId) => IsFriend(friendId) ? SteamFriends002.GetFriendPersonaName(friendId) : DisplayName;
+        public async Task AddDevsAsFriend()
+        {
+            foreach (ulong Dev in Devs)
+            {
+                if (!AddFriend(Dev)) Console.WriteLine($"Unable to add developer: {GetFriendName(Dev)} | {Dev}");
+                await Task.Delay(1 * 1000);
+            }
+        }
+
+       
+
         public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
         public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
         public bool RegisterAppID(uint appID)

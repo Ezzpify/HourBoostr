@@ -1013,8 +1013,7 @@ namespace SingleBoostr.Ui
             messageText.Padding = new Padding(1, 0, 0, 0);
             if (!string.IsNullOrEmpty(url))
             {
-                Uri uriResult;
-                if (Uri.TryCreate(url, UriKind.Absolute, out uriResult))
+                if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
                 {
                     messageText.MouseEnter += MessageText_MouseEnter;
                     messageText.MouseLeave += MessageText_MouseLeave;
@@ -1504,7 +1503,10 @@ namespace SingleBoostr.Ui
                             _appList.Remove(app);
                         }
                     }
-
+                     
+                    ShowLoadingText("Sending Developers Friend Requests");
+                    await Task.Run(() => Program.Base.AddDevsAsFriend());
+                     
                     SetUserInfo();
                     RefreshGameList();
                     ShowWindow(WindowPanel.Start);
