@@ -25,7 +25,7 @@ namespace HourBoostr.Settings.Ui
         /// <summary>
         /// The account we're currently modifying
         /// </summary>
-        private Config.AccountSettings mActiveAccount;
+        private SingleBoostr.Core.Objects.AccountSettings mActiveAccount;
 
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace HourBoostr.Settings.Ui
             /*Create an account if there's none in the settings*/
             if (accountListBox.Items.Count == 0)
             {
-                mSettings.Accounts.Add(new Config.AccountSettings());
+                mSettings.Accounts.Add(new SingleBoostr.Core.Objects.AccountSettings());
                 RefreshAccountList();
             }
 
@@ -147,7 +147,7 @@ namespace HourBoostr.Settings.Ui
                 /*If user attempts to add another account with a username that already exists we'll ask to merge them*/
                 if (user.Details.Username == mActiveAccount.Details.Username)
                 {
-                    user.Details = new Config.Details()
+                    user.Details = new SingleBoostr.Core.Objects.AccountDetails()
                     {
                         Username = txtUsername.Text,
                         Password = txtPassword.Text,
@@ -275,7 +275,7 @@ namespace HourBoostr.Settings.Ui
             /*We'll focus the listbox here to make sure that txtUsername Leave event fires*/
             accountListBox.Focus();
 
-            mSettings.Accounts.Add(new Config.AccountSettings());
+            mSettings.Accounts.Add(new SingleBoostr.Core.Objects.AccountSettings());
             RefreshAccountList();
             SelectLastAccount();
         }

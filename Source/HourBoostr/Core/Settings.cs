@@ -18,13 +18,15 @@ namespace HourBoostr
         {
             if (!File.Exists(EndPoint.SETTINGS_FILE_PATH))
             {
+                static SingleBoostr.Core.Objects.AccountSettings NewAccount() => new SingleBoostr.Core.Objects.AccountSettings() { Games = new List<int>() { 730, 10 } };
+
                 var settings = new Config.Settings()
                 {
-                    Accounts = new List<Config.AccountSettings>()
+                    Accounts = new List<SingleBoostr.Core.Objects.AccountSettings>()
                     {
-                        new Config.AccountSettings() { Games = new List<int>() { 730, 10 } },
-                        new Config.AccountSettings() { Games = new List<int>() { 730, 10 } },
-                        new Config.AccountSettings() { Games = new List<int>() { 730, 10 } }
+                        NewAccount(),
+                        NewAccount(),
+                        NewAccount()
                     }
                 };
 
@@ -63,7 +65,7 @@ namespace HourBoostr
             return true;
         }
 
-        public static void UpdateAccount(Config.AccountSettings acc)
+        public static void UpdateAccount(SingleBoostr.Core.Objects.AccountSettings acc)
         {
             var settings = GetSettings();
             settings.Accounts.First(o => o.Details.Username == acc.Details.Username).Details.LoginKey = acc.Details.LoginKey;

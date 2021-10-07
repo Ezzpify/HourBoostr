@@ -12,7 +12,7 @@ namespace SingleBoostr.Core.Objects
         public Process Process { get; set; }
 
         public uint ID { get; private set; } = 0;
-        public string Title => this.ToString();
+        public string Title => GetName();
         public string ImageUrl => $"http://cdn.akamai.steamstatic.com/steam/apps/{ID}/header.jpg";
         public string CardUrl => $"{Base.ProfileUrl}/{Base.Steam64ID}/gamecards/{ID}";
         public double Playtime { get; set; } = 0;

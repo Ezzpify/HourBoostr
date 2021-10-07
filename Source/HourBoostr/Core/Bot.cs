@@ -58,7 +58,7 @@ namespace HourBoostr
         /// <summary>
         /// Information for this account
         /// </summary>
-        public Config.AccountSettings mAccountSettings;
+        public SingleBoostr.Core.Objects.AccountSettings mAccountSettings;
 
 
         /// <summary>
@@ -104,13 +104,17 @@ namespace HourBoostr
         /// </summary>
         public bool mIsRunning;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static EOSType OSType { get; private set; } = EOSType.Unknown;
 
-        
+
         /// <summary>
         /// Main initializer for each account
         /// </summary>
         /// <param name="info">Account info</param>
-        public Bot(Config.AccountSettings info)
+        public Bot(SingleBoostr.Core.Objects.AccountSettings info)
         {
             /*If a password isn't set we'll ask for user input*/
             if (string.IsNullOrWhiteSpace(info.Details.Password) && string.IsNullOrWhiteSpace(info.Details.LoginKey))
@@ -132,6 +136,7 @@ namespace HourBoostr
             mAccountSettings = info;
             mSteam.games = info.Games;
             mSteam.sentryPath = string.Format("Sentryfiles/{0}.sentry", info.Details.Username);
+            OSType = mSteam.loginDetails.ClientOSType;
 
             /*Set up steamweb*/
             mSteam.web = new SteamWeb();
@@ -520,7 +525,6 @@ namespace HourBoostr
             }
         }
 
-
         /// <summary>
         /// Authenticates user to community
         /// </summary>
@@ -528,35 +532,9 @@ namespace HourBoostr
         {
             try
             {
-                if (mSteam.web.Authenticate(mSteam.uniqueId, mSteam.client, mSteam.nounce))
+                if (mSteam.web.AuthenticateAsync(mSteam.client.SteamID.ConvertToUInt64(), mSteam.client, mSteam.nounce).Result)
                 {
-                    mLog.Write(LogLevel.Success, $"User authenticated!");
-                    mBotState = BotState.LoggedInWeb;
-
-                    /*If we should go online*/
-                    if (mAccountSettings.ShowOnlineStatus)
-                        mSteam.friends.SetPersonaState(EPersonaState.Online);
-
-                    /*If we should join the steam group
-                    This is done mainly for statistical purposes*/
-                    if (mAccountSettings.JoinSteamGroup)
-                    {
-                        var data = new NameValueCollection()
-                        {
-                            { "sessionID", mSteam.web.mSessionId },
-                            { "action", "join" }
-                        };
-
-                        mSteam.web.Request(EndPoint.STEAM_GROUP_URL, "POST", data);
-                    }
-
-                    /*Start the timer to periodically refresh community connection*/
-                    if (!mCommunityTimer.Enabled)
-                    {
-                        mCommunityTimer.Interval = TimeSpan.FromMinutes(15).TotalMilliseconds;
-                        mCommunityTimer.Elapsed += new ElapsedEventHandler(VerifyCommunityConnection);
-                        mCommunityTimer.Start();
-                    }
+                    OnAuth();
                 }
             }
             catch (Exception ex)
@@ -565,6 +543,36 @@ namespace HourBoostr
             }
         }
 
+        private void OnAuth()
+        {
+            mLog.Write(LogLevel.Success, $"User authenticated!");
+            mBotState = BotState.LoggedInWeb;
+
+            /*If we should go online*/
+            if (mAccountSettings.ShowOnlineStatus)
+                mSteam.friends.SetPersonaState(EPersonaState.Online);
+
+            /*If we should join the steam group
+            This is done mainly for statistical purposes*/
+            if (mAccountSettings.JoinSteamGroup)
+            {
+                var data = new NameValueCollection()
+                        {
+                            { "sessionID", mSteam.web.mSessionId },
+                            { "action", "join" }
+                        };
+
+                mSteam.web.Request(EndPoint.STEAM_GROUP_URL, "POST", data);
+            }
+
+            /*Start the timer to periodically refresh community connection*/
+            if (!mCommunityTimer.Enabled)
+            {
+                mCommunityTimer.Interval = TimeSpan.FromMinutes(15).TotalMilliseconds;
+                mCommunityTimer.Elapsed += new ElapsedEventHandler(VerifyCommunityConnection);
+                mCommunityTimer.Start();
+            }
+        }
 
         /// <summary>
         /// This will periodically 
@@ -617,21 +625,25 @@ namespace HourBoostr
             if (state)
                 gameList = mSteam.games;
 
-            var gamesPlaying = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
+            ClientMsgProtobuf<CMsgClientGamesPlayed> request = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayedWithDataBlob)
+            {
+                Body = {
+                    client_os_type = (uint) OSType
+                }
+            };
+
             if (!mPlayingBlocked)
             {
                 /*Set up requested games*/
-                foreach (int game in gameList)
+                foreach (int gameID in gameList)
                 {
-                    gamesPlaying.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
-                    {
-                        game_id = new GameID(game)
-                    });
+                    request.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed { game_id = new GameID(gameID) });
                 }
             }
 
             /*Tell the client that we're playing these games*/
-            mSteam.client.Send(gamesPlaying);
+            mSteam.client.Send(request);
+
             mLog.Write(LogLevel.Info, $"{gameList.Count} games has been set as playing.");
         }
     }
