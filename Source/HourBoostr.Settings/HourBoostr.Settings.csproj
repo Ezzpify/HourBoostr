@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\build\</OutputPath>
@@ -63,8 +63,48 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nito.AsyncEx.Context, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Context.5.1.2\lib\net461\Nito.AsyncEx.Context.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Coordination, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Coordination.5.1.2\lib\net461\Nito.AsyncEx.Coordination.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Interop.WaitHandles, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Interop.WaitHandles.5.1.2\lib\net461\Nito.AsyncEx.Interop.WaitHandles.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Oop, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Oop.5.1.2\lib\net461\Nito.AsyncEx.Oop.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Tasks, Version=5.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.Tasks.5.1.2\lib\net461\Nito.AsyncEx.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Cancellation, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Cancellation.1.1.2\lib\net461\Nito.Cancellation.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Collections.Deque, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Collections.Deque.1.1.1\lib\net461\Nito.Collections.Deque.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.Disposables, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.Disposables.2.2.1\lib\net461\Nito.Disposables.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.1\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

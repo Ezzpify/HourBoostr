@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -90,6 +92,8 @@
     <Compile Include="Misc\StringCipher.cs" />
     <Compile Include="Misc\UpdateCheck.cs" />
     <Compile Include="Misc\Utils.cs" />
+    <Compile Include="Objects\AccountDetails.cs" />
+    <Compile Include="Objects\AccountSettings.cs" />
     <Compile Include="Objects\SessionInfo.cs" />
     <Compile Include="Objects\Steam.cs" />
     <Compile Include="Objects\SteamApp.cs" />
