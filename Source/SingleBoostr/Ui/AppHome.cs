@@ -1525,7 +1525,7 @@ namespace SingleBoostr.Ui
                         }
                     }
 
-                    string updateInfo = await UpdateCheck.IsUpdateAvailable(Assembly.GetExecutingAssembly());
+                    string updateInfo = await Updater.Check(Assembly.GetExecutingAssembly());
                     if (!string.IsNullOrEmpty(updateInfo))
                     {
                         ShowChatBubble("Update available", $"Click here to download new update. ({updateInfo})", Misc.Const.REPO_RELEASE_URL);

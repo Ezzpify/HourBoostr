@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using HourBoostr.Objects;
 using HourBoostr.Enums;
+using SingleBoostr.Core.Misc;
 
 namespace HourBoostr
 {
@@ -43,7 +44,9 @@ namespace HourBoostr
         {
             mSettings = settings;
 
-            if (settings.CheckForUpdates && Update.IsUpdateAvailable())
+            string updateInfo = Updater.Check(Assembly.GetExecutingAssembly()).GetAwaiter().GetResult();
+                
+            if (settings.CheckForUpdates && !string.IsNullOrEmpty(updateInfo))
                 Console.WriteLine("There's an update available. Check out https://github.com/Ezzpify/HourBoostr/releases/latest");
 
             mBwg.DoWork += MBwg_DoWork;

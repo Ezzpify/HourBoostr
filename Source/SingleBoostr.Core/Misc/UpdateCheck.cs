@@ -1,27 +1,33 @@
-﻿using System;
-using System.Threading.Tasks; 
+﻿using System.Threading.Tasks; 
 using System.Net;
 using RestSharp;
 using Newtonsoft.Json;
 using SingleBoostr.Core.Objects;
 using System.Reflection;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SingleBoostr.Core.Misc
 {
-    public class UpdateCheck
+    public class Updater
     {
-        public static async Task<string> IsUpdateAvailable(Assembly assembly)
+        private const string jsonFileURL = "https://raw.githubusercontent.com/Ni1kko/HourBoostr/master/version.json";
+
+        private static string GetName(Assembly assembly) => assembly.GetName().Name;
+        private static string GetVersion(Assembly assembly) => assembly.GetName().Version.ToString();
+        private static bool UpdateAvailable(Assembly assembly, Application App) => !GetVersion(assembly).Equals($"{App.Version}.0");
+
+        private static async Task<List<Application>> DownloadConfig(string url)
         {
-            var resp = await new RestClient("https://raw.githubusercontent.com/Ni1kko/HourBoostr/master/version.json").ExecuteTaskAsync(new RestRequest()); 
-            if (resp.StatusCode != HttpStatusCode.OK) return string.Empty;
+            var response = await new RestClient(url).ExecuteAsync(new RestRequest());
+            return response.StatusCode == HttpStatusCode.OK ? JsonConvert.DeserializeObject<UpdateHolder>(response.Content).Applications : null;
+        }
 
-            if (JsonConvert.DeserializeObject<UpdateHolder>(resp.Content).Applications.Where(x => x.Name.ToLower().Equals(assembly.GetName().Name.ToLower())).First() is Application App)
-            {  
-                return assembly.GetName().Version.ToString().Equals(App.Version) ? string.Empty : App.Info;
-            }
-
-            return string.Empty;
+        public static async Task<string> Check(Assembly assembly)
+        {
+            var apps = await DownloadConfig(jsonFileURL);
+            var app = apps.Where(x => x.Name.ToLower().Equals(GetName(assembly).ToLower())).First();
+            return UpdateAvailable(assembly, app) ? app.Info : string.Empty;
         }
     }
 }

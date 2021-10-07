@@ -116,7 +116,6 @@
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Objects\Steam.cs" />
     <Compile Include="Core\SteamWeb.cs" />
-    <Compile Include="Core\Update.cs" />
     <Compile Include="Core\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
