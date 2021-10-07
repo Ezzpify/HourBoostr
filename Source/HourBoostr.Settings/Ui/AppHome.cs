@@ -61,7 +61,7 @@ namespace HourBoostr.Settings.Ui
 
         /// <summary>
         /// Form load
-        /// Finds Settings.json and loads it
+        /// Finds HourBoostr.Settings.json and loads it
         /// </summary>
         private void mainForm_Load(object sender, EventArgs e)
         {
@@ -71,11 +71,11 @@ namespace HourBoostr.Settings.Ui
             {
                 MessageBox.Show("Settings will be overwritten when you close HourBoostr.\n"
                     + "I would not recommend making any changes here while HourBoostr is running.\n"
-                    + "If you need to make any changes, make a copy of Settings.json.", "Warning");
+                    + "If you need to make any changes, make a copy of HourBoostr.Settings.json.", "Warning");
             }
 
-            /*Find the Settings.json file if it exists and load it up*/
-            string file = Path.Combine(Application.StartupPath, "Settings.json");
+            /*Find the HourBoostr.Settings.json file if it exists and load it up*/
+            string file = Path.Combine(Application.StartupPath, "HourBoostr.Settings.json");
             if (File.Exists(file))
             {
                 try
@@ -90,7 +90,7 @@ namespace HourBoostr.Settings.Ui
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Could not read the Settings.json\n\n{ex.Message}", "Ruh roh!");
+                    MessageBox.Show($"Could not read the HourBoostr.Settings.json\n\n{ex.Message}", "Ruh roh!");
                 }
             }
 
@@ -235,11 +235,11 @@ namespace HourBoostr.Settings.Ui
                 string json = JsonConvert.SerializeObject(mSettings, Formatting.Indented);
 
                 if (!string.IsNullOrWhiteSpace(json))
-                    File.WriteAllText(Path.Combine(Application.StartupPath, "Settings.json"), json);
+                    File.WriteAllText(Path.Combine(Application.StartupPath, "HourBoostr.Settings.json"), json);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Could not update the Settings.json file.\n\n{ex.Message}", "Uh oh...");
+                MessageBox.Show($"Could not update the HourBoostr.Settings.json file.\n\n{ex.Message}", "Uh oh...");
             }
         }
 

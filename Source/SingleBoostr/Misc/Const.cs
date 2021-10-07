@@ -6,7 +6,7 @@ namespace SingleBoostr.Misc
     {
         internal const string GAME_EXE = "SingleBoostr.Game.exe";
         internal const string APP_LIST = "AppList.json";
-        internal const string SETTINGS_FILE = "Settings.json";
+        internal const string SETTINGS_FILE = "SingleBoostr.Settings.json";
         internal const string GITHUB_PROFILE_URL = "https://github.com/Ezzpify/";
         internal const string GITHUB_REPO_URL = "https://github.com/Ezzpify/HourBoostr/";
         internal const string STEAM_GROUP_URL = "http://steamcommunity.com/gid/103582791455389825";
