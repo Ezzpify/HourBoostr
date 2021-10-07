@@ -2,13 +2,13 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.4",
-      "Info": "Work in progress"
+      "Version": "4.1.5",
+      "Info": "Updated core DLL"
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.4",
-      "Info": "Work in progress"
+      "Version": "4.1.5",
+      "Info": "Encrypted password(s) stored in .json config"
     }
   ]
 }
