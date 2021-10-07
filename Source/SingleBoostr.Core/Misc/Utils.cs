@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
@@ -17,6 +18,16 @@ namespace SingleBoostr.Core.Misc
         public static string GetTimestamp()
         {
             return DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
+        }
+
+        public static string GetMachineGuid()
+        {
+            using RegistryKey localMachineX64View = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+            using RegistryKey rk = localMachineX64View.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography");
+            if (rk == null) throw new KeyNotFoundException(@"Key Not Found: SOFTWARE\Microsoft\Cryptography");
+            object machineGuid = rk.GetValue("MachineGuid");
+            if (machineGuid == null) throw new IndexOutOfRangeException("Index Not Found: MachineGuid");
+            return machineGuid.ToString();
         }
 
         public static bool IsOnlyNumbers(string str)

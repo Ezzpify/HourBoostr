@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SingleBoostr.Core.Misc;
+using System.Collections.Generic;
 
 namespace HourBoostr.Objects
 {
@@ -45,6 +46,11 @@ namespace HourBoostr.Objects
             /// This will not be printed or read from json file
             /// </summary>
             public string Password { get; set; } = "";
+            private bool PasswordSet => !string.IsNullOrEmpty(Password) && !string.IsNullOrWhiteSpace(Password);
+            private string PasswordSalt = StringCipher.EncryptSHA1(SingleBoostr.Core.Misc.Utils.GetMachineGuid());
+            public void Encrypt() => Password = PasswordSet ? StringCipher.Encrypt(Password, PasswordSalt) : Password;
+            public void Decrypt() => Password = PasswordSet ? StringCipher.Decrypt(Password, PasswordSalt) : Password;
+
 
 
             /// <summary>

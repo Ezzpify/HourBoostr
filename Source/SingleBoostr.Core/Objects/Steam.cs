@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SingleBoostr.Core.Misc;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace SingleBoostr.Core.Objects
 {
@@ -78,6 +79,7 @@ namespace SingleBoostr.Core.Objects
         public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
         public string DisplayName => Utils.GetUnicodeString(SteamFriends002.GetPersonaName());
         public ulong Steam64ID => SteamUser016.GetSteamID().ConvertToUint64(); // SteamUser015.GetSteamID().ConvertToUint64();
+        public string BEGuid => SteamIDToBEGuid(Steam64ID);
         public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
         #endregion
 
@@ -174,8 +176,7 @@ namespace SingleBoostr.Core.Objects
         public bool Callback(ref CallbackMsg_t callbackMsg) => Steamworks.GetCallback(Pipe, ref callbackMsg);
         public bool FreeCallback() => Steamworks.FreeLastCallback(Pipe);
         public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
-
-        public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends002.HasFriend(friendId, EFriendFlags.k_EFriendFlagNone) : false;
+        public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends002.HasFriend(friendId, Steam4NET.EFriendFlags.k_EFriendFlagNone) : false;
         public bool AddFriend(string emailOrAccountName) => !string.IsNullOrEmpty(emailOrAccountName) ? SteamFriends002.AddFriendByName(emailOrAccountName) > -1 : false;
         public bool AddFriend(CSteamID senderId) => !IsFriend(senderId) ? SteamFriends002.AddFriend(senderId) : false;
         public string GetFriendName(CSteamID friendId) => IsFriend(friendId) ? SteamFriends002.GetFriendPersonaName(friendId) : DisplayName;
@@ -187,11 +188,8 @@ namespace SingleBoostr.Core.Objects
                 await Task.Delay(1 * 1000);
             }
         }
-
-       
-
         public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
-        public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+        public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, Steam4NET.EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
         public bool RegisterAppID(uint appID)
         {
             var APP = new SteamApp(this, appID);
@@ -207,6 +205,26 @@ namespace SingleBoostr.Core.Objects
             if (string.IsNullOrEmpty(appID) || !uint.TryParse(appID, out uint AppID)) return 0;
             await Task.Delay(50);
             return AppID;
+        }
+        public string SteamIDToBEGuid(CSteamID steamID)
+        {
+            using var md5 = MD5.Create();
+            var bytes = new List<byte>();
+            var beGuid = new StringBuilder();
+            var starter = Encoding.ASCII.GetBytes("BE");
+
+            long index;
+            for (index = 0; index < starter.Length; index++) bytes.Add(starter[index]);
+            for (index = 0; index < 8; index++)
+            {
+                bytes.Add((byte)(steamID & 0xFF));
+                steamID >>= 8;
+            }
+
+            var hash = md5.ComputeHash(bytes.ToArray());
+
+            for (index = 0; index < hash.Length; index++) beGuid.Append(hash[index].ToString("X2"));
+            return beGuid.ToString();
         }
         #endregion
     }

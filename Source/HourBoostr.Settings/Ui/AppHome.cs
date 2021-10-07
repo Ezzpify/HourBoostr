@@ -154,6 +154,8 @@ namespace HourBoostr.Settings.Ui
                         LoginKey = txtLoginKey.Text
                     };
 
+                    user.Details.Encrypt();
+
                     user.ShowOnlineStatus = cbOnlineStatus.Checked;
                     user.JoinSteamGroup = cbJoinGroup.Checked;
                     user.ConnectToSteamCommunity = cbCommunity.Checked;

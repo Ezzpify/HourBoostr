@@ -118,6 +118,8 @@ namespace HourBoostr
                 Console.WriteLine("Enter password for account '{0}'", info.Details.Username);
                 info.Details.Password = Utils.ReadPassword('*');
             }
+            
+            info.Details.Decrypt();
 
             /*Assign bot info*/
             mSteam.loginDetails = new SteamUser.LogOnDetails()

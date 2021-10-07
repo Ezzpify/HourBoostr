@@ -127,7 +127,12 @@
     <Content Include="icon.ico" />
     <None Include="Resources\loading.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SingleBoostr.Core\SingleBoostr.Core.csproj">
+      <Project>{5f6378f7-e67a-470d-bae6-397718279068}</Project>
+      <Name>SingleBoostr.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
