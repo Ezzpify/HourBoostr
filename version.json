@@ -3,12 +3,12 @@
     {
       "Name":"SingleBoostr",
       "Version": "4.1.6",
-      "Info": "Version Test"
+      "Info": "Fixed compile time bug, package version mismatch between projects"
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.5",
-      "Info": "Encrypted password(s) stored in .json config"
+      "Version": "4.1.6",
+      "Info": "Updated Core DLL"
     }
   ]
 }
