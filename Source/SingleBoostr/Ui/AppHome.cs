@@ -75,6 +75,8 @@ namespace SingleBoostr.Ui
             _settings = new AppSettings();
             _donation = new AppDonate();
 
+            Program.Base.APIKey = _settings.Settings.WebSession.APIKey;
+
             Directory.CreateDirectory("Error");
 
             ServicePointManager.Expect100Continue = true;
@@ -478,10 +480,10 @@ namespace SingleBoostr.Ui
                                 {
                                     var data = new Byte[4096];
                                     EChatEntryType type = EChatEntryType.k_EChatEntryTypeChatMsg;
-                                    var length = Program.Base.SteamFriends002.GetChatMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
-
+                                    var length = Program.Base.GetMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
+                                   
                                     string message = Encoding.UTF8.GetString(data, 0, length).Replace("\0", "");
-                                    string senderName = Program.Base.SteamFriends002.GetFriendPersonaName(msg.m_ulSenderID);
+                                    string senderName = Program.Base.GetFriendName(msg.m_ulSenderID);
                                     OnFriendChatMsg(message, senderName, msg.m_ulSenderID, msg.m_ulFriendID);
                                 }
                                 break;
@@ -526,12 +528,9 @@ namespace SingleBoostr.Ui
 
         private void onPersonaChange(EPersonaChange change)
         {
-            if (change == EPersonaChange.k_EPersonaChangeStatus && Program.Base.SteamFriends002.GetPersonaState() != EPersonaState.k_EPersonaStateOnline)
+            if (change == EPersonaChange.k_EPersonaChangeStatus)
             {
-                if (_settings.Settings.ForceOnlineStatus)
-                {
-                    Program.Base.SteamFriends002.SetPersonaState(EPersonaState.k_EPersonaStateOnline);
-                }
+                if (_settings.Settings.ForceOnlineStatus && Program.Base.Offline) Program.Base.ActiveState = EPersonaState.k_EPersonaStateOnline;
             }
         }
 
@@ -1320,7 +1319,7 @@ namespace SingleBoostr.Ui
             {
                 /*Get the first page of badges and process the information on that page
                  which we will use to see how many more pages there are to scrape*/
-                string pageUrl = $"{Program.Base.ProfileUrl}/badges/?p=1";
+                string pageUrl = Program.Base.ProfileBadgeUrlPage(1);
                 string response = await _steamWeb.Request(pageUrl);
 
                 if (!string.IsNullOrWhiteSpace(response))
@@ -1336,7 +1335,7 @@ namespace SingleBoostr.Ui
                     /*Scrape the rest of the pages and add result to our app list*/
                     for (int i = 2; i <= pages; i++)
                     {
-                        pageUrl = $"{Program.Base.ProfileUrl}/badges/?p={i}";
+                        pageUrl = Program.Base.ProfileBadgeUrlPage(i);
                         response = await _steamWeb.Request(pageUrl);
 
                         if (string.IsNullOrWhiteSpace(response))
@@ -1373,9 +1372,7 @@ namespace SingleBoostr.Ui
                             foreach (var card in dyn.avg_values)
                             {
                                 string s_appid = card.Name, s_price = card.Value;
-                                uint appid;
-                                double price;
-                                if (uint.TryParse(s_appid, out appid) && double.TryParse(s_price, out price))
+                                if (uint.TryParse(s_appid, out uint appid) && double.TryParse(s_price, out double price))
                                 {
                                     var app = appList.FirstOrDefault(o => o.Appid == appid);
                                     if (app != null)
@@ -1597,7 +1594,7 @@ namespace SingleBoostr.Ui
             ShowLoadingText("Setting up subscribed apps");
             foreach (var app in apps.applist.apps)
             {
-                if (Program.Base.SteamApps003.BIsSubscribedApp(app.Appid))
+                if (Program.Base.IsAppOwned(app.Appid))
                 {
                     app.Name = app.Name;
                     _appList.Add(app);

@@ -2,6 +2,8 @@
 {
     public class SessionInfo
     {
+        public string APIKey { get; set; } = string.Empty;
+
         public string SteamMachineAuth { get; set; } = string.Empty;
 
         public string SessionId { get; set; } = string.Empty;

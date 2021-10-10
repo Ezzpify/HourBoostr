@@ -29,6 +29,8 @@ namespace SingleBoostr.Core.Objects
             }
         }
         public string UpTime => (DateTime.Now - StartTime).ToString().Split(new[] { '.' })[0];
+
+        public bool Owned => Base.IsAppOwned(ID);
         public bool IDValid => !string.IsNullOrWhiteSpace(ID.ToString()) && ID > 0;
         public bool IDSet => IDValid && Environment.GetEnvironmentVariable("SteamAppId") == ID.ToString();
         public List<TradingCard> Cards { get; set; } = new List<TradingCard>() { };

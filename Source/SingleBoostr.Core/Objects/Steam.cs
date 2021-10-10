@@ -18,12 +18,12 @@ namespace SingleBoostr.Core.Objects
         public ISteam006 Steam006 { get; private set; }
         public IClientUser ClientUser { get; private set; }
         public ISteamApps001 SteamApps001 { get; private set; }
-        public ISteamApps003 SteamApps003 { get; private set; }
+        public ISteamApps006 SteamApps006 { get; private set; }
         public IClientEngine ClientEngine { get; private set; }
-        public ISteamUser015 SteamUser015 { get; private set; }
-        public ISteamUser016 SteamUser016 { get; private set; }
-        public ISteamClient012 SteamClient012 { get; private set; }
+        public ISteamUser017 SteamUser017 { get; private set; }
+        public ISteamClient017 SteamClient017 { get; private set; }
         public ISteamFriends002 SteamFriends002 { get; private set; }
+        public ISteamFriends015 SteamFriends015 { get; private set; }
 
         public PlayerService APIPlayerService { get; private set; } = null;
         public Thread APIThread { get; private set; } = null;
@@ -58,17 +58,17 @@ namespace SingleBoostr.Core.Objects
         {
             //setup API
             APIKey = apikey;
-             
+
             //setup app to idle
             if (appID > 0) RegisterAppID(appID);
-             
+
             //Create API Thread too periodically fetch data from steam
             APIThread = new Thread(async () =>
             {
                 Thread.CurrentThread.IsBackground = true;
                 var firstload = true;
                 Console.WriteLine("API Thread: Started");
-                while (true) firstload = await APIFetch(firstload); 
+                while (true) firstload = await APIFetch(firstload);
             });
         }
 
@@ -77,11 +77,27 @@ namespace SingleBoostr.Core.Objects
         public bool APIConnected => APIkeyValid && APIPlayerService != null;
         public bool APICanFetch => TimeSpan.FromTicks(DateTime.Now.Ticks) >= APILastFetch.Add(TimeSpan.FromSeconds(15));//API can fetch every 15 secs
         public bool APICanFetchPlaytime => APICanFetch && TimeSpan.FromTicks(DateTime.Now.Ticks) >= APIPlaytimeLastFetch.Add(TimeSpan.FromMinutes(5));//API can fetch playtime every 5 mins
-        public string DisplayName => Utils.GetUnicodeString(SteamFriends002.GetPersonaName());
-        public ulong Steam64ID => SteamUser016.GetSteamID().ConvertToUint64(); // SteamUser015.GetSteamID().ConvertToUint64();
+        public string DisplayName => Utils.GetUnicodeString(SteamFriends015.GetPersonaName());
+        public ulong Steam64ID => SteamUser017.GetSteamID().ConvertToUint64(); // SteamUser015.GetSteamID().ConvertToUint64();
         public string BEGuid => SteamIDToBEGuid(Steam64ID);
         public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
+        public string ProfileBadgeUrl => $"{ProfileUrl}/badges";
+        public EPersonaState ActiveState
+        {
+            get => SteamFriends015.GetPersonaState();
+            set
+            {
+                SteamFriends002.SetPersonaState(value);
+            }
+        }
+        public bool Online => ActiveState.HasFlag(EPersonaState.k_EPersonaStateOnline);
+        public bool Offline => ActiveState.HasFlag(EPersonaState.k_EPersonaStateOffline);
+        public bool Away => ActiveState.HasFlag(EPersonaState.k_EPersonaStateAway) || ActiveState.HasFlag(EPersonaState.k_EPersonaStateSnooze);
+        public bool LookingToTrade => (Online || Away) && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToTrade);
+        public bool LookingToPlay => (Online || Away) && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToPlay);
+
         #endregion
+         
 
         #region Methods()
         public async Task<bool> Connect()
@@ -99,31 +115,30 @@ namespace SingleBoostr.Core.Objects
             Steam006 = Steamworks.CreateSteamInterface<ISteam006>();
             if (Steam006.Startup(0, ref steamError) == 0) return false;
 
-            SteamClient012 = Steamworks.CreateInterface<ISteamClient012>();
-            if (SteamClient012 == null) return false;
+            SteamClient017 = Steamworks.CreateInterface<ISteamClient017>();
+            if (SteamClient017 == null) return false;
 
             ClientEngine = Steamworks.CreateInterface<IClientEngine>();
             if (ClientEngine == null) return false;
 
-            Pipe = SteamClient012.CreateSteamPipe();
+            Pipe = SteamClient017.CreateSteamPipe();
             if (Pipe == 0) return false;
 
-            User = SteamClient012.ConnectToGlobalUser(Pipe);
+            User = SteamClient017.ConnectToGlobalUser(Pipe);
             if (User == 0 || User == -1) return false;
 
-            SteamUser015 = SteamClient012.GetISteamUser<ISteamUser015>(User, Pipe);
-            SteamUser016 = SteamClient012.GetISteamUser<ISteamUser016>(User, Pipe);
+            SteamUser017 = SteamClient017.GetISteamUser<ISteamUser017>(User, Pipe);
             ClientUser = ClientEngine.GetIClientUser<IClientUser>(User, Pipe);
-            SteamApps001 = SteamClient012.GetISteamApps<ISteamApps001>(User, Pipe);
-            SteamApps003 = SteamClient012.GetISteamApps<ISteamApps003>(User, Pipe);
-            SteamFriends002 = SteamClient012.GetISteamFriends<ISteamFriends002>(User, Pipe);
-
-            return SteamUser015 != null
-                && SteamUser016 != null
+            SteamApps001 = SteamClient017.GetISteamApps<ISteamApps001>(User, Pipe);
+            SteamApps006 = SteamClient017.GetISteamApps<ISteamApps006>(User, Pipe);
+            SteamFriends002 = SteamClient017.GetISteamFriends<ISteamFriends002>(User, Pipe);
+            SteamFriends015 = SteamClient017.GetISteamFriends<ISteamFriends015>(User, Pipe);
+             
+            return SteamUser017 != null
                 && ClientUser != null
-                && SteamApps001 != null
-                && SteamApps003 != null
-                && SteamFriends002 != null;
+                && SteamApps006 != null
+                && SteamFriends002 != null
+                && SteamFriends015 != null;
         }
         public async Task Disconnect(bool terminate = true)
         {
@@ -176,10 +191,10 @@ namespace SingleBoostr.Core.Objects
         public bool Callback(ref CallbackMsg_t callbackMsg) => Steamworks.GetCallback(Pipe, ref callbackMsg);
         public bool FreeCallback() => Steamworks.FreeLastCallback(Pipe);
         public OwnedGameModel GetGameInfo(uint appID) => UserGames().Where(g => g.AppId == appID).First();
-        public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends002.HasFriend(friendId, Steam4NET.EFriendFlags.k_EFriendFlagNone) : false;
+        public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends015.HasFriend(friendId, (int)EFriendFlags.k_EFriendFlagNone) : false;
         public bool AddFriend(string emailOrAccountName) => !string.IsNullOrEmpty(emailOrAccountName) ? SteamFriends002.AddFriendByName(emailOrAccountName) > -1 : false;
         public bool AddFriend(CSteamID senderId) => !IsFriend(senderId) ? SteamFriends002.AddFriend(senderId) : false;
-        public string GetFriendName(CSteamID friendId) => IsFriend(friendId) ? SteamFriends002.GetFriendPersonaName(friendId) : DisplayName;
+        public string GetFriendName(CSteamID friendId) => IsFriend(friendId) ? SteamFriends015.GetFriendPersonaName(friendId) : DisplayName;
         public async Task AddDevsAsFriend()
         {
             foreach (ulong Dev in Devs)
@@ -190,6 +205,7 @@ namespace SingleBoostr.Core.Objects
         }
         public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
         public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, Steam4NET.EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
+        public int GetMessage(CSteamID senderId, int chatID, byte[] data, ref EChatEntryType type) => SteamFriends002.GetChatMessage(senderId, chatID, data, ref type);
         public bool RegisterAppID(uint appID)
         {
             var APP = new SteamApp(this, appID);
@@ -226,6 +242,9 @@ namespace SingleBoostr.Core.Objects
             for (index = 0; index < hash.Length; index++) beGuid.Append(hash[index].ToString("X2"));
             return beGuid.ToString();
         }
+        public string ProfileBadgeUrlPage(int page = 1) => $"{ProfileBadgeUrl}/?p={page}";
+        public bool IsAppOwned(uint appID) => SteamApps006.BIsSubscribedApp(appID);
+
         #endregion
     }
 }
