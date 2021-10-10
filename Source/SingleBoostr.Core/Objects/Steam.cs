@@ -85,16 +85,13 @@ namespace SingleBoostr.Core.Objects
         public EPersonaState ActiveState
         {
             get => SteamFriends015.GetPersonaState();
-            set
-            {
-                SteamFriends002.SetPersonaState(value);
-            }
+            set => SteamFriends002.SetPersonaState(value);
         }
         public bool Online => ActiveState.HasFlag(EPersonaState.k_EPersonaStateOnline);
         public bool Offline => ActiveState.HasFlag(EPersonaState.k_EPersonaStateOffline);
         public bool Away => ActiveState.HasFlag(EPersonaState.k_EPersonaStateAway) || ActiveState.HasFlag(EPersonaState.k_EPersonaStateSnooze);
-        public bool LookingToTrade => (Online || Away) && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToTrade);
-        public bool LookingToPlay => (Online || Away) && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToPlay);
+        public bool LookingToTrade => !Offline && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToTrade);
+        public bool LookingToPlay => !Offline && ActiveState.HasFlag(EPersonaState.k_EPersonaStateLookingToPlay);
 
         #endregion
          
