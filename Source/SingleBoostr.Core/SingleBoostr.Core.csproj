@@ -102,7 +102,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Steam4NET2\Steam4NET.csproj">
+    <ProjectReference Include="..\Steam4NET\Steam4NET.csproj">
       <Project>{1a204257-fe82-4bbe-9ed4-40694821c31f}</Project>
       <Name>Steam4NET</Name>
       <Private>False</Private>

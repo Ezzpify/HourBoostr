@@ -164,7 +164,7 @@
       <Project>{5F6378F7-E67A-470D-BAE6-397718279068}</Project>
       <Name>SingleBoostr.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Steam4NET2\Steam4NET.csproj">
+    <ProjectReference Include="..\Steam4NET\Steam4NET.csproj">
       <Project>{1a204257-fe82-4bbe-9ed4-40694821c31f}</Project>
       <Name>Steam4NET</Name>
     </ProjectReference>
