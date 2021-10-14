@@ -2,7 +2,7 @@
   "bubbles": [
     {
       "title": "Hello {STEAM_USER}!",
-      "text": "Thanks for using {PROJECT_1_NAME}. Click here if you experience any issues and let us know.",
+      "text": "Thanks for using {PROJECT_ONE_NAME}. Click here if you experience any issues and let us know.",
       "url": "{PROJECT_ISSUE_URL}",
       "id": 0
     }
