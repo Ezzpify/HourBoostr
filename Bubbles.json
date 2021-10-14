@@ -1,9 +1,9 @@
 {
   "bubbles": [
     {
-      "title": "Hello there!",
-      "text": "Thanks for using SingleBoostr. If you experience any issues you can let me know on Discord.",
-      "url": "https://discord.gg/g4M9fTs",
+      "title": "Hello {STEAM_USER}!",
+      "text": "Thanks for using {PROJECT_1_NAME}. Click here if you experience any issues and let us know.",
+      "url": "{PROJECT_ISSUE_URL}",
       "id": 0
     }
   ]
