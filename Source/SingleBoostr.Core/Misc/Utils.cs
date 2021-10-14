@@ -8,21 +8,21 @@ namespace SingleBoostr.Core.Misc
 {
     public static class Utils
     {
-        private static Random _random = new Random();
-
-        public static Random GetRandom()
-        {
-            return _random;
-        }
-
-        public static string GetTimestamp()
-        {
-            return DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
-        }
-
+        private static readonly Random _random = new Random();
+        public static Random GetRandom() => _random;
+        public static string GetTimestamp() => DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
+        public static bool IsOnlyNumbers(string str) => new Regex("^[0-9]+$").IsMatch(str);
+        public static string GetUnicodeString(string str) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(str));
+        public static string Truncate(string value, int maxLength) => string.IsNullOrEmpty(value) ? value : value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         public static string STEAM_URL(string sub, string request) => (sub.ToLower().Equals("community") ? "http://steamcommunity.com/" : sub.ToLower().Equals("enhancedsteam") ? "https://api.enhancedsteam.com/" : $"http://{sub.ToLower()}.steampowered.com/") + request;
         public static string GITHUB_URL(bool raw, string request) => (raw ? "https://raw.githubusercontent.com/" : "https://github.com/") + request;
 
+        /// <summary>
+        /// Handles custom variable replacment
+        /// </summary>
+        /// <param name="str">String to replace variables</param>
+        /// <param name="steam">Steam Object Instance</param>
+        /// <returns>String</returns>
         public static string ReplacementCallack(this string str, Objects.Steam steam)
         {
             string replacementCallack(Match match)
@@ -69,6 +69,10 @@ namespace SingleBoostr.Core.Misc
             return Regex.Replace(str, @"\{([A-Z_]+)\}", replacementCallack);
         }
 
+        /// <summary>
+        /// Returns current HardwareID
+        /// </summary>
+        /// <returns>HardwareID</returns>
         public static string GetMachineGuid()
         {
             using RegistryKey localMachineX64View = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
@@ -79,23 +83,11 @@ namespace SingleBoostr.Core.Misc
             return machineGuid.ToString();
         }
 
-        public static bool IsOnlyNumbers(string str)
-        {
-            return new Regex("^[0-9]+$").IsMatch(str);
-        }
-
-        public static string GetUnicodeString(string str)
-        {
-            byte[] bytes = Encoding.Default.GetBytes(str);
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        public static string Truncate(string value, int maxLength)
-        {
-            if (string.IsNullOrEmpty(value)) return value;
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
-        }
-
+        /// <summary>
+        /// Checks if application is installed name
+        /// </summary>
+        /// <param name="p_name">application name</param>
+        /// <returns>true/false</returns>
         public static bool IsApplicationInstalled(string p_name)
         {
             string displayName;
