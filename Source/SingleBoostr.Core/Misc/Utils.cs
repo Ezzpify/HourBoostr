@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace SingleBoostr.Core.Misc
 {
-    public class Utils
+    public static class Utils
     {
         private static Random _random = new Random();
 
@@ -18,6 +18,55 @@ namespace SingleBoostr.Core.Misc
         public static string GetTimestamp()
         {
             return DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
+        }
+
+        public static string STEAM_URL(string sub, string request) => (sub.ToLower().Equals("community") ? "http://steamcommunity.com/" : sub.ToLower().Equals("enhancedsteam") ? "https://api.enhancedsteam.com/" : $"http://{sub.ToLower()}.steampowered.com/") + request;
+        public static string GITHUB_URL(bool raw, string request) => (raw ? "https://raw.githubusercontent.com/" : "https://github.com/") + request;
+
+        public static string ReplacementCallack(this string str, Objects.Steam steam)
+        {
+            string replacementCallack(Match match)
+            {
+                string r = "";
+
+                switch (match.Groups[1].Value)
+                {
+                    case "PROJECT_ONE_NAME":
+                        r = Const.SingleBoostr.NAME;
+                        break;
+                    case "PROJECT_TWO_NAME":
+                        r = Const.HourBoostr.NAME;
+                        break;
+                    case "PROJECT_ISSUE_URL":
+                        r = Const.GitHub.NEW_ISSUE_URL;
+                        break;
+                    case "STEAM_ID":
+                        r = steam.Steam64ID.ToString();
+                        break;
+                    case "STEAM_USER":
+                        r = steam.DisplayName;
+                        break;
+                    case "DISCORD_SERVER_INVITE_URL":
+                        r = Const.Discord.SERVER.InviteURL;
+                        break;
+                    case "DISCORD_SERVER_INVITE_CODE":
+                        r = Const.Discord.SERVER.InviteCode;
+                        break;
+                    case "STEAM_GROUP_URL":
+                        r = Const.Steam.GROUP.URL;
+                        break;
+                    case "STEAM_GROUP_ID":
+                        r = Const.Steam.GROUP.ID.ToString();
+                        break;
+                    case "TIMESTAMP":
+                        r = GetTimestamp();
+                        break;
+                }
+
+                return r;
+            }
+
+            return Regex.Replace(str, @"\{([A-Z_]+)\}", replacementCallack);
         }
 
         public static string GetMachineGuid()
