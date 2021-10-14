@@ -1799,7 +1799,7 @@ namespace SingleBoostr.Ui
                 }
             }
 
-            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)];
+            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)].ReplacementCallack(Program.Base);
             if (Program.Base.SendFriendMessage(senderId, response))
             {
                 _chatResponses[senderId.ConvertToUint64()] = DateTime.Now;
