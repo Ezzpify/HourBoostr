@@ -1,15 +1,15 @@
 <p align="center">
   <img src="http://i.imgur.com/MJN4zty.png"/>
-  <h2 align="center"><a href="https://github.com/Ezzpify/HourBoostr/releases">DOWNLOAD HERE</a></h2>
+  <h2 align="center"><a href="https://github.com/Ni1kko/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
-[![License](https://img.shields.io/github/license/Ezzpify/HourBoostr.svg?label=License&maxAge=86400)](./LICENSE)
-[![GitHub Release](https://img.shields.io/github/release/Ezzpify/HourBoostr.svg?label=Latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
-[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-84k-brightgreen.svg)](https://github.com/Ezzpify/HourBoostr/releases/latest)
-[![Github Downloads](https://img.shields.io/github/downloads/Ezzpify/HourBoostr/latest/total.svg?label=Downloads%20for%20latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
+[![License](https://img.shields.io/github/license/Ni1kko/HourBoostr.svg?label=License&maxAge=86400)](./LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/Ni1kko/HourBoostr.svg?label=Latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
+[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-84k-brightgreen.svg)](https://github.com/Ni1kko/HourBoostr/releases/latest)
+[![Github Downloads](https://img.shields.io/github/downloads/Ni1kko/HourBoostr/latest/total.svg?label=Downloads%20for%20latest&maxAge=60)](https://github.com/Ni1kko/HourBoostr/releases/latest)
 
-[![Steam Group](https://img.shields.io/badge/Steam-group-yellowgreen.svg)](https://steamcommunity.com/groups/hourboostr)
-[![Discord](https://img.shields.io/badge/Discord-join-yellowgreen.svg)](https://discord.gg/g4M9fTs)
+[![Steam Group](https://img.shields.io/badge/Steam-group-yellowgreen.svg)](https://steamcommunity.com/groups/FALL0X)
+[![Discord](https://img.shields.io/badge/Discord-join-yellowgreen.svg)](https://discord.gg/W3qgHqNhax)
 
 # General information
 
