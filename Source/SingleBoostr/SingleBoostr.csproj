@@ -144,7 +144,6 @@
       <DependentUpon>AppWebBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Objects\ChatBubbles.cs" />
-    <Compile Include="Misc\Const.cs" />
     <Compile Include="Ui\AppDonate.cs">
       <SubType>Form</SubType>
     </Compile>

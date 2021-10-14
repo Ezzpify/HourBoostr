@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
-using SingleBoostr.Misc;
 using SingleBoostr.Objects;
 using SingleBoostr.Core.Objects;
 using SingleBoostr.Core.Misc;
@@ -35,7 +34,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Utils.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -52,7 +51,7 @@ namespace SingleBoostr.Ui
             string jsonStr = JsonConvert.SerializeObject(Settings, Formatting.Indented);
             if (!string.IsNullOrWhiteSpace(jsonStr))
             {
-                File.WriteAllText(Const.SETTINGS_FILE, jsonStr);
+                File.WriteAllText(Const.SingleBoostr.SETTINGS_FILE, jsonStr);
                 return true;
             }
 
@@ -61,9 +60,9 @@ namespace SingleBoostr.Ui
 
         public bool LoadSettings()
         {
-            if (File.Exists(Const.SETTINGS_FILE))
+            if (File.Exists(Const.SingleBoostr.SETTINGS_FILE))
             {
-                string jsonStr = File.ReadAllText(Const.SETTINGS_FILE);
+                string jsonStr = File.ReadAllText(Const.SingleBoostr.SETTINGS_FILE);
                 if (!string.IsNullOrWhiteSpace(jsonStr))
                 {
                     try
@@ -74,15 +73,15 @@ namespace SingleBoostr.Ui
                     }
                     catch (Exception ex)
                     {
-                        AppMessageBox.Show($"Error parsing {Const.SETTINGS_FILE}. File is probably corrupt. Settings will be reset. Don't mess with the file directly unless you know what you're doing.\nError: {ex.Message}", "Settings error",
+                        AppMessageBox.Show($"Error parsing {Const.SingleBoostr.SETTINGS_FILE}. File is probably corrupt. Settings will be reset. Don't mess with the file directly unless you know what you're doing.\nError: {ex.Message}", "Settings error",
                             AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
                     }
                 }
             }
 
             Settings = new Settings();
-            Settings.ChatResponses.Add("I'm idling with SingleBoostr.");
-            Settings.ChatResponses.Add("Right now I'm idling games with SingleBoostr!");
+            Settings.ChatResponses.Add($"I'm idling with {Const.SingleBoostr.NAME}.");
+            Settings.ChatResponses.Add($"Right now I'm idling games with {Const.SingleBoostr.NAME}!");
             return false;
         }
 
@@ -101,11 +100,11 @@ namespace SingleBoostr.Ui
                     client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     client.Encoding = Encoding.UTF8;
 
-                    string str = await client.DownloadStringTaskAsync(new Uri(Const.APP_LIST_URL));
+                    string str = await client.DownloadStringTaskAsync(new Uri(Const.Steam.APP_LIST_URL));
 
                     if (!string.IsNullOrWhiteSpace(str))
                     {
-                        File.WriteAllText(Const.APP_LIST, str);
+                        File.WriteAllText(Const.SingleBoostr.APP_LIST, str);
                         return true;
                     }
                 }
@@ -191,12 +190,12 @@ namespace SingleBoostr.Ui
 
         private void LblDownloadNewAppList_MouseEnter(object sender, EventArgs e)
         {
-            LblDownloadNewAppList.ForeColor = Const.LABEL_HOVER;
+            LblDownloadNewAppList.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private void LblDownloadNewAppList_MouseLeave(object sender, EventArgs e)
         {
-            LblDownloadNewAppList.ForeColor = Const.LABEL_NORMAL;
+            LblDownloadNewAppList.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private async void LblDownloadNewAppList_Click(object sender, EventArgs e)
@@ -217,12 +216,12 @@ namespace SingleBoostr.Ui
 
         private void LblClearBlackList_MouseEnter(object sender, EventArgs e)
         {
-            LblClearBlackList.ForeColor = Const.LABEL_HOVER;
+            LblClearBlackList.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private void LblClearBlackList_MouseLeave(object sender, EventArgs e)
         {
-            LblClearBlackList.ForeColor = Const.LABEL_NORMAL;
+            LblClearBlackList.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private void CbEnableChatResponse_CheckedChanged(object sender, EventArgs e)

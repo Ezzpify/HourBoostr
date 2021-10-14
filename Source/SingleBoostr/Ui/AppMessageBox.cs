@@ -33,7 +33,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Utils.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -269,12 +269,12 @@ namespace SingleBoostr.Ui
 
             foreach (var btn in _msgBox._buttons)
             {
-                btn.ForeColor = Const.LABEL_NORMAL;
+                btn.ForeColor = Misc.Utils.LABEL_NORMAL;
                 btn.Font = new Font("Segoe UI", 8);
                 btn.Padding = new Padding(3);
                 btn.FlatStyle = FlatStyle.Flat;
                 btn.Height = 30;
-                btn.FlatAppearance.BorderColor = Const.LABEL_NORMAL;
+                btn.FlatAppearance.BorderColor = Misc.Utils.LABEL_NORMAL;
                 btn.Cursor = Cursors.Hand;
                 btn.MouseEnter += Btn_MouseEnter;
                 btn.MouseLeave += Btn_MouseLeave;
@@ -286,13 +286,13 @@ namespace SingleBoostr.Ui
         private static void Btn_MouseLeave(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            btn.ForeColor = Const.LABEL_NORMAL;
+            btn.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private static void Btn_MouseEnter(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            btn.ForeColor = Const.LABEL_HOVER;
+            btn.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private static void InitIcon(MsgIcon icon)

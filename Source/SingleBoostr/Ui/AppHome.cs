@@ -93,10 +93,10 @@ namespace SingleBoostr.Ui
             CardsStartedOptionsMenu.Cursor = Cursors.Hand;
             CardsStartedOptionsMenu.Renderer = new MyRenderer();
 
-            if (!File.Exists(Misc.Const.GAME_EXE))
+            if (!File.Exists(Const.SingleBoostr.IDLER_EXE))
             {
                 /*I don't know if it's a good idea to embed the game exe into the main program. That might [trigger] some Anti-Virus software.*/
-                AppMessageBox.Show($"Missing {Misc.Const.GAME_EXE} please redownload program.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
+                AppMessageBox.Show($"Missing {Const.SingleBoostr.IDLER_EXE} please redownload program.", "Error", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Error);
                 ExitApplication();
             }
 
@@ -116,7 +116,7 @@ namespace SingleBoostr.Ui
 
             /*Here we're just setting a placeholder text for the AppSearch textbox in the Idle panel*/
             if (!PanelIdleTxtSearch.IsDisposed)
-                NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Misc.Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
+                NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
 
             if (_settings.Settings.VACWarningDisplayed)
             {
@@ -219,7 +219,7 @@ namespace SingleBoostr.Ui
 
         private void PanelStartLblVersion_Click(object sender, EventArgs e)
         {
-            Process.Start(Misc.Const.REPO_RELEASE_URL);
+            Process.Start(Const.GitHub.REPO_RELEASE_URL);
         }
 
         private void MessageText_Click(object sender, EventArgs e, string url)
@@ -403,7 +403,7 @@ namespace SingleBoostr.Ui
                     _steamWeb = new SteamWeb(_settings.Settings.WebSession);
                     if (_settings.Settings.JoinSteamGroup)
                     {
-                        string joinGroupUrl = $"{Misc.Const.STEAM_GROUP_URL}?sessionID={browser.Session.SessionId}&action=join";
+                        string joinGroupUrl = $"{Const.Steam.GROUP.URL}?sessionID={browser.Session.SessionId}&action=join";
                         string resp = await _steamWeb.Request(joinGroupUrl);
                     }
 
@@ -444,7 +444,7 @@ namespace SingleBoostr.Ui
 
         private void PanelStartPicGithub_Click(object sender, EventArgs e)
         {
-            Process.Start(Misc.Const.GITHUB_PROFILE_URL);
+            Process.Start(Const.GitHub.PROFILE_URL);
         }
 
         private void AppNotifyIcon_Click(object sender, EventArgs e)
@@ -490,8 +490,7 @@ namespace SingleBoostr.Ui
 
                             case PersonaStateChange_t.k_iCallback:
                                 var persona = (PersonaStateChange_t)Marshal.PtrToStructure(callbackMsg.m_pubParam, typeof(PersonaStateChange_t));
-                                if (persona.m_ulSteamID == Program.Base.ClientUser.GetSteamID())
-                                    onPersonaChange(persona.m_nChangeFlags);
+                                if (persona.m_ulSteamID == Program.Base.SteamID) onPersonaChange(persona.m_nChangeFlags);
                                 break;
 
                             case LobbyInvite_t.k_iCallback:
@@ -530,7 +529,7 @@ namespace SingleBoostr.Ui
         {
             if (change == EPersonaChange.k_EPersonaChangeStatus)
             {
-                if (_settings.Settings.ForceOnlineStatus && Program.Base.Offline) Program.Base.ActiveState = EPersonaState.k_EPersonaStateOnline;
+                if (_settings.Settings.ForceOnlineStatus && Program.Base.Offline) Program.Base.Online = true;
             }
         }
 
@@ -687,7 +686,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -696,7 +695,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -705,7 +704,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -714,7 +713,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -723,7 +722,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -732,7 +731,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -741,7 +740,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -750,7 +749,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -759,7 +758,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 
@@ -770,27 +769,27 @@ namespace SingleBoostr.Ui
         private void MessageText_MouseLeave(object sender, EventArgs e)
         {
             Label lbl = (Label)sender;
-            lbl.ForeColor = Misc.Const.LABEL_NORMAL;
+            lbl.ForeColor = Misc.Utils.LABEL_NORMAL;
             lbl.Cursor = Cursors.Default;
         }
 
         private void MessageText_MouseEnter(object sender, EventArgs e)
         {
             Label lbl = (Label)sender;
-            lbl.ForeColor = Misc.Const.LABEL_HOVER;
+            lbl.ForeColor = Misc.Utils.LABEL_HOVER;
             lbl.Cursor = Cursors.Hand;
         }
 
         private void CloseText_MouseLeave(object sender, EventArgs e)
         {
             Label lbl = (Label)sender;
-            lbl.ForeColor = Misc.Const.LABEL_NORMAL;
+            lbl.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private void CloseText_MouseEnter(object sender, EventArgs e)
         {
             Label lbl = (Label)sender;
-            lbl.ForeColor = Misc.Const.LABEL_HOVER;
+            lbl.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private void PanelIdleStartedBtnHide_MouseEnter(object sender, EventArgs e)
@@ -955,12 +954,12 @@ namespace SingleBoostr.Ui
 
         private void PanelidleLblClear_MouseEnter(object sender, EventArgs e)
         {
-            PanelIdleLblClear.ForeColor = Misc.Const.LABEL_HOVER;
+            PanelIdleLblClear.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private void PanelidleLblClear_MouseLeave(object sender, EventArgs e)
         {
-            PanelIdleLblClear.ForeColor = Misc.Const.LABEL_NORMAL;
+            PanelIdleLblClear.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private void PanelIdleStartedBtnStop_MouseEnter(object sender, EventArgs e)
@@ -981,35 +980,41 @@ namespace SingleBoostr.Ui
         {
             int tag = PanelStartChatPanel.Controls.Count + 1;
 
-            Panel container = new Panel();
-            container.Size = new Size(310, 58);
-            container.BackgroundImage = Properties.Resources.Chat;
-            container.Tag = tag;
+            Panel container = new Panel { Size = new Size(310, 58), BackgroundImage = Properties.Resources.Chat, Tag = tag };
 
-            Panel textWrapper = new Panel();
-            textWrapper.Dock = DockStyle.Fill;
-            textWrapper.Padding = new Padding(2, 0, 0, 0);
+            Panel textWrapper = new Panel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(2, 0, 0, 0)
+            };
 
-            Panel buttonWrapper = new Panel();
-            buttonWrapper.Size = new Size(20, 58);
-            buttonWrapper.Dock = DockStyle.Right;
+            Panel buttonWrapper = new Panel
+            {
+                Size = new Size(20, 58),
+                Dock = DockStyle.Right
+            };
 
-            Label closeText = new Label();
-            closeText.Text = "x";
-            closeText.Dock = DockStyle.Top;
-            closeText.Cursor = Cursors.Hand;
-            closeText.ForeColor = Color.Gray;
+            Label closeText = new Label
+            {
+                Text = "x",
+                Dock = DockStyle.Top,
+                Cursor = Cursors.Hand,
+                ForeColor = Color.Gray
+            };
             closeText.Click += CloseText_Click;
             closeText.MouseEnter += CloseText_MouseEnter;
             closeText.MouseLeave += CloseText_MouseLeave;
 
-            Label messageText = new Label();
-            messageText.Text = Utils.Truncate(text, 105);
-            messageText.AutoSize = false;
-            messageText.Dock = DockStyle.Fill;
-            messageText.ForeColor = Color.Gray;
-            messageText.Font = new Font("Segoe UI", 8, FontStyle.Regular);
-            messageText.Padding = new Padding(1, 0, 0, 0);
+            Label messageText = new Label
+            {
+                Text = Utils.Truncate(text, 105),
+                AutoSize = false,
+                Dock = DockStyle.Fill,
+                ForeColor = Color.Gray,
+                Font = new Font("Segoe UI", 8, FontStyle.Regular),
+                Padding = new Padding(1, 0, 0, 0)
+            };
+
             if (!string.IsNullOrEmpty(url))
             {
                 if (Uri.TryCreate(url, UriKind.Absolute, out Uri uriResult))
@@ -1021,12 +1026,14 @@ namespace SingleBoostr.Ui
                 }
             }
 
-            Label titleText = new Label();
-            titleText.Text = title;
-            titleText.Dock = DockStyle.Top;
-            titleText.Height = 20;
-            titleText.ForeColor = Color.Gray;
-            titleText.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            Label titleText = new Label
+            {
+                Text = title,
+                Dock = DockStyle.Top,
+                Height = 20,
+                ForeColor = Color.Gray,
+                Font = new Font("Segoe UI", 10, FontStyle.Regular)
+            };
 
             buttonWrapper.Controls.Add(closeText);
             textWrapper.Controls.Add(messageText);
@@ -1052,7 +1059,7 @@ namespace SingleBoostr.Ui
                 {
                     UseShellExecute = false,
                     CreateNoWindow = true,
-                    FileName = Path.Combine(System.Windows.Forms.Application.StartupPath, Misc.Const.GAME_EXE),
+                    FileName = Path.Combine(System.Windows.Forms.Application.StartupPath, Const.SingleBoostr.IDLER_EXE),
                     Arguments = $"{app.Appid} {Process.GetCurrentProcess().Id}"
                 };
 
@@ -1315,6 +1322,18 @@ namespace SingleBoostr.Ui
             var appList = new List<App>();
             int pages = 0;
 
+
+            var new_badgelist = Program.Base.Badges;
+
+            foreach(var new_badge in new_badgelist)
+            {
+                var badgeAppID = new_badge.AppId;
+                var badgeID = new_badge.BadgeId;
+                var badgeQuest = await Program.Base.GetBadgeProgress(badgeID);
+                var badgeQuestID = badgeQuest.QuestId;
+                var badgeQuestDone = badgeQuest.Completed;
+
+            }
             try
             {
                 /*Get the first page of badges and process the information on that page
@@ -1353,7 +1372,7 @@ namespace SingleBoostr.Ui
                         /*We'll use Enhanced Steam api to get the prices of each card here.
                          Hihihihihihihihihihihihi don't hate me cuz i am just a silly anime girl*/
                         string appids = string.Join(",", appList.Select(o => o.Appid));
-                        string priceUrl = $"{Misc.Const.CARD_PRICE_URL}{appids}";
+                        string priceUrl = $"{Const.Steam.CARD_PRICE_URL}{appids}";
                         response = await _steamWeb.Request(priceUrl);
 
                         if (!string.IsNullOrWhiteSpace(response))
@@ -1452,7 +1471,7 @@ namespace SingleBoostr.Ui
 
         private async Task<Bitmap> GetAppBackground(uint appid)
         {
-            var storeJson = await DownloadString($"{Misc.Const.STORE_JSON_URL}{appid}");
+            var storeJson = await DownloadString($"{Const.Steam.STORE_JSON_URL}{appid}");
             string bgUrl = Store.GetAppScreenshotUrl(storeJson);
             if (!string.IsNullOrWhiteSpace(bgUrl))
             {
@@ -1508,33 +1527,34 @@ namespace SingleBoostr.Ui
                     RefreshGameList();
                     ShowWindow(WindowPanel.Start);
                     BgwSteamCallback.RunWorkerAsync();
-                    
-                    string bubbleJson = await DownloadString(Misc.Const.CHAT_BUBBLE_URL);
+                     
+                    string updateInfo = await Updater.Check(Assembly.GetExecutingAssembly());
+                    if (!string.IsNullOrEmpty(updateInfo))
+                    {
+                        ShowChatBubble("Update available", $"Click here to download new update. ({updateInfo})", Const.GitHub.REPO_RELEASE_URL);
+                        PanelStartLblVersion.Text = "Update available";
+                    }
+
+                    if (Utils.IsApplicationInstalled(Const.Discord.NAME) && !_settings.Settings.ShowedDiscordInfo)
+                    {
+                        ShowChatBubble($"{Const.Discord.NAME} Server", $"I noticed you have {Const.Discord.NAME} installed. Click here to join our {Const.Discord.SERVER.Name} support server!", Const.Discord.SERVER.InviteURL);
+                        _settings.Settings.ShowedDiscordInfo = true;
+                    }
+
+                    string bubbleJson = await DownloadString(Const.GitHub.CHAT_BUBBLE_URL);
                     if (!string.IsNullOrWhiteSpace(bubbleJson))
                     {
                         try
                         {
                             var entries = JsonConvert.DeserializeObject<ChatBubbles>(bubbleJson);
                             foreach (var bubble in entries.bubbles.Take(4))
-                                ShowChatBubble(bubble.title, bubble.text, bubble.url);
+                                ShowChatBubble(bubble.title.ReplacementCallack(Program.Base), bubble.text.ReplacementCallack(Program.Base), bubble.url.ReplacementCallack(Program.Base));
+                             
                         }
                         catch (Exception ex)
                         {
                             _log.Write(LogLevel.Error, $"Error loading bubbles. {ex.Message}");
                         }
-                    }
-
-                    string updateInfo = await Updater.Check(Assembly.GetExecutingAssembly());
-                    if (!string.IsNullOrEmpty(updateInfo))
-                    {
-                        ShowChatBubble("Update available", $"Click here to download new update. ({updateInfo})", Misc.Const.REPO_RELEASE_URL);
-                        PanelStartLblVersion.Text = "Update available";
-                    }
-
-                    if (Utils.IsApplicationInstalled("Discord") && !_settings.Settings.ShowedDiscordInfo)
-                    {
-                        ShowChatBubble("Discord Server", "I noticed you have Discord installed. Click here to join our support server!", "https://discord.gg/g4M9fTs");
-                        _settings.Settings.ShowedDiscordInfo = true;
                     }
 
                     PanelStartChatPanel.Visible = true;
@@ -1572,14 +1592,14 @@ namespace SingleBoostr.Ui
 
         private async Task<int> GetAppList()
         {
-            if (!File.Exists(Misc.Const.APP_LIST))
+            if (!File.Exists(Const.SingleBoostr.APP_LIST))
             {
                 ShowLoadingText("Downloading Steam app list");
                 if (!await _settings.DownloadAppList())
                     return 0;
             }
 
-            var lastChanged = File.GetLastWriteTime(Misc.Const.APP_LIST);
+            var lastChanged = File.GetLastWriteTime(Const.SingleBoostr.APP_LIST);
             int daysSinceChanged = (int)(DateTime.Now - lastChanged).TotalDays;
             if (daysSinceChanged > 10)
             {
@@ -1589,7 +1609,7 @@ namespace SingleBoostr.Ui
                     return 0;
             }
 
-            string json = File.ReadAllText(Misc.Const.APP_LIST);
+            string json = File.ReadAllText(Const.SingleBoostr.APP_LIST);
             var apps = JsonConvert.DeserializeObject<SteamApps>(json);
             ShowLoadingText("Setting up subscribed apps");
             foreach (var app in apps.applist.apps)
@@ -1631,10 +1651,10 @@ namespace SingleBoostr.Ui
             PanelIdleLblMatchingSearch.Visible = !string.IsNullOrWhiteSpace(searchQuery);
             PanelIdleLblMatchingSearch.Text = $"Apps matching search: {appList.Count}";
 
-            if (_appListSelected.Count >= Misc.Const.MAX_GAMES && !_appCountWarningDisplayed)
+            if (_appListSelected.Count >= Const.Steam.MAX_GAMES && !_appCountWarningDisplayed)
             {
                 _appCountWarningDisplayed = true;
-                AppMessageBox.Show($"Steam only allows {Misc.Const.MAX_GAMES} games to be played at once. You can continue adding more games, "
+                AppMessageBox.Show($"Steam only allows {Const.Steam.MAX_GAMES} games to be played at once. You can continue adding more games, "
                     + "but they won't track any hours.", "Max limit", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Info);
             }
         }

@@ -30,7 +30,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Utils.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -54,7 +54,7 @@ namespace SingleBoostr.Ui
             string url = e.Url.AbsoluteUri;
             if (url.Contains("github"))
             {
-                Process.Start(Const.GITHUB_REPO_URL);
+                Process.Start(Const.GitHub.REPO_URL);
                 e.Cancel = true;
             }
             else

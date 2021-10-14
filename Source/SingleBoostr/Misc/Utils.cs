@@ -2,21 +2,19 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using System.IO; 
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SingleBoostr.Misc
 {
-    internal class Utils
-    {  
-        public static Image BytesToImage(byte[] bytes)
-        {
-            using (var ms = new MemoryStream(bytes))
-            {
-                return Image.FromStream(ms);
-            }
-        }
+    internal static class Utils
+    {
+        internal static Color LABEL_HOVER = Color.FromArgb(255, 73, 131);
+        internal static Color LABEL_NORMAL = Color.Gray;
 
-        public static Bitmap ChangeImageOpacity(Image img, float opacityvalue)
+        internal static Image BytesToImage(byte[] bytes) => Image.FromStream(new MemoryStream(bytes));
+         
+        internal static Bitmap ChangeImageOpacity(Image img, float opacityvalue)
         {
             Bitmap bmp = new Bitmap(img.Width, img.Height);
             using (var g = Graphics.FromImage(bmp))
@@ -37,7 +35,7 @@ namespace SingleBoostr.Misc
             }
         }
 
-        public static Image FixedImageSize(Image image, int Width, int Height)
+        internal static Image FixedImageSize(Image image, int Width, int Height)
         {
             int sourceWidth = image.Width;
             int sourceHeight = image.Height;
@@ -73,6 +71,5 @@ namespace SingleBoostr.Misc
                 return bmPhoto;
             }
         }
-         
     }
 }

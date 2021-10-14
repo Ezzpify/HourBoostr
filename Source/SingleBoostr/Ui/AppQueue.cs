@@ -17,7 +17,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Misc.Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Utils.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -78,7 +78,7 @@ namespace SingleBoostr.Ui
             if (e.Button == MouseButtons.Left)
             {
                 NativeMethods.ReleaseCapture();
-                NativeMethods.SendMessage(Handle, Misc.Const.WM_NCLBUTTONDOWN, Misc.Const.HT_CAPTION, 0);
+                NativeMethods.SendMessage(Handle, Const.WM_NCLBUTTONDOWN, Const.HT_CAPTION, 0);
             }
         }
 

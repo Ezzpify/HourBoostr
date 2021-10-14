@@ -7,6 +7,7 @@ using RestSharp;
 using System.Net;
 using Newtonsoft.Json;
 using SingleBoostr.Misc;
+using SingleBoostr.Core.Misc;
 
 namespace SingleBoostr.Ui
 {
@@ -42,7 +43,7 @@ namespace SingleBoostr.Ui
             base.OnPaint(e);
 
             Rectangle rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            Pen pen = new Pen(Const.LABEL_HOVER);
+            Pen pen = new Pen(Misc.Utils.LABEL_HOVER);
             e.Graphics.DrawRectangle(pen, rect);
         }
 
@@ -68,12 +69,12 @@ namespace SingleBoostr.Ui
 
         private void LblPaypalLink_MouseEnter(object sender, EventArgs e)
         {
-            LblPaypalLink.ForeColor = Const.LABEL_HOVER;
+            LblPaypalLink.ForeColor = Misc.Utils.LABEL_HOVER;
         }
 
         private void LblPaypalLink_MouseLeave(object sender, EventArgs e)
         {
-            LblPaypalLink.ForeColor = Const.LABEL_NORMAL;
+            LblPaypalLink.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private void LblPaypalLink_Click(object sender, EventArgs e)
@@ -84,7 +85,7 @@ namespace SingleBoostr.Ui
         private void BgwGetInfo_DoWork(object sender, DoWorkEventArgs e)
         {
             var req = new RestRequest();
-            var resp = new RestClient(Const.DONATION_URL).Execute(req);
+            var resp = new RestClient(Const.GitHub.DONATION_URL).Execute(req);
 
             if (resp.StatusCode != HttpStatusCode.OK)
                 return;

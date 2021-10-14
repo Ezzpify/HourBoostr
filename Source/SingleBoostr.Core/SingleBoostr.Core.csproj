@@ -84,6 +84,7 @@
     <Compile Include="Enums\Session.cs" />
     <Compile Include="Enums\WindowPanel.cs" />
     <Compile Include="Misc\AppBackgroundWorker.cs" />
+    <Compile Include="Misc\Const.cs" />
     <Compile Include="Misc\Log.cs" />
     <Compile Include="Misc\NativeMethods.cs" />
     <Compile Include="Misc\SteamWeb.cs">
@@ -94,9 +95,11 @@
     <Compile Include="Misc\Utils.cs" />
     <Compile Include="Objects\AccountDetails.cs" />
     <Compile Include="Objects\AccountSettings.cs" />
+    <Compile Include="Objects\DiscordServer.cs" />
     <Compile Include="Objects\SessionInfo.cs" />
     <Compile Include="Objects\Steam.cs" />
     <Compile Include="Objects\SteamApp.cs" />
+    <Compile Include="Objects\SteamGroup.cs" />
     <Compile Include="Objects\TradingCard.cs" />
     <Compile Include="Objects\UpdateHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

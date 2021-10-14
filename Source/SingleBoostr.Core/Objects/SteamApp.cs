@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Steam.Models.SteamStore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -34,6 +35,7 @@ namespace SingleBoostr.Core.Objects
         public bool IDValid => !string.IsNullOrWhiteSpace(ID.ToString()) && ID > 0;
         public bool IDSet => IDValid && Environment.GetEnvironmentVariable("SteamAppId") == ID.ToString();
         public List<TradingCard> Cards { get; set; } = new List<TradingCard>() { };
+        public StoreAppDetailsDataModel AppInfo => Base.GetAppInfo(ID).GetAwaiter().GetResult();
 
         public SteamApp(Steam steam, uint appID)
         {
