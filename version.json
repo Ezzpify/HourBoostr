@@ -2,12 +2,12 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.6",
-      "Info": "Fixed compile time bug, package version mismatch between projects"
+      "Version": "4.1.7",
+      "Info": "New features added, See Github for more info."
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.6",
+      "Version": "4.1.7",
       "Info": "Updated Core DLL"
     }
   ]
