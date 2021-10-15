@@ -33,7 +33,6 @@ namespace SingleBoostr.Ui
         private Log _logChat;
         private SteamWeb _steamWeb;
         private AppDonate _donation;
-        private AppSettings _settings;
         private Dictionary<ulong, DateTime> _chatResponses = new Dictionary<ulong, DateTime>();
 
         private bool _canGoBack;
@@ -71,11 +70,9 @@ namespace SingleBoostr.Ui
         {
             _log = new Log("Main.txt");
             _logChat = new Log("Chat.txt");
-
-            _settings = new AppSettings();
+             
             _donation = new AppDonate();
-
-            Program.Base.APIKey = _settings.Settings.WebSession.APIKey;
+             
 
             Directory.CreateDirectory("Error");
 
@@ -118,7 +115,7 @@ namespace SingleBoostr.Ui
             if (!PanelIdleTxtSearch.IsDisposed)
                 NativeMethods.SendMessage(PanelIdleTxtSearch.Handle, Const.EM_SETCUEBANNER, IntPtr.Zero, "Search game");
 
-            if (_settings.Settings.VACWarningDisplayed)
+            if (Program.Config.Settings.VACWarningDisplayed)
             {
                 ShowWindow(WindowPanel.Loading);
                 InitializeApp();
@@ -142,13 +139,13 @@ namespace SingleBoostr.Ui
             _appExiting = true;
             BgwSteamCallback.CancelAsync();
 
-            if (_settings.Settings.SaveAppIdleHistory)
+            if (Program.Config.Settings.SaveAppIdleHistory)
             {
-                _settings.Settings.GameHistoryIds = _appListSelected.Select(o => o.Appid).ToList();
-                _settings.SaveSettings();
+                Program.Config.Settings.GameHistoryIds = _appListSelected.Select(o => o.Appid).ToList();
+                Program.Config.SaveSettings();
             }
 
-            if (_settings.Settings.ClearRecentlyPlayedOnExit)
+            if (Program.Config.Settings.ClearRecentlyPlayedOnExit)
             {
                 /*These three games does not show up in the recently played section on your profile,
                  however they still take a spot. So essentially they do clear the recently played games.*/
@@ -195,7 +192,7 @@ namespace SingleBoostr.Ui
             var diag = AppMessageBox.Show($"Do you want to blacklist {_appCurrentBadge.Name}? You can always undo this in Settings.", "Blacklist game", AppMessageBox.Buttons.YesNo, AppMessageBox.MsgIcon.Question);
             if (diag == DialogResult.Yes)
             {
-                _settings.Settings.BlacklistedCardGames.Add(_appCurrentBadge.Appid);
+                Program.Config.Settings.BlacklistedCardGames.Add(_appCurrentBadge.Appid);
                 StartNextCard();
             }
         }
@@ -203,9 +200,9 @@ namespace SingleBoostr.Ui
         private void CardsStartedOptionsMenuBtnSortQueue_Click(object sender, EventArgs e)
         {
             AppQueue frm = null;
-            if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
+            if (Program.Config.Settings.OnlyIdleGamesWithCertainMinutes)
             {
-                int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
+                int minimumMinutes = Program.Config.Settings.NumOnlyIdleGamesWithCertainMinutes;
                 frm = new AppQueue(_appListBadges.Where(o => o.Card.Minutesplayed > minimumMinutes).ToList(), _appCurrentBadge);
             }
             else
@@ -243,7 +240,7 @@ namespace SingleBoostr.Ui
 
         private void PanelCardsStartedBtnHide_Click(object sender, EventArgs e)
         {
-            if (_settings.Settings.HideToTraybar)
+            if (Program.Config.Settings.HideToTraybar)
             {
                 Hide();
                 AppNotifyIcon.ShowBalloonTip(1000, "SingleBoostr", "I'm down here.", ToolTipIcon.Info);
@@ -256,7 +253,7 @@ namespace SingleBoostr.Ui
 
         private void PanelIdleStartedBtnHide_Click(object sender, EventArgs e)
         {
-            if (_settings.Settings.HideToTraybar)
+            if (Program.Config.Settings.HideToTraybar)
             {
                 Hide();
                 AppNotifyIcon.ShowBalloonTip(1000, "SingleBoostr", "I'm down here.", ToolTipIcon.Info);
@@ -334,9 +331,9 @@ namespace SingleBoostr.Ui
                     break;
 
                 case Session.None:
-                    if (_settings.Settings.WebSession.IsLoggedIn())
+                    if (Program.Config.Settings.WebSession.IsLoggedIn())
                     {
-                        _steamWeb = new SteamWeb(_settings.Settings.WebSession);
+                        _steamWeb = new SteamWeb(Program.Config.Settings.WebSession);
                         ShowWindow(WindowPanel.Loading);
                         StartCardsFarming();
                     }
@@ -397,11 +394,11 @@ namespace SingleBoostr.Ui
                 if (browser.Session.IsLoggedIn())
                 {
                     ShowWindow(WindowPanel.Loading);
-                    if (_settings.Settings.SaveLoginCookies)
-                        _settings.AddBrowserSessionInfo(browser.Session);
+                    if (Program.Config.Settings.SaveLoginCookies)
+                        Program.Config.AddBrowserSessionInfo(browser.Session);
 
-                    _steamWeb = new SteamWeb(_settings.Settings.WebSession);
-                    if (_settings.Settings.JoinSteamGroup)
+                    _steamWeb = new SteamWeb(Program.Config.Settings.WebSession);
+                    if (Program.Config.Settings.JoinSteamGroup)
                     {
                         string joinGroupUrl = $"{Const.Steam.GROUP.URL}?sessionID={browser.Session.SessionId}&action=join";
                         string resp = await _steamWeb.Request(joinGroupUrl);
@@ -422,7 +419,7 @@ namespace SingleBoostr.Ui
 
         private void PanelStartBtnSettings_Click(object sender, EventArgs e)
         {
-            _settings.ShowDialog();
+            Program.Config.ShowDialog();
         }
 
         private void PanelStartBtnDonate_Click(object sender, EventArgs e)
@@ -432,7 +429,7 @@ namespace SingleBoostr.Ui
 
         private void PanelTosBtnAccept_Click(object sender, EventArgs e)
         {
-            _settings.Settings.VACWarningDisplayed = true;
+            Program.Config.Settings.VACWarningDisplayed = true;
             ShowWindow(WindowPanel.Loading);
             InitializeApp();
         }
@@ -529,7 +526,7 @@ namespace SingleBoostr.Ui
         {
             if (change == EPersonaChange.k_EPersonaChangeStatus)
             {
-                if (_settings.Settings.ForceOnlineStatus && Program.Base.Offline) Program.Base.Online = true;
+                if (Program.Config.Settings.ForceOnlineStatus && Program.Base.Offline) Program.Base.Online = true;
             }
         }
 
@@ -581,7 +578,7 @@ namespace SingleBoostr.Ui
 
         private void TmrRestartApp_Tick(object sender, EventArgs e)
         {
-            if (_settings.Settings.RestartGamesAtRandom)
+            if (Program.Config.Settings.RestartGamesAtRandom)
             {
                 var app = _appListActive[Utils.GetRandom().Next(_appListActive.Count)];
                 if (!app.Process.HasExited)
@@ -1088,9 +1085,9 @@ namespace SingleBoostr.Ui
                     break;
             }
 
-            if (_settings.Settings.RestartGames || session != Session.CardsBatch)
+            if (Program.Config.Settings.RestartGames || session != Session.CardsBatch)
             {
-                _log.Write(LogLevel.Info, $"Restart games is enabled every {_settings.Settings.RestartGamesTime} minute.");
+                _log.Write(LogLevel.Info, $"Restart games is enabled every {Program.Config.Settings.RestartGamesTime} minute.");
                 SetRandomTmrRestartAppInterval();
                 TmrRestartApp.Start();
             }
@@ -1165,7 +1162,7 @@ namespace SingleBoostr.Ui
                 }
                 else
                 {
-                    if (_settings.Settings.IdleCardsWithMostValue)
+                    if (Program.Config.Settings.IdleCardsWithMostValue)
                     {
                         _appListBadges = _appListBadges.OrderByDescending(o => o.Card.Price).ToList();
                         _log.Write(LogLevel.Info, $"Sorted badge list by price gathered from Enhanced Steam.");
@@ -1227,15 +1224,15 @@ namespace SingleBoostr.Ui
             StopApps(false);
             App app;
             
-            if (_settings.Settings.OnlyIdleGamesWithCertainMinutes)
+            if (Program.Config.Settings.OnlyIdleGamesWithCertainMinutes)
             {
-                int minimumMinutes = _settings.Settings.NumOnlyIdleGamesWithCertainMinutes;
+                int minimumMinutes = Program.Config.Settings.NumOnlyIdleGamesWithCertainMinutes;
                 app = _appListBadges.FirstOrDefault(o => o.Card.Minutesplayed >= minimumMinutes);
 
                 if (app == null)
                 {
                     _log.Write(LogLevel.Info, $"We don't have any apps matching required play time. Starting batch idle.");
-                    _appListActive = _appListBadges.Take(_settings.Settings.NumGamesIdleWhenNoCards).ToList();
+                    _appListActive = _appListBadges.Take(Program.Config.Settings.NumGamesIdleWhenNoCards).ToList();
                     StartApps(Session.CardsBatch);
                     return;
                 }
@@ -1416,7 +1413,7 @@ namespace SingleBoostr.Ui
                 AppMessageBox.Show("Error loading Steam badges. Steam could be down.", "Error", AppMessageBox.Buttons.Fuck, AppMessageBox.MsgIcon.Error);
             }
             
-            return appList.Where(o => o.Card.Cardsremaining > 0 && !_settings.Settings.BlacklistedCardGames.Contains(o.Appid)).ToList();
+            return appList.Where(o => o.Card.Cardsremaining > 0 && !Program.Config.Settings.BlacklistedCardGames.Contains(o.Appid)).ToList();
         }
 
         private List<App> ProcessBadgesOnPage(HtmlAgilityPack.HtmlDocument document)
@@ -1510,7 +1507,7 @@ namespace SingleBoostr.Ui
                 if (appCount > 0)
                 {
                     ShowLoadingText("Setting user information");
-                    foreach (uint appid in _settings.Settings.GameHistoryIds)
+                    foreach (uint appid in Program.Config.Settings.GameHistoryIds)
                     {
                         var app = _appList.FirstOrDefault(o => o.Appid == appid);
                         if (app != null)
@@ -1535,10 +1532,10 @@ namespace SingleBoostr.Ui
                         PanelStartLblVersion.Text = "Update available";
                     }
 
-                    if (Utils.IsApplicationInstalled(Const.Discord.NAME) && !_settings.Settings.ShowedDiscordInfo)
+                    if (Utils.IsApplicationInstalled(Const.Discord.NAME) && !Program.Config.Settings.ShowedDiscordInfo)
                     {
                         ShowChatBubble($"{Const.Discord.NAME} Server", $"I noticed you have {Const.Discord.NAME} installed. Click here to join our {Const.Discord.SERVER.Name} support server!", Const.Discord.SERVER.InviteURL);
-                        _settings.Settings.ShowedDiscordInfo = true;
+                        Program.Config.Settings.ShowedDiscordInfo = true;
                     }
 
                     string bubbleJson = await DownloadString(Const.GitHub.CHAT_BUBBLE_URL);
@@ -1589,41 +1586,41 @@ namespace SingleBoostr.Ui
                 PanelLoadingText.Text = text.ToUpper();
             });
         }
-
+        
         private async Task<int> GetAppList()
         {
-            if (!File.Exists(Const.SingleBoostr.APP_LIST))
+            var lastModifed = Const.SingleBoostr.APP_LIST.LastModifed();
+
+            //Download or update
+            switch (lastModifed)
             {
-                ShowLoadingText("Downloading Steam app list");
-                if (!await _settings.DownloadAppList())
-                    return 0;
+                case -1:
+                    ShowLoadingText("Downloading Steam App List");
+                    if (!await Program.Config.DownloadAppList()) return 0;
+                    break;
+
+                case 8:
+                    ShowLoadingText("Updating Steam App List");
+                    _log.Write(LogLevel.Info, "More than a week since last app list updated. Downloading new list.");
+                    if (!await Program.Config.DownloadAppList()) return 0;
+                    break;
             }
 
-            var lastChanged = File.GetLastWriteTime(Const.SingleBoostr.APP_LIST);
-            int daysSinceChanged = (int)(DateTime.Now - lastChanged).TotalDays;
-            if (daysSinceChanged > 10)
-            {
-                ShowLoadingText("Updating Steam app list");
-                _log.Write(LogLevel.Info, "More than 10 days since last app list updated. Downloading new list.");
-                if (!await _settings.DownloadAppList())
-                    return 0;
-            }
-
+            //Load
+            ShowLoadingText("Loading Steam App List");
             string json = File.ReadAllText(Const.SingleBoostr.APP_LIST);
-            var apps = JsonConvert.DeserializeObject<SteamApps>(json);
-            var applist = apps.applist.apps;
-            int index = 0;
+            var jobject = JsonConvert.DeserializeObject<SteamApps>(json);
+            var applist = jobject.applist.apps.Where(app => Program.Base.IsAppOwned(app.Appid)); 
             int total = applist.Count();
-            ShowLoadingText("Setting up subscribed apps");
+            ShowLoadingText($"{total} Owned Steam Apps & DLC Found!");//todo remove dlc from list
+            Thread.Sleep(1 * 1000);
+
+            //Register
             foreach (var app in applist)
             {
-                index++;
-                if (Program.Base.IsAppOwned(app.Appid))
-                {
-                    ShowLoadingText($"({index}/{total}) | Registering App | {app.GetIdAndName()}");
-                    app.Name = app.Name;
-                    _appList.Add(app);
-                }
+                ShowLoadingText($"({_appList.Count}/{total}) | Registering App | {app.GetIdAndName()}");
+                app.Name = app.Name;
+                _appList.Add(app);
             }
 
             return _appList.Count;
@@ -1663,8 +1660,7 @@ namespace SingleBoostr.Ui
                     + "but they won't track any hours.", "Max limit", AppMessageBox.Buttons.OK, AppMessageBox.MsgIcon.Info);
             }
         }
-
-     
+        
         private void SetUserInfo()
         {
             string displayName = string.IsNullOrWhiteSpace(Program.Base.DisplayName) ? "Unknown" : Program.Base.DisplayName;
@@ -1763,7 +1759,7 @@ namespace SingleBoostr.Ui
 
         private void SetRandomTmrRestartAppInterval()
         {
-            int baseRestartTime = _settings.Settings.RestartGamesTime;
+            int baseRestartTime = Program.Config.Settings.RestartGamesTime;
             baseRestartTime += Utils.GetRandom().Next(0, 10);
             TmrRestartApp.Interval = (int)TimeSpan.FromMinutes(baseRestartTime).TotalMilliseconds;
         }
@@ -1777,7 +1773,7 @@ namespace SingleBoostr.Ui
 
         private void OnLobbyInvite(CSteamID senderId, GameID_t game)
         {
-            if (!_settings.Settings.EnableChatResponse)
+            if (!Program.Config.Settings.EnableChatResponse)
                 return;
 
             if (senderId.ConvertToUint64() == Program.Base.Steam64ID)
@@ -1787,24 +1783,24 @@ namespace SingleBoostr.Ui
 
             _logChat.Write(LogLevel.Info, $"{senderName} send a lobby invite for game {GetGameNameById(game.m_nAppID)}");
 
-            if (_settings.Settings.ChatResponses.Count == 0)
+            if (Program.Config.Settings.ChatResponses.Count == 0)
                 return;
 
-            if (_activeSession == Session.None && _settings.Settings.OnlyReplyIfIdling)
+            if (_activeSession == Session.None && Program.Config.Settings.OnlyReplyIfIdling)
                 return;
 
-            if (_settings.Settings.WaitBetweenReplies)
+            if (Program.Config.Settings.WaitBetweenReplies)
             {
                 DateTime value;
                 if (_chatResponses.TryGetValue(senderId.ConvertToUint64(), out value))
                 {
                     TimeSpan diff = DateTime.Now.Subtract(value);
-                    if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)
+                    if (diff.Minutes < Program.Config.Settings.WaitBetweenRepliesTime)
                         return;
                 }
             }
 
-            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)].ReplacementCallack(Program.Base);
+            string response = Program.Config.Settings.ChatResponses[Utils.GetRandom().Next(0, Program.Config.Settings.ChatResponses.Count)].ReplacementCallack(Program.Base);
             if (Program.Base.SendFriendMessage(senderId, response))
             {
                 _chatResponses[senderId.ConvertToUint64()] = DateTime.Now;
@@ -1818,7 +1814,7 @@ namespace SingleBoostr.Ui
 
         private void OnFriendChatMsg(string message, string senderName, CSteamID senderId, CSteamID friendId)
         {
-            if (!_settings.Settings.EnableChatResponse)
+            if (!Program.Config.Settings.EnableChatResponse)
                 return;
 
             if (senderId.ConvertToUint64() == Program.Base.Steam64ID)
@@ -1826,24 +1822,24 @@ namespace SingleBoostr.Ui
 
             _logChat.Write(LogLevel.Info, $"{senderName}: {message}");
 
-            if (_settings.Settings.ChatResponses.Count == 0)
+            if (Program.Config.Settings.ChatResponses.Count == 0)
                 return;
 
-            if (_activeSession == Session.None && _settings.Settings.OnlyReplyIfIdling)
+            if (_activeSession == Session.None && Program.Config.Settings.OnlyReplyIfIdling)
                 return;
 
-            if (_settings.Settings.WaitBetweenReplies)
+            if (Program.Config.Settings.WaitBetweenReplies)
             {
                 DateTime value;
                 if (_chatResponses.TryGetValue(friendId.ConvertToUint64(), out value))
                 {
                     TimeSpan diff = DateTime.Now.Subtract(value);
-                    if (diff.Minutes < _settings.Settings.WaitBetweenRepliesTime)
+                    if (diff.Minutes < Program.Config.Settings.WaitBetweenRepliesTime)
                         return;
                 }
             }
 
-            string response = _settings.Settings.ChatResponses[Utils.GetRandom().Next(0, _settings.Settings.ChatResponses.Count)];
+            string response = Program.Config.Settings.ChatResponses[Utils.GetRandom().Next(0, Program.Config.Settings.ChatResponses.Count)];
             if (Program.Base.SendFriendMessage(friendId, response))
             {
                 _chatResponses[friendId.ConvertToUint64()] = DateTime.Now;
@@ -1867,8 +1863,6 @@ namespace SingleBoostr.Ui
                 }));
             }
         }
-
-        
 
         #endregion Functions
     }

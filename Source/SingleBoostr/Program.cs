@@ -6,14 +6,14 @@ namespace SingleBoostr
 {
     public static class Program
     {
-        internal static Core.Objects.Steam Base;
+        internal static AppSettings Config = new AppSettings();
+        internal static Core.Objects.Steam Base = new Core.Objects.Steam(Config.Settings.WebSession.APIKey);
 
         [STAThread]
-        public static void Main(string[] args) 
+        public static void Main() 
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Base = new Core.Objects.Steam();
             Application.Run(new AppHome());
         }
     }
