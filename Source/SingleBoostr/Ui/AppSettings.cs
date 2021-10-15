@@ -80,8 +80,8 @@ namespace SingleBoostr.Ui
             }
 
             Settings = new Settings();
-            Settings.ChatResponses.Add($"I'm idling with {Const.SingleBoostr.NAME}.");
-            Settings.ChatResponses.Add($"Right now I'm idling games with {Const.SingleBoostr.NAME}!");
+            Settings.ChatResponses.Add("I'm idling with {PROJECT_ONE_NAME}. {STEAM_GROUP_URL}");
+            Settings.ChatResponses.Add("Right now I'm idling games with {PROJECT_ONE_NAME}!");
             return false;
         }
 
