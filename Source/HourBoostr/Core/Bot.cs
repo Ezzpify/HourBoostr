@@ -562,7 +562,7 @@ namespace HourBoostr
                             { "action", "join" }
                         };
 
-                mSteam.web.Request(EndPoint.STEAM_GROUP_URL, "POST", data);
+                mSteam.web.Request(SingleBoostr.Core.Misc.Const.Steam.GROUP.URL, "POST", data);
             }
 
             /*Start the timer to periodically refresh community connection*/
