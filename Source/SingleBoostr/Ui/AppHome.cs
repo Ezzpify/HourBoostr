@@ -1611,11 +1611,16 @@ namespace SingleBoostr.Ui
 
             string json = File.ReadAllText(Const.SingleBoostr.APP_LIST);
             var apps = JsonConvert.DeserializeObject<SteamApps>(json);
+            var applist = apps.applist.apps;
+            int index = 0;
+            int total = applist.Count();
             ShowLoadingText("Setting up subscribed apps");
-            foreach (var app in apps.applist.apps)
+            foreach (var app in applist)
             {
+                index++;
                 if (Program.Base.IsAppOwned(app.Appid))
                 {
+                    ShowLoadingText($"({index}/{total}) | Registering App | {app.GetIdAndName()}");
                     app.Name = app.Name;
                     _appList.Add(app);
                 }
