@@ -7,6 +7,7 @@ using System.IO;
 using HourBoostr.Objects;
 using HourBoostr.Enums;
 using SingleBoostr.Core.Misc;
+using System.Threading.Tasks;
 
 namespace HourBoostr
 {
@@ -27,7 +28,7 @@ namespace HourBoostr
         /// <summary>
         /// Application settings
         /// </summary>
-        public Config.Settings mSettings;
+        public Config.Settings mSettings { get; private set; } = null;
 
 
         /// <summary>
@@ -44,13 +45,42 @@ namespace HourBoostr
         {
             mSettings = settings;
 
-            string updateInfo = Updater.Check(Assembly.GetExecutingAssembly()).GetAwaiter().GetResult();
-                
-            if (settings.CheckForUpdates && !string.IsNullOrEmpty(updateInfo))
-                Console.WriteLine("There's an update available. Check out https://github.com/Ezzpify/HourBoostr/releases/latest");
+            
+        }
+        internal async Task WriteLoadingMessage(string msg)
+        {
+            Console.WriteLine($"{msg}.");
+            await Task.Delay(1 * 1000);
+            Console.WriteLine($"{msg}..");
+            await Task.Delay(1 * 1000);
+            Console.WriteLine($"{msg}...");
+            await Task.Delay(1 * 1000);
+            Console.Clear();
+        }
 
+        internal async Task<bool> Startup() 
+        {
+            if (mSettings == null) return false;
+
+            await WriteLoadingMessage($"{Const.HourBoostr.NAME} Loading");
+
+            //check for update
+            string updateInfo = await Updater.Check(Assembly.GetExecutingAssembly());
+            if (mSettings.CheckForUpdates && !string.IsNullOrEmpty(updateInfo))
+            {
+                await WriteLoadingMessage($"{Const.HourBoostr.NAME} has new update");
+                Console.WriteLine($"Update available. Check out {Const.GitHub.REPO_RELEASE_URL}");
+            }
+            else
+            {
+                Console.WriteLine($"{Const.HourBoostr.NAME} v{Const.HourBoostr.VERSION} Loaded");
+            }
+
+            //subscribe and start bg worker
             mBwg.DoWork += MBwg_DoWork;
             mBwg.RunWorkerAsync();
+
+            return true;
         }
 
 
@@ -101,25 +131,6 @@ namespace HourBoostr
             }
         }
 
-        private void HideAppToTray()
-        {
-            
-        }
-
-
-        /// <summary>
-        /// Returns the DateTime of when the application was built
-        /// </summary>
-        /// <returns>DateTime</returns>
-        private DateTime GetBuildDate()
-        {
-            var version = Assembly.GetEntryAssembly().GetName().Version;
-            return new DateTime(2000, 1, 1).Add(new TimeSpan(
-                TimeSpan.TicksPerDay * version.Build +
-                TimeSpan.TicksPerSecond * 2 * version.Revision));
-        }
-
-
         /// <summary>
         /// Status for how long the bot has been running
         /// </summary>
@@ -135,7 +146,7 @@ namespace HourBoostr
                 string timeSpentOnline = string.Format("{0} Hours {1} Minutes {2} Seconds",
                     (timeSpan.Days * 24) + timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 
-                Console.Title = $"{EndPoint.CONSOLE_TITLE} | Online for: {timeSpentOnline}";
+                Console.Title = $"{Const.HourBoostr.CONSOLE_TITLE} | Online for: {timeSpentOnline}";
                 Thread.Sleep(500);
             }
         }

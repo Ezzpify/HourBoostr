@@ -2,13 +2,13 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.7",
+      "Version": "4.1.8",
       "Info": "New features added, See Github for more info."
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.7",
-      "Info": "Updated Core DLL"
+      "Version": "4.1.8",
+      "Info": "Bug fix, temp removed json encryption"
     }
   ]
 }

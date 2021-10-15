@@ -143,8 +143,8 @@ namespace HourBoostr
             ServicePointManager.ServerCertificateValidationCallback += mSteam.web.ValidateRemoteCertificate;
 
             /*Create logs*/
-            mLog = new Log(info.Details.Username, Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Details.Username}.txt"), 1);
-            mLogChat = new Log($"{info.Details.Username} Chat", Path.Combine(EndPoint.LOG_FOLDER_PATH, $"{info.Details.Username} steam chat.txt"), 1);
+            mLog = new Log(info.Details.Username, Path.Combine(SingleBoostr.Core.Misc.Const.HourBoostr.LOG_FOLDER, $"{info.Details.Username}.txt"), 1);
+            mLogChat = new Log($"{info.Details.Username} Chat", Path.Combine(SingleBoostr.Core.Misc.Const.HourBoostr.LOG_FOLDER, $"{info.Details.Username} steam chat.txt"), 1);
 
             /*Assign clients*/
             mSteam.client = new SteamClient();

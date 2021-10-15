@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
@@ -69,6 +70,16 @@ namespace SingleBoostr.Core.Misc
             }
 
             return Regex.Replace(str, @"\{([A-Z_]+)\}", replacementCallack);
+        }
+
+        /// <summary>
+        /// Returns the DateTime of when the assembly was built
+        /// </summary>
+        /// <returns>DateTime</returns>
+        public static DateTime GetBuildDate(Assembly assembly)
+        {
+            var version = assembly.GetName().Version;
+            return new DateTime(2000, 1, 1).Add(new TimeSpan(TimeSpan.TicksPerDay * version.Build + TimeSpan.TicksPerSecond * 2 * version.Revision));
         }
 
         /// <summary>

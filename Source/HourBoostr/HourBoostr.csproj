@@ -123,7 +123,6 @@
     <Compile Include="Core\Log.cs" />
     <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Objects\Config.cs" />
-    <Compile Include="Core\EndPoint.cs" />
     <Compile Include="Enums\BotState.cs" />
     <Compile Include="Enums\ChatMessageData.cs" />
     <Compile Include="Core\ExtraHandler.cs" />

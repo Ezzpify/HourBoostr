@@ -16,7 +16,7 @@ namespace HourBoostr
         /// <returns></returns>
         public static Config.Settings GetSettings()
         {
-            if (!File.Exists(EndPoint.SETTINGS_FILE_PATH))
+            if (!File.Exists(SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE))
             {
                 static SingleBoostr.Core.Objects.AccountSettings NewAccount() => new SingleBoostr.Core.Objects.AccountSettings() { Games = new List<int>() { 730, 10 } };
 
@@ -30,15 +30,15 @@ namespace HourBoostr
                     }
                 };
 
-                File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
-                Console.WriteLine($"Settings file has been written at {EndPoint.SETTINGS_FILE_PATH}\nPlease close the program and edit the settings.");
+                File.WriteAllText(SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE, JsonConvert.SerializeObject(settings, Formatting.Indented));
+                Console.WriteLine($"Settings file has been written at {SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE}\nPlease close the program and edit the settings.");
             }
             else
             {
                 var serializeSettings = new JsonSerializerSettings() { MissingMemberHandling = MissingMemberHandling.Error };
                 try
                 {
-                    var settings = JsonConvert.DeserializeObject<Config.Settings>(File.ReadAllText(EndPoint.SETTINGS_FILE_PATH));
+                    var settings = JsonConvert.DeserializeObject<Config.Settings>(File.ReadAllText(SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE));
                     settings.Accounts = settings.Accounts.Where(o => !string.IsNullOrWhiteSpace(o.Details.Username)).Distinct().ToList();
 
                     return settings;
@@ -61,7 +61,7 @@ namespace HourBoostr
         /// <returns>Return true. Lol.</returns>
         public static bool SaveSettings(Config.Settings settings)
         {
-            File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            File.WriteAllText(SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE, JsonConvert.SerializeObject(settings, Formatting.Indented));
             return true;
         }
 
@@ -69,7 +69,7 @@ namespace HourBoostr
         {
             var settings = GetSettings();
             settings.Accounts.First(o => o.Details.Username == acc.Details.Username).Details.LoginKey = acc.Details.LoginKey;
-            File.WriteAllText(EndPoint.SETTINGS_FILE_PATH, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            File.WriteAllText(SingleBoostr.Core.Misc.Const.HourBoostr.SETTINGS_FILE, JsonConvert.SerializeObject(settings, Formatting.Indented));
 
             //var account = GetSettings().Accounts.First(o => o.Details.Username == acc.Details.Username);
             //account = acc;

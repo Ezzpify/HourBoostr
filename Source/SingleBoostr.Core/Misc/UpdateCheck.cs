@@ -1,33 +1,75 @@
-﻿using System.Threading.Tasks; 
-using System.Net;
+﻿using System.Net;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
 using RestSharp;
 using Newtonsoft.Json;
 using SingleBoostr.Core.Objects;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace SingleBoostr.Core.Misc
 {
     public class Updater
     {
-        private const string jsonFileURL = "https://raw.githubusercontent.com/Ni1kko/HourBoostr/master/version.json";
-
+        /// <summary>
+        /// Gets name of given assembly
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns>assembly name</returns>
         private static string GetName(Assembly assembly) => assembly.GetName().Name;
-        private static string GetVersion(Assembly assembly) => assembly.GetName().Version.ToString();
-        private static bool UpdateAvailable(Assembly assembly, Application App) => !GetVersion(assembly).Equals($"{App.Version}.0");
 
+        /// <summary>
+        /// Downloads json list of assembly's that we handle though updater
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>json list of of object(Application)</returns>
         private static async Task<List<Application>> DownloadConfig(string url)
         {
             var response = await new RestClient(url).ExecuteAsync(new RestRequest());
             return response.StatusCode == HttpStatusCode.OK ? JsonConvert.DeserializeObject<UpdateHolder>(response.Content).Applications : null;
         }
 
+        /// <summary>
+        /// Get local version of given assembly
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns>local version of given assembly</returns>
+        public static string GetLocalVersion(Assembly assembly) => assembly.GetName().Version.ToString();
+
+        /// <summary>
+        /// Get server version of given assembly
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns>server version of given assembly</returns>
+        public static async Task<string> GetServerVersion(Assembly assembly)
+        {
+            var apps = await DownloadConfig(Const.GitHub.VERSION_FILE_URL);
+            var app = apps.Where(x => x.Name.ToLower().Equals(GetName(assembly).ToLower())).First();
+            return app.Version;
+        }
+
+        /// <summary>
+        /// Does given assembly have update available
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns>true if update, false if not </returns>
+        public static async Task<bool> UpdateAvailable(Assembly assembly)
+        {
+            var serverVersion = await GetServerVersion(assembly); 
+            return !GetLocalVersion(assembly).Equals($"{serverVersion}.0");
+        }
+
+        /// <summary>
+        /// Check if given assembly have update available
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns>information about update or empty string if no update</returns>
         public static async Task<string> Check(Assembly assembly)
         {
-            var apps = await DownloadConfig(jsonFileURL);
+            var apps = await DownloadConfig(Const.GitHub.VERSION_FILE_URL);
             var app = apps.Where(x => x.Name.ToLower().Equals(GetName(assembly).ToLower())).First();
-            return UpdateAvailable(assembly, app) ? app.Info : string.Empty;
+            var hasUpdate = await UpdateAvailable(assembly);
+            return hasUpdate ? app.Info : string.Empty;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace HourBoostr
      * https://github.com/JustArchi/ArchiSteamFarm
      */
 
-    class GlobalDB : IDisposable
+    public class GlobalDB : IDisposable
     {
         private static readonly JsonSerializerSettings CustomSerializerSettings = new JsonSerializerSettings
         {

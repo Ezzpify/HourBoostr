@@ -36,17 +36,24 @@ namespace SingleBoostr.Core.Misc
         public sealed class SingleBoostr
         {
             public const string NAME = "SingleBoostr";
+            public const string VERSION = "4.1.8";
             public static string IDLER_EXE => $"{NAME}.Game.exe";
             public static string APP_LIST => $"{NAME}.AppList.json";
             public static string SETTINGS_FILE => $"{NAME}.Settings.json";
+            public static string CONSOLE_TITLE = $"{NAME} v{VERSION}";
         }
 
         public sealed class HourBoostr
         {
             public const string NAME = "HourBoostr";
+            public const string VERSION = "4.1.8";
             public static string IDLER_EXE => $"{NAME}.exe";
             public static string SETTINGS_EXE => $"{NAME}.Settings.exe";
             public static string SETTINGS_FILE => $"{NAME}.Settings.json";
+            public static string GLOBAL_SETTINGS_FILE = "GlobalDB.hb";
+            public static string SENTRY_FOLDER = "Sentryfiles";
+            public static string LOG_FOLDER = "Logs";
+            public static string CONSOLE_TITLE = $"{NAME} v{VERSION}";
         }
 
         public sealed class Discord
