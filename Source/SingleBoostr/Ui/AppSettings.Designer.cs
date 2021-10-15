@@ -550,8 +550,7 @@
             this.TxtChatResponses.Name = "TxtChatResponses";
             this.TxtChatResponses.Size = new System.Drawing.Size(264, 96);
             this.TxtChatResponses.TabIndex = 36;
-            this.TxtChatResponses.Text = "I\'m currently Idling with: https://github.com/Ezzpify/HourBoostr\nI\'m idling games" +
-    ". I\'ll get back to you later.";
+            this.TxtChatResponses.Text = "";
             // 
             // pictureBox7
             // 
