@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
@@ -12,7 +13,8 @@ namespace SingleBoostr.Core.Misc
         public static Random GetRandom() => _random;
         public static string GetTimestamp() => DateTime.Now.ToString("d/M/yyyy HH:mm:ss");
         public static bool IsOnlyNumbers(string str) => new Regex("^[0-9]+$").IsMatch(str);
-        public static string GetUnicodeString(string str) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(str));
+        public static string GetUnicodeString(string str) => Encoding.UTF8.GetString(Encoding.Default.GetBytes(str)); 
+        public static int LastModifed(this string file) => File.Exists(file) ? (int)(DateTime.Now - File.GetLastWriteTime(file)).TotalDays : -1;
         public static string Truncate(string value, int maxLength) => string.IsNullOrEmpty(value) ? value : value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         public static string STEAM_URL(string sub, string request) => (sub.ToLower().Equals("community") ? "http://steamcommunity.com/" : sub.ToLower().Equals("enhancedsteam") ? "https://api.enhancedsteam.com/" : $"http://{sub.ToLower()}.steampowered.com/") + request;
         public static string GITHUB_URL(bool raw, string request) => (raw ? "https://raw.githubusercontent.com/" : "https://github.com/") + request;
