@@ -28,3 +28,4 @@ This program is perfect for you if you only have one account that you want to bo
 Program preview of SingleBoostr: 
 
 ![Preview](https://i.imgur.com/MomRdqQ.png)
+![PreviewSetting](https://i.imgur.com/mPLkzB3.png)
