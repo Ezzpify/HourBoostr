@@ -132,7 +132,7 @@ namespace HourBoostr
                 Password = info.Details.Password,
                 LoginKey = info.Details.LoginKey,
                 ShouldRememberPassword = true,
-                ClientOSType = EOSType.MacOS109
+                ClientOSType = info.OSType
             };
 
             OSType = mSteam.loginDetails.ClientOSType;

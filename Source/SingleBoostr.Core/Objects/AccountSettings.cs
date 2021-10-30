@@ -54,5 +54,10 @@ namespace SingleBoostr.Core.Objects
         /// List of games we should set as playing
         /// </summary>
         public List<int> Games { get; set; } = new List<int>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public SteamKit2.EOSType OSType { get; set; } = SteamKit2.EOSType.Windows10;
     }
 }

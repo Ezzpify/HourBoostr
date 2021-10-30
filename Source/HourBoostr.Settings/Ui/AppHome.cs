@@ -11,6 +11,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using HourBoostr.Settings.Objects;
+using SteamKit2;
 
 namespace HourBoostr.Settings.Ui
 {
@@ -164,6 +165,13 @@ namespace HourBoostr.Settings.Ui
                     user.ChatResponse = txtResponse.Text;
                     user.Games = gameList.Items.Cast<int>().ToList();
 
+                    switch (OSTypeComboBox.SelectedIndex)
+                    {
+                        case 0: user.OSType = EOSType.Windows10; break;
+                        case 1: user.OSType = EOSType.Linux5x; break;
+                        case 2: user.OSType = EOSType.MacOS109; break;
+                    }
+
                     break;
                 }
             }
@@ -207,6 +215,13 @@ namespace HourBoostr.Settings.Ui
             cbCommunity.Checked = mActiveAccount.ConnectToSteamCommunity;
             cbRestartGames.Checked = mActiveAccount.RestartGamesEveryThreeHours;
             cbIgnoreAccount.Checked = mActiveAccount.IgnoreAccount;
+
+            switch (mActiveAccount.OSType)
+            {
+                case EOSType.Windows10: OSTypeComboBox.SelectedIndex = 0; break;
+                case EOSType.Linux5x: OSTypeComboBox.SelectedIndex = 1; break;
+                case EOSType.MacOS109: OSTypeComboBox.SelectedIndex = 2; break;
+            }
         }
 
 
@@ -635,6 +650,6 @@ namespace HourBoostr.Settings.Ui
         private void lblStartBooster_MouseLeave(object sender, EventArgs e)
         {
             lblStartBooster.ForeColor = Color.Gray;
-        }
+        }     
     }
 }
