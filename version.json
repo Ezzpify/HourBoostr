@@ -2,13 +2,13 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.8",
+      "Version": "4.1.9",
       "Info": "New features added, See Github for more info."
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.8",
-      "Info": "Bug fix, temp removed json encryption"
+      "Version": "4.1.9",
+      "Info": "Updated UI, Faster Preformance plus new features added!"
     }
   ]
 }

@@ -27,16 +27,25 @@ namespace SingleBoostr.Core.Misc
             public const string NAME = "Steam";
             public static string EXE => $"{NAME}.exe";
             public static SteamGroup GROUP = new SteamGroup(34411249, "Fallox");
-            public const int MAX_GAMES = 33;
             public static string APP_LIST_URL =>   Utils.STEAM_URL("api", "ISteamApps/GetAppList/v2");
             public static string STORE_JSON_URL => Utils.STEAM_URL("store", "api/appdetails/?appids=");
             public static string CARD_PRICE_URL => Utils.STEAM_URL("enhancedsteam", "market_data/average_card_prices/?cur=eur&appids=");
+            public static readonly int MAX_GAMES = 33;
+
+            public sealed class Example_Profile
+            {
+                public static readonly string NAME = "ღ󠁳⁧⁧ 󠁳ｕｏｈ";
+                public static readonly string STEAMID = "76561199109931625";
+                public static readonly string CUSTOMURL = "U-oh";
+                public static string URL => Utils.STEAM_URL("community", $"profiles/{STEAMID}");
+                public static string URLCUSTOM => Utils.STEAM_URL("community", $"id/{CUSTOMURL}");
+            }
         }
 
         public sealed class SingleBoostr
         {
             public const string NAME = "SingleBoostr";
-            public const string VERSION = "4.1.8";
+            public const string VERSION = "4.1.9";
             public static string IDLER_EXE => $"{NAME}.Game.exe";
             public static string APP_LIST => $"{NAME}.AppList.json";
             public static string SETTINGS_FILE => $"{NAME}.Settings.json";
@@ -46,7 +55,7 @@ namespace SingleBoostr.Core.Misc
         public sealed class HourBoostr
         {
             public const string NAME = "HourBoostr";
-            public const string VERSION = "4.1.8";
+            public const string VERSION = "4.1.9";
             public static string IDLER_EXE => $"{NAME}.exe";
             public static string SETTINGS_EXE => $"{NAME}.Settings.exe";
             public static string SETTINGS_FILE => $"{NAME}.Settings.json";

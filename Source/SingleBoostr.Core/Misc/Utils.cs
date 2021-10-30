@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using SingleBoostr.Core.Enums;
 
 namespace SingleBoostr.Core.Misc
 {
@@ -19,6 +21,18 @@ namespace SingleBoostr.Core.Misc
         public static string Truncate(string value, int maxLength) => string.IsNullOrEmpty(value) ? value : value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         public static string STEAM_URL(string sub, string request) => (sub.ToLower().Equals("community") ? "http://steamcommunity.com/" : sub.ToLower().Equals("enhancedsteam") ? "https://api.enhancedsteam.com/" : $"http://{sub.ToLower()}.steampowered.com/") + request;
         public static string GITHUB_URL(bool raw, string request) => (raw ? "https://raw.githubusercontent.com/" : "https://github.com/") + request;
+        
+        /// <summary>
+        /// SendMessage import
+        /// </summary>
+        /// <param name="hWnd">IntPtr</param>
+        /// <param name="msg">int</param>
+        /// <param name="wParam">int</param>
+        /// <param name="lParam">[MarshalAs(UnmanagedType.LPWStr)]string</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
+        public static int SendMessage(IntPtr hWnd, Messages msg, int wParam, string lParam) => SendMessage(hWnd, (int)msg, wParam, lParam);
 
         /// <summary>
         /// Handles custom variable replacment

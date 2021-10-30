@@ -6,9 +6,10 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using HourBoostr.Settings.Core;
 using HourBoostr.Settings.Objects;
+using SingleBoostr.Core.Misc;
+using SingleBoostr.Core.Enums;
 
 namespace HourBoostr.Settings.Ui
 {
@@ -24,22 +25,7 @@ namespace HourBoostr.Settings.Ui
         /// Stores all game available on a user account
         /// </summary>
         private List<Config.Game> mGames = new List<Config.Game>();
-
-
-        /// <summary>
-        /// SendMessage import
-        /// Specifically used in this case for setting placeholder text for text controls
-        /// </summary>
-        /// <param name="hWnd">IntPtr</param>
-        /// <param name="msg">int</param>
-        /// <param name="wParam">int</param>
-        /// <param name="lParam">[MarshalAs(UnmanagedType.LPWStr)]string</param>
-        /// <returns></returns>
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
-        private const int EM_SETCUEBANNER = 0x1501;
-
-
+         
         /// <summary>
         /// Form constructor
         /// Sets placeholder text
@@ -50,8 +36,8 @@ namespace HourBoostr.Settings.Ui
             Size = new Size(381, 120);
 
             /*Set placeholder text for text controls*/
-            SendMessage(txtProfile.Handle, EM_SETCUEBANNER, 0, "https://steamcommunity.com/id/ezzpify");
-            SendMessage(txtSearch.Handle, EM_SETCUEBANNER, 0, "Search Game");
+            Utils.SendMessage(txtProfile.Handle, Messages.EM_SETCUEBANNER, 0, Const.Steam.Example_Profile.URLCUSTOM);
+            Utils.SendMessage(txtSearch.Handle, Messages.EM_SETCUEBANNER, 0, "Search Game");
             
             ActiveControl = lvlExampleInput;
         }
@@ -67,29 +53,20 @@ namespace HourBoostr.Settings.Ui
             picLoading.Visible = show;
         }
 
-
         /// <summary>
         /// Highlight when mouse over
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lvlExampleInput_MouseEnter(object sender, EventArgs e)
-        {
-            lvlExampleInput.ForeColor = SystemColors.Highlight;
-        }
-
+        private void lvlExampleInput_MouseEnter(object sender, EventArgs e) => lvlExampleInput.ForeColor = SystemColors.Highlight;
 
         /// <summary>
         /// De-highlight when mouse over
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lvlExampleInput_MouseLeave(object sender, EventArgs e)
-        {
-            lvlExampleInput.ForeColor = Color.Gray;
-        }
-
-
+        private void lvlExampleInput_MouseLeave(object sender, EventArgs e) => lvlExampleInput.ForeColor = Color.Gray;
+        
         /// <summary>
         /// Input example click
         /// Shows several ways to input acceptable data
@@ -100,14 +77,13 @@ namespace HourBoostr.Settings.Ui
         {
             MessageBox.Show(
                 "Full url\n"
-                + "• https://steamcommunity.com/id/ezzpify\n"
-                + "• http://steamcommunity.com/profiles/76561197960285265\n\n"
+                + $"• {Const.Steam.Example_Profile.URLCUSTOM}\n"
+                + $"• {Const.Steam.Example_Profile.URL}\n\n"
                 + "Custom url or SteamID64\n"
-                + "• 76561197960285265\n"
-                + "• ezzpify",
+                + $"• {Const.Steam.Example_Profile.STEAMID}\n"
+                + $"• {Const.Steam.Example_Profile.CUSTOMURL}",
                 "Example input");
         }
-
 
         /// <summary>
         /// txtProfile keydown
@@ -142,7 +118,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Checks if the input value is a steam url, or can be formatted as one
         /// </summary>
@@ -174,10 +149,10 @@ namespace HourBoostr.Settings.Ui
             {
                 /*See if the input is SteamID64 (which is 17 in length, only numbers)*/
                 if (reg3.IsMatch(input) && input.Length == 17)
-                    url = $"https://steamcommunity.com/profile/{input}";
+                    url = Utils.STEAM_URL("community", $"profiles/{input}");
                 /*Lastly we'll assume it's a custom url*/
                 else if (reg4.IsMatch(input))
-                    url = $"http://steamcommunity.com/id/{input}";
+                    url = Utils.STEAM_URL("community", $"id/{input}");
             }
 
             /*We'll strip the url of the last slash since we'll add that later on*/
@@ -186,7 +161,6 @@ namespace HourBoostr.Settings.Ui
 
             return url;
         }
-
 
         /// <summary>
         /// Bwg main worker
@@ -206,7 +180,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Bwg completed
         /// Adds all the games fetched to the listbox
@@ -221,29 +194,22 @@ namespace HourBoostr.Settings.Ui
             txtProfile.Enabled = true;
 
             gameList.Items.Clear();
-            foreach (var game in mGames)
-                gameList.Items.Add(game.name);
+            mGames.ForEach(game => gameList.Items.Add(game.name));
 
-            if (gameList.Items.Count == 0)
-            {
-                Size = new Size(381, 120);
-                gameGroup.Visible = false;
-            }
+            if (gameList.Items.Count != 0) return;
+
+            Size = new Size(381, 120);
+            gameGroup.Visible = false;
         }
 
-        
         /// <summary>
         /// Loads all games from available games list into listboxes
         /// </summary>
         private void LoadAvailableGames()
         {
             gameList.Items.Clear();
-            foreach (var game in mGames)
-            {
-                gameList.Items.Add(game.name);
-            }
+            mGames.ForEach(game => gameList.Items.Add(game.name));
         }
-
 
         /// <summary>
         /// Sorts the global lists by name and adds them to the listboxes
@@ -270,7 +236,6 @@ namespace HourBoostr.Settings.Ui
             mGamesSelected.ForEach(o => selectedList.Items.Add(o.name));
         }
 
-
         /// <summary>
         /// Adds the selected game to selected games and removes it from games
         /// </summary>
@@ -292,7 +257,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Re-adds the selected game to games and removes it from selected games
         /// Just reverse of the above function
@@ -302,19 +266,15 @@ namespace HourBoostr.Settings.Ui
         private void selectedList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var item = selectedList.SelectedItem;
-            if (item == null)
-                return;
+            if (item == null) return;
 
             var selected = mGamesSelected.FirstOrDefault(o => o.name == (string)item);
-            if (selected != null)
-            {
-                mGames.Add(selected);
-                mGamesSelected.Remove(selected);
+            if (selected == null) return;
 
-                RefreshLists();
-            }
+            mGames.Add(selected);
+            mGamesSelected.Remove(selected);
+            RefreshLists();
         }
-
 
         /// <summary>
         /// Just refresh each time user types and it will filter
@@ -322,12 +282,8 @@ namespace HourBoostr.Settings.Ui
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            RefreshLists();
-        }
-
-
+        private void txtSearch_TextChanged(object sender, EventArgs e) => RefreshLists();
+        
         /// <summary>
         /// Closing event
         /// Since we want to be able to access the game list after user closes form

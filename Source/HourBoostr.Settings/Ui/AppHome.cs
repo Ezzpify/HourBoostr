@@ -3,15 +3,15 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
-using System.Runtime.InteropServices;
 using HourBoostr.Settings.Objects;
 using SteamKit2;
+using SingleBoostr.Core.Misc;
+using SingleBoostr.Core.Enums;
 
 namespace HourBoostr.Settings.Ui
 {
@@ -22,27 +22,11 @@ namespace HourBoostr.Settings.Ui
         /// </summary>
         private Config.Settings mSettings = new Config.Settings();
 
-
         /// <summary>
         /// The account we're currently modifying
         /// </summary>
         private SingleBoostr.Core.Objects.AccountSettings mActiveAccount;
-
-
-        /// <summary>
-        /// SendMessage import
-        /// Specifically used in this case for setting placeholder text for text controls
-        /// </summary>
-        /// <param name="hWnd">IntPtr</param>
-        /// <param name="msg">int</param>
-        /// <param name="wParam">int</param>
-        /// <param name="lParam">[MarshalAs(UnmanagedType.LPWStr)]string</param>
-        /// <returns></returns>
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
-        private const int EM_SETCUEBANNER = 0x1501;
-
-
+        
         /// <summary>
         /// Constructor
         /// Sets placeholder text for text controls
@@ -52,13 +36,12 @@ namespace HourBoostr.Settings.Ui
             InitializeComponent();
 
             /*Set placeholder text for text controls*/
-            SendMessage(txtUsername.Handle, EM_SETCUEBANNER, 0, "Username");
-            SendMessage(txtPassword.Handle, EM_SETCUEBANNER, 0, "Password");
-            SendMessage(txtLoginKey.Handle, EM_SETCUEBANNER, 0, "Login Key");
-            SendMessage(txtResponse.Handle, EM_SETCUEBANNER, 0, "Chat Response");
-            SendMessage(txtGameItem.Handle, EM_SETCUEBANNER, 0, "Game ID");
+            Utils.SendMessage(txtUsername.Handle, Messages.EM_SETCUEBANNER, 0, "Username");
+            Utils.SendMessage(txtPassword.Handle, Messages.EM_SETCUEBANNER, 0, "Password");
+            Utils.SendMessage(txtLoginKey.Handle, Messages.EM_SETCUEBANNER, 0, "Login Key");
+            Utils.SendMessage(txtResponse.Handle, Messages.EM_SETCUEBANNER, 0, "Chat Response");
+            Utils.SendMessage(txtGameItem.Handle, Messages.EM_SETCUEBANNER, 0, "Game ID");
         }
-
 
         /// <summary>
         /// Form load
@@ -67,16 +50,16 @@ namespace HourBoostr.Settings.Ui
         private void mainForm_Load(object sender, EventArgs e)
         {
             /*If HourBoostr is running, give warning about saving settings*/
-            var procs = Process.GetProcessesByName("hourboostr");
+            var procs = Process.GetProcessesByName(Const.HourBoostr.NAME.ToLower());
             if (procs.Length > 0)
             {
-                MessageBox.Show("Settings will be overwritten when you close HourBoostr.\n"
-                    + "I would not recommend making any changes here while HourBoostr is running.\n"
-                    + "If you need to make any changes, make a copy of HourBoostr.Settings.json.", "Warning");
+                MessageBox.Show($"Settings will be overwritten when you close {Const.HourBoostr.NAME}.\n"
+                    + $"I would not recommend making any changes here while {Const.HourBoostr.NAME} is running.\n"
+                    + $"If you need to make any changes, make a copy of {Const.HourBoostr.SETTINGS_FILE}.", "Warning");
             }
 
             /*Find the HourBoostr.Settings.json file if it exists and load it up*/
-            string file = Path.Combine(Application.StartupPath, "HourBoostr.Settings.json");
+            string file = Path.Combine(Application.StartupPath, Const.HourBoostr.SETTINGS_FILE);
             if (File.Exists(file))
             {
                 try
@@ -91,14 +74,13 @@ namespace HourBoostr.Settings.Ui
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Could not read the HourBoostr.Settings.json\n\n{ex.Message}", "Ruh roh!");
+                    MessageBox.Show($"Could not read the {Const.HourBoostr.SETTINGS_FILE}\n\n{ex.Message}", "Ruh roh!");
                 }
             }
 
             /*Refresh the account list*/
             RefreshAccountList();
         }
-
 
         /// <summary>
         /// Adds all users to listbox
@@ -133,7 +115,6 @@ namespace HourBoostr.Settings.Ui
             SelectFirstAccount();
         }
 
-        
         /// <summary>
         /// If an active account is set, save the changes made to it from the controls
         /// </summary>
@@ -176,7 +157,6 @@ namespace HourBoostr.Settings.Ui
                 }
             }
         }
-
 
         /// <summary>
         /// Gets the user in list depending on accountListBox index
@@ -224,18 +204,13 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Save settings when form is closed
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">FormClosingEventArgs</param>
-        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SaveAccountJson();
-        }
-
-
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e) => SaveAccountJson();
+        
         /// <summary>
         /// Saves all accounts and exits the application
         /// </summary>
@@ -260,25 +235,19 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Selects the last account in account list box
         /// </summary>
-        private void SelectLastAccount()
-        {
-            accountListBox.SelectedIndex = accountListBox.Items.Count - 1;
-        }
-
+        private void SelectLastAccount() => accountListBox.SelectedIndex = accountListBox.Items.Count - 1;
 
         /// <summary>
         /// Selected the first account in account list box
         /// </summary>
         private void SelectFirstAccount()
         {
-            if (accountListBox.Items.Count > 0)
-                accountListBox.SelectedIndex = 0;
+            if (accountListBox.Items.Count <= 0) return;
+            accountListBox.SelectedIndex = 0;
         }
-
 
         /// <summary>
         /// Creates a new account in the list
@@ -294,7 +263,6 @@ namespace HourBoostr.Settings.Ui
             RefreshAccountList();
             SelectLastAccount();
         }
-
 
         /// <summary>
         /// Updates the listbox account name when user leaves username control
@@ -326,7 +294,6 @@ namespace HourBoostr.Settings.Ui
             accountListBox.Items[accountListBox.SelectedIndex] = username;
         }
 
-
         /// <summary>
         /// If user types anything we'll auto-enable community and show online
         /// Since they are needed to respond
@@ -342,7 +309,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Refreshes the gameListBox and fills it with items from mActiveAccount
         /// </summary>
@@ -352,7 +318,6 @@ namespace HourBoostr.Settings.Ui
             mActiveAccount.Games = mActiveAccount.Games.Distinct().ToList();
             mActiveAccount.Games.ForEach(o => gameList.Items.Add(o));
         }
-
 
         /// <summary>
         /// Allows for the contextMenu to open on right click
@@ -369,7 +334,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Cancels the opening of the menu if no listbox item is selected
         /// </summary>
@@ -377,10 +341,9 @@ namespace HourBoostr.Settings.Ui
         /// <param name="e">CancelEventArgs</param>
         private void accountListBoxMenu_Opening(object sender, CancelEventArgs e)
         {
-            if (accountListBox.SelectedItem == null)
-                e.Cancel = true;
+            if (accountListBox.SelectedItem != null) return;
+            e.Cancel = true;
         }
-
 
         /// <summary>
         /// accountListBoxMenu remove button event
@@ -400,14 +363,12 @@ namespace HourBoostr.Settings.Ui
                     "Delete User", MessageBoxButtons.YesNo);
             }
 
-            if (diagResult == DialogResult.No)
-                return;
+            if (diagResult == DialogResult.No) return;
 
             /*Remove all accounts that matches that username*/
             mSettings.Accounts.RemoveAll(o => o.Details.Username == mActiveAccount.Details.Username);
             RefreshAccountList();
         }
-
 
         /// <summary>
         /// Adds a game id to the game list
@@ -418,8 +379,7 @@ namespace HourBoostr.Settings.Ui
         {
             if (e.KeyCode == Keys.Enter)
             {
-                int gameId = -1;
-                if (int.TryParse(txtGameItem.Text, out gameId))
+                if (int.TryParse(txtGameItem.Text, out int gameId))
                 {
                     if (!mActiveAccount.Games.Contains(gameId))
                     {
@@ -433,7 +393,6 @@ namespace HourBoostr.Settings.Ui
                 txtGameItem.Text = string.Empty;
             }
         }
-
 
         /// <summary>
         /// Allows for the contextMenu to open on right click
@@ -450,7 +409,6 @@ namespace HourBoostr.Settings.Ui
             }
         }
 
-
         /// <summary>
         /// Cancels the opening of the menu if no listbox item is selected
         /// </summary>
@@ -458,10 +416,9 @@ namespace HourBoostr.Settings.Ui
         /// <param name="e">CancelEventArgs</param>
         private void gameListMenu_Opening(object sender, CancelEventArgs e)
         {
-            if (gameList.SelectedItem == null)
-                e.Cancel = true;
+            if (gameList.SelectedItem != null) return;
+            e.Cancel = true;
         }
-
 
         /// <summary>
         /// Removes an gameid from gameList box
@@ -476,7 +433,6 @@ namespace HourBoostr.Settings.Ui
             RefreshGameList();
         }
 
-
         /// <summary>
         /// Prevents any typing in loginkey textbox
         /// Not using ReadOnly because I don't like how it greys it out
@@ -484,66 +440,42 @@ namespace HourBoostr.Settings.Ui
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">KeyPressEventArgs</param>
-        private void txtLoginKey_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-
+        private void txtLoginKey_KeyPress(object sender, KeyPressEventArgs e) => e.Handled = true;
+        
         /// <summary>
         /// lblRemoveLoginKey set textcolor to blue to show that it's highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblRemoveLoginKey_MouseEnter(object sender, EventArgs e)
-        {
-            lblRemoveLoginKey.ForeColor = SystemColors.Highlight;
-        }
-
-
+        private void lblRemoveLoginKey_MouseEnter(object sender, EventArgs e) => lblRemoveLoginKey.ForeColor = SystemColors.Highlight;
+        
         /// <summary>
         /// lblRemoveLoginKey set textcolor to blue to show that it's not highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblRemoveLoginKey_MouseLeave(object sender, EventArgs e)
-        {
-            lblRemoveLoginKey.ForeColor = Color.Gray;
-        }
-
-
+        private void lblRemoveLoginKey_MouseLeave(object sender, EventArgs e)=> lblRemoveLoginKey.ForeColor = Color.Gray;
+        
         /// <summary>
         /// Remove the loginkey text
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblRemoveLoginKey_Click(object sender, EventArgs e)
-        {
-            txtLoginKey.Text = string.Empty;
-        }
-
-
+        private void lblRemoveLoginKey_Click(object sender, EventArgs e) => txtLoginKey.Text = string.Empty;
+        
         /// <summary>
         /// lblFindGames set textcolor to blue to show that it's highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblFindGames_MouseEnter(object sender, EventArgs e)
-        {
-            lblFindGames.ForeColor = SystemColors.Highlight;
-        }
-
-
+        private void lblFindGames_MouseEnter(object sender, EventArgs e) => lblFindGames.ForeColor = SystemColors.Highlight;
+        
         /// <summary>
         /// lblFindGames set textcolor to blue to show that it's not highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblFindGames_MouseLeave(object sender, EventArgs e)
-        {
-            lblFindGames.ForeColor = Color.Gray;
-        }
-
+        private void lblFindGames_MouseLeave(object sender, EventArgs e) => lblFindGames.ForeColor = Color.Gray;
 
         /// <summary>
         /// Opens game finder form
@@ -567,36 +499,21 @@ namespace HourBoostr.Settings.Ui
             gameWindow.Close();
         }
 
-
         /// <summary>
         /// Check if both Community and OnlineStatus are checked
         /// Then we can enable the Chat Response textbox
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void cbCommunity_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOnlineStatus.Checked && cbCommunity.Checked)
-                txtResponse.Enabled = true;
-            else
-                txtResponse.Enabled = false;
-        }
-
-
+        private void cbCommunity_CheckedChanged(object sender, EventArgs e) => txtResponse.Enabled = (cbOnlineStatus.Checked && cbCommunity.Checked);
+        
         /// <summary>
         /// Check if both Community and OnlineStatus are checked
         /// Then we can enable the Chat Response textbox
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void cbOnlineStatus_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbOnlineStatus.Checked && cbCommunity.Checked)
-                txtResponse.Enabled = true;
-            else
-                txtResponse.Enabled = false;
-        }
-
+        private void cbOnlineStatus_CheckedChanged(object sender, EventArgs e) => txtResponse.Enabled = (cbOnlineStatus.Checked && cbCommunity.Checked);
 
         /// <summary>
         /// Starts HourBoostr if it exists in this folder
@@ -611,10 +528,10 @@ namespace HourBoostr.Settings.Ui
                 return;
             }
 
-            if (File.Exists(Path.Combine(Application.StartupPath, "HourBoostr.exe")))
+            if (File.Exists(Path.Combine(Application.StartupPath, Const.HourBoostr.IDLER_EXE)))
             {
                 var proc = new Process();
-                proc.StartInfo.FileName = "HourBoostr.exe";
+                proc.StartInfo.FileName = Const.HourBoostr.IDLER_EXE;
                 proc.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
 
                 SaveAccountJson();
@@ -626,30 +543,22 @@ namespace HourBoostr.Settings.Ui
             }
             else
             {
-                MessageBox.Show("Can't find HourBoostr.exe", "Woops..");
+                MessageBox.Show($"Can't find {Const.HourBoostr.IDLER_EXE}", "Woops..");
             }
         }
-
 
         /// <summary>
         /// lblStartBooster set textcolor to blue to show that it's highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblStartBooster_MouseEnter(object sender, EventArgs e)
-        {
-            lblStartBooster.ForeColor = SystemColors.Highlight;
-        }
-
+        private void lblStartBooster_MouseEnter(object sender, EventArgs e) => lblStartBooster.ForeColor = SystemColors.Highlight;
 
         /// <summary>
         /// lblStartBooster set textcolor to blue to show that it's not highlighted
         /// </summary>
         /// <param name="sender">object</param>
         /// <param name="e">EventArgs</param>
-        private void lblStartBooster_MouseLeave(object sender, EventArgs e)
-        {
-            lblStartBooster.ForeColor = Color.Gray;
-        }     
+        private void lblStartBooster_MouseLeave(object sender, EventArgs e) => lblStartBooster.ForeColor = Color.Gray; 
     }
 }
