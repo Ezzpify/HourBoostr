@@ -480,8 +480,8 @@ namespace SingleBoostr.Ui
                                     var length = Program.Base.GetMessage(msg.m_ulFriendID, (int)msg.m_iChatID, data, ref type);
                                    
                                     string message = Encoding.UTF8.GetString(data, 0, length).Replace("\0", "");
-                                    string senderName = Program.Base.GetFriendName(msg.m_ulSenderID);
-                                    OnFriendChatMsg(message, senderName, msg.m_ulSenderID, msg.m_ulFriendID);
+                                    var friend = Program.Base.GetFriend(msg.m_ulSenderID);
+                                    OnFriendChatMsg(message, friend.Name, msg.m_ulSenderID, msg.m_ulFriendID);
                                 }
                                 break;
 
@@ -1516,10 +1516,10 @@ namespace SingleBoostr.Ui
                             _appList.Remove(app);
                         }
                     }
-                     
+                    
                     ShowLoadingText("Sending Developers Friend Requests");
-                    await Task.Run(() => Program.Base.AddDevsAsFriend());
-                     
+                    await Task.Run(() => Program.Base.AddDevelopers());
+                    
                     SetUserInfo();
                     RefreshGameList();
                     ShowWindow(WindowPanel.Start);
@@ -1779,9 +1779,9 @@ namespace SingleBoostr.Ui
             if (senderId.ConvertToUint64() == Program.Base.Steam64ID)
                 return;
 
-            string senderName = Program.Base.GetFriendName(senderId);
+            var friend = Program.Base.GetFriend(senderId);
 
-            _logChat.Write(LogLevel.Info, $"{senderName} send a lobby invite for game {GetGameNameById(game.m_nAppID)}");
+            _logChat.Write(LogLevel.Info, $"{friend.Name} send a lobby invite for game {GetGameNameById(game.m_nAppID)}");
 
             if (Program.Config.Settings.ChatResponses.Count == 0)
                 return;
@@ -1801,14 +1801,15 @@ namespace SingleBoostr.Ui
             }
 
             string response = Program.Config.Settings.ChatResponses[Utils.GetRandom().Next(0, Program.Config.Settings.ChatResponses.Count)].ReplacementCallack(Program.Base);
-            if (Program.Base.SendFriendMessage(senderId, response))
+            
+            if (friend.SendMessage(response))
             {
                 _chatResponses[senderId.ConvertToUint64()] = DateTime.Now;
-                _logChat.Write(LogLevel.Info, $"Replied to {senderName} with '{response}'");
+                _logChat.Write(LogLevel.Info, $"Replied to {friend.Name} with '{response}'");
             }
             else
             {
-                _logChat.Write(LogLevel.Info, $"Failed to reply to {senderName} with '{response}'");
+                _logChat.Write(LogLevel.Info, $"Failed to reply to {friend.Name} with '{response}'");
             }
         }
 
@@ -1839,8 +1840,11 @@ namespace SingleBoostr.Ui
                 }
             }
 
+            var friend = Program.Base.GetFriend(senderId);
+
             string response = Program.Config.Settings.ChatResponses[Utils.GetRandom().Next(0, Program.Config.Settings.ChatResponses.Count)];
-            if (Program.Base.SendFriendMessage(friendId, response))
+            
+            if (friend.SendMessage(response))
             {
                 _chatResponses[friendId.ConvertToUint64()] = DateTime.Now;
                 _logChat.Write(LogLevel.Info, $"Replied to {senderName} with '{response}'");

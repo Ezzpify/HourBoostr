@@ -73,9 +73,9 @@ namespace SingleBoostr.Core.Objects
         #region Steam
             public string DisplayName => Utils.GetUnicodeString(SteamFriends015.GetPersonaName());
             public CSteamID SteamID => ClientUser.GetSteamID();
-            public UInt64 Steam64ID => SteamID.ConvertToUint64(); // SteamUser017.GetSteamID().ConvertToUint64();
+            public ulong Steam64ID => SteamID.ConvertToUint64(); // SteamUser017.GetSteamID().ConvertToUint64();
             public string BEGuid => SteamIDToBEGuid(Steam64ID);
-            public string ProfileUrl => $"http://steamcommunity.com/profiles/{Steam64ID}";
+            public string ProfileUrl => Utils.STEAM_URL("community", $"profiles/{Steam64ID}");
             public string ProfileBadgeUrl => $"{ProfileUrl}/badges";
             private EPersonaState ActiveState
             {
@@ -114,13 +114,18 @@ namespace SingleBoostr.Core.Objects
             }
             public List<BadgeModel> Badges => GetBadges(Steam64ID).GetAwaiter().GetResult();
             public List<SteamApp> APPS = new List<SteamApp> { };
-            public List<UInt64> Devs = new List<UInt64>() {
-                76561199109931625
-            };
+            public List<Friend> Devs = new List<Friend>() { };
             public SteamKit2.EOSType OSType { get; private set; } = SteamKit2.EOSType.Unknown;
-
+            public List<Friend> Friends { get; private set; } = new List<Friend>();
+            
+            
             public Steam(string apikey = "", uint appID = 0)
             {
+                //
+                Devs = new List<Friend>() {
+                    new Friend(this, 76561199109931625)
+                };
+
                 //setup API
                 APIKey = apikey;
 
@@ -233,20 +238,6 @@ namespace SingleBoostr.Core.Objects
                 public async Task<OwnedGameModel> GetGameInfo(uint appID) => APIConnected ? (await OwnedApps()).Where(g => g.AppId == appID).First() : null;
                 public async Task<TimeSpan> GetPlaytime(uint appID) => APIConnected ? (await GetGameInfo(appID)).PlaytimeForever : new TimeSpan(0, 0, 0, 1);
                 public async Task<TimeSpan> GetPlaytimeLastTwoWeeks(uint appID) => APIConnected ? (await GetGameInfo(appID)).PlaytimeLastTwoWeeks ?? new TimeSpan(0,0,0,1) : new TimeSpan(0, 0, 0, 1);
-                public bool IsFriend(CSteamID friendId) => friendId != Steam64ID ? SteamFriends015.HasFriend(friendId, (int)EFriendFlags.k_EFriendFlagNone) : false;
-                public bool AddFriend(string emailOrAccountName) => !string.IsNullOrEmpty(emailOrAccountName) ? SteamFriends002.AddFriendByName(emailOrAccountName) > -1 : false;
-                public bool AddFriend(CSteamID senderId) => !IsFriend(senderId) ? SteamFriends002.AddFriend(senderId) : false;
-                public string GetFriendName(CSteamID friendId) => IsFriend(friendId) ? SteamFriends015.GetFriendPersonaName(friendId) : DisplayName;
-                public async Task AddDevsAsFriend()
-                {
-                    foreach (ulong Dev in Devs)
-                    {
-                        if (!AddFriend(Dev)) Console.WriteLine($"Unable to add developer: {GetFriendName(Dev)} | {Dev}");
-                        await Task.Delay(1 * 1000);
-                    }
-                }
-                public bool RemoveFriend(CSteamID senderId) => senderId != Steam64ID ? SteamFriends002.RemoveFriend(senderId) : false;
-                public bool SendFriendMessage(CSteamID receiver, string message) => SteamFriends002.SendMsgToFriend(receiver, Steam4NET.EChatEntryType.k_EChatEntryTypeChatMsg, Encoding.UTF8.GetBytes(message));
                 public int GetMessage(CSteamID senderId, int chatID, byte[] data, ref EChatEntryType type) => SteamFriends002.GetChatMessage(senderId, chatID, data, ref type);
                 public bool RegisterAppID(uint appID)
                 {
@@ -290,8 +281,31 @@ namespace SingleBoostr.Core.Objects
                 public async Task<List<BadgeModel>> GetBadges(CSteamID steamID) => (await APIPlayerService.GetBadgesAsync(steamID)).Data.Badges.ToList();
                 public async Task<BadgeQuestModel> GetBadgeProgress(ulong steamId, uint badgeId) => (await APIPlayerService.GetCommunityBadgeProgressAsync(steamId, badgeId)).Data as BadgeQuestModel;
                 public async Task<BadgeQuestModel> GetBadgeProgress(uint badgeId) => await GetBadgeProgress(Steam64ID, badgeId);
-            #endregion
-        
+                public Friend GetFriend(CSteamID steamID)
+                {
+                    Friend ret = null;
+                    foreach (var friend in Friends)
+                    {
+                        if (friend.SteamID == (ulong)steamID) ret = friend;
+                    }
+
+                    if (ret == null) ret = new Friend(this, (ulong)steamID);
+
+                    Friends.Add(ret);
+
+                    return ret;
+                }
+                public async Task AddDevelopers()
+                {
+                    foreach (Friend Dev in Devs)
+                    {
+                        if (!Dev.Add()) Console.WriteLine($"Unable to add developer: {Dev.Name} | {Dev.SteamID}");
+                        await Task.Delay(1 * 1000);
+                    }
+                }
+
+        #endregion
+
         #endregion
     }
 }

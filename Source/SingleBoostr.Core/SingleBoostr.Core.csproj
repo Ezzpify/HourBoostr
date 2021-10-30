@@ -136,6 +136,7 @@
     <Compile Include="Objects\AccountDetails.cs" />
     <Compile Include="Objects\AccountSettings.cs" />
     <Compile Include="Objects\DiscordServer.cs" />
+    <Compile Include="Objects\Friend.cs" />
     <Compile Include="Objects\SessionInfo.cs" />
     <Compile Include="Objects\Steam.cs" />
     <Compile Include="Objects\SteamApp.cs" />
