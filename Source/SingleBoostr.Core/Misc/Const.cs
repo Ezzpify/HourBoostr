@@ -11,7 +11,7 @@ namespace SingleBoostr.Core.Misc
             public const string BRANCH = "master";
 
             public static string PROFILE_URL = Utils.GITHUB_URL(false, $"{USER}/");
-            public static string REPO_URL => $"{PROFILE_URL}/{REPO}/";
+            public static string REPO_URL => $"{PROFILE_URL}{REPO}/";
             public static string REPO_RELEASE_URL = $"{REPO_URL}releases/latest";
             public static string NEW_ISSUE_URL = $"{REPO_URL}issues/new";
 

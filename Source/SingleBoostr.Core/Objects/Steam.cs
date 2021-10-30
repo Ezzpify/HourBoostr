@@ -117,6 +117,7 @@ namespace SingleBoostr.Core.Objects
             public List<UInt64> Devs = new List<UInt64>() {
                 76561199109931625
             };
+            public SteamKit2.EOSType OSType { get; private set; } = SteamKit2.EOSType.Unknown;
 
             public Steam(string apikey = "", uint appID = 0)
             {

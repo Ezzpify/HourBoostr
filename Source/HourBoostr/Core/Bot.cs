@@ -13,6 +13,7 @@ using SteamKit2;
 using HourBoostr.Objects;
 using HourBoostr.Enums;
 using HourBoostr.Core;
+using SingleBoostr.Core.Enums;
 
 namespace HourBoostr
 {
@@ -107,9 +108,8 @@ namespace HourBoostr
         /// <summary>
         /// 
         /// </summary>
-        public static EOSType OSType { get; private set; } = EOSType.Unknown;
-
-
+        public EOSType OSType { get; private set; } = EOSType.Unknown;
+         
         /// <summary>
         /// Main initializer for each account
         /// </summary>
@@ -132,11 +132,14 @@ namespace HourBoostr
                 Password = info.Details.Password,
                 LoginKey = info.Details.LoginKey,
                 ShouldRememberPassword = true,
+                ClientOSType = EOSType.MacOS109
             };
+
+            OSType = mSteam.loginDetails.ClientOSType;
+
             mAccountSettings = info;
             mSteam.games = info.Games;
             mSteam.sentryPath = string.Format("Sentryfiles/{0}.sentry", info.Details.Username);
-            OSType = mSteam.loginDetails.ClientOSType;
 
             /*Set up steamweb*/
             mSteam.web = new SteamWeb();
@@ -178,7 +181,7 @@ namespace HourBoostr
         {
             mIsRunning = true;
             mLog.Write(LogLevel.Info, $"Connecting to Steam ...");
-
+           
             try
             {
                 mSteam.client.Connect();

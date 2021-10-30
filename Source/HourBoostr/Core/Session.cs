@@ -8,6 +8,8 @@ using HourBoostr.Objects;
 using HourBoostr.Enums;
 using SingleBoostr.Core.Misc;
 using System.Threading.Tasks;
+using SingleBoostr.Core.Enums;
+using System.Linq;
 
 namespace HourBoostr
 {
@@ -87,48 +89,42 @@ namespace HourBoostr
         /// <summary>
         /// Backgroundworker to start all bots
         /// </summary>
-        private void MBwg_DoWork(object sender, DoWorkEventArgs e)
+        private async void MBwg_DoWork(object sender, DoWorkEventArgs e)
         {
-            /*Go through account and log them into steam*/
-            foreach (var account in mSettings.Accounts)
-            {
-                if (account.IgnoreAccount)
-                {
-                    Console.WriteLine($"{account.Details.Username} has been ignored.");
-                    continue;
-                }
-
-                var bot = new Bot(account);
-                mActiveBotList.Add(bot);
-
-                /*We'll wait for the bot to log in before starting on the next bot
-                We won't wait for it to authenticate, should that be enabled*/
-                while (bot.mBotState == BotState.LoggedOut)
-                    Thread.Sleep(100);
-            }
-
             /*Accounts statistics and some fucking baller ascii*/
             Console.Clear();
-            Console.WriteLine($"\n   _____             _               _       ");
-            Console.WriteLine($"  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
-            Console.WriteLine($"  |     | . | | |  _| . | . | . |_ -|  _|  _|");
-            Console.WriteLine($"  |__|__|___|___|_| |___|___|___|___|_| |_|  \n");
-            Console.WriteLine($"  Source: https://github.com/Ezzpify/HourBoostr");
+            Console.WriteLine("   _____             _               _       ");
+            Console.WriteLine("  |  |  |___ _ _ ___| |_ ___ ___ ___| |_ ___ ");
+            Console.WriteLine("  |     | . | | |  _| . | . | . |_ -|  _|  _|");
+            Console.WriteLine("  |__|__|___|___|_| |___|___|___|___|_| |_|  ");
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine($"  Source: {Const.GitHub.REPO_RELEASE_URL}");
             Console.WriteLine($"  Build date: {File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location)}");
-            Console.WriteLine($"  Version: {Utils.GetVersion()}\n");
-            Console.WriteLine($"  ----------------------------------------");
-            Console.WriteLine($"\n  Loaded {mActiveBotList.Count} accounts\n\n  Account list:");
-            mActiveBotList.ForEach(o => Console.WriteLine("      {0} | {1} Games", o.mAccountSettings.Details.Username, o.mSteam.games.Count));
-            Console.WriteLine($"\n\n  Log:\n  ----------------------------------------\n");
+            Console.WriteLine($"  Version: {Utils.GetVersion()}");
+            Console.WriteLine($"{Environment.NewLine}  Log:{Environment.NewLine}  ----------------------------------------{Environment.NewLine}");
+
+            //all accounts
+            var accounts = mSettings.Accounts;
+            var ignored_accounts = accounts.Where(account => account.IgnoreAccount).ToList();
+            var active_accounts = accounts.Where(account => !ignored_accounts.Contains(account)).ToList();
+
+            //ignored
+            ignored_accounts.ForEach(account => Log.WriteConsole(LogLevel.Warn, $"Account ignored!", account.Details.Username));
+                
+            /*log each account into steam*/
+            foreach (var account in active_accounts)
+            {
+                var bot = new Bot(account);
+                mActiveBotList.Add(bot);
+                Log.WriteConsole(LogLevel.Success, $"Emulated OS: {bot.OSType}", account.Details.Username);
+                while (bot.mBotState == BotState.LoggedOut) await Task.Delay(TimeSpan.FromSeconds(2.5));
+            }
 
             /*Start status thread*/
             mThreadStatus = new Thread(ThreadStatus);
             mThreadStatus.Start();
 
-            if (mSettings.HideToTray)
-            {
-
-            }
+            //if (mSettings.HideToTray) { }
         }
 
         /// <summary>

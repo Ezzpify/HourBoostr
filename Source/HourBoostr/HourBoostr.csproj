@@ -121,7 +121,6 @@
     <Compile Include="Core\ConcurrentEnumerator.cs" />
     <Compile Include="Core\ConcurrentHashSet.cs" />
     <Compile Include="Core\Log.cs" />
-    <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Objects\Config.cs" />
     <Compile Include="Enums\BotState.cs" />
     <Compile Include="Enums\ChatMessageData.cs" />

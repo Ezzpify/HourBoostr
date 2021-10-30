@@ -4,6 +4,7 @@ using System.Threading;
 using System.IO;
 using System.Linq;
 using HourBoostr.Enums;
+using SingleBoostr.Core.Enums;
 
 namespace HourBoostr.Core
 {

@@ -11,14 +11,15 @@ namespace SingleBoostr.Core.Misc
     {
         public string mLogName;
         private string mLogPath;
+        private readonly string mLogDirectory = "Logs";
         private List<string> mLogQueue;
 
         public Log(string logPath)
         {
-            Directory.CreateDirectory("Logs");
+            Directory.CreateDirectory(mLogDirectory);
 
             mLogQueue = new List<string>();
-            mLogPath = Path.Combine("Logs", logPath);
+            mLogPath = Path.Combine(mLogDirectory, logPath);
             mLogName = Path.GetFileNameWithoutExtension(logPath);
 
             if (!File.Exists(mLogPath))
@@ -39,32 +40,32 @@ namespace SingleBoostr.Core.Misc
         
         public void Write(LogLevel level, string str, bool writeToConsole = true)
         {
-            if (writeToConsole)
-            {
-                switch (level)
-                {
-                    case LogLevel.Error:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        break;
-                    case LogLevel.Info:
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        break;
-                    case LogLevel.Success:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        break;
-                    case LogLevel.Warn:
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    case LogLevel.Text:
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        break;
-                }
-
-                Console.WriteLine($"{mLogName} {Utils.GetTimestamp()} {level}: {str}");
-            }
-             
             Write(level, str);
-            if (writeToConsole) Console.ForegroundColor = ConsoleColor.White;
+            if (writeToConsole) WriteConsole(level, str, mLogName);
+        }
+
+        public static void WriteConsole(LogLevel level, string str, string str2 = "Info")
+        {
+            switch (level)
+            {
+                case LogLevel.Error:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case LogLevel.Info:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                case LogLevel.Success:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case LogLevel.Warn:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case LogLevel.Text:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+            }
+            Console.WriteLine($"{str2} [{Utils.GetTimestamp()}] {level}: {str}");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         private void FlushLog()
