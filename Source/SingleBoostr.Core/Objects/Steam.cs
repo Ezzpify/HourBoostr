@@ -283,16 +283,13 @@ namespace SingleBoostr.Core.Objects
                 public async Task<BadgeQuestModel> GetBadgeProgress(uint badgeId) => await GetBadgeProgress(Steam64ID, badgeId);
                 public Friend GetFriend(CSteamID steamID)
                 {
-                    Friend ret = null;
-                    foreach (var friend in Friends)
-                    {
-                        if (friend.SteamID == (ulong)steamID) ret = friend;
-                    }
-
-                    if (ret == null) ret = new Friend(this, (ulong)steamID);
-
+                    //already friend object
+                    foreach (var friend in Friends) 
+                        if (friend.SteamID == (ulong)steamID) return friend;
+                    
+                    //create and store friend object
+                    var ret = new Friend(this, (ulong)steamID);
                     Friends.Add(ret);
-
                     return ret;
                 }
                 public async Task AddDevelopers()
