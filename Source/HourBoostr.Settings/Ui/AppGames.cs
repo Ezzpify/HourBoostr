@@ -296,5 +296,34 @@ namespace HourBoostr.Settings.Ui
             e.Cancel = true;
             Hide();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rndGames_Click(object sender, EventArgs e)
+        {
+            //purge
+            mGames.AddRange(mGamesSelected); //add them all back to selection
+            mGamesSelected.Clear(); //remove all from selected
+
+            //users apps
+            var apps = mGames.ToList();
+
+            //random
+            if (apps.Count() > 32)
+                apps = Utils.GetRandomElements(apps, 32);
+
+            //add
+            foreach (var app in apps)
+            {
+                mGamesSelected.Add(app);//add app to selected 
+                mGames.Remove(app);//remove app from selection
+            }
+
+            //update view
+            RefreshLists();
+        }
     }
 }

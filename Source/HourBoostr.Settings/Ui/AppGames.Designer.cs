@@ -38,6 +38,7 @@
             this.selectedList = new System.Windows.Forms.ListBox();
             this.picLoading = new System.Windows.Forms.PictureBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.rndGames = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.gameGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).BeginInit();
@@ -60,7 +61,7 @@
             this.lvlExampleInput.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lvlExampleInput.Location = new System.Drawing.Point(248, 0);
             this.lvlExampleInput.Name = "lvlExampleInput";
-            this.lvlExampleInput.Size = new System.Drawing.Size(82, 15);
+            this.lvlExampleInput.Size = new System.Drawing.Size(83, 15);
             this.lvlExampleInput.TabIndex = 0;
             this.lvlExampleInput.Text = "Example Input";
             this.lvlExampleInput.Click += new System.EventHandler(this.lvlExampleInput_Click);
@@ -78,12 +79,13 @@
             // 
             // gameGroup
             // 
+            this.gameGroup.Controls.Add(this.rndGames);
             this.gameGroup.Controls.Add(this.txtSearch);
             this.gameGroup.Controls.Add(this.gameList);
             this.gameGroup.Controls.Add(this.selectedList);
             this.gameGroup.Location = new System.Drawing.Point(12, 78);
             this.gameGroup.Name = "gameGroup";
-            this.gameGroup.Size = new System.Drawing.Size(341, 292);
+            this.gameGroup.Size = new System.Drawing.Size(348, 317);
             this.gameGroup.TabIndex = 0;
             this.gameGroup.TabStop = false;
             this.gameGroup.Text = "Games";
@@ -118,7 +120,7 @@
             this.selectedList.FormattingEnabled = true;
             this.selectedList.IntegralHeight = false;
             this.selectedList.ItemHeight = 15;
-            this.selectedList.Location = new System.Drawing.Point(21, 190);
+            this.selectedList.Location = new System.Drawing.Point(21, 218);
             this.selectedList.Name = "selectedList";
             this.selectedList.Size = new System.Drawing.Size(298, 84);
             this.selectedList.TabIndex = 77;
@@ -138,12 +140,22 @@
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // gameForm
+            // rndGames
+            // 
+            this.rndGames.Location = new System.Drawing.Point(21, 189);
+            this.rndGames.Name = "rndGames";
+            this.rndGames.Size = new System.Drawing.Size(75, 23);
+            this.rndGames.TabIndex = 78;
+            this.rndGames.Text = "Random";
+            this.rndGames.UseVisualStyleBackColor = true;
+            this.rndGames.Click += new System.EventHandler(this.rndGames_Click);
+            // 
+            // AppGames
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(365, 382);
+            this.ClientSize = new System.Drawing.Size(372, 407);
             this.Controls.Add(this.picLoading);
             this.Controls.Add(this.gameGroup);
             this.Controls.Add(this.groupBox2);
@@ -152,7 +164,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "gameForm";
+            this.Name = "AppGames";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Find Steam Games";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.gameForm_FormClosing);
@@ -176,5 +188,6 @@
         private System.Windows.Forms.Label lvlExampleInput;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button rndGames;
     }
 }
