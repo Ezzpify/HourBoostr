@@ -281,6 +281,33 @@ namespace SingleBoostr.Ui
             StopApps();
         }
 
+        private void PanelIdleLblrandom_Click(object sender, EventArgs e)
+        {
+            //purge
+            _appListSelected.Clear();
+
+            //users apps
+            var apps = _appList.ToList<App>();
+
+            //random
+            if(apps.Count() > 32)
+                apps = Utils.GetRandomElements(apps, 32);
+
+            //add
+            foreach(App app in apps)
+            {
+                var game = _appList.FirstOrDefault(o => o.Appid == app.Appid);
+                if (game == null)
+                    continue;
+
+                _appListSelected.Add(game);
+                _appList.Remove(game);
+            }
+
+            //update view
+            RefreshGameList();
+        }
+
         private void PanelIdleLblClear_Click(object sender, EventArgs e)
         {
             _appList.AddRange(_appListSelected);
@@ -957,6 +984,16 @@ namespace SingleBoostr.Ui
         private void PanelidleLblClear_MouseLeave(object sender, EventArgs e)
         {
             PanelIdleLblClear.ForeColor = Misc.Utils.LABEL_NORMAL;
+        }
+
+        private void PanelIdleLblrandom_MouseEnter(object sender, EventArgs e)
+        {
+            PanelIdleLblrandom.ForeColor = Misc.Utils.LABEL_HOVER;
+        }
+
+        private void PanelIdleLblrandom_MouseLeave(object sender, EventArgs e)
+        {
+            PanelIdleLblrandom.ForeColor = Misc.Utils.LABEL_NORMAL;
         }
 
         private void PanelIdleStartedBtnStop_MouseEnter(object sender, EventArgs e)
@@ -1869,6 +1906,7 @@ namespace SingleBoostr.Ui
         }
 
         #endregion Functions
+        
     }
 
     class MyRenderer : ToolStripProfessionalRenderer

@@ -35,28 +35,8 @@
             this.PanelUser = new System.Windows.Forms.Panel();
             this.PanelUserPicGoBack = new System.Windows.Forms.PictureBox();
             this.PanelContainer = new System.Windows.Forms.Panel();
-            this.PanelStart = new System.Windows.Forms.Panel();
-            this.PanelStartBtnDonate = new System.Windows.Forms.Button();
-            this.PanelStartLblVersion = new System.Windows.Forms.Label();
-            this.PanelStartChatPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.PanelStartPicGithub = new System.Windows.Forms.PictureBox();
-            this.PanelStartBtnExit = new System.Windows.Forms.Button();
-            this.PanelStartBtnSettings = new System.Windows.Forms.Button();
-            this.PanelStartBtnCards = new System.Windows.Forms.Button();
-            this.PanelStartBtnIdle = new System.Windows.Forms.Button();
-            this.PanelCardsStarted = new System.Windows.Forms.Panel();
-            this.PanelCardsStartedLblOptions = new System.Windows.Forms.Label();
-            this.CardsStartedOptionsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.CardsStartedOptionsMenuBtnBlacklist = new System.Windows.Forms.ToolStripMenuItem();
-            this.CardsStartedOptionsMenuBtnSortQueue = new System.Windows.Forms.ToolStripMenuItem();
-            this.PanelCardsStartedBtnHide = new System.Windows.Forms.Button();
-            this.PanelCardsStartedBtnNext = new System.Windows.Forms.Button();
-            this.PanelCardsStartedPicGame = new System.Windows.Forms.PictureBox();
-            this.PanelCardsStartedLblWrapper = new System.Windows.Forms.Panel();
-            this.PanelCardsStartedLblCardsLeft = new System.Windows.Forms.Label();
-            this.PanelCardsStartedLblCurrentGame = new System.Windows.Forms.Label();
-            this.PanelCardsStartedBtnStopIdle = new System.Windows.Forms.Button();
             this.PanelIdle = new System.Windows.Forms.Panel();
+            this.PanelIdleLblrandom = new System.Windows.Forms.Label();
             this.PanelIdleLblMatchingSearch = new System.Windows.Forms.Label();
             this.PanelIdleLblClear = new System.Windows.Forms.Label();
             this.PanelIdleLblSelectedGamesCount = new System.Windows.Forms.Label();
@@ -84,6 +64,27 @@
             this.PanelLoadingText = new System.Windows.Forms.Label();
             this.PanelLoadingSpacer = new System.Windows.Forms.PictureBox();
             this.PanelLoadingPic = new System.Windows.Forms.PictureBox();
+            this.PanelCardsStarted = new System.Windows.Forms.Panel();
+            this.PanelCardsStartedLblOptions = new System.Windows.Forms.Label();
+            this.CardsStartedOptionsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CardsStartedOptionsMenuBtnBlacklist = new System.Windows.Forms.ToolStripMenuItem();
+            this.CardsStartedOptionsMenuBtnSortQueue = new System.Windows.Forms.ToolStripMenuItem();
+            this.PanelCardsStartedBtnHide = new System.Windows.Forms.Button();
+            this.PanelCardsStartedBtnNext = new System.Windows.Forms.Button();
+            this.PanelCardsStartedPicGame = new System.Windows.Forms.PictureBox();
+            this.PanelCardsStartedLblWrapper = new System.Windows.Forms.Panel();
+            this.PanelCardsStartedLblCardsLeft = new System.Windows.Forms.Label();
+            this.PanelCardsStartedLblCurrentGame = new System.Windows.Forms.Label();
+            this.PanelCardsStartedBtnStopIdle = new System.Windows.Forms.Button();
+            this.PanelStart = new System.Windows.Forms.Panel();
+            this.PanelStartBtnDonate = new System.Windows.Forms.Button();
+            this.PanelStartLblVersion = new System.Windows.Forms.Label();
+            this.PanelStartChatPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.PanelStartPicGithub = new System.Windows.Forms.PictureBox();
+            this.PanelStartBtnExit = new System.Windows.Forms.Button();
+            this.PanelStartBtnSettings = new System.Windows.Forms.Button();
+            this.PanelStartBtnCards = new System.Windows.Forms.Button();
+            this.PanelStartBtnIdle = new System.Windows.Forms.Button();
             this.BgwSteamCallback = new System.ComponentModel.BackgroundWorker();
             this.AppNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.AppNotifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -98,12 +99,6 @@
             this.PanelUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).BeginInit();
             this.PanelContainer.SuspendLayout();
-            this.PanelStart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelStartPicGithub)).BeginInit();
-            this.PanelCardsStarted.SuspendLayout();
-            this.CardsStartedOptionsMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).BeginInit();
-            this.PanelCardsStartedLblWrapper.SuspendLayout();
             this.PanelIdle.SuspendLayout();
             this.PanelIdleStarted.SuspendLayout();
             this.PanelIdleStartedLblIdleTimeWrapper.SuspendLayout();
@@ -116,6 +111,12 @@
             this.PanelLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).BeginInit();
+            this.PanelCardsStarted.SuspendLayout();
+            this.CardsStartedOptionsMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).BeginInit();
+            this.PanelCardsStartedLblWrapper.SuspendLayout();
+            this.PanelStart.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelStartPicGithub)).BeginInit();
             this.AppNotifyIconMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,313 +170,23 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
-            this.PanelContainer.Controls.Add(this.PanelStart);
-            this.PanelContainer.Controls.Add(this.PanelCardsStarted);
             this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
             this.PanelContainer.Controls.Add(this.PanelTos);
             this.PanelContainer.Controls.Add(this.PanelCards);
             this.PanelContainer.Controls.Add(this.PanelLoading);
+            this.PanelContainer.Controls.Add(this.PanelCardsStarted);
+            this.PanelContainer.Controls.Add(this.PanelStart);
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelContainer.Location = new System.Drawing.Point(0, 0);
             this.PanelContainer.Name = "PanelContainer";
             this.PanelContainer.Size = new System.Drawing.Size(600, 350);
             this.PanelContainer.TabIndex = 4;
             // 
-            // PanelStart
-            // 
-            this.PanelStart.BackColor = System.Drawing.Color.Transparent;
-            this.PanelStart.Controls.Add(this.PanelStartBtnDonate);
-            this.PanelStart.Controls.Add(this.PanelStartLblVersion);
-            this.PanelStart.Controls.Add(this.PanelStartChatPanel);
-            this.PanelStart.Controls.Add(this.PanelStartPicGithub);
-            this.PanelStart.Controls.Add(this.PanelStartBtnExit);
-            this.PanelStart.Controls.Add(this.PanelStartBtnSettings);
-            this.PanelStart.Controls.Add(this.PanelStartBtnCards);
-            this.PanelStart.Controls.Add(this.PanelStartBtnIdle);
-            this.PanelStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelStart.Location = new System.Drawing.Point(0, 0);
-            this.PanelStart.Name = "PanelStart";
-            this.PanelStart.Size = new System.Drawing.Size(600, 350);
-            this.PanelStart.TabIndex = 6;
-            this.PanelStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelStart_MouseDown);
-            // 
-            // PanelStartBtnDonate
-            // 
-            this.PanelStartBtnDonate.BackgroundImage = global::SingleBoostr.Properties.Resources.Donate;
-            this.PanelStartBtnDonate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartBtnDonate.FlatAppearance.BorderSize = 0;
-            this.PanelStartBtnDonate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelStartBtnDonate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartBtnDonate.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnDonate.Location = new System.Drawing.Point(405, 10);
-            this.PanelStartBtnDonate.Name = "PanelStartBtnDonate";
-            this.PanelStartBtnDonate.Size = new System.Drawing.Size(73, 40);
-            this.PanelStartBtnDonate.TabIndex = 18;
-            this.PanelStartBtnDonate.UseVisualStyleBackColor = true;
-            this.PanelStartBtnDonate.Click += new System.EventHandler(this.PanelStartBtnDonate_Click);
-            this.PanelStartBtnDonate.MouseEnter += new System.EventHandler(this.PanelStartBtnDonate_MouseEnter);
-            this.PanelStartBtnDonate.MouseLeave += new System.EventHandler(this.PanelStartBtnDonate_MouseLeave);
-            // 
-            // PanelStartLblVersion
-            // 
-            this.PanelStartLblVersion.AutoSize = true;
-            this.PanelStartLblVersion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartLblVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartLblVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.PanelStartLblVersion.Location = new System.Drawing.Point(31, 328);
-            this.PanelStartLblVersion.Name = "PanelStartLblVersion";
-            this.PanelStartLblVersion.Size = new System.Drawing.Size(93, 13);
-            this.PanelStartLblVersion.TabIndex = 17;
-            this.PanelStartLblVersion.Text = "Update available";
-            this.PanelStartLblVersion.Click += new System.EventHandler(this.PanelStartLblVersion_Click);
-            // 
-            // PanelStartChatPanel
-            // 
-            this.PanelStartChatPanel.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
-            this.PanelStartChatPanel.Location = new System.Drawing.Point(10, 64);
-            this.PanelStartChatPanel.Name = "PanelStartChatPanel";
-            this.PanelStartChatPanel.Size = new System.Drawing.Size(320, 254);
-            this.PanelStartChatPanel.TabIndex = 16;
-            this.PanelStartChatPanel.Visible = false;
-            this.PanelStartChatPanel.WrapContents = false;
-            // 
-            // PanelStartPicGithub
-            // 
-            this.PanelStartPicGithub.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelStartPicGithub.BackgroundImage")));
-            this.PanelStartPicGithub.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartPicGithub.Location = new System.Drawing.Point(10, 324);
-            this.PanelStartPicGithub.Name = "PanelStartPicGithub";
-            this.PanelStartPicGithub.Size = new System.Drawing.Size(16, 16);
-            this.PanelStartPicGithub.TabIndex = 14;
-            this.PanelStartPicGithub.TabStop = false;
-            this.PanelStartPicGithub.Click += new System.EventHandler(this.PanelStartPicGithub_Click);
-            // 
-            // PanelStartBtnExit
-            // 
-            this.PanelStartBtnExit.BackgroundImage = global::SingleBoostr.Properties.Resources.Exit;
-            this.PanelStartBtnExit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartBtnExit.FlatAppearance.BorderSize = 0;
-            this.PanelStartBtnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelStartBtnExit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartBtnExit.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnExit.Location = new System.Drawing.Point(540, 10);
-            this.PanelStartBtnExit.Name = "PanelStartBtnExit";
-            this.PanelStartBtnExit.Size = new System.Drawing.Size(50, 40);
-            this.PanelStartBtnExit.TabIndex = 13;
-            this.PanelStartBtnExit.UseVisualStyleBackColor = true;
-            this.PanelStartBtnExit.Click += new System.EventHandler(this.PanelStartBtnExit_Click);
-            this.PanelStartBtnExit.MouseEnter += new System.EventHandler(this.PanelStartBtnExit_MouseEnter);
-            this.PanelStartBtnExit.MouseLeave += new System.EventHandler(this.PanelStartBtnExit_MouseLeave);
-            // 
-            // PanelStartBtnSettings
-            // 
-            this.PanelStartBtnSettings.BackgroundImage = global::SingleBoostr.Properties.Resources.Settings;
-            this.PanelStartBtnSettings.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartBtnSettings.FlatAppearance.BorderSize = 0;
-            this.PanelStartBtnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelStartBtnSettings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartBtnSettings.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnSettings.Location = new System.Drawing.Point(484, 10);
-            this.PanelStartBtnSettings.Name = "PanelStartBtnSettings";
-            this.PanelStartBtnSettings.Size = new System.Drawing.Size(50, 40);
-            this.PanelStartBtnSettings.TabIndex = 12;
-            this.PanelStartBtnSettings.UseVisualStyleBackColor = true;
-            this.PanelStartBtnSettings.Click += new System.EventHandler(this.PanelStartBtnSettings_Click);
-            this.PanelStartBtnSettings.MouseEnter += new System.EventHandler(this.PanelStartBtnSettings_MouseEnter);
-            this.PanelStartBtnSettings.MouseLeave += new System.EventHandler(this.PanelStartBtnSettings_MouseLeave);
-            // 
-            // PanelStartBtnCards
-            // 
-            this.PanelStartBtnCards.BackgroundImage = global::SingleBoostr.Properties.Resources.Cards;
-            this.PanelStartBtnCards.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartBtnCards.FlatAppearance.BorderSize = 0;
-            this.PanelStartBtnCards.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelStartBtnCards.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartBtnCards.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnCards.Location = new System.Drawing.Point(405, 260);
-            this.PanelStartBtnCards.Name = "PanelStartBtnCards";
-            this.PanelStartBtnCards.Size = new System.Drawing.Size(185, 80);
-            this.PanelStartBtnCards.TabIndex = 3;
-            this.PanelStartBtnCards.UseVisualStyleBackColor = true;
-            this.PanelStartBtnCards.Click += new System.EventHandler(this.PanelStartBtnCards_Click);
-            this.PanelStartBtnCards.MouseEnter += new System.EventHandler(this.PanelStartBtnCards_MouseEnter);
-            this.PanelStartBtnCards.MouseLeave += new System.EventHandler(this.PanelStartBtnCards_MouseLeave);
-            // 
-            // PanelStartBtnIdle
-            // 
-            this.PanelStartBtnIdle.BackgroundImage = global::SingleBoostr.Properties.Resources.Idle;
-            this.PanelStartBtnIdle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelStartBtnIdle.FlatAppearance.BorderSize = 0;
-            this.PanelStartBtnIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelStartBtnIdle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelStartBtnIdle.ForeColor = System.Drawing.Color.White;
-            this.PanelStartBtnIdle.Location = new System.Drawing.Point(405, 58);
-            this.PanelStartBtnIdle.Name = "PanelStartBtnIdle";
-            this.PanelStartBtnIdle.Size = new System.Drawing.Size(185, 192);
-            this.PanelStartBtnIdle.TabIndex = 2;
-            this.PanelStartBtnIdle.UseVisualStyleBackColor = true;
-            this.PanelStartBtnIdle.Click += new System.EventHandler(this.PanelStartBtnIdle_Click);
-            this.PanelStartBtnIdle.MouseEnter += new System.EventHandler(this.PanelStartBtnIdle_MouseEnter);
-            this.PanelStartBtnIdle.MouseLeave += new System.EventHandler(this.PanelStartBtnIdle_MouseLeave);
-            // 
-            // PanelCardsStarted
-            // 
-            this.PanelCardsStarted.BackColor = System.Drawing.Color.Transparent;
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedLblOptions);
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnHide);
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnNext);
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedPicGame);
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedLblWrapper);
-            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnStopIdle);
-            this.PanelCardsStarted.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelCardsStarted.Location = new System.Drawing.Point(0, 0);
-            this.PanelCardsStarted.Name = "PanelCardsStarted";
-            this.PanelCardsStarted.Size = new System.Drawing.Size(600, 350);
-            this.PanelCardsStarted.TabIndex = 11;
-            this.PanelCardsStarted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelCardsStarted_MouseDown);
-            // 
-            // PanelCardsStartedLblOptions
-            // 
-            this.PanelCardsStartedLblOptions.AutoSize = true;
-            this.PanelCardsStartedLblOptions.ContextMenuStrip = this.CardsStartedOptionsMenu;
-            this.PanelCardsStartedLblOptions.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelCardsStartedLblOptions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(73)))), ((int)(((byte)(131)))));
-            this.PanelCardsStartedLblOptions.Location = new System.Drawing.Point(172, 117);
-            this.PanelCardsStartedLblOptions.Name = "PanelCardsStartedLblOptions";
-            this.PanelCardsStartedLblOptions.Size = new System.Drawing.Size(19, 17);
-            this.PanelCardsStartedLblOptions.TabIndex = 15;
-            this.PanelCardsStartedLblOptions.Text = "▼";
-            this.PanelCardsStartedLblOptions.Click += new System.EventHandler(this.PanelCardsStartedLblOptions_Click);
-            // 
-            // CardsStartedOptionsMenu
-            // 
-            this.CardsStartedOptionsMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
-            this.CardsStartedOptionsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CardsStartedOptionsMenuBtnBlacklist,
-            this.CardsStartedOptionsMenuBtnSortQueue});
-            this.CardsStartedOptionsMenu.Name = "CardsStartedOptionsMenu";
-            this.CardsStartedOptionsMenu.ShowImageMargin = false;
-            this.CardsStartedOptionsMenu.Size = new System.Drawing.Size(116, 48);
-            // 
-            // CardsStartedOptionsMenuBtnBlacklist
-            // 
-            this.CardsStartedOptionsMenuBtnBlacklist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.CardsStartedOptionsMenuBtnBlacklist.Name = "CardsStartedOptionsMenuBtnBlacklist";
-            this.CardsStartedOptionsMenuBtnBlacklist.Size = new System.Drawing.Size(115, 22);
-            this.CardsStartedOptionsMenuBtnBlacklist.Text = "Blacklist app";
-            this.CardsStartedOptionsMenuBtnBlacklist.Click += new System.EventHandler(this.CardsStartedOptionsMenuBtnBlacklist_Click);
-            // 
-            // CardsStartedOptionsMenuBtnSortQueue
-            // 
-            this.CardsStartedOptionsMenuBtnSortQueue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
-            this.CardsStartedOptionsMenuBtnSortQueue.Name = "CardsStartedOptionsMenuBtnSortQueue";
-            this.CardsStartedOptionsMenuBtnSortQueue.Size = new System.Drawing.Size(115, 22);
-            this.CardsStartedOptionsMenuBtnSortQueue.Text = "Sort queue";
-            this.CardsStartedOptionsMenuBtnSortQueue.Click += new System.EventHandler(this.CardsStartedOptionsMenuBtnSortQueue_Click);
-            // 
-            // PanelCardsStartedBtnHide
-            // 
-            this.PanelCardsStartedBtnHide.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnHide.BackgroundImage")));
-            this.PanelCardsStartedBtnHide.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelCardsStartedBtnHide.FlatAppearance.BorderSize = 0;
-            this.PanelCardsStartedBtnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelCardsStartedBtnHide.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelCardsStartedBtnHide.ForeColor = System.Drawing.Color.White;
-            this.PanelCardsStartedBtnHide.Location = new System.Drawing.Point(167, 240);
-            this.PanelCardsStartedBtnHide.Name = "PanelCardsStartedBtnHide";
-            this.PanelCardsStartedBtnHide.Size = new System.Drawing.Size(51, 35);
-            this.PanelCardsStartedBtnHide.TabIndex = 12;
-            this.PanelCardsStartedBtnHide.Text = "Hide";
-            this.PanelCardsStartedBtnHide.UseVisualStyleBackColor = true;
-            this.PanelCardsStartedBtnHide.Click += new System.EventHandler(this.PanelCardsStartedBtnHide_Click);
-            this.PanelCardsStartedBtnHide.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnHide_MouseEnter);
-            this.PanelCardsStartedBtnHide.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnHide_MouseLeave);
-            // 
-            // PanelCardsStartedBtnNext
-            // 
-            this.PanelCardsStartedBtnNext.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnNext.BackgroundImage")));
-            this.PanelCardsStartedBtnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelCardsStartedBtnNext.FlatAppearance.BorderSize = 0;
-            this.PanelCardsStartedBtnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelCardsStartedBtnNext.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelCardsStartedBtnNext.ForeColor = System.Drawing.Color.White;
-            this.PanelCardsStartedBtnNext.Location = new System.Drawing.Point(224, 240);
-            this.PanelCardsStartedBtnNext.Name = "PanelCardsStartedBtnNext";
-            this.PanelCardsStartedBtnNext.Size = new System.Drawing.Size(51, 35);
-            this.PanelCardsStartedBtnNext.TabIndex = 11;
-            this.PanelCardsStartedBtnNext.Text = "Skip";
-            this.PanelCardsStartedBtnNext.UseVisualStyleBackColor = true;
-            this.PanelCardsStartedBtnNext.Click += new System.EventHandler(this.PanelCardsStartedBtnNext_Click);
-            this.PanelCardsStartedBtnNext.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnNext_MouseEnter);
-            this.PanelCardsStartedBtnNext.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnNext_MouseLeave);
-            // 
-            // PanelCardsStartedPicGame
-            // 
-            this.PanelCardsStartedPicGame.Image = global::SingleBoostr.Properties.Resources.header;
-            this.PanelCardsStartedPicGame.Location = new System.Drawing.Point(167, 112);
-            this.PanelCardsStartedPicGame.Name = "PanelCardsStartedPicGame";
-            this.PanelCardsStartedPicGame.Size = new System.Drawing.Size(265, 124);
-            this.PanelCardsStartedPicGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PanelCardsStartedPicGame.TabIndex = 10;
-            this.PanelCardsStartedPicGame.TabStop = false;
-            // 
-            // PanelCardsStartedLblWrapper
-            // 
-            this.PanelCardsStartedLblWrapper.Controls.Add(this.PanelCardsStartedLblCardsLeft);
-            this.PanelCardsStartedLblWrapper.Controls.Add(this.PanelCardsStartedLblCurrentGame);
-            this.PanelCardsStartedLblWrapper.Location = new System.Drawing.Point(167, 69);
-            this.PanelCardsStartedLblWrapper.Name = "PanelCardsStartedLblWrapper";
-            this.PanelCardsStartedLblWrapper.Size = new System.Drawing.Size(265, 37);
-            this.PanelCardsStartedLblWrapper.TabIndex = 9;
-            // 
-            // PanelCardsStartedLblCardsLeft
-            // 
-            this.PanelCardsStartedLblCardsLeft.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PanelCardsStartedLblCardsLeft.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelCardsStartedLblCardsLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelCardsStartedLblCardsLeft.ForeColor = System.Drawing.Color.Gray;
-            this.PanelCardsStartedLblCardsLeft.Location = new System.Drawing.Point(0, 17);
-            this.PanelCardsStartedLblCardsLeft.Name = "PanelCardsStartedLblCardsLeft";
-            this.PanelCardsStartedLblCardsLeft.Size = new System.Drawing.Size(265, 20);
-            this.PanelCardsStartedLblCardsLeft.TabIndex = 9;
-            this.PanelCardsStartedLblCardsLeft.Text = "5 Cards left | 250 in total";
-            this.PanelCardsStartedLblCardsLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // PanelCardsStartedLblCurrentGame
-            // 
-            this.PanelCardsStartedLblCurrentGame.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PanelCardsStartedLblCurrentGame.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelCardsStartedLblCurrentGame.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelCardsStartedLblCurrentGame.ForeColor = System.Drawing.Color.Gray;
-            this.PanelCardsStartedLblCurrentGame.Location = new System.Drawing.Point(0, 0);
-            this.PanelCardsStartedLblCurrentGame.Name = "PanelCardsStartedLblCurrentGame";
-            this.PanelCardsStartedLblCurrentGame.Size = new System.Drawing.Size(265, 20);
-            this.PanelCardsStartedLblCurrentGame.TabIndex = 8;
-            this.PanelCardsStartedLblCurrentGame.Text = "Witcher 3: Wild Hunt";
-            this.PanelCardsStartedLblCurrentGame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // PanelCardsStartedBtnStopIdle
-            // 
-            this.PanelCardsStartedBtnStopIdle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnStopIdle.BackgroundImage")));
-            this.PanelCardsStartedBtnStopIdle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.PanelCardsStartedBtnStopIdle.FlatAppearance.BorderSize = 0;
-            this.PanelCardsStartedBtnStopIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PanelCardsStartedBtnStopIdle.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PanelCardsStartedBtnStopIdle.ForeColor = System.Drawing.Color.White;
-            this.PanelCardsStartedBtnStopIdle.Location = new System.Drawing.Point(281, 240);
-            this.PanelCardsStartedBtnStopIdle.Name = "PanelCardsStartedBtnStopIdle";
-            this.PanelCardsStartedBtnStopIdle.Size = new System.Drawing.Size(151, 35);
-            this.PanelCardsStartedBtnStopIdle.TabIndex = 3;
-            this.PanelCardsStartedBtnStopIdle.Text = "Stop Idle";
-            this.PanelCardsStartedBtnStopIdle.UseVisualStyleBackColor = true;
-            this.PanelCardsStartedBtnStopIdle.Click += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_Click);
-            this.PanelCardsStartedBtnStopIdle.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_MouseEnter);
-            this.PanelCardsStartedBtnStopIdle.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_MouseLeave);
-            // 
             // PanelIdle
             // 
             this.PanelIdle.BackColor = System.Drawing.Color.Transparent;
+            this.PanelIdle.Controls.Add(this.PanelIdleLblrandom);
             this.PanelIdle.Controls.Add(this.PanelIdleLblMatchingSearch);
             this.PanelIdle.Controls.Add(this.PanelIdleLblClear);
             this.PanelIdle.Controls.Add(this.PanelIdleLblSelectedGamesCount);
@@ -489,6 +200,21 @@
             this.PanelIdle.Size = new System.Drawing.Size(600, 350);
             this.PanelIdle.TabIndex = 7;
             this.PanelIdle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelIdle_MouseDown);
+            // 
+            // PanelIdleLblrandom
+            // 
+            this.PanelIdleLblrandom.AutoSize = true;
+            this.PanelIdleLblrandom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelIdleLblrandom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelIdleLblrandom.ForeColor = System.Drawing.Color.Gray;
+            this.PanelIdleLblrandom.Location = new System.Drawing.Point(528, 58);
+            this.PanelIdleLblrandom.Name = "PanelIdleLblrandom";
+            this.PanelIdleLblrandom.Size = new System.Drawing.Size(65, 20);
+            this.PanelIdleLblrandom.TabIndex = 11;
+            this.PanelIdleLblrandom.Text = "Random";
+            this.PanelIdleLblrandom.Click += new System.EventHandler(this.PanelIdleLblrandom_Click);
+            this.PanelIdleLblrandom.MouseEnter += new System.EventHandler(this.PanelIdleLblrandom_MouseEnter);
+            this.PanelIdleLblrandom.MouseLeave += new System.EventHandler(this.PanelIdleLblrandom_MouseLeave);
             // 
             // PanelIdleLblMatchingSearch
             // 
@@ -843,6 +569,296 @@
             this.PanelLoadingPic.TabIndex = 0;
             this.PanelLoadingPic.TabStop = false;
             // 
+            // PanelCardsStarted
+            // 
+            this.PanelCardsStarted.BackColor = System.Drawing.Color.Transparent;
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedLblOptions);
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnHide);
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnNext);
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedPicGame);
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedLblWrapper);
+            this.PanelCardsStarted.Controls.Add(this.PanelCardsStartedBtnStopIdle);
+            this.PanelCardsStarted.Location = new System.Drawing.Point(0, 0);
+            this.PanelCardsStarted.Name = "PanelCardsStarted";
+            this.PanelCardsStarted.Size = new System.Drawing.Size(600, 350);
+            this.PanelCardsStarted.TabIndex = 11;
+            this.PanelCardsStarted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelCardsStarted_MouseDown);
+            // 
+            // PanelCardsStartedLblOptions
+            // 
+            this.PanelCardsStartedLblOptions.AutoSize = true;
+            this.PanelCardsStartedLblOptions.ContextMenuStrip = this.CardsStartedOptionsMenu;
+            this.PanelCardsStartedLblOptions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelCardsStartedLblOptions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(73)))), ((int)(((byte)(131)))));
+            this.PanelCardsStartedLblOptions.Location = new System.Drawing.Point(172, 117);
+            this.PanelCardsStartedLblOptions.Name = "PanelCardsStartedLblOptions";
+            this.PanelCardsStartedLblOptions.Size = new System.Drawing.Size(19, 17);
+            this.PanelCardsStartedLblOptions.TabIndex = 15;
+            this.PanelCardsStartedLblOptions.Text = "▼";
+            this.PanelCardsStartedLblOptions.Click += new System.EventHandler(this.PanelCardsStartedLblOptions_Click);
+            // 
+            // CardsStartedOptionsMenu
+            // 
+            this.CardsStartedOptionsMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
+            this.CardsStartedOptionsMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CardsStartedOptionsMenuBtnBlacklist,
+            this.CardsStartedOptionsMenuBtnSortQueue});
+            this.CardsStartedOptionsMenu.Name = "CardsStartedOptionsMenu";
+            this.CardsStartedOptionsMenu.ShowImageMargin = false;
+            this.CardsStartedOptionsMenu.Size = new System.Drawing.Size(116, 48);
+            // 
+            // CardsStartedOptionsMenuBtnBlacklist
+            // 
+            this.CardsStartedOptionsMenuBtnBlacklist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.CardsStartedOptionsMenuBtnBlacklist.Name = "CardsStartedOptionsMenuBtnBlacklist";
+            this.CardsStartedOptionsMenuBtnBlacklist.Size = new System.Drawing.Size(115, 22);
+            this.CardsStartedOptionsMenuBtnBlacklist.Text = "Blacklist app";
+            this.CardsStartedOptionsMenuBtnBlacklist.Click += new System.EventHandler(this.CardsStartedOptionsMenuBtnBlacklist_Click);
+            // 
+            // CardsStartedOptionsMenuBtnSortQueue
+            // 
+            this.CardsStartedOptionsMenuBtnSortQueue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(212)))), ((int)(((byte)(212)))));
+            this.CardsStartedOptionsMenuBtnSortQueue.Name = "CardsStartedOptionsMenuBtnSortQueue";
+            this.CardsStartedOptionsMenuBtnSortQueue.Size = new System.Drawing.Size(115, 22);
+            this.CardsStartedOptionsMenuBtnSortQueue.Text = "Sort queue";
+            this.CardsStartedOptionsMenuBtnSortQueue.Click += new System.EventHandler(this.CardsStartedOptionsMenuBtnSortQueue_Click);
+            // 
+            // PanelCardsStartedBtnHide
+            // 
+            this.PanelCardsStartedBtnHide.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnHide.BackgroundImage")));
+            this.PanelCardsStartedBtnHide.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelCardsStartedBtnHide.FlatAppearance.BorderSize = 0;
+            this.PanelCardsStartedBtnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelCardsStartedBtnHide.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelCardsStartedBtnHide.ForeColor = System.Drawing.Color.White;
+            this.PanelCardsStartedBtnHide.Location = new System.Drawing.Point(167, 240);
+            this.PanelCardsStartedBtnHide.Name = "PanelCardsStartedBtnHide";
+            this.PanelCardsStartedBtnHide.Size = new System.Drawing.Size(51, 35);
+            this.PanelCardsStartedBtnHide.TabIndex = 12;
+            this.PanelCardsStartedBtnHide.Text = "Hide";
+            this.PanelCardsStartedBtnHide.UseVisualStyleBackColor = true;
+            this.PanelCardsStartedBtnHide.Click += new System.EventHandler(this.PanelCardsStartedBtnHide_Click);
+            this.PanelCardsStartedBtnHide.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnHide_MouseEnter);
+            this.PanelCardsStartedBtnHide.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnHide_MouseLeave);
+            // 
+            // PanelCardsStartedBtnNext
+            // 
+            this.PanelCardsStartedBtnNext.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnNext.BackgroundImage")));
+            this.PanelCardsStartedBtnNext.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelCardsStartedBtnNext.FlatAppearance.BorderSize = 0;
+            this.PanelCardsStartedBtnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelCardsStartedBtnNext.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelCardsStartedBtnNext.ForeColor = System.Drawing.Color.White;
+            this.PanelCardsStartedBtnNext.Location = new System.Drawing.Point(224, 240);
+            this.PanelCardsStartedBtnNext.Name = "PanelCardsStartedBtnNext";
+            this.PanelCardsStartedBtnNext.Size = new System.Drawing.Size(51, 35);
+            this.PanelCardsStartedBtnNext.TabIndex = 11;
+            this.PanelCardsStartedBtnNext.Text = "Skip";
+            this.PanelCardsStartedBtnNext.UseVisualStyleBackColor = true;
+            this.PanelCardsStartedBtnNext.Click += new System.EventHandler(this.PanelCardsStartedBtnNext_Click);
+            this.PanelCardsStartedBtnNext.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnNext_MouseEnter);
+            this.PanelCardsStartedBtnNext.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnNext_MouseLeave);
+            // 
+            // PanelCardsStartedPicGame
+            // 
+            this.PanelCardsStartedPicGame.Image = global::SingleBoostr.Properties.Resources.header;
+            this.PanelCardsStartedPicGame.Location = new System.Drawing.Point(167, 112);
+            this.PanelCardsStartedPicGame.Name = "PanelCardsStartedPicGame";
+            this.PanelCardsStartedPicGame.Size = new System.Drawing.Size(265, 124);
+            this.PanelCardsStartedPicGame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PanelCardsStartedPicGame.TabIndex = 10;
+            this.PanelCardsStartedPicGame.TabStop = false;
+            // 
+            // PanelCardsStartedLblWrapper
+            // 
+            this.PanelCardsStartedLblWrapper.Controls.Add(this.PanelCardsStartedLblCardsLeft);
+            this.PanelCardsStartedLblWrapper.Controls.Add(this.PanelCardsStartedLblCurrentGame);
+            this.PanelCardsStartedLblWrapper.Location = new System.Drawing.Point(167, 69);
+            this.PanelCardsStartedLblWrapper.Name = "PanelCardsStartedLblWrapper";
+            this.PanelCardsStartedLblWrapper.Size = new System.Drawing.Size(265, 37);
+            this.PanelCardsStartedLblWrapper.TabIndex = 9;
+            // 
+            // PanelCardsStartedLblCardsLeft
+            // 
+            this.PanelCardsStartedLblCardsLeft.Cursor = System.Windows.Forms.Cursors.Default;
+            this.PanelCardsStartedLblCardsLeft.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelCardsStartedLblCardsLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelCardsStartedLblCardsLeft.ForeColor = System.Drawing.Color.Gray;
+            this.PanelCardsStartedLblCardsLeft.Location = new System.Drawing.Point(0, 17);
+            this.PanelCardsStartedLblCardsLeft.Name = "PanelCardsStartedLblCardsLeft";
+            this.PanelCardsStartedLblCardsLeft.Size = new System.Drawing.Size(265, 20);
+            this.PanelCardsStartedLblCardsLeft.TabIndex = 9;
+            this.PanelCardsStartedLblCardsLeft.Text = "5 Cards left | 250 in total";
+            this.PanelCardsStartedLblCardsLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PanelCardsStartedLblCurrentGame
+            // 
+            this.PanelCardsStartedLblCurrentGame.Cursor = System.Windows.Forms.Cursors.Default;
+            this.PanelCardsStartedLblCurrentGame.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PanelCardsStartedLblCurrentGame.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelCardsStartedLblCurrentGame.ForeColor = System.Drawing.Color.Gray;
+            this.PanelCardsStartedLblCurrentGame.Location = new System.Drawing.Point(0, 0);
+            this.PanelCardsStartedLblCurrentGame.Name = "PanelCardsStartedLblCurrentGame";
+            this.PanelCardsStartedLblCurrentGame.Size = new System.Drawing.Size(265, 20);
+            this.PanelCardsStartedLblCurrentGame.TabIndex = 8;
+            this.PanelCardsStartedLblCurrentGame.Text = "Witcher 3: Wild Hunt";
+            this.PanelCardsStartedLblCurrentGame.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PanelCardsStartedBtnStopIdle
+            // 
+            this.PanelCardsStartedBtnStopIdle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelCardsStartedBtnStopIdle.BackgroundImage")));
+            this.PanelCardsStartedBtnStopIdle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelCardsStartedBtnStopIdle.FlatAppearance.BorderSize = 0;
+            this.PanelCardsStartedBtnStopIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelCardsStartedBtnStopIdle.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelCardsStartedBtnStopIdle.ForeColor = System.Drawing.Color.White;
+            this.PanelCardsStartedBtnStopIdle.Location = new System.Drawing.Point(281, 240);
+            this.PanelCardsStartedBtnStopIdle.Name = "PanelCardsStartedBtnStopIdle";
+            this.PanelCardsStartedBtnStopIdle.Size = new System.Drawing.Size(151, 35);
+            this.PanelCardsStartedBtnStopIdle.TabIndex = 3;
+            this.PanelCardsStartedBtnStopIdle.Text = "Stop Idle";
+            this.PanelCardsStartedBtnStopIdle.UseVisualStyleBackColor = true;
+            this.PanelCardsStartedBtnStopIdle.Click += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_Click);
+            this.PanelCardsStartedBtnStopIdle.MouseEnter += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_MouseEnter);
+            this.PanelCardsStartedBtnStopIdle.MouseLeave += new System.EventHandler(this.PanelCardsStartedBtnStopIdle_MouseLeave);
+            // 
+            // PanelStart
+            // 
+            this.PanelStart.BackColor = System.Drawing.Color.Transparent;
+            this.PanelStart.Controls.Add(this.PanelStartBtnDonate);
+            this.PanelStart.Controls.Add(this.PanelStartLblVersion);
+            this.PanelStart.Controls.Add(this.PanelStartChatPanel);
+            this.PanelStart.Controls.Add(this.PanelStartPicGithub);
+            this.PanelStart.Controls.Add(this.PanelStartBtnExit);
+            this.PanelStart.Controls.Add(this.PanelStartBtnSettings);
+            this.PanelStart.Controls.Add(this.PanelStartBtnCards);
+            this.PanelStart.Controls.Add(this.PanelStartBtnIdle);
+            this.PanelStart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelStart.Location = new System.Drawing.Point(0, 0);
+            this.PanelStart.Name = "PanelStart";
+            this.PanelStart.Size = new System.Drawing.Size(600, 350);
+            this.PanelStart.TabIndex = 6;
+            this.PanelStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelStart_MouseDown);
+            // 
+            // PanelStartBtnDonate
+            // 
+            this.PanelStartBtnDonate.BackgroundImage = global::SingleBoostr.Properties.Resources.Donate;
+            this.PanelStartBtnDonate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnDonate.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnDonate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnDonate.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnDonate.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnDonate.Location = new System.Drawing.Point(405, 10);
+            this.PanelStartBtnDonate.Name = "PanelStartBtnDonate";
+            this.PanelStartBtnDonate.Size = new System.Drawing.Size(73, 40);
+            this.PanelStartBtnDonate.TabIndex = 18;
+            this.PanelStartBtnDonate.UseVisualStyleBackColor = true;
+            this.PanelStartBtnDonate.Click += new System.EventHandler(this.PanelStartBtnDonate_Click);
+            this.PanelStartBtnDonate.MouseEnter += new System.EventHandler(this.PanelStartBtnDonate_MouseEnter);
+            this.PanelStartBtnDonate.MouseLeave += new System.EventHandler(this.PanelStartBtnDonate_MouseLeave);
+            // 
+            // PanelStartLblVersion
+            // 
+            this.PanelStartLblVersion.AutoSize = true;
+            this.PanelStartLblVersion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartLblVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartLblVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.PanelStartLblVersion.Location = new System.Drawing.Point(31, 328);
+            this.PanelStartLblVersion.Name = "PanelStartLblVersion";
+            this.PanelStartLblVersion.Size = new System.Drawing.Size(93, 13);
+            this.PanelStartLblVersion.TabIndex = 17;
+            this.PanelStartLblVersion.Text = "Update available";
+            this.PanelStartLblVersion.Click += new System.EventHandler(this.PanelStartLblVersion_Click);
+            // 
+            // PanelStartChatPanel
+            // 
+            this.PanelStartChatPanel.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.PanelStartChatPanel.Location = new System.Drawing.Point(10, 64);
+            this.PanelStartChatPanel.Name = "PanelStartChatPanel";
+            this.PanelStartChatPanel.Size = new System.Drawing.Size(320, 254);
+            this.PanelStartChatPanel.TabIndex = 16;
+            this.PanelStartChatPanel.Visible = false;
+            this.PanelStartChatPanel.WrapContents = false;
+            // 
+            // PanelStartPicGithub
+            // 
+            this.PanelStartPicGithub.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelStartPicGithub.BackgroundImage")));
+            this.PanelStartPicGithub.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartPicGithub.Location = new System.Drawing.Point(10, 324);
+            this.PanelStartPicGithub.Name = "PanelStartPicGithub";
+            this.PanelStartPicGithub.Size = new System.Drawing.Size(16, 16);
+            this.PanelStartPicGithub.TabIndex = 14;
+            this.PanelStartPicGithub.TabStop = false;
+            this.PanelStartPicGithub.Click += new System.EventHandler(this.PanelStartPicGithub_Click);
+            // 
+            // PanelStartBtnExit
+            // 
+            this.PanelStartBtnExit.BackgroundImage = global::SingleBoostr.Properties.Resources.Exit;
+            this.PanelStartBtnExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnExit.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnExit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnExit.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnExit.Location = new System.Drawing.Point(540, 10);
+            this.PanelStartBtnExit.Name = "PanelStartBtnExit";
+            this.PanelStartBtnExit.Size = new System.Drawing.Size(50, 40);
+            this.PanelStartBtnExit.TabIndex = 13;
+            this.PanelStartBtnExit.UseVisualStyleBackColor = true;
+            this.PanelStartBtnExit.Click += new System.EventHandler(this.PanelStartBtnExit_Click);
+            this.PanelStartBtnExit.MouseEnter += new System.EventHandler(this.PanelStartBtnExit_MouseEnter);
+            this.PanelStartBtnExit.MouseLeave += new System.EventHandler(this.PanelStartBtnExit_MouseLeave);
+            // 
+            // PanelStartBtnSettings
+            // 
+            this.PanelStartBtnSettings.BackgroundImage = global::SingleBoostr.Properties.Resources.Settings;
+            this.PanelStartBtnSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnSettings.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnSettings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnSettings.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnSettings.Location = new System.Drawing.Point(484, 10);
+            this.PanelStartBtnSettings.Name = "PanelStartBtnSettings";
+            this.PanelStartBtnSettings.Size = new System.Drawing.Size(50, 40);
+            this.PanelStartBtnSettings.TabIndex = 12;
+            this.PanelStartBtnSettings.UseVisualStyleBackColor = true;
+            this.PanelStartBtnSettings.Click += new System.EventHandler(this.PanelStartBtnSettings_Click);
+            this.PanelStartBtnSettings.MouseEnter += new System.EventHandler(this.PanelStartBtnSettings_MouseEnter);
+            this.PanelStartBtnSettings.MouseLeave += new System.EventHandler(this.PanelStartBtnSettings_MouseLeave);
+            // 
+            // PanelStartBtnCards
+            // 
+            this.PanelStartBtnCards.BackgroundImage = global::SingleBoostr.Properties.Resources.Cards;
+            this.PanelStartBtnCards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnCards.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnCards.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnCards.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnCards.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnCards.Location = new System.Drawing.Point(405, 260);
+            this.PanelStartBtnCards.Name = "PanelStartBtnCards";
+            this.PanelStartBtnCards.Size = new System.Drawing.Size(185, 80);
+            this.PanelStartBtnCards.TabIndex = 3;
+            this.PanelStartBtnCards.UseVisualStyleBackColor = true;
+            this.PanelStartBtnCards.Click += new System.EventHandler(this.PanelStartBtnCards_Click);
+            this.PanelStartBtnCards.MouseEnter += new System.EventHandler(this.PanelStartBtnCards_MouseEnter);
+            this.PanelStartBtnCards.MouseLeave += new System.EventHandler(this.PanelStartBtnCards_MouseLeave);
+            // 
+            // PanelStartBtnIdle
+            // 
+            this.PanelStartBtnIdle.BackgroundImage = global::SingleBoostr.Properties.Resources.Idle;
+            this.PanelStartBtnIdle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PanelStartBtnIdle.FlatAppearance.BorderSize = 0;
+            this.PanelStartBtnIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PanelStartBtnIdle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PanelStartBtnIdle.ForeColor = System.Drawing.Color.White;
+            this.PanelStartBtnIdle.Location = new System.Drawing.Point(405, 58);
+            this.PanelStartBtnIdle.Name = "PanelStartBtnIdle";
+            this.PanelStartBtnIdle.Size = new System.Drawing.Size(185, 192);
+            this.PanelStartBtnIdle.TabIndex = 2;
+            this.PanelStartBtnIdle.UseVisualStyleBackColor = true;
+            this.PanelStartBtnIdle.Click += new System.EventHandler(this.PanelStartBtnIdle_Click);
+            this.PanelStartBtnIdle.MouseEnter += new System.EventHandler(this.PanelStartBtnIdle_MouseEnter);
+            this.PanelStartBtnIdle.MouseLeave += new System.EventHandler(this.PanelStartBtnIdle_MouseLeave);
+            // 
             // BgwSteamCallback
             // 
             this.BgwSteamCallback.WorkerSupportsCancellation = true;
@@ -914,7 +930,7 @@
             this.ToolTip.ReshowDelay = 50;
             this.ToolTip.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ToolTip_Draw);
             // 
-            // MainForm
+            // AppHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -928,7 +944,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "MainForm";
+            this.Name = "AppHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SingleBoostr";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
@@ -938,14 +954,6 @@
             this.PanelUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).EndInit();
             this.PanelContainer.ResumeLayout(false);
-            this.PanelStart.ResumeLayout(false);
-            this.PanelStart.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelStartPicGithub)).EndInit();
-            this.PanelCardsStarted.ResumeLayout(false);
-            this.PanelCardsStarted.PerformLayout();
-            this.CardsStartedOptionsMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).EndInit();
-            this.PanelCardsStartedLblWrapper.ResumeLayout(false);
             this.PanelIdle.ResumeLayout(false);
             this.PanelIdle.PerformLayout();
             this.PanelIdleStarted.ResumeLayout(false);
@@ -959,6 +967,14 @@
             this.PanelLoading.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).EndInit();
+            this.PanelCardsStarted.ResumeLayout(false);
+            this.PanelCardsStarted.PerformLayout();
+            this.CardsStartedOptionsMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).EndInit();
+            this.PanelCardsStartedLblWrapper.ResumeLayout(false);
+            this.PanelStart.ResumeLayout(false);
+            this.PanelStart.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelStartPicGithub)).EndInit();
             this.AppNotifyIconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1030,6 +1046,7 @@
         private System.Windows.Forms.Button PanelStartBtnDonate;
         private System.Windows.Forms.Label PanelLoadingText;
         private System.Windows.Forms.PictureBox PanelLoadingSpacer;
+        private System.Windows.Forms.Label PanelIdleLblrandom;
     }
 }
 

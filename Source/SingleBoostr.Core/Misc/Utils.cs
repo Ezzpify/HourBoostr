@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -166,5 +167,16 @@ namespace SingleBoostr.Core.Misc
             // NOT FOUND
             return false;
         }
+
+        /// <summary>
+        /// This technique is called selection sampling, a special case of Reservoir Sampling.
+        /// It's similar in performance to shuffling the input, but of course allows the sample to be generated without modifying the original data.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="elementsCount"></param>
+        /// <returns></returns>
+        public static List<T> GetRandomElements<T>(this IEnumerable<T> list, int elementsCount) => list.OrderBy(arg => Guid.NewGuid()).Take(elementsCount).ToList();
+
     }
 }
