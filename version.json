@@ -2,13 +2,13 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.2.0",
-      "Info": "New feature: button to select a random 32 games!"
+      "Version": "4.2.1",
+      "Info": "Bug fix for saying update on latest version"
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.2.0",
-      "Info": "New feature: button to select a random 32 games!"
+      "Version": "4.2.1",
+      "Info": "Bug fix for saying update on latest version"
     }
   ]
 }
