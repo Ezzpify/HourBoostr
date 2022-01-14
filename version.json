@@ -2,13 +2,13 @@
   "Applications": [
     {
       "Name":"SingleBoostr",
-      "Version": "4.1.9",
-      "Info": "New features added, See Github for more info."
+      "Version": "4.2.0",
+      "Info": "New feature: button to select a random 32 games!"
     },
     {
       "Name":"HourBoostr",
-      "Version": "4.1.9",
-      "Info": "Updated UI, Faster Preformance plus new features added!"
+      "Version": "4.2.0",
+      "Info": "New feature: button to select a random 32 games!"
     }
   ]
 }
