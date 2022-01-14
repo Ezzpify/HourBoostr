@@ -298,7 +298,7 @@ namespace HourBoostr.Settings.Ui
         }
 
         /// <summary>
-        /// 
+        /// select random games
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -312,8 +312,8 @@ namespace HourBoostr.Settings.Ui
             var apps = mGames.ToList();
 
             //random
-            if (apps.Count() > 32)
-                apps = Utils.GetRandomElements(apps, 32);
+            if (apps.Count() >= Const.Steam.MAX_GAMES)
+                apps = Utils.GetRandomElements(apps, Const.Steam.MAX_GAMES - 1);
 
             //add
             foreach (var app in apps)

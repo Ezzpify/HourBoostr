@@ -288,11 +288,11 @@ namespace SingleBoostr.Ui
             _appListSelected.Clear(); //remove all from selected
 
             //users apps
-            var apps = _appList.ToList<App>();
+            var apps = _appList.ToList();
 
             //random
-            if(apps.Count() > 32)
-                apps = Utils.GetRandomElements(apps, 32);
+            if(apps.Count() >= Const.Steam.MAX_GAMES)
+                apps = Utils.GetRandomElements(apps, Const.Steam.MAX_GAMES - 1);
 
             //add
             foreach(App app in apps)
