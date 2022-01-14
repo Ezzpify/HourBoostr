@@ -34,7 +34,15 @@ namespace SingleBoostr.Core.Misc
         /// </summary>
         /// <param name="assembly"></param>
         /// <returns>local version of given assembly</returns>
-        public static string GetLocalVersion(Assembly assembly) => assembly.GetName().Version.ToString();
+        public static string GetLocalVersion(Assembly assembly)
+        {
+            switch (GetName(assembly).ToLower())
+            {
+                case "singleboostr": return Const.SingleBoostr.VERSION;
+                case "hourboostr": return Const.HourBoostr.VERSION;
+                default: return "0.0.0";
+            }
+        }
 
         /// <summary>
         /// Get server version of given assembly
@@ -56,7 +64,7 @@ namespace SingleBoostr.Core.Misc
         public static async Task<bool> UpdateAvailable(Assembly assembly)
         {
             var serverVersion = await GetServerVersion(assembly); 
-            return !GetLocalVersion(assembly).Equals($"{serverVersion}.0");
+            return !GetLocalVersion(assembly).Equals(serverVersion);
         }
 
         /// <summary>
