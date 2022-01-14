@@ -284,7 +284,8 @@ namespace SingleBoostr.Ui
         private void PanelIdleLblrandom_Click(object sender, EventArgs e)
         {
             //purge
-            _appListSelected.Clear();
+            _appList.AddRange(_appListSelected); //add them all back to selection
+            _appListSelected.Clear(); //remove all from selected
 
             //users apps
             var apps = _appList.ToList<App>();
@@ -296,12 +297,8 @@ namespace SingleBoostr.Ui
             //add
             foreach(App app in apps)
             {
-                var game = _appList.FirstOrDefault(o => o.Appid == app.Appid);
-                if (game == null)
-                    continue;
-
-                _appListSelected.Add(game);
-                _appList.Remove(game);
+                _appListSelected.Add(app);//add app to selected 
+                _appList.Remove(app);//remove app from selection
             }
 
             //update view
