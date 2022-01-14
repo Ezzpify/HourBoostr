@@ -129,7 +129,7 @@ namespace SingleBoostr.Ui
                 ShowWindow(WindowPanel.Tos);
             }
 
-            PanelStartLblVersion.Text = $"v{System.Windows.Forms.Application.ProductVersion}";
+            PanelStartLblVersion.Text = $"v{Const.SingleBoostr.VERSION}";
             ToolTip.OwnerDraw = true;
         }
 
