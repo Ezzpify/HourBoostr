@@ -35,6 +35,10 @@
             this.PanelUser = new System.Windows.Forms.Panel();
             this.PanelUserPicGoBack = new System.Windows.Forms.PictureBox();
             this.PanelContainer = new System.Windows.Forms.Panel();
+            this.PanelLoading = new System.Windows.Forms.Panel();
+            this.PanelLoadingText = new System.Windows.Forms.Label();
+            this.PanelLoadingSpacer = new System.Windows.Forms.PictureBox();
+            this.PanelLoadingPic = new System.Windows.Forms.PictureBox();
             this.PanelIdle = new System.Windows.Forms.Panel();
             this.PanelIdleLblrandom = new System.Windows.Forms.Label();
             this.PanelIdleLblMatchingSearch = new System.Windows.Forms.Label();
@@ -60,10 +64,6 @@
             this.PanelTosBtnAccept = new System.Windows.Forms.Button();
             this.PanelCards = new System.Windows.Forms.Panel();
             this.PanelCardsBtnLogin = new System.Windows.Forms.Button();
-            this.PanelLoading = new System.Windows.Forms.Panel();
-            this.PanelLoadingText = new System.Windows.Forms.Label();
-            this.PanelLoadingSpacer = new System.Windows.Forms.PictureBox();
-            this.PanelLoadingPic = new System.Windows.Forms.PictureBox();
             this.PanelCardsStarted = new System.Windows.Forms.Panel();
             this.PanelCardsStartedLblOptions = new System.Windows.Forms.Label();
             this.CardsStartedOptionsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -99,6 +99,9 @@
             this.PanelUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).BeginInit();
             this.PanelContainer.SuspendLayout();
+            this.PanelLoading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).BeginInit();
             this.PanelIdle.SuspendLayout();
             this.PanelIdleStarted.SuspendLayout();
             this.PanelIdleStartedLblIdleTimeWrapper.SuspendLayout();
@@ -108,9 +111,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicTosDividerLeft)).BeginInit();
             this.PanelTosBottom.SuspendLayout();
             this.PanelCards.SuspendLayout();
-            this.PanelLoading.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).BeginInit();
             this.PanelCardsStarted.SuspendLayout();
             this.CardsStartedOptionsMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelCardsStartedPicGame)).BeginInit();
@@ -170,11 +170,11 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
+            this.PanelContainer.Controls.Add(this.PanelLoading);
             this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
             this.PanelContainer.Controls.Add(this.PanelTos);
             this.PanelContainer.Controls.Add(this.PanelCards);
-            this.PanelContainer.Controls.Add(this.PanelLoading);
             this.PanelContainer.Controls.Add(this.PanelCardsStarted);
             this.PanelContainer.Controls.Add(this.PanelStart);
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -182,6 +182,48 @@
             this.PanelContainer.Name = "PanelContainer";
             this.PanelContainer.Size = new System.Drawing.Size(870, 480);
             this.PanelContainer.TabIndex = 4;
+            // 
+            // PanelLoading
+            // 
+            this.PanelLoading.BackColor = System.Drawing.Color.Transparent;
+            this.PanelLoading.Controls.Add(this.PanelLoadingText);
+            this.PanelLoading.Controls.Add(this.PanelLoadingSpacer);
+            this.PanelLoading.Controls.Add(this.PanelLoadingPic);
+            this.PanelLoading.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelLoading.Location = new System.Drawing.Point(0, 0);
+            this.PanelLoading.Name = "PanelLoading";
+            this.PanelLoading.Size = new System.Drawing.Size(870, 480);
+            this.PanelLoading.TabIndex = 5;
+            this.PanelLoading.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelLoading_MouseDown);
+            // 
+            // PanelLoadingText
+            // 
+            this.PanelLoadingText.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.PanelLoadingText.Location = new System.Drawing.Point(0, 453);
+            this.PanelLoadingText.Name = "PanelLoadingText";
+            this.PanelLoadingText.Size = new System.Drawing.Size(870, 17);
+            this.PanelLoadingText.TabIndex = 1;
+            this.PanelLoadingText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // PanelLoadingSpacer
+            // 
+            this.PanelLoadingSpacer.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.PanelLoadingSpacer.Location = new System.Drawing.Point(0, 470);
+            this.PanelLoadingSpacer.Name = "PanelLoadingSpacer";
+            this.PanelLoadingSpacer.Size = new System.Drawing.Size(870, 10);
+            this.PanelLoadingSpacer.TabIndex = 2;
+            this.PanelLoadingSpacer.TabStop = false;
+            // 
+            // PanelLoadingPic
+            // 
+            this.PanelLoadingPic.BackgroundImage = global::SingleBoostr.Properties.Resources.LoadL;
+            this.PanelLoadingPic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelLoadingPic.Location = new System.Drawing.Point(0, 0);
+            this.PanelLoadingPic.Name = "PanelLoadingPic";
+            this.PanelLoadingPic.Size = new System.Drawing.Size(870, 480);
+            this.PanelLoadingPic.TabIndex = 0;
+            this.PanelLoadingPic.TabStop = false;
             // 
             // PanelIdle
             // 
@@ -526,48 +568,6 @@
             this.PanelCardsBtnLogin.Click += new System.EventHandler(this.PanelCardsBtnLogin_Click);
             this.PanelCardsBtnLogin.MouseEnter += new System.EventHandler(this.PanelCardsBtnLogin_MouseEnter);
             this.PanelCardsBtnLogin.MouseLeave += new System.EventHandler(this.PanelCardsBtnLogin_MouseLeave);
-            // 
-            // PanelLoading
-            // 
-            this.PanelLoading.BackColor = System.Drawing.Color.Transparent;
-            this.PanelLoading.Controls.Add(this.PanelLoadingText);
-            this.PanelLoading.Controls.Add(this.PanelLoadingSpacer);
-            this.PanelLoading.Controls.Add(this.PanelLoadingPic);
-            this.PanelLoading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelLoading.Location = new System.Drawing.Point(0, 0);
-            this.PanelLoading.Name = "PanelLoading";
-            this.PanelLoading.Size = new System.Drawing.Size(870, 480);
-            this.PanelLoading.TabIndex = 5;
-            this.PanelLoading.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelLoading_MouseDown);
-            // 
-            // PanelLoadingText
-            // 
-            this.PanelLoadingText.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.PanelLoadingText.Location = new System.Drawing.Point(0, 453);
-            this.PanelLoadingText.Name = "PanelLoadingText";
-            this.PanelLoadingText.Size = new System.Drawing.Size(870, 17);
-            this.PanelLoadingText.TabIndex = 1;
-            this.PanelLoadingText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // PanelLoadingSpacer
-            // 
-            this.PanelLoadingSpacer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelLoadingSpacer.Location = new System.Drawing.Point(0, 470);
-            this.PanelLoadingSpacer.Name = "PanelLoadingSpacer";
-            this.PanelLoadingSpacer.Size = new System.Drawing.Size(870, 10);
-            this.PanelLoadingSpacer.TabIndex = 2;
-            this.PanelLoadingSpacer.TabStop = false;
-            // 
-            // PanelLoadingPic
-            // 
-            this.PanelLoadingPic.BackgroundImage = global::SingleBoostr.Properties.Resources.Load;
-            this.PanelLoadingPic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelLoadingPic.Location = new System.Drawing.Point(0, 0);
-            this.PanelLoadingPic.Name = "PanelLoadingPic";
-            this.PanelLoadingPic.Size = new System.Drawing.Size(870, 480);
-            this.PanelLoadingPic.TabIndex = 0;
-            this.PanelLoadingPic.TabStop = false;
             // 
             // PanelCardsStarted
             // 
@@ -954,6 +954,9 @@
             this.PanelUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).EndInit();
             this.PanelContainer.ResumeLayout(false);
+            this.PanelLoading.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).EndInit();
             this.PanelIdle.ResumeLayout(false);
             this.PanelIdle.PerformLayout();
             this.PanelIdleStarted.ResumeLayout(false);
@@ -964,9 +967,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PicTosDividerLeft)).EndInit();
             this.PanelTosBottom.ResumeLayout(false);
             this.PanelCards.ResumeLayout(false);
-            this.PanelLoading.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingSpacer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PanelLoadingPic)).EndInit();
             this.PanelCardsStarted.ResumeLayout(false);
             this.PanelCardsStarted.PerformLayout();
             this.CardsStartedOptionsMenu.ResumeLayout(false);

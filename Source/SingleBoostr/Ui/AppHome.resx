@@ -121,7 +121,7 @@
   <data name="PanelIdleStartedBtnHide.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -140,7 +140,7 @@
   <data name="PanelIdleStartedBtnStop.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -166,7 +166,7 @@ Do you understand and agree to this?</value>
   <data name="PanelTosBtnDecline.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -185,7 +185,7 @@ Do you understand and agree to this?</value>
   <data name="PanelTosBtnAccept.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -204,7 +204,7 @@ Do you understand and agree to this?</value>
   <data name="PanelCardsBtnLogin.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -226,7 +226,7 @@ Do you understand and agree to this?</value>
   <data name="PanelCardsStartedBtnHide.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -245,7 +245,7 @@ Do you understand and agree to this?</value>
   <data name="PanelCardsStartedBtnNext.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -264,7 +264,7 @@ Do you understand and agree to this?</value>
   <data name="PanelCardsStartedBtnStopIdle.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQkAAAAoCAYAAADt7w9DAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1
-        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw8AAAsPAZL5A6UAAALVSURBVHhe7dTTdp1RFIDRvlOc
+        MAAA6mAAADqYAAAXb5JfxUYAAAAJcEhZcwAACw4AAAsOAUC+4UEAAALVSURBVHhe7dTTdp1RFIDRvlOc
         Ro3zNrUdW41t20Ybu0lt2+bq/tfZ44zzAr37LuYrzF0SFy+Ov24J6o+H33GJLrGJ8svDz9gktx8qWb57
         +KZS5KuHLzGp6rP1KSbN7aNKlw/We5Uh76y30Y5MeWO9js5Sr6yX0dnqhcqR51Euz6Jy1VPjicqTx9aj
         qHz10BF5QR4Y91WB3LPuRhbKHet2ZJG6FVEkNyOK1Q1VIteNa6pUrhpXIsrUTrijXLaNy6pCtoxNVSkb
@@ -283,7 +283,7 @@ Do you understand and agree to this?</value>
   <data name="PanelStartPicGithub.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3TAAAN0wG91RxqAAAAB3RJ
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3SAAAN0gFvkv6OAAAAB3RJ
         TUUH4QMWFBY5e6wmZwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAE5SURBVDhP
         jZMxSkNREEU/AVNpkyJiJzYWYmNSuAHFHVhoZ+EaUog7CNgLQqyDop2FRjBlBAt7C8FgZ0AQFJ7nzkzC
         /9EvHjgw784dCAnJpkkpVXEXj/E61LyD1aj9TpResYwhbke9CIu2Vf5HO84cgn3P0zOe4ru9iig7wRd7

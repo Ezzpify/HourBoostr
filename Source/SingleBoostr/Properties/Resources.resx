@@ -181,6 +181,9 @@
   <data name="Settings_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\Settings-Selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ButtonL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Interface\Media\ButtonL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Cards" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\Cards.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -208,7 +211,7 @@
   <data name="header" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\media\Interface\Media\header.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ButtonL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Interface\Media\ButtonL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LoadL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Interface\Media\LoadL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
