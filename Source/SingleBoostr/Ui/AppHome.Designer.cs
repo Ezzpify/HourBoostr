@@ -170,9 +170,9 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
-            this.PanelContainer.Controls.Add(this.PanelStart);
-            this.PanelContainer.Controls.Add(this.PanelLoading);
             this.PanelContainer.Controls.Add(this.PanelTos);
+            this.PanelContainer.Controls.Add(this.PanelLoading);
+            this.PanelContainer.Controls.Add(this.PanelStart);
             this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
             this.PanelContainer.Controls.Add(this.PanelCards);
@@ -395,7 +395,7 @@
             this.PanelTosLblText.Size = new System.Drawing.Size(810, 417);
             this.PanelTosLblText.TabIndex = 0;
             this.PanelTosLblText.Text = resources.GetString("PanelTosLblText.Text");
-            this.PanelTosLblText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PanelTosLblText.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.PanelTosLblText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelTosLblText_MouseDown);
             // 
             // PicTosDividerRight
