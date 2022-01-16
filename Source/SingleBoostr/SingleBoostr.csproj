@@ -260,9 +260,6 @@
     <None Include="Media\Interface\Media\Back.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Media\Interface\Media\Menu.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Media\Interface\Media\Back-Selected.png" />
   </ItemGroup>
   <ItemGroup>
@@ -276,9 +273,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Media\Interface\Media\Settings-Selected.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Media\Interface\Media\GamePlaceholder.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Media\Interface\Media\header.jpg" />
@@ -298,7 +292,6 @@
     <None Include="Media\Interface\Media\Min.png" />
     <None Include="Media\Interface\Media\Min-Selected.png" />
     <None Include="Media\Interface\Media\Active-Selected.png" />
-    <None Include="Media\Interface\Media\Active_Selected.png" />
     <None Include="Media\Interface\Media\Active.png" />
     <None Include="Media\Interface\Media\Load.png" />
     <None Include="Media\Interface\Media\Icon.png" />
