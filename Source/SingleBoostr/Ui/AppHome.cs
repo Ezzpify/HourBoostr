@@ -815,52 +815,52 @@ namespace SingleBoostr.Ui
 
         private void PanelIdleStartedBtnHide_MouseEnter(object sender, EventArgs e)
         {
-            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelIdleStartedBtnHide_MouseLeave(object sender, EventArgs e)
         {
-            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.Button;
+            PanelIdleStartedBtnHide.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelCardsStartedBtnHide_MouseEnter(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelCardsStartedBtnHide_MouseLeave(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.Button;
+            PanelCardsStartedBtnHide.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelCardsStartedBtnNext_MouseEnter(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelCardsStartedBtnNext_MouseLeave(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.Button;
+            PanelCardsStartedBtnNext.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelTosBtnAccept_MouseEnter(object sender, EventArgs e)
         {
-            PanelTosBtnAccept.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelTosBtnAccept.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelTosBtnAccept_MouseLeave(object sender, EventArgs e)
         {
-            PanelTosBtnAccept.BackgroundImage = Properties.Resources.Button;
+            PanelTosBtnAccept.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelTosBtnDecline_MouseEnter(object sender, EventArgs e)
         {
-            PanelTosBtnDecline.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelTosBtnDecline.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelTosBtnDecline_MouseLeave(object sender, EventArgs e)
         {
-            PanelTosBtnDecline.BackgroundImage = Properties.Resources.Button;
+            PanelTosBtnDecline.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelStartBtnIdle_MouseEnter(object sender, EventArgs e)
@@ -945,32 +945,32 @@ namespace SingleBoostr.Ui
 
         private void PanelCardsStartedBtnStopIdle_MouseEnter(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelCardsStartedBtnStopIdle_MouseLeave(object sender, EventArgs e)
         {
-            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.Button;
+            PanelCardsStartedBtnStopIdle.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelCardsBtnLogin_MouseEnter(object sender, EventArgs e)
         {
-            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelCardsBtnLogin_MouseLeave(object sender, EventArgs e)
         {
-            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.Button;
+            PanelCardsBtnLogin.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelidleBtnIdle_MouseEnter(object sender, EventArgs e)
         {
-            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelidleBtnIdle_MouseLeave(object sender, EventArgs e)
         {
-            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.Button;
+            PanelIdleBtnIdle.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         private void PanelidleLblClear_MouseEnter(object sender, EventArgs e)
@@ -995,12 +995,12 @@ namespace SingleBoostr.Ui
 
         private void PanelIdleStartedBtnStop_MouseEnter(object sender, EventArgs e)
         {
-            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.Button_Selected;
+            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.Button_SelectedL;
         }
 
         private void PanelIdleStartedBtnStop_MouseLeave(object sender, EventArgs e)
         {
-            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.Button;
+            PanelIdleStartedBtnStop.BackgroundImage = Properties.Resources.ButtonL;
         }
 
         #endregion UIStyle
