@@ -170,11 +170,11 @@
             // PanelContainer
             // 
             this.PanelContainer.BackColor = System.Drawing.Color.Transparent;
+            this.PanelContainer.Controls.Add(this.PanelTos);
             this.PanelContainer.Controls.Add(this.PanelIdle);
             this.PanelContainer.Controls.Add(this.PanelStart);
             this.PanelContainer.Controls.Add(this.PanelLoading);
             this.PanelContainer.Controls.Add(this.PanelIdleStarted);
-            this.PanelContainer.Controls.Add(this.PanelTos);
             this.PanelContainer.Controls.Add(this.PanelCards);
             this.PanelContainer.Controls.Add(this.PanelCardsStarted);
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -649,7 +649,7 @@
             this.PanelTosBtnDecline.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PanelTosBtnDecline.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelTosBtnDecline.ForeColor = System.Drawing.Color.White;
-            this.PanelTosBtnDecline.Location = new System.Drawing.Point(337, 14);
+            this.PanelTosBtnDecline.Location = new System.Drawing.Point(475, 13);
             this.PanelTosBtnDecline.Name = "PanelTosBtnDecline";
             this.PanelTosBtnDecline.Size = new System.Drawing.Size(125, 35);
             this.PanelTosBtnDecline.TabIndex = 1;
@@ -667,7 +667,7 @@
             this.PanelTosBtnAccept.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PanelTosBtnAccept.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelTosBtnAccept.ForeColor = System.Drawing.Color.White;
-            this.PanelTosBtnAccept.Location = new System.Drawing.Point(140, 14);
+            this.PanelTosBtnAccept.Location = new System.Drawing.Point(278, 13);
             this.PanelTosBtnAccept.Name = "PanelTosBtnAccept";
             this.PanelTosBtnAccept.Size = new System.Drawing.Size(125, 35);
             this.PanelTosBtnAccept.TabIndex = 0;
