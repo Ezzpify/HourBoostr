@@ -180,7 +180,7 @@
             this.PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelContainer.Location = new System.Drawing.Point(0, 0);
             this.PanelContainer.Name = "PanelContainer";
-            this.PanelContainer.Size = new System.Drawing.Size(600, 350);
+            this.PanelContainer.Size = new System.Drawing.Size(870, 480);
             this.PanelContainer.TabIndex = 4;
             // 
             // PanelIdle
@@ -197,7 +197,7 @@
             this.PanelIdle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelIdle.Location = new System.Drawing.Point(0, 0);
             this.PanelIdle.Name = "PanelIdle";
-            this.PanelIdle.Size = new System.Drawing.Size(600, 350);
+            this.PanelIdle.Size = new System.Drawing.Size(870, 480);
             this.PanelIdle.TabIndex = 7;
             this.PanelIdle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelIdle_MouseDown);
             // 
@@ -207,7 +207,7 @@
             this.PanelIdleLblrandom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PanelIdleLblrandom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelIdleLblrandom.ForeColor = System.Drawing.Color.Gray;
-            this.PanelIdleLblrandom.Location = new System.Drawing.Point(528, 58);
+            this.PanelIdleLblrandom.Location = new System.Drawing.Point(793, 91);
             this.PanelIdleLblrandom.Name = "PanelIdleLblrandom";
             this.PanelIdleLblrandom.Size = new System.Drawing.Size(65, 20);
             this.PanelIdleLblrandom.TabIndex = 11;
@@ -235,7 +235,7 @@
             this.PanelIdleLblClear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PanelIdleLblClear.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelIdleLblClear.ForeColor = System.Drawing.Color.Gray;
-            this.PanelIdleLblClear.Location = new System.Drawing.Point(550, 89);
+            this.PanelIdleLblClear.Location = new System.Drawing.Point(815, 122);
             this.PanelIdleLblClear.Name = "PanelIdleLblClear";
             this.PanelIdleLblClear.Size = new System.Drawing.Size(43, 20);
             this.PanelIdleLblClear.TabIndex = 9;
@@ -250,7 +250,7 @@
             this.PanelIdleLblSelectedGamesCount.Cursor = System.Windows.Forms.Cursors.Default;
             this.PanelIdleLblSelectedGamesCount.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelIdleLblSelectedGamesCount.ForeColor = System.Drawing.Color.Gray;
-            this.PanelIdleLblSelectedGamesCount.Location = new System.Drawing.Point(321, 89);
+            this.PanelIdleLblSelectedGamesCount.Location = new System.Drawing.Point(434, 119);
             this.PanelIdleLblSelectedGamesCount.Name = "PanelIdleLblSelectedGamesCount";
             this.PanelIdleLblSelectedGamesCount.Size = new System.Drawing.Size(129, 20);
             this.PanelIdleLblSelectedGamesCount.TabIndex = 8;
@@ -258,15 +258,15 @@
             // 
             // PanelIdleBtnIdle
             // 
-            this.PanelIdleBtnIdle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PanelIdleBtnIdle.BackgroundImage")));
+            this.PanelIdleBtnIdle.BackgroundImage = global::SingleBoostr.Properties.Resources.ButtonL;
             this.PanelIdleBtnIdle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PanelIdleBtnIdle.FlatAppearance.BorderSize = 0;
             this.PanelIdleBtnIdle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PanelIdleBtnIdle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelIdleBtnIdle.ForeColor = System.Drawing.Color.White;
-            this.PanelIdleBtnIdle.Location = new System.Drawing.Point(325, 303);
+            this.PanelIdleBtnIdle.Location = new System.Drawing.Point(438, 435);
             this.PanelIdleBtnIdle.Name = "PanelIdleBtnIdle";
-            this.PanelIdleBtnIdle.Size = new System.Drawing.Size(265, 35);
+            this.PanelIdleBtnIdle.Size = new System.Drawing.Size(420, 35);
             this.PanelIdleBtnIdle.TabIndex = 3;
             this.PanelIdleBtnIdle.Text = "Start Idle";
             this.PanelIdleBtnIdle.UseVisualStyleBackColor = true;
@@ -282,9 +282,9 @@
             this.PanelIdleListGamesSelected.FormattingEnabled = true;
             this.PanelIdleListGamesSelected.IntegralHeight = false;
             this.PanelIdleListGamesSelected.ItemHeight = 17;
-            this.PanelIdleListGamesSelected.Location = new System.Drawing.Point(325, 117);
+            this.PanelIdleListGamesSelected.Location = new System.Drawing.Point(438, 150);
             this.PanelIdleListGamesSelected.Name = "PanelIdleListGamesSelected";
-            this.PanelIdleListGamesSelected.Size = new System.Drawing.Size(265, 180);
+            this.PanelIdleListGamesSelected.Size = new System.Drawing.Size(420, 279);
             this.PanelIdleListGamesSelected.TabIndex = 2;
             this.PanelIdleListGamesSelected.SelectedIndexChanged += new System.EventHandler(this.PanelIdleListGamesSelected_SelectedIndexChanged);
             // 
@@ -298,7 +298,7 @@
             this.PanelIdleListGames.ItemHeight = 17;
             this.PanelIdleListGames.Location = new System.Drawing.Point(12, 150);
             this.PanelIdleListGames.Name = "PanelIdleListGames";
-            this.PanelIdleListGames.Size = new System.Drawing.Size(307, 188);
+            this.PanelIdleListGames.Size = new System.Drawing.Size(420, 316);
             this.PanelIdleListGames.TabIndex = 1;
             this.PanelIdleListGames.SelectedIndexChanged += new System.EventHandler(this.PanelIdleListGames_SelectedIndexChanged);
             // 
@@ -324,7 +324,7 @@
             this.PanelIdleStarted.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelIdleStarted.Location = new System.Drawing.Point(0, 0);
             this.PanelIdleStarted.Name = "PanelIdleStarted";
-            this.PanelIdleStarted.Size = new System.Drawing.Size(600, 350);
+            this.PanelIdleStarted.Size = new System.Drawing.Size(870, 480);
             this.PanelIdleStarted.TabIndex = 10;
             this.PanelIdleStarted.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelIdleStarted_MouseDown);
             // 
@@ -407,7 +407,7 @@
             this.PanelTos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelTos.Location = new System.Drawing.Point(0, 0);
             this.PanelTos.Name = "PanelTos";
-            this.PanelTos.Size = new System.Drawing.Size(600, 350);
+            this.PanelTos.Size = new System.Drawing.Size(870, 480);
             this.PanelTos.TabIndex = 6;
             this.PanelTos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelTos_MouseDown);
             // 
@@ -419,7 +419,7 @@
             this.PanelTosTop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelTosTop.Location = new System.Drawing.Point(0, 0);
             this.PanelTosTop.Name = "PanelTosTop";
-            this.PanelTosTop.Size = new System.Drawing.Size(600, 287);
+            this.PanelTosTop.Size = new System.Drawing.Size(870, 417);
             this.PanelTosTop.TabIndex = 2;
             // 
             // PanelTosLblText
@@ -428,7 +428,7 @@
             this.PanelTosLblText.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PanelTosLblText.Location = new System.Drawing.Point(30, 0);
             this.PanelTosLblText.Name = "PanelTosLblText";
-            this.PanelTosLblText.Size = new System.Drawing.Size(540, 287);
+            this.PanelTosLblText.Size = new System.Drawing.Size(810, 417);
             this.PanelTosLblText.TabIndex = 0;
             this.PanelTosLblText.Text = resources.GetString("PanelTosLblText.Text");
             this.PanelTosLblText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -437,9 +437,9 @@
             // PicTosDividerRight
             // 
             this.PicTosDividerRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.PicTosDividerRight.Location = new System.Drawing.Point(570, 0);
+            this.PicTosDividerRight.Location = new System.Drawing.Point(840, 0);
             this.PicTosDividerRight.Name = "PicTosDividerRight";
-            this.PicTosDividerRight.Size = new System.Drawing.Size(30, 287);
+            this.PicTosDividerRight.Size = new System.Drawing.Size(30, 417);
             this.PicTosDividerRight.TabIndex = 2;
             this.PicTosDividerRight.TabStop = false;
             // 
@@ -448,7 +448,7 @@
             this.PicTosDividerLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.PicTosDividerLeft.Location = new System.Drawing.Point(0, 0);
             this.PicTosDividerLeft.Name = "PicTosDividerLeft";
-            this.PicTosDividerLeft.Size = new System.Drawing.Size(30, 287);
+            this.PicTosDividerLeft.Size = new System.Drawing.Size(30, 417);
             this.PicTosDividerLeft.TabIndex = 1;
             this.PicTosDividerLeft.TabStop = false;
             // 
@@ -457,9 +457,9 @@
             this.PanelTosBottom.Controls.Add(this.PanelTosBtnDecline);
             this.PanelTosBottom.Controls.Add(this.PanelTosBtnAccept);
             this.PanelTosBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelTosBottom.Location = new System.Drawing.Point(0, 287);
+            this.PanelTosBottom.Location = new System.Drawing.Point(0, 417);
             this.PanelTosBottom.Name = "PanelTosBottom";
-            this.PanelTosBottom.Size = new System.Drawing.Size(600, 63);
+            this.PanelTosBottom.Size = new System.Drawing.Size(870, 63);
             this.PanelTosBottom.TabIndex = 3;
             // 
             // PanelTosBtnDecline
@@ -505,7 +505,7 @@
             this.PanelCards.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelCards.Location = new System.Drawing.Point(0, 0);
             this.PanelCards.Name = "PanelCards";
-            this.PanelCards.Size = new System.Drawing.Size(600, 350);
+            this.PanelCards.Size = new System.Drawing.Size(870, 480);
             this.PanelCards.TabIndex = 11;
             this.PanelCards.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelCards_MouseDown);
             // 
@@ -536,7 +536,7 @@
             this.PanelLoading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelLoading.Location = new System.Drawing.Point(0, 0);
             this.PanelLoading.Name = "PanelLoading";
-            this.PanelLoading.Size = new System.Drawing.Size(600, 350);
+            this.PanelLoading.Size = new System.Drawing.Size(870, 480);
             this.PanelLoading.TabIndex = 5;
             this.PanelLoading.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelLoading_MouseDown);
             // 
@@ -544,18 +544,18 @@
             // 
             this.PanelLoadingText.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.PanelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.PanelLoadingText.Location = new System.Drawing.Point(0, 323);
+            this.PanelLoadingText.Location = new System.Drawing.Point(0, 453);
             this.PanelLoadingText.Name = "PanelLoadingText";
-            this.PanelLoadingText.Size = new System.Drawing.Size(600, 17);
+            this.PanelLoadingText.Size = new System.Drawing.Size(870, 17);
             this.PanelLoadingText.TabIndex = 1;
             this.PanelLoadingText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // PanelLoadingSpacer
             // 
             this.PanelLoadingSpacer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.PanelLoadingSpacer.Location = new System.Drawing.Point(0, 340);
+            this.PanelLoadingSpacer.Location = new System.Drawing.Point(0, 470);
             this.PanelLoadingSpacer.Name = "PanelLoadingSpacer";
-            this.PanelLoadingSpacer.Size = new System.Drawing.Size(600, 10);
+            this.PanelLoadingSpacer.Size = new System.Drawing.Size(870, 10);
             this.PanelLoadingSpacer.TabIndex = 2;
             this.PanelLoadingSpacer.TabStop = false;
             // 
@@ -565,7 +565,7 @@
             this.PanelLoadingPic.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelLoadingPic.Location = new System.Drawing.Point(0, 0);
             this.PanelLoadingPic.Name = "PanelLoadingPic";
-            this.PanelLoadingPic.Size = new System.Drawing.Size(600, 350);
+            this.PanelLoadingPic.Size = new System.Drawing.Size(870, 480);
             this.PanelLoadingPic.TabIndex = 0;
             this.PanelLoadingPic.TabStop = false;
             // 
@@ -736,7 +736,7 @@
             this.PanelStart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelStart.Location = new System.Drawing.Point(0, 0);
             this.PanelStart.Name = "PanelStart";
-            this.PanelStart.Size = new System.Drawing.Size(600, 350);
+            this.PanelStart.Size = new System.Drawing.Size(870, 480);
             this.PanelStart.TabIndex = 6;
             this.PanelStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelStart_MouseDown);
             // 
@@ -936,7 +936,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
             this.BackgroundImage = global::SingleBoostr.Properties.Resources.Background;
-            this.ClientSize = new System.Drawing.Size(600, 350);
+            this.ClientSize = new System.Drawing.Size(870, 480);
             this.Controls.Add(this.PanelUser);
             this.Controls.Add(this.PanelContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
