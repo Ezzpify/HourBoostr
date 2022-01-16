@@ -163,6 +163,16 @@ namespace SingleBoostr.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Button_SelectedL {
+            get {
+                object obj = ResourceManager.GetObject("Button-SelectedL", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ButtonL {
             get {
                 object obj = ResourceManager.GetObject("ButtonL", resourceCulture);

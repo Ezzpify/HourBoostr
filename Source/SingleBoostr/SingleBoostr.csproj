@@ -285,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Media\Interface\Media\Button-SelectedL.png" />
     <None Include="Media\Interface\Media\LoadL.png" />
     <None Include="Media\Interface\Media\ButtonL.png" />
     <None Include="Media\Interface\Media\animation.gif" />
