@@ -45,7 +45,7 @@ namespace SingleBoostr.Core.Misc
         public sealed class SingleBoostr
         {
             public const string NAME = "SingleBoostr";
-            public const string VERSION = "4.2.1";
+            public const string VERSION = "4.2.5";
             public static string IDLER_EXE => $"{NAME}.Game.exe";
             public static string APP_LIST => $"{NAME}.AppList.json";
             public static string SETTINGS_FILE => $"{NAME}.Settings.json";

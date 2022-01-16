@@ -865,12 +865,12 @@ namespace SingleBoostr.Ui
 
         private void PanelStartBtnIdle_MouseEnter(object sender, EventArgs e)
         {
-            PanelStartBtnIdle.BackgroundImage = Properties.Resources.Idle_Selected;
+            PanelStartBtnIdle.BackgroundImage = Properties.Resources.Idle_SelectedL;
         }
 
         private void PanelStartBtnIdle_MouseLeave(object sender, EventArgs e)
         {
-            PanelStartBtnIdle.BackgroundImage = Properties.Resources.Idle;
+            PanelStartBtnIdle.BackgroundImage = Properties.Resources.IdleL;
         }
 
         private void PanelStartBtnCards_MouseEnter(object sender, EventArgs e)
