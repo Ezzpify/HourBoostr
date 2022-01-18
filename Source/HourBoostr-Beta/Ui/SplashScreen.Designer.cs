@@ -1,6 +1,6 @@
 ﻿namespace HourBoostr_Beta
 {
-    partial class Form1
+    partial class SplashScreen
     {
         /// <summary>
         /// Required designer variable.

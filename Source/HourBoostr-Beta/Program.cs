@@ -8,7 +8,7 @@ namespace HourBoostr_Beta
     internal class Program
     {
         internal static ProgramAssembly Assembly;
-        internal static Form FormWindow;
+        internal static Form SplashScreen; 
 
         /// <summary>
         /// The main entry point for the application.
@@ -19,11 +19,11 @@ namespace HourBoostr_Beta
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Assembly = ProgramAssembly.GetInstance();
-            FormWindow = new Form1();
+            SplashScreen = new SplashScreen();
             if (args.Any())
             {
                 if (args[0].Contains("dev"))
-                    Application.Run(FormWindow);
+                    Application.Run(SplashScreen);
             }
             else
                 Application.Exit();

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace HourBoostr_Beta
 {
-    public partial class Form1 : Form
+    public partial class SplashScreen : Form
     {
-        public Form1()
+        public SplashScreen()
         {
             InitializeComponent();
         }
