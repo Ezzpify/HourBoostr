@@ -84,6 +84,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Ui\BoostrSelectionScreen.resx">
+      <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ui\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
