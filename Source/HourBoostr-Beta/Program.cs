@@ -27,6 +27,9 @@ namespace HourBoostr_Beta
             BoostrSelectionScreen = new();
         }
 
+        internal void Start() => Application.Run(SplashScreen);
+        internal void Close() => Application.Exit();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -38,9 +41,9 @@ namespace HourBoostr_Beta
             await Task.CompletedTask;
 
             if (This.Arguments.DevMode)
-               Application.Run(This.SplashScreen);
+                This.Start();
             else
-                Application.Exit();
+                This.Close();
         }
     }
 }
