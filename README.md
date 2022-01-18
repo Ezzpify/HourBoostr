@@ -1,15 +1,17 @@
 <p align="center">
   <img src="https://i.imgur.com/1Py0CWT.png"/>
+</p>
+ 
+<p align="center">
   <h2 align="center"><a href="https://github.com/Ni1kko/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
-
-[![License](https://img.shields.io/github/license/Ni1kko/HourBoostr.svg?label=License&maxAge=86400)](./LICENSE)
-[![GitHub Release](https://img.shields.io/github/release/Ni1kko/HourBoostr.svg?label=Latest&maxAge=60)](https://github.com/Ezzpify/HourBoostr/releases/latest)
-[![Total Downloads](https://img.shields.io/badge/Total%20Downloads-84k-brightgreen.svg)](https://github.com/Ni1kko/HourBoostr/releases/latest)
-[![Github Downloads](https://img.shields.io/github/downloads/Ni1kko/HourBoostr/latest/total.svg?label=Downloads%20for%20latest&maxAge=60)](https://github.com/Ni1kko/HourBoostr/releases/latest)
-
-[![Steam Group](https://img.shields.io/badge/Steam-group-yellowgreen.svg)](https://steamcommunity.com/groups/FALL0X)
-[![Discord](https://img.shields.io/badge/Discord-join-yellowgreen.svg)](https://discord.gg/W3qgHqNhax)
+ 
+<p align="center">
+  <img src="https://img.shields.io/github/release/Ni1kko/HourBoostr.svg?label=Latest"/>
+  <img src="https://img.shields.io/github/downloads/Ni1kko/HourBoostr/latest/total.svg?label=Downloads%20for%20latest"/>
+  <br/>
+  <img src="https://img.shields.io/github/license/Ni1kko/HourBoostr.svg?label=License"/>
+</p>
 
 # General information
 
@@ -22,8 +24,11 @@ This program acts like a stand-alone Steam client and will require you to enter 
 Video tutorial of HourBoostr: https://www.youtube.com/watch?v=eqhPBEVMPDM
 Program preview of HourBoostr: 
 
-![HBConPreview](https://i.imgur.com/UqInzEF.png)
-![HBSetPreview](https://i.imgur.com/sScBdnF.png)
+<p align="center">
+  <img src="https://i.imgur.com/UqInzEF.png"/> 
+  <br/>
+  <img src="https://i.imgur.com/sScBdnF.png"/>
+</p>
 
 ## SingleBoostr
 
@@ -31,5 +36,8 @@ This program is perfect for you if you only have one account that you want to bo
 
 Program preview of SingleBoostr: 
 
-![SBPreview](https://i.imgur.com/MomRdqQ.png)
-![SBSetPreview](https://i.imgur.com/mPLkzB3.png)
+<p align="center">
+  <img src="https://i.imgur.com/MomRdqQ.png"/> 
+  <br/>
+  <img src="https://i.imgur.com/mPLkzB3.png"/>
+</p>
