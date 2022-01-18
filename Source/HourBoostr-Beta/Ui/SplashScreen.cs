@@ -15,10 +15,13 @@ namespace HourBoostr_Beta.Ui
         private async Task Init()
         {
             await Task.Delay(5 * 1000);
-            InfoBox.Invoke((MethodInvoker)delegate 
+            InfoBox.Invoke((MethodInvoker)async delegate
             {
                 InfoBox.Text = "Loaded";
+                await Task.Delay(1000);
+                Program.This.SplashScreen.Hide();
+                Program.This.BoostrSelectionScreen.Show();
             });
-        } 
+        }
     }
 }
