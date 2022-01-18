@@ -16,5 +16,7 @@ namespace HourBoostr_Beta.Ui
         {
             InitializeComponent();
         }
+
+        private void ExitButton_Click(object sender, EventArgs e) => Program.This.Close();
     }
 }

@@ -7,6 +7,7 @@ namespace HourBoostr_Beta.Core
     {
         internal Assembly _assembly = typeof(Program).Assembly;
         internal string Path => System.IO.Path.GetDirectoryName(_assembly.Location);
+        internal string Name => Assembly.GetExecutingAssembly().GetName().Name;
 
         internal ProgramAssembly() => AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
         
@@ -15,7 +16,7 @@ namespace HourBoostr_Beta.Core
             var askedAssembly = new AssemblyName(args.Name);
             lock (this)
             {
-                var stream = _assembly.GetManifestResourceStream($"{Assembly.GetExecutingAssembly().GetName().Name}.Embedded.Assemblies.{askedAssembly.Name}.dll");
+                var stream = _assembly.GetManifestResourceStream($"{Name}.Embedded.Assemblies.{askedAssembly.Name}.dll");
                 if (stream == null) return null;
 
                 Assembly assembly = null;

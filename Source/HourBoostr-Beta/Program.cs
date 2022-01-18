@@ -17,7 +17,7 @@ namespace HourBoostr_Beta
         internal BoostrSelectionScreen BoostrSelectionScreen;
 
         private Program(List<string> arguments)
-        {
+        { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
