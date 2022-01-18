@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ProgramArguments.cs" />
     <Compile Include="Core\ProgramAssembly.cs" />
     <Compile Include="Ui\BoostrSelectionScreen.cs">
       <SubType>Form</SubType>

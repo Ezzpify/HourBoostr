@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using HourBoostr_Beta.Core;
@@ -9,16 +10,18 @@ namespace HourBoostr_Beta
     internal class Program
     {
         internal static Program This; 
-        internal static ProgramAssembly Assembly;
-        internal static SplashScreen SplashScreen;
-        internal static BoostrSelectionScreen BoostrSelectionScreen;
+        internal ProgramAssembly Assembly;
+        internal ProgramArguments Arguments;
+        internal SplashScreen SplashScreen;
+        internal BoostrSelectionScreen BoostrSelectionScreen;
 
-        private Program()
+        private Program(List<string> arguments)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             Assembly = new();
+            Arguments = new(arguments);
             SplashScreen = new();
             BoostrSelectionScreen = new();
         }
@@ -29,13 +32,10 @@ namespace HourBoostr_Beta
         [STAThread]
         internal static void Main(string[] args)
         {
-            This = new();
+            This = new(args.ToList());
 
-            if (args.Any())
-            {
-                if (args[0].Contains("dev"))
-                    Application.Run(SplashScreen);
-            }
+            if (This.Arguments.DevMode)
+               Application.Run(This.SplashScreen);
             else
                 Application.Exit();
         }
