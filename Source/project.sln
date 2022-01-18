@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleBoostr", "SingleBoostr\SingleBoostr.csproj", "{A0C0009A-6C5D-4EB3-A8B3-1E81488B3D8C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HourBoostr.Settings", "Hour
 		{BE83304B-4BCB-44EB-A8A1-B7E61CDC670F} = {BE83304B-4BCB-44EB-A8A1-B7E61CDC670F}
 		{1A204257-FE82-4BBE-9ED4-40694821C31F} = {1A204257-FE82-4BBE-9ED4-40694821C31F}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HourBoostr-Beta", "HourBoostr-Beta\HourBoostr-Beta.csproj", "{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +110,18 @@ Global
 		{26846449-44E9-4D8C-91BF-F6789207FC80}.Release|x64.Build.0 = Release|Any CPU
 		{26846449-44E9-4D8C-91BF-F6789207FC80}.Release|x86.ActiveCfg = Release|x86
 		{26846449-44E9-4D8C-91BF-F6789207FC80}.Release|x86.Build.0 = Release|x86
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|x64.Build.0 = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|x64.ActiveCfg = Release|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|x64.Build.0 = Release|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
