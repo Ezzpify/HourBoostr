@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using HourBoostr_Beta.Core;
 using HourBoostr_Beta.Ui;
@@ -30,9 +31,11 @@ namespace HourBoostr_Beta
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        internal static void Main(string[] args)
+        internal static async Task Main(string[] args)
         {
             This = new(args.ToList());
+
+            await Task.CompletedTask;
 
             if (This.Arguments.DevMode)
                Application.Run(This.SplashScreen);
