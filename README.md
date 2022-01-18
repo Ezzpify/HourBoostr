@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://i.imgur.com/MJN4zty.png"/>
+  <img src="https://i.imgur.com/1Py0CWT.png"/>
   <h2 align="center"><a href="https://github.com/Ni1kko/HourBoostr/releases">DOWNLOAD HERE</a></h2>
 </p>
 
