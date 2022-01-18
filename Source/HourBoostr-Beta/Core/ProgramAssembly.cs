@@ -5,7 +5,6 @@ namespace HourBoostr_Beta.Core
 {
     internal class ProgramAssembly
     {
-        internal static ProgramAssembly GetInstance() { return new ProgramAssembly(); }
         internal Assembly _assembly = typeof(Program).Assembly;
         internal string Path => System.IO.Path.GetDirectoryName(_assembly.Location);
 

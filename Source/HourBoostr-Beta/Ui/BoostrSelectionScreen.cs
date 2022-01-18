@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace HourBoostr_Beta.Ui
 {
-    public partial class SplashScreen : Form
+    public partial class BoostrSelectionScreen : Form
     {
-        public SplashScreen()
+        public BoostrSelectionScreen()
         {
             InitializeComponent();
         }
