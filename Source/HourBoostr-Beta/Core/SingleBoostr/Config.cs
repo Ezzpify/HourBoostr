@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HourBoostr_Beta.Core.MultiBoostr
+namespace HourBoostr_Beta.Core.SingleBoostr
 {
-    internal class Instance
+    internal class Config
     {
-        internal Instance(List<BoostrAccount> account)
-        {
+        internal Config() 
+        { 
 
         }
     }

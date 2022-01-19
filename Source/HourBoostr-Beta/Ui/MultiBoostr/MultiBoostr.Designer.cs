@@ -250,6 +250,7 @@
             this.StartIdlerButton.WaitOnLoad = false;
             this.StartIdlerButton.Zoom = 0;
             this.StartIdlerButton.ZoomSpeed = 10;
+            this.StartIdlerButton.Click += new System.EventHandler(this.StartIdlerButton_Click);
             // 
             // AccountGroupBox
             // 

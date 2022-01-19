@@ -15,6 +15,7 @@ namespace HourBoostr_Beta
         internal static Program This; 
         internal ProgramAssembly Assembly;
         internal ProgramArguments Arguments;
+        internal ProgramConfig Config;
         internal SplashScreen SplashScreen;
         internal BoostrSelectionScreen BoostrSelectionScreen;
         internal SingleBoostr SingleBoostr;
@@ -27,6 +28,7 @@ namespace HourBoostr_Beta
 
             Assembly = new();
             Arguments = new(arguments);
+            Config = new();
             SplashScreen = new();
             BoostrSelectionScreen = new();
             SingleBoostr = new();
@@ -46,11 +48,13 @@ namespace HourBoostr_Beta
             This = new(args.ToList());
 
             await Task.CompletedTask;
-
+            /*
             if (This.Arguments.DevMode)
                 This.Start();
             else
                 This.Close();
+            */
+            This.Start();
         }
     }
 }

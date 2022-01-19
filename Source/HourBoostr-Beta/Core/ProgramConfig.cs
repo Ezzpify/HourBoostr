@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HourBoostr_Beta.Core.MultiBoostr
+namespace HourBoostr_Beta.Core
 {
-    internal class Instance
+    internal class ProgramConfig
     {
-        internal Instance(List<BoostrAccount> account)
+        internal ProgramConfig()
         {
 
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using HourBoostr_Beta.Core.MultiBoostr;
 using Newtonsoft.Json;
@@ -6,8 +7,9 @@ using Newtonsoft.Json;
 namespace HourBoostr_Beta.Ui.MultiBoostr
 {
     public partial class MultiBoostr : Form
-    {
-        private Instance Instance;
+    { 
+        internal Config Config;
+        private List<Instance> Instance;
         public MultiBoostr() => InitializeComponent();
 
         #region Header Controls
@@ -22,20 +24,39 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
         #region Main Controls
         private void MultiBoostr_Load(object sender, EventArgs e)
         {
-            if(Instance == null) Instance = new();
+            Config = new();
             AccountListBox.Items.Clear();
             AccountListBox.Items.AddRange(GetAccountList());
             UpdateAccountPanel();
         }
 
         //Account list
+
+        private void AddNewAccountButton_Click(object sender, EventArgs e)
+        {
+
+        }
         private void AccountListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateAccountPanel();
         }
-        private void AddNewAccountButton_Click(object sender, EventArgs e)
-        {
 
+        private void StartIdlerButton_Click(object sender, EventArgs e)
+        {
+            int count = 0;
+            List<BoostrAccount> Accounts = new();
+            foreach (var account in AccountListBox.Items)
+            {
+                var accountName = account.ToString();
+                Accounts.Add(new BoostrAccount(accountName)); 
+                count++;
+                
+                if (count % 10 == 0)
+                {
+                    Instance.Add(new(Accounts));
+                    Accounts.Clear();
+                }
+            }
         }
 
         //Account Panel
@@ -78,5 +99,7 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
                 }
             }
         }
+
+        
     }
 }

@@ -117,9 +117,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\MultiBoostr\BoostrAccount.cs" />
+    <Compile Include="Core\MultiBoostr\Config.cs" />
     <Compile Include="Core\MultiBoostr\Instance.cs" />
     <Compile Include="Core\ProgramArguments.cs" />
     <Compile Include="Core\ProgramAssembly.cs" />
+    <Compile Include="Core\ProgramConfig.cs" />
+    <Compile Include="Core\SingleBoostr\Config.cs" />
     <Compile Include="Core\SingleBoostr\Instance.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
