@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using HourBoostr_Beta.Core.MultiBoostr;
+using Newtonsoft.Json;
 
 namespace HourBoostr_Beta.Ui.MultiBoostr
 {
