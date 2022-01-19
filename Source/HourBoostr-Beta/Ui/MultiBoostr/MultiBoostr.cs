@@ -19,7 +19,63 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
         #endregion
 
         #region Main Controls
-        private void SingleBoostr_Load(object sender, EventArgs e) => Instance = new(); 
-        #endregion 
+        private void MultiBoostr_Load(object sender, EventArgs e)
+        {
+            if(Instance == null) Instance = new();
+            AccountListBox.Items.Clear();
+            AccountListBox.Items.AddRange(GetAccountList());
+            UpdateAccountPanel();
+        }
+
+        //Account list
+        private void AccountListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateAccountPanel();
+        }
+        private void AddNewAccountButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //Account Panel
+        private void UsernameInputBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            AccountGroupBox.Text = UsernameInputBox.Text;
+            if (AccountListBox.SelectedIndex >= 0)
+            {
+                AccountListBox.Items[AccountListBox.SelectedIndex] = UsernameInputBox.Text;
+            }
+        }
+        #endregion
+
+        private string[] GetAccountList()
+        {
+            return new[]{
+                "Test", "Fallox"
+            };
+        }
+
+        private void UpdateAccountPanel()
+        {
+            var hasAccounts = AccountListBox.Items.Count > 0;
+
+            if (hasAccounts)
+            {
+                var noneselected = AccountListBox.SelectedIndex < 0;
+                if (noneselected)
+                    AccountListBox.SelectedIndex = 0;
+
+                var item = AccountListBox.SelectedItem.ToString();
+                var validitem = !string.IsNullOrEmpty(item);
+                if (validitem)
+                {
+                    //-- Set account name
+                    AccountGroupBox.Text = item;
+                    UsernameInputBox.Text = item;
+
+
+                }
+            }
+        }
     }
 }

@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameLibrary));
-            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties1 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
-            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties2 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
-            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties3 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
-            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties4 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties9 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties10 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties11 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties12 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
             this.bunifuPanel2 = new Bunifu.UI.WinForms.BunifuPanel();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
@@ -46,6 +46,7 @@
             this.GameLabel = new Bunifu.UI.WinForms.BunifuLabel();
             this.bunifuDropdown1 = new Bunifu.UI.WinForms.BunifuDropdown();
             this.GameSearchBox = new Bunifu.UI.WinForms.BunifuTextBox();
+            this.HeaderTitle = new Bunifu.UI.WinForms.BunifuLabel();
             this.HeaderPanel.SuspendLayout();
             this.bunifuGradientPanel1.SuspendLayout();
             this.SelectedGamePanel.SuspendLayout();
@@ -149,6 +150,7 @@
             this.HeaderPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeaderPanel.BackgroundImage")));
             this.HeaderPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.HeaderPanel.BorderRadius = 1;
+            this.HeaderPanel.Controls.Add(this.HeaderTitle);
             this.HeaderPanel.Controls.Add(this.BackButton);
             this.HeaderPanel.Controls.Add(this.ExitButton);
             this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -320,26 +322,26 @@
             this.GameSearchBox.Modified = false;
             this.GameSearchBox.Multiline = false;
             this.GameSearchBox.Name = "GameSearchBox";
-            stateProperties1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
-            stateProperties1.FillColor = System.Drawing.Color.Empty;
-            stateProperties1.ForeColor = System.Drawing.Color.Empty;
-            stateProperties1.PlaceholderForeColor = System.Drawing.Color.Empty;
-            this.GameSearchBox.OnActiveState = stateProperties1;
-            stateProperties2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
-            stateProperties2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            stateProperties2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            stateProperties2.PlaceholderForeColor = System.Drawing.Color.DarkGray;
-            this.GameSearchBox.OnDisabledState = stateProperties2;
-            stateProperties3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
-            stateProperties3.FillColor = System.Drawing.Color.Empty;
-            stateProperties3.ForeColor = System.Drawing.Color.Empty;
-            stateProperties3.PlaceholderForeColor = System.Drawing.Color.Empty;
-            this.GameSearchBox.OnHoverState = stateProperties3;
-            stateProperties4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
-            stateProperties4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
-            stateProperties4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            stateProperties4.PlaceholderForeColor = System.Drawing.Color.Empty;
-            this.GameSearchBox.OnIdleState = stateProperties4;
+            stateProperties9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties9.FillColor = System.Drawing.Color.Empty;
+            stateProperties9.ForeColor = System.Drawing.Color.Empty;
+            stateProperties9.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnActiveState = stateProperties9;
+            stateProperties10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties10.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            stateProperties10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            stateProperties10.PlaceholderForeColor = System.Drawing.Color.DarkGray;
+            this.GameSearchBox.OnDisabledState = stateProperties10;
+            stateProperties11.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties11.FillColor = System.Drawing.Color.Empty;
+            stateProperties11.ForeColor = System.Drawing.Color.Empty;
+            stateProperties11.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnHoverState = stateProperties11;
+            stateProperties12.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties12.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties12.ForeColor = System.Drawing.Color.WhiteSmoke;
+            stateProperties12.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnIdleState = stateProperties12;
             this.GameSearchBox.Padding = new System.Windows.Forms.Padding(3);
             this.GameSearchBox.PasswordChar = '\0';
             this.GameSearchBox.PlaceholderForeColor = System.Drawing.Color.WhiteSmoke;
@@ -363,6 +365,22 @@
             this.GameSearchBox.MouseLeave += new System.EventHandler(this.GameSearchBox_MouseLeave);
             this.GameSearchBox.MouseHover += new System.EventHandler(this.GameSearchBox_MouseHover);
             // 
+            // HeaderTitle
+            // 
+            this.HeaderTitle.AllowParentOverrides = false;
+            this.HeaderTitle.AutoEllipsis = false;
+            this.HeaderTitle.CursorType = null;
+            this.HeaderTitle.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderTitle.ForeColor = System.Drawing.Color.Gainsboro;
+            this.HeaderTitle.Location = new System.Drawing.Point(310, 5);
+            this.HeaderTitle.Name = "HeaderTitle";
+            this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.HeaderTitle.Size = new System.Drawing.Size(181, 22);
+            this.HeaderTitle.TabIndex = 6;
+            this.HeaderTitle.Text = "SingleBoostr Library";
+            this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.HeaderTitle.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            // 
             // GameLibrary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,6 +398,7 @@
             this.Text = "GameLibrary";
             this.Load += new System.EventHandler(this.GameLibrary_Load);
             this.HeaderPanel.ResumeLayout(false);
+            this.HeaderPanel.PerformLayout();
             this.bunifuGradientPanel1.ResumeLayout(false);
             this.SelectedGamePanel.ResumeLayout(false);
             this.SelectedGamePanel.PerformLayout();
@@ -400,5 +419,6 @@
         private Bunifu.UI.WinForms.BunifuLabel GameLabel;
         private Bunifu.UI.WinForms.BunifuTextBox GameSearchBox;
         private Bunifu.UI.WinForms.BunifuDropdown bunifuDropdown1;
+        private Bunifu.UI.WinForms.BunifuLabel HeaderTitle;
     }
 }

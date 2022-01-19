@@ -28,7 +28,11 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
         #endregion
 
         #region Main Controls
-        private void SingleBoostr_Load(object sender, EventArgs e) => Instance = new();
+        private void SingleBoostr_Load(object sender, EventArgs e)
+        {
+            if (Instance == null) 
+                Instance = new();
+        }
         private void TradingCardsButton_Click(object sender, EventArgs e)
         {
 

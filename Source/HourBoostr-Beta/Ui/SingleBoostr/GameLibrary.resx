@@ -1012,9 +1012,6 @@
   <metadata name="WindowElipse.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="GameLabel.BaseStylesheet" xml:space="preserve">
-    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 18pt; width: 100%; height: 100%; font-style: normal; font-weight: bold; text-decoration: none; color: rgb(192, 192, 192); text-align: left; }</value>
-  </data>
   <data name="bunifuGradientPanel1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAMgAAAF1CAYAAACte6WBAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1326,15 +1323,6 @@
         co/t/weaJVKoi6G4yAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="GameSearchBox.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAMgAAAAjCAYAAADR20XfAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACLSURBVHhe7d2rDYBQAARBuiDgXv8lUQYF8JOEbAOMGHV6
-        9U3zMrZ5HQfwcrUxfQ7AQyAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQC
-        QSAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQCQSAQBALhfpjavwb4vWXsJ7VmAJFMJQPUAAAAAElF
-        TkSuQmCC
-</value>
-  </data>
   <data name="HeaderPanel.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAyAAAAAhCAYAAAAhxM9QAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1452,6 +1440,9 @@
         SZIkSZKVLR9jSbLSaNGBIDyWXYDML4yKF6/2D0fwj0dj/xMG/AeSJEmSJEmSJJkeixogh2b/D8r39tua
         FflJAAAAAElFTkSuQmCC
 </value>
+  </data>
+  <data name="HeaderTitle.BaseStylesheet" xml:space="preserve">
+    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 12pt; width: 100%; height: 100%; font-style: normal; font-weight: bold; text-decoration: none; color: rgb(220, 220, 220); text-align: left; }</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3122,4 +3113,16 @@
   <metadata name="HeaderDragControl.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>145, 17</value>
   </metadata>
+  <data name="GameLabel.BaseStylesheet" xml:space="preserve">
+    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 18pt; width: 100%; height: 100%; font-style: normal; font-weight: bold; text-decoration: none; color: rgb(192, 192, 192); text-align: left; }</value>
+  </data>
+  <data name="GameSearchBox.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAMgAAAAjCAYAAADR20XfAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACLSURBVHhe7d2rDYBQAARBuiDgXv8lUQYF8JOEbAOMGHV6
+        9U3zMrZ5HQfwcrUxfQ7AQyAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQC
+        QSAQBAJBIBAEAkEgEAQCQSAQBAJBIBAEAkEgEAQCQSAQBALhfpjavwb4vWXsJ7VmAJFMJQPUAAAAAElF
+        TkSuQmCC
+</value>
+  </data>
 </root>

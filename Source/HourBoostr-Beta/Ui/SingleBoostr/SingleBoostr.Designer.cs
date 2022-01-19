@@ -41,6 +41,7 @@
             this.TradingCardsButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.IdleHoursButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.WindowElipse = new Bunifu.Framework.UI.BunifuElipse(this.components);
+            this.HeaderTitle = new Bunifu.UI.WinForms.BunifuLabel();
             this.HeaderPanel.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +56,7 @@
             // HeaderPanel
             // 
             this.HeaderPanel.BackColor = System.Drawing.Color.Transparent;
+            this.HeaderPanel.Controls.Add(this.HeaderTitle);
             this.HeaderPanel.Controls.Add(this.DonateButton);
             this.HeaderPanel.Controls.Add(this.SettingsButton);
             this.HeaderPanel.Controls.Add(this.BackButton);
@@ -303,6 +305,22 @@
             this.WindowElipse.ElipseRadius = 15;
             this.WindowElipse.TargetControl = this;
             // 
+            // HeaderTitle
+            // 
+            this.HeaderTitle.AllowParentOverrides = false;
+            this.HeaderTitle.AutoEllipsis = false;
+            this.HeaderTitle.CursorType = null;
+            this.HeaderTitle.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderTitle.ForeColor = System.Drawing.Color.Gainsboro;
+            this.HeaderTitle.Location = new System.Drawing.Point(339, 3);
+            this.HeaderTitle.Name = "HeaderTitle";
+            this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.HeaderTitle.Size = new System.Drawing.Size(115, 22);
+            this.HeaderTitle.TabIndex = 5;
+            this.HeaderTitle.Text = "SingleBoostr";
+            this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.HeaderTitle.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            // 
             // SingleBoostr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,6 +339,7 @@
             this.Text = "SingleBoostr";
             this.Load += new System.EventHandler(this.SingleBoostr_Load);
             this.HeaderPanel.ResumeLayout(false);
+            this.HeaderPanel.PerformLayout();
             this.InfoPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -338,5 +357,6 @@
         private Bunifu.UI.WinForms.BunifuImageButton SettingsButton;
         private Bunifu.UI.WinForms.BunifuImageButton DonateButton;
         private Bunifu.Framework.UI.BunifuElipse WindowElipse;
+        private Bunifu.UI.WinForms.BunifuLabel HeaderTitle;
     }
 }
