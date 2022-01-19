@@ -54,10 +54,15 @@ Open git command prompt and enter following command:
 
 `HourBoostr` folder should have been successfully created, containing all the source files.
 
-### Compiling from source
+### Compiling source
 When you have equipped a copy of the source code, next step is opening **HourBooster.sln** in Microsoft Visual Studio 2022.
 Then change build configuration to `Release | x86` and simply press **Build solution**.
 If everything went right you should receive `HourBooster.exe` executable file.
+
+### Compiling installer
+When you have `HourBooster.exe`, next step is opening **HourBoostr.iss** with [innosetup](https://jrsoftware.org/isinfo.php).
+Then simply press **CTRL + F9 (Build Script)**.
+If everything went right you should receive `HourBooster_Setup.exe` executable file.
 
 ## License
 > Copyright (c) 2015-2022 [Ezzpify](https://github.com/Ezzpify), [Ni1kko](https://github.com/Ni1kko) & [Spodini](https://github.com/Spodini)
