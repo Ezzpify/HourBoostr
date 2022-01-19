@@ -99,6 +99,10 @@
     <Reference Include="Bunifu.UI.WinForms.BunifuTextBox">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -175,6 +179,7 @@
     <EmbeddedResource Include="Ui\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -206,6 +211,7 @@
     <None Include="Embedded\Resources\Images\Min-Hovered.png" />
     <None Include="Embedded\Resources\Images\Settings.png" />
     <None Include="Embedded\Resources\Images\Settings-Hovered.png" />
+    <EmbeddedResource Include="Embedded\Assemblies\Newtonsoft.Json.dll" />
     <Content Include="Embedded\Resources\Images\SplashScreen.png" />
     <None Include="Embedded\Resources\Images\TradingCradsButton.png" />
     <None Include="Embedded\Resources\Images\TradingCradsButton-Hovered.png" />
@@ -225,9 +231,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Embedded\Assemblies\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
