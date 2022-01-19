@@ -125,6 +125,7 @@
     <Compile Include="Core\ProgramConfig.cs" />
     <Compile Include="Core\SingleBoostr\Config.cs" />
     <Compile Include="Core\SingleBoostr\Instance.cs" />
+    <Compile Include="Core\Utils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

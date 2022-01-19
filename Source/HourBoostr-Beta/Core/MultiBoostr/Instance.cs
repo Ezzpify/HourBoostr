@@ -8,6 +8,7 @@ namespace HourBoostr_Beta.Core.MultiBoostr
 {
     internal class Instance
     {
+        internal int processID { get; init; }
         internal Instance(List<BoostrAccount> account)
         {
 
