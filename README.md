@@ -48,14 +48,14 @@ To download source code this way [click here](https://github.com/Ni1kko/HourBoos
 #### With [git](https://git-scm.com)
 Choose this option if you're going to contribute to the repo or you want to use version control system. Download size ~4 MB. Git is required to step further, if not installed download it [here](https://git-scm.com).
 
-#### With [Github Desktop](https://desktop.github.com/)
-If you have Github Desktop installed simply paste this into your browser `x-github-client://openRepo/https://github.com/Ni1kko/HourBoostr` and press enter
-
 Open git command prompt and enter following command:
 
     git clone --depth=1 https://github.com/Ni1kko/HourBoostr.git
 
 `HourBoostr` folder should have been successfully created, containing all the source files.
+
+#### With [Github Desktop](https://desktop.github.com/)
+If you have Github Desktop installed simply paste this into your browser `x-github-client://openRepo/https://github.com/Ni1kko/HourBoostr` and press enter
 
 ### Compiling source
 When you have equipped a copy of the source code, next step is opening **HourBooster.sln** in Microsoft Visual Studio 2022.
