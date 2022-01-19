@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SingleBoostr));
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.HeaderPanel = new System.Windows.Forms.Panel();
+            this.HeaderTitle = new Bunifu.UI.WinForms.BunifuLabel();
             this.DonateButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.SettingsButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
@@ -41,7 +42,6 @@
             this.TradingCardsButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.IdleHoursButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.WindowElipse = new Bunifu.Framework.UI.BunifuElipse(this.components);
-            this.HeaderTitle = new Bunifu.UI.WinForms.BunifuLabel();
             this.HeaderPanel.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +66,22 @@
             this.HeaderPanel.Name = "HeaderPanel";
             this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
             this.HeaderPanel.TabIndex = 4;
+            // 
+            // HeaderTitle
+            // 
+            this.HeaderTitle.AllowParentOverrides = false;
+            this.HeaderTitle.AutoEllipsis = false;
+            this.HeaderTitle.CursorType = null;
+            this.HeaderTitle.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderTitle.ForeColor = System.Drawing.Color.Gainsboro;
+            this.HeaderTitle.Location = new System.Drawing.Point(279, 3);
+            this.HeaderTitle.Name = "HeaderTitle";
+            this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.HeaderTitle.Size = new System.Drawing.Size(115, 22);
+            this.HeaderTitle.TabIndex = 5;
+            this.HeaderTitle.Text = "SingleBoostr";
+            this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.HeaderTitle.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
             // 
             // DonateButton
             // 
@@ -304,22 +320,6 @@
             // 
             this.WindowElipse.ElipseRadius = 15;
             this.WindowElipse.TargetControl = this;
-            // 
-            // HeaderTitle
-            // 
-            this.HeaderTitle.AllowParentOverrides = false;
-            this.HeaderTitle.AutoEllipsis = false;
-            this.HeaderTitle.CursorType = null;
-            this.HeaderTitle.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderTitle.ForeColor = System.Drawing.Color.Gainsboro;
-            this.HeaderTitle.Location = new System.Drawing.Point(339, 3);
-            this.HeaderTitle.Name = "HeaderTitle";
-            this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.HeaderTitle.Size = new System.Drawing.Size(115, 22);
-            this.HeaderTitle.TabIndex = 5;
-            this.HeaderTitle.Text = "SingleBoostr";
-            this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
-            this.HeaderTitle.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
             // 
             // SingleBoostr
             // 
