@@ -176,7 +176,7 @@
             // 
             this.AccountListGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.AccountListGroupBox.Controls.Add(this.AccountListBox);
-            this.AccountListGroupBox.Location = new System.Drawing.Point(10, 57);
+            this.AccountListGroupBox.Location = new System.Drawing.Point(0, 57);
             this.AccountListGroupBox.Name = "AccountListGroupBox";
             this.AccountListGroupBox.Size = new System.Drawing.Size(183, 296);
             this.AccountListGroupBox.TabIndex = 10;
@@ -209,7 +209,7 @@
             this.AddNewAccountButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddNewAccountButton.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddNewAccountButton.ForeColor = System.Drawing.Color.Gainsboro;
-            this.AddNewAccountButton.Location = new System.Drawing.Point(18, 54);
+            this.AddNewAccountButton.Location = new System.Drawing.Point(8, 54);
             this.AddNewAccountButton.Name = "AddNewAccountButton";
             this.AddNewAccountButton.Size = new System.Drawing.Size(101, 18);
             this.AddNewAccountButton.TabIndex = 12;
@@ -234,17 +234,17 @@
             this.StartIdlerButton.ImageActive = null;
             this.StartIdlerButton.ImageLocation = null;
             this.StartIdlerButton.ImageMargin = 0;
-            this.StartIdlerButton.ImageSize = new System.Drawing.Size(182, 86);
-            this.StartIdlerButton.ImageZoomSize = new System.Drawing.Size(183, 87);
+            this.StartIdlerButton.ImageSize = new System.Drawing.Size(182, 92);
+            this.StartIdlerButton.ImageZoomSize = new System.Drawing.Size(183, 93);
             this.StartIdlerButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("StartIdlerButton.InitialImage")));
-            this.StartIdlerButton.Location = new System.Drawing.Point(10, 355);
+            this.StartIdlerButton.Location = new System.Drawing.Point(0, 359);
             this.StartIdlerButton.Name = "StartIdlerButton";
             this.StartIdlerButton.Rotation = 0;
             this.StartIdlerButton.ShowActiveImage = true;
             this.StartIdlerButton.ShowCursorChanges = true;
             this.StartIdlerButton.ShowImageBorders = true;
             this.StartIdlerButton.ShowSizeMarkers = false;
-            this.StartIdlerButton.Size = new System.Drawing.Size(183, 87);
+            this.StartIdlerButton.Size = new System.Drawing.Size(183, 93);
             this.StartIdlerButton.TabIndex = 13;
             this.StartIdlerButton.ToolTipText = "Start Idler";
             this.StartIdlerButton.WaitOnLoad = false;
@@ -261,9 +261,9 @@
             this.AccountGroupBox.Controls.Add(this.UsernameInputBox);
             this.AccountGroupBox.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AccountGroupBox.ForeColor = System.Drawing.Color.Gainsboro;
-            this.AccountGroupBox.Location = new System.Drawing.Point(199, 57);
+            this.AccountGroupBox.Location = new System.Drawing.Point(189, 56);
             this.AccountGroupBox.Name = "AccountGroupBox";
-            this.AccountGroupBox.Size = new System.Drawing.Size(589, 381);
+            this.AccountGroupBox.Size = new System.Drawing.Size(610, 392);
             this.AccountGroupBox.TabIndex = 14;
             this.AccountGroupBox.TabStop = false;
             this.AccountGroupBox.Text = "New Account";
@@ -274,9 +274,9 @@
             this.groupBox3.Controls.Add(this.txtGameItem);
             this.groupBox3.Controls.Add(this.gameList);
             this.groupBox3.ForeColor = System.Drawing.Color.Gainsboro;
-            this.groupBox3.Location = new System.Drawing.Point(327, 21);
+            this.groupBox3.Location = new System.Drawing.Point(343, 21);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(243, 336);
+            this.groupBox3.Size = new System.Drawing.Size(256, 361);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Games";
@@ -286,7 +286,7 @@
             this.lblFindGames.AutoSize = true;
             this.lblFindGames.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblFindGames.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblFindGames.Location = new System.Drawing.Point(153, 301);
+            this.lblFindGames.Location = new System.Drawing.Point(171, 331);
             this.lblFindGames.Name = "lblFindGames";
             this.lblFindGames.Size = new System.Drawing.Size(79, 16);
             this.lblFindGames.TabIndex = 4;
@@ -296,9 +296,9 @@
             // 
             this.txtGameItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtGameItem.ForeColor = System.Drawing.Color.Gray;
-            this.txtGameItem.Location = new System.Drawing.Point(6, 298);
+            this.txtGameItem.Location = new System.Drawing.Point(6, 328);
             this.txtGameItem.Name = "txtGameItem";
-            this.txtGameItem.Size = new System.Drawing.Size(228, 22);
+            this.txtGameItem.Size = new System.Drawing.Size(246, 22);
             this.txtGameItem.TabIndex = 3;
             // 
             // gameList
@@ -311,7 +311,7 @@
             this.gameList.ItemHeight = 16;
             this.gameList.Location = new System.Drawing.Point(6, 22);
             this.gameList.Name = "gameList";
-            this.gameList.Size = new System.Drawing.Size(231, 264);
+            this.gameList.Size = new System.Drawing.Size(244, 300);
             this.gameList.TabIndex = 2;
             // 
             // lblRemoveLoginKey
@@ -319,7 +319,7 @@
             this.lblRemoveLoginKey.AutoSize = true;
             this.lblRemoveLoginKey.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblRemoveLoginKey.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblRemoveLoginKey.Location = new System.Drawing.Point(254, 94);
+            this.lblRemoveLoginKey.Location = new System.Drawing.Point(272, 94);
             this.lblRemoveLoginKey.Name = "lblRemoveLoginKey";
             this.lblRemoveLoginKey.Size = new System.Drawing.Size(54, 16);
             this.lblRemoveLoginKey.TabIndex = 3;
@@ -331,7 +331,7 @@
             this.LoginKeyInputBox.ForeColor = System.Drawing.Color.Gray;
             this.LoginKeyInputBox.Location = new System.Drawing.Point(15, 91);
             this.LoginKeyInputBox.Name = "LoginKeyInputBox";
-            this.LoginKeyInputBox.Size = new System.Drawing.Size(295, 22);
+            this.LoginKeyInputBox.Size = new System.Drawing.Size(313, 22);
             this.LoginKeyInputBox.TabIndex = 2;
             // 
             // PasswordInputBox
@@ -341,7 +341,7 @@
             this.PasswordInputBox.Location = new System.Drawing.Point(15, 63);
             this.PasswordInputBox.Name = "PasswordInputBox";
             this.PasswordInputBox.PasswordChar = '*';
-            this.PasswordInputBox.Size = new System.Drawing.Size(295, 22);
+            this.PasswordInputBox.Size = new System.Drawing.Size(313, 22);
             this.PasswordInputBox.TabIndex = 1;
             // 
             // UsernameInputBox
@@ -350,7 +350,7 @@
             this.UsernameInputBox.ForeColor = System.Drawing.Color.Gray;
             this.UsernameInputBox.Location = new System.Drawing.Point(15, 34);
             this.UsernameInputBox.Name = "UsernameInputBox";
-            this.UsernameInputBox.Size = new System.Drawing.Size(295, 22);
+            this.UsernameInputBox.Size = new System.Drawing.Size(313, 22);
             this.UsernameInputBox.TabIndex = 0;
             this.UsernameInputBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UsernameInputBox_KeyUp);
             // 
