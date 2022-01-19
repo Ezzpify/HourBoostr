@@ -39,7 +39,7 @@ Program preview of SingleBoostr:
 Microsoft Visual Studio 2022 17.0 (or newer), <a href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48">.net framework 4.8</a> and Windows SDK 11.0.x.x are required in order to compile HourBoostr. If you don't have Visual Studio, you can download it <a href="https://visualstudio.microsoft.com/vs/">here</a> (Windows SDK is installed during Visual Studio Setup)
 
 ### Downloading
-There are two options of downloading the source code:
+There are three options of downloading the source code:
 
 #### Without [git](https://git-scm.com)
 Choose this option if you want pure source and you're not going to contribute to the repo. Download size ~600 kB.
@@ -47,6 +47,9 @@ To download source code this way [click here](https://github.com/Ni1kko/HourBoos
 
 #### With [git](https://git-scm.com)
 Choose this option if you're going to contribute to the repo or you want to use version control system. Download size ~4 MB. Git is required to step further, if not installed download it [here](https://git-scm.com).
+
+#### With [Github Desktop](https://desktop.github.com/)
+If you have Github Desktop installed simply paste this into your browser `x-github-client://openRepo/https://github.com/Ni1kko/HourBoostr` and press enter
 
 Open git command prompt and enter following command:
 
