@@ -72,5 +72,18 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
                 }
             }
         }
+        private const string GameSearchPlaceholder = "Search Name or appID";
+
+        private void GameSearchBox_MouseHover(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(GameSearchBox.Text))
+                GameSearchBox.Text = GameSearchPlaceholder;
+        }
+
+        private void GameSearchBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (GameSearchBox.Text.Equals(GameSearchPlaceholder))
+                GameSearchBox.Text = "";
+        }
     }
 }

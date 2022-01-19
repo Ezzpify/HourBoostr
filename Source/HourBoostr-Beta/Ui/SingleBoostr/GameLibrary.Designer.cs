@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameLibrary));
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties1 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties2 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties3 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
+            Bunifu.UI.WinForms.BunifuTextBox.StateProperties stateProperties4 = new Bunifu.UI.WinForms.BunifuTextBox.StateProperties();
             this.bunifuPanel2 = new Bunifu.UI.WinForms.BunifuPanel();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
@@ -40,6 +44,8 @@
             this.GameList = new System.Windows.Forms.ListBox();
             this.SelectedGamePanel = new System.Windows.Forms.Panel();
             this.GameLabel = new Bunifu.UI.WinForms.BunifuLabel();
+            this.bunifuDropdown1 = new Bunifu.UI.WinForms.BunifuDropdown();
+            this.GameSearchBox = new Bunifu.UI.WinForms.BunifuTextBox();
             this.HeaderPanel.SuspendLayout();
             this.bunifuGradientPanel1.SuspendLayout();
             this.SelectedGamePanel.SuspendLayout();
@@ -169,6 +175,8 @@
             this.bunifuGradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel1.BackgroundImage")));
             this.bunifuGradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bunifuGradientPanel1.BorderRadius = 1;
+            this.bunifuGradientPanel1.Controls.Add(this.GameSearchBox);
+            this.bunifuGradientPanel1.Controls.Add(this.bunifuDropdown1);
             this.bunifuGradientPanel1.Controls.Add(this.GameList);
             this.bunifuGradientPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.bunifuGradientPanel1.GradientBottomLeft = System.Drawing.Color.DodgerBlue;
@@ -193,9 +201,9 @@
             "Aim Lab",
             "Apex Legends",
             "Arma 3"});
-            this.GameList.Location = new System.Drawing.Point(0, 39);
+            this.GameList.Location = new System.Drawing.Point(0, 77);
             this.GameList.Name = "GameList";
-            this.GameList.Size = new System.Drawing.Size(197, 352);
+            this.GameList.Size = new System.Drawing.Size(197, 308);
             this.GameList.TabIndex = 0;
             this.GameList.SelectedIndexChanged += new System.EventHandler(this.GameList_SelectedIndexChanged);
             // 
@@ -223,6 +231,137 @@
             this.GameLabel.Text = "Some Game Title";
             this.GameLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
             this.GameLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            // 
+            // bunifuDropdown1
+            // 
+            this.bunifuDropdown1.AutoCompleteCustomSource.AddRange(new string[] {
+            "Games",
+            "Tools",
+            "Software",
+            "DLC",
+            "Other"});
+            this.bunifuDropdown1.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuDropdown1.BackgroundColor = System.Drawing.Color.Transparent;
+            this.bunifuDropdown1.BorderColor = System.Drawing.Color.Transparent;
+            this.bunifuDropdown1.BorderRadius = 1;
+            this.bunifuDropdown1.Color = System.Drawing.Color.Transparent;
+            this.bunifuDropdown1.Direction = Bunifu.UI.WinForms.BunifuDropdown.Directions.Down;
+            this.bunifuDropdown1.DisabledBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.bunifuDropdown1.DisabledBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this.bunifuDropdown1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.bunifuDropdown1.DisabledForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.bunifuDropdown1.DisabledIndicatorColor = System.Drawing.Color.DarkGray;
+            this.bunifuDropdown1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.bunifuDropdown1.DropdownBorderThickness = Bunifu.UI.WinForms.BunifuDropdown.BorderThickness.Thin;
+            this.bunifuDropdown1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.bunifuDropdown1.DropDownTextAlign = Bunifu.UI.WinForms.BunifuDropdown.TextAlign.Left;
+            this.bunifuDropdown1.FillDropDown = true;
+            this.bunifuDropdown1.FillIndicator = false;
+            this.bunifuDropdown1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bunifuDropdown1.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuDropdown1.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.bunifuDropdown1.FormattingEnabled = true;
+            this.bunifuDropdown1.Icon = null;
+            this.bunifuDropdown1.IndicatorAlignment = Bunifu.UI.WinForms.BunifuDropdown.Indicator.Right;
+            this.bunifuDropdown1.IndicatorColor = System.Drawing.Color.Gray;
+            this.bunifuDropdown1.IndicatorLocation = Bunifu.UI.WinForms.BunifuDropdown.Indicator.Right;
+            this.bunifuDropdown1.ItemBackColor = System.Drawing.Color.White;
+            this.bunifuDropdown1.ItemBorderColor = System.Drawing.Color.White;
+            this.bunifuDropdown1.ItemForeColor = System.Drawing.Color.White;
+            this.bunifuDropdown1.ItemHeight = 26;
+            this.bunifuDropdown1.ItemHighLightColor = System.Drawing.Color.DodgerBlue;
+            this.bunifuDropdown1.ItemHighLightForeColor = System.Drawing.Color.White;
+            this.bunifuDropdown1.Items.AddRange(new object[] {
+            "Games",
+            "Software",
+            "Tools",
+            "DLC",
+            "Other"});
+            this.bunifuDropdown1.ItemTopMargin = 3;
+            this.bunifuDropdown1.Location = new System.Drawing.Point(3, 7);
+            this.bunifuDropdown1.Name = "bunifuDropdown1";
+            this.bunifuDropdown1.Size = new System.Drawing.Size(118, 32);
+            this.bunifuDropdown1.TabIndex = 1;
+            this.bunifuDropdown1.Text = "Selection";
+            this.bunifuDropdown1.TextAlignment = Bunifu.UI.WinForms.BunifuDropdown.TextAlign.Left;
+            this.bunifuDropdown1.TextLeftMargin = 5;
+            // 
+            // GameSearchBox
+            // 
+            this.GameSearchBox.AcceptsReturn = false;
+            this.GameSearchBox.AcceptsTab = false;
+            this.GameSearchBox.AnimationSpeed = 200;
+            this.GameSearchBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.GameSearchBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.GameSearchBox.BackColor = System.Drawing.Color.Transparent;
+            this.GameSearchBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("GameSearchBox.BackgroundImage")));
+            this.GameSearchBox.BorderColorActive = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameSearchBox.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameSearchBox.BorderColorHover = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameSearchBox.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameSearchBox.BorderRadius = 1;
+            this.GameSearchBox.BorderThickness = 0;
+            this.GameSearchBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.GameSearchBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.GameSearchBox.DefaultFont = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameSearchBox.DefaultText = "";
+            this.GameSearchBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameSearchBox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.GameSearchBox.HideSelection = true;
+            this.GameSearchBox.IconLeft = global::HourBoostr_Beta.Properties.Resources.Min_Hovered;
+            this.GameSearchBox.IconLeftCursor = System.Windows.Forms.Cursors.IBeam;
+            this.GameSearchBox.IconPadding = 10;
+            this.GameSearchBox.IconRight = null;
+            this.GameSearchBox.IconRightCursor = System.Windows.Forms.Cursors.IBeam;
+            this.GameSearchBox.Lines = new string[0];
+            this.GameSearchBox.Location = new System.Drawing.Point(0, 45);
+            this.GameSearchBox.MaxLength = 32767;
+            this.GameSearchBox.MinimumSize = new System.Drawing.Size(1, 1);
+            this.GameSearchBox.Modified = false;
+            this.GameSearchBox.Multiline = false;
+            this.GameSearchBox.Name = "GameSearchBox";
+            stateProperties1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties1.FillColor = System.Drawing.Color.Empty;
+            stateProperties1.ForeColor = System.Drawing.Color.Empty;
+            stateProperties1.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnActiveState = stateProperties1;
+            stateProperties2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            stateProperties2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            stateProperties2.PlaceholderForeColor = System.Drawing.Color.DarkGray;
+            this.GameSearchBox.OnDisabledState = stateProperties2;
+            stateProperties3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties3.FillColor = System.Drawing.Color.Empty;
+            stateProperties3.ForeColor = System.Drawing.Color.Empty;
+            stateProperties3.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnHoverState = stateProperties3;
+            stateProperties4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties4.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            stateProperties4.ForeColor = System.Drawing.Color.WhiteSmoke;
+            stateProperties4.PlaceholderForeColor = System.Drawing.Color.Empty;
+            this.GameSearchBox.OnIdleState = stateProperties4;
+            this.GameSearchBox.Padding = new System.Windows.Forms.Padding(3);
+            this.GameSearchBox.PasswordChar = '\0';
+            this.GameSearchBox.PlaceholderForeColor = System.Drawing.Color.WhiteSmoke;
+            this.GameSearchBox.PlaceholderText = "";
+            this.GameSearchBox.ReadOnly = false;
+            this.GameSearchBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.GameSearchBox.SelectedText = "";
+            this.GameSearchBox.SelectionLength = 0;
+            this.GameSearchBox.SelectionStart = 0;
+            this.GameSearchBox.ShortcutsEnabled = true;
+            this.GameSearchBox.Size = new System.Drawing.Size(200, 35);
+            this.GameSearchBox.Style = Bunifu.UI.WinForms.BunifuTextBox._Style.Bunifu;
+            this.GameSearchBox.TabIndex = 1;
+            this.GameSearchBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.GameSearchBox.TextMarginBottom = 0;
+            this.GameSearchBox.TextMarginLeft = 5;
+            this.GameSearchBox.TextMarginTop = 0;
+            this.GameSearchBox.TextPlaceholder = "";
+            this.GameSearchBox.UseSystemPasswordChar = false;
+            this.GameSearchBox.WordWrap = true;
+            this.GameSearchBox.MouseLeave += new System.EventHandler(this.GameSearchBox_MouseLeave);
+            this.GameSearchBox.MouseHover += new System.EventHandler(this.GameSearchBox_MouseHover);
             // 
             // GameLibrary
             // 
@@ -259,5 +398,7 @@
         private System.Windows.Forms.ListBox GameList;
         private System.Windows.Forms.Panel SelectedGamePanel;
         private Bunifu.UI.WinForms.BunifuLabel GameLabel;
+        private Bunifu.UI.WinForms.BunifuTextBox GameSearchBox;
+        private Bunifu.UI.WinForms.BunifuDropdown bunifuDropdown1;
     }
 }
