@@ -60,5 +60,5 @@ Then change build configuration to `Release | x86` and simply press **Build solu
 If everything went right you should receive `HourBooster.exe` executable file.
 
 ## License
-> Copyright (c) 2015-2022 [Ezzpify](https://github.com/Ezzpify) & [Ni1kko](https://github.com/Ni1kko)
+> Copyright (c) 2015-2022 [Ezzpify](https://github.com/Ezzpify), [Ni1kko](https://github.com/Ni1kko) & [Spodini](https://github.com/Spodini)
 This project is licensed under the [GNU License](https://opensource.org/licenses/gnu-license.php) - see the [LICENSE](https://github.com/Ni1kko/HourBoostr/blob/master/LICENSE) file for details.
