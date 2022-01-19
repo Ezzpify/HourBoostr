@@ -1,4 +1,4 @@
-﻿namespace HourBoostr_Beta.Ui
+﻿namespace HourBoostr_Beta.Ui.SingleBoostr
 {
     partial class SingleBoostr
     {
@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SingleBoostr));
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.HeaderPanel = new System.Windows.Forms.Panel();
+            this.DonateButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.SettingsButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
@@ -39,7 +40,7 @@
             this.InfoVersionPanel = new System.Windows.Forms.Panel();
             this.TradingCardsButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.IdleHoursButton = new Bunifu.UI.WinForms.BunifuImageButton();
-            this.DonateButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.WindowElipse = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.HeaderPanel.SuspendLayout();
             this.InfoPanel.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +64,42 @@
             this.HeaderPanel.Name = "HeaderPanel";
             this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
             this.HeaderPanel.TabIndex = 4;
+            // 
+            // DonateButton
+            // 
+            this.DonateButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Donate_Hovered;
+            this.DonateButton.AllowAnimations = true;
+            this.DonateButton.AllowBuffering = false;
+            this.DonateButton.AllowToggling = false;
+            this.DonateButton.AllowZooming = false;
+            this.DonateButton.AllowZoomingOnFocus = false;
+            this.DonateButton.BackColor = System.Drawing.Color.Transparent;
+            this.DonateButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.DonateButton.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.DonateButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("DonateButton.ErrorImage")));
+            this.DonateButton.FadeWhenInactive = false;
+            this.DonateButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.DonateButton.Image = global::HourBoostr_Beta.Properties.Resources.Donate;
+            this.DonateButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Donate_Hovered;
+            this.DonateButton.ImageLocation = null;
+            this.DonateButton.ImageMargin = 0;
+            this.DonateButton.ImageSize = new System.Drawing.Size(73, 35);
+            this.DonateButton.ImageZoomSize = new System.Drawing.Size(73, 35);
+            this.DonateButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("DonateButton.InitialImage")));
+            this.DonateButton.Location = new System.Drawing.Point(615, 0);
+            this.DonateButton.Name = "DonateButton";
+            this.DonateButton.Rotation = 0;
+            this.DonateButton.ShowActiveImage = true;
+            this.DonateButton.ShowCursorChanges = true;
+            this.DonateButton.ShowImageBorders = true;
+            this.DonateButton.ShowSizeMarkers = false;
+            this.DonateButton.Size = new System.Drawing.Size(73, 35);
+            this.DonateButton.TabIndex = 5;
+            this.DonateButton.ToolTipText = "Donate";
+            this.DonateButton.WaitOnLoad = false;
+            this.DonateButton.Zoom = 0;
+            this.DonateButton.ZoomSpeed = 10;
+            this.DonateButton.Click += new System.EventHandler(this.DonateButton_Click);
             // 
             // SettingsButton
             // 
@@ -98,6 +135,7 @@
             this.SettingsButton.WaitOnLoad = false;
             this.SettingsButton.Zoom = 0;
             this.SettingsButton.ZoomSpeed = 10;
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
             // BackButton
             // 
@@ -116,7 +154,7 @@
             this.BackButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Back_Hovered;
             this.BackButton.ImageLocation = null;
             this.BackButton.ImageMargin = 0;
-            this.BackButton.ImageSize = new System.Drawing.Size(35, 34);
+            this.BackButton.ImageSize = new System.Drawing.Size(34, 33);
             this.BackButton.ImageZoomSize = new System.Drawing.Size(35, 34);
             this.BackButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("BackButton.InitialImage")));
             this.BackButton.Location = new System.Drawing.Point(0, 0);
@@ -206,7 +244,7 @@
             this.TradingCardsButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.TradingCardsButton_Hovered;
             this.TradingCardsButton.ImageLocation = null;
             this.TradingCardsButton.ImageMargin = 0;
-            this.TradingCardsButton.ImageSize = new System.Drawing.Size(185, 87);
+            this.TradingCardsButton.ImageSize = new System.Drawing.Size(184, 86);
             this.TradingCardsButton.ImageZoomSize = new System.Drawing.Size(185, 87);
             this.TradingCardsButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("TradingCardsButton.InitialImage")));
             this.TradingCardsButton.Location = new System.Drawing.Point(615, 363);
@@ -222,6 +260,7 @@
             this.TradingCardsButton.WaitOnLoad = false;
             this.TradingCardsButton.Zoom = 0;
             this.TradingCardsButton.ZoomSpeed = 10;
+            this.TradingCardsButton.Click += new System.EventHandler(this.TradingCardsButton_Click);
             // 
             // IdleHoursButton
             // 
@@ -241,7 +280,7 @@
             this.IdleHoursButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.IdleButton_Hovered;
             this.IdleHoursButton.ImageLocation = null;
             this.IdleHoursButton.ImageMargin = 0;
-            this.IdleHoursButton.ImageSize = new System.Drawing.Size(185, 330);
+            this.IdleHoursButton.ImageSize = new System.Drawing.Size(184, 329);
             this.IdleHoursButton.ImageZoomSize = new System.Drawing.Size(185, 330);
             this.IdleHoursButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("IdleHoursButton.InitialImage")));
             this.IdleHoursButton.Location = new System.Drawing.Point(615, 35);
@@ -257,41 +296,12 @@
             this.IdleHoursButton.WaitOnLoad = false;
             this.IdleHoursButton.Zoom = 0;
             this.IdleHoursButton.ZoomSpeed = 10;
+            this.IdleHoursButton.Click += new System.EventHandler(this.IdleHoursButton_Click);
             // 
-            // DonateButton
+            // WindowElipse
             // 
-            this.DonateButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Donate_Hovered;
-            this.DonateButton.AllowAnimations = true;
-            this.DonateButton.AllowBuffering = false;
-            this.DonateButton.AllowToggling = false;
-            this.DonateButton.AllowZooming = false;
-            this.DonateButton.AllowZoomingOnFocus = false;
-            this.DonateButton.BackColor = System.Drawing.Color.Transparent;
-            this.DonateButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.DonateButton.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.DonateButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("DonateButton.ErrorImage")));
-            this.DonateButton.FadeWhenInactive = false;
-            this.DonateButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
-            this.DonateButton.Image = global::HourBoostr_Beta.Properties.Resources.Donate;
-            this.DonateButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Donate_Hovered;
-            this.DonateButton.ImageLocation = null;
-            this.DonateButton.ImageMargin = 0;
-            this.DonateButton.ImageSize = new System.Drawing.Size(73, 35);
-            this.DonateButton.ImageZoomSize = new System.Drawing.Size(73, 35);
-            this.DonateButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("DonateButton.InitialImage")));
-            this.DonateButton.Location = new System.Drawing.Point(615, 0);
-            this.DonateButton.Name = "DonateButton";
-            this.DonateButton.Rotation = 0;
-            this.DonateButton.ShowActiveImage = true;
-            this.DonateButton.ShowCursorChanges = true;
-            this.DonateButton.ShowImageBorders = true;
-            this.DonateButton.ShowSizeMarkers = false;
-            this.DonateButton.Size = new System.Drawing.Size(73, 35);
-            this.DonateButton.TabIndex = 5;
-            this.DonateButton.ToolTipText = "Donate";
-            this.DonateButton.WaitOnLoad = false;
-            this.DonateButton.Zoom = 0;
-            this.DonateButton.ZoomSpeed = 10;
+            this.WindowElipse.ElipseRadius = 15;
+            this.WindowElipse.TargetControl = this;
             // 
             // SingleBoostr
             // 
@@ -309,6 +319,7 @@
             this.Name = "SingleBoostr";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SingleBoostr";
+            this.Load += new System.EventHandler(this.SingleBoostr_Load);
             this.HeaderPanel.ResumeLayout(false);
             this.InfoPanel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -326,5 +337,6 @@
         private System.Windows.Forms.Panel HeaderPanel;
         private Bunifu.UI.WinForms.BunifuImageButton SettingsButton;
         private Bunifu.UI.WinForms.BunifuImageButton DonateButton;
+        private Bunifu.Framework.UI.BunifuElipse WindowElipse;
     }
 }

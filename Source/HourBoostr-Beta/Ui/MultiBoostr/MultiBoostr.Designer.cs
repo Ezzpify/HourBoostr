@@ -1,4 +1,4 @@
-﻿namespace HourBoostr_Beta.Ui
+﻿namespace HourBoostr_Beta.Ui.MultiBoostr
 {
     partial class MultiBoostr
     {
@@ -34,6 +34,7 @@
             this.HeaderPanel = new Bunifu.UI.WinForms.BunifuPanel();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.WindowElipse = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,6 +132,11 @@
             this.ExitButton.ZoomSpeed = 10;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // WindowElipse
+            // 
+            this.WindowElipse.ElipseRadius = 15;
+            this.WindowElipse.TargetControl = this;
+            // 
             // MultiBoostr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -156,5 +162,6 @@
         private Bunifu.Framework.UI.BunifuDragControl HeaderDragControl;
         private Bunifu.UI.WinForms.BunifuImageButton ExitButton;
         private Bunifu.UI.WinForms.BunifuImageButton BackButton;
+        private Bunifu.Framework.UI.BunifuElipse WindowElipse;
     }
 }

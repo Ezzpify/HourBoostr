@@ -37,6 +37,7 @@
             this.MultiBoostrLabel = new Bunifu.UI.WinForms.BunifuLabel();
             this.MultiBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.SingleBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.WindowElipse = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -202,6 +203,11 @@
             this.SingleBoostrButton.ZoomSpeed = 10;
             this.SingleBoostrButton.Click += new System.EventHandler(this.SingleBoostrButton_Click);
             // 
+            // WindowElipse
+            // 
+            this.WindowElipse.ElipseRadius = 15;
+            this.WindowElipse.TargetControl = this;
+            // 
             // BoostrSelectionScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,5 +241,6 @@
         private Bunifu.UI.WinForms.BunifuImageButton MultiBoostrButton;
         private Bunifu.UI.WinForms.BunifuLabel SingleBoostrLabel;
         private Bunifu.UI.WinForms.BunifuLabel MultiBoostrLabel;
+        private Bunifu.Framework.UI.BunifuElipse WindowElipse;
     }
 }

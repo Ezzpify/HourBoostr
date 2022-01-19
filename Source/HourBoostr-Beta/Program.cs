@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HourBoostr_Beta.Core;
 using HourBoostr_Beta.Ui;
+using HourBoostr_Beta.Ui.MultiBoostr;
+using HourBoostr_Beta.Ui.SingleBoostr;
 
 namespace HourBoostr_Beta
 {
@@ -29,6 +31,7 @@ namespace HourBoostr_Beta
             BoostrSelectionScreen = new();
             SingleBoostr = new();
             MultiBoostr = new();
+            SingleBoostr.GameLibrary = new();
         }
 
         internal void Start() => Application.Run(SplashScreen);

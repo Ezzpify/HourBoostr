@@ -75,6 +75,9 @@
     <Reference Include="Bunifu.UI.WinForms.BunifuButton">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuButton.dll</HintPath>
     </Reference>
+    <Reference Include="Bunifu.UI.WinForms.BunifuGradientPanel">
+      <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuGradientPanel.dll</HintPath>
+    </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuImageButton">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuImageButton.dll</HintPath>
     </Reference>
@@ -101,8 +104,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\MultiBoostr\Instance.cs" />
     <Compile Include="Core\ProgramArguments.cs" />
     <Compile Include="Core\ProgramAssembly.cs" />
+    <Compile Include="Core\SingleBoostr\Instance.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,16 +119,22 @@
     <Compile Include="Ui\BoostrSelectionScreen.Designer.cs">
       <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\MultiBoostr.cs">
+    <Compile Include="Ui\MultiBoostr\MultiBoostr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ui\MultiBoostr.Designer.cs">
+    <Compile Include="Ui\MultiBoostr\MultiBoostr.Designer.cs">
       <DependentUpon>MultiBoostr.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\SingleBoostr.cs">
+    <Compile Include="Ui\SingleBoostr\GameLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ui\SingleBoostr.Designer.cs">
+    <Compile Include="Ui\SingleBoostr\GameLibrary.Designer.cs">
+      <DependentUpon>GameLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\SingleBoostr\SingleBoostr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\SingleBoostr\SingleBoostr.Designer.cs">
       <DependentUpon>SingleBoostr.cs</DependentUpon>
     </Compile>
     <Compile Include="Ui\SplashScreen.cs">
@@ -143,10 +154,13 @@
     <EmbeddedResource Include="Ui\BoostrSelectionScreen.resx">
       <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\MultiBoostr.resx">
+    <EmbeddedResource Include="Ui\MultiBoostr\MultiBoostr.resx">
       <DependentUpon>MultiBoostr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\SingleBoostr.resx">
+    <EmbeddedResource Include="Ui\SingleBoostr\GameLibrary.resx">
+      <DependentUpon>GameLibrary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\SingleBoostr\SingleBoostr.resx">
       <DependentUpon>SingleBoostr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\SplashScreen.resx">
