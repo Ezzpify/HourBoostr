@@ -8,7 +8,7 @@ namespace HourBoostr_Beta.Core.MultiBoostr
 {
     internal class Instance
     {
-        internal int processID { get; init; }
+        internal int processID { get; init; } //property is Immutable and cannot be changed once object is created
         internal Instance(List<BoostrAccount> account)
         {
 
