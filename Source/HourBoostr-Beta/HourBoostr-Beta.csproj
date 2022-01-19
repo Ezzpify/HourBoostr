@@ -78,6 +78,9 @@
     <Reference Include="Bunifu.UI.WinForms.BunifuImageButton">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuImageButton.dll</HintPath>
     </Reference>
+    <Reference Include="Bunifu.UI.WinForms.BunifuLabel">
+      <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuLabel.dll</HintPath>
+    </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuPanel">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuPanel.dll</HintPath>
     </Reference>
@@ -165,6 +168,8 @@
     <None Include="Embedded\Resources\Images\Exit-Hovered.png" />
     <None Include="Embedded\Resources\Images\Back.png" />
     <None Include="Embedded\Resources\Images\Back-Hovered.png" />
+    <None Include="Embedded\Resources\Images\MultiBoostrSelection.png" />
+    <None Include="Embedded\Resources\Images\SingleBoostrSelection.png" />
     <Content Include="Embedded\Resources\Images\SplashScreen.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
