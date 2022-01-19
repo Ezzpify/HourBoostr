@@ -15,6 +15,8 @@ namespace HourBoostr_Beta
         internal ProgramArguments Arguments;
         internal SplashScreen SplashScreen;
         internal BoostrSelectionScreen BoostrSelectionScreen;
+        internal SingleBoostr SingleBoostr;
+        internal MultiBoostr MultiBoostr;
 
         private Program(List<string> arguments)
         { 
@@ -25,6 +27,8 @@ namespace HourBoostr_Beta
             Arguments = new(arguments);
             SplashScreen = new();
             BoostrSelectionScreen = new();
+            SingleBoostr = new();
+            MultiBoostr = new();
         }
 
         internal void Start() => Application.Run(SplashScreen);

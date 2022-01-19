@@ -103,6 +103,18 @@
     <Compile Include="Ui\BoostrSelectionScreen.Designer.cs">
       <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ui\MultiBoostr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\MultiBoostr.Designer.cs">
+      <DependentUpon>MultiBoostr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\SingleBoostr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\SingleBoostr.Designer.cs">
+      <DependentUpon>SingleBoostr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ui\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +137,12 @@
     <EmbeddedResource Include="Ui\BoostrSelectionScreen.resx">
       <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ui\MultiBoostr.resx">
+      <DependentUpon>MultiBoostr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\SingleBoostr.resx">
+      <DependentUpon>SingleBoostr.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ui\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,6 +163,8 @@
   <ItemGroup>
     <None Include="Embedded\Resources\Images\Exit.png" />
     <None Include="Embedded\Resources\Images\Exit-Hovered.png" />
+    <None Include="Embedded\Resources\Images\Back.png" />
+    <None Include="Embedded\Resources\Images\Back-Hovered.png" />
     <Content Include="Embedded\Resources\Images\SplashScreen.png" />
     <Content Include="icon.ico" />
   </ItemGroup>

@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoostrSelectionScreen));
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
+            this.MultiBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.SingleBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.HeaderPanel = new Bunifu.UI.WinForms.BunifuPanel();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.HeaderPanel.SuspendLayout();
@@ -42,6 +44,76 @@
             this.HeaderDragControl.Horizontal = true;
             this.HeaderDragControl.TargetControl = this.HeaderPanel;
             this.HeaderDragControl.Vertical = true;
+            // 
+            // MultiBoostrButton
+            // 
+            this.MultiBoostrButton.ActiveImage = null;
+            this.MultiBoostrButton.AllowAnimations = true;
+            this.MultiBoostrButton.AllowBuffering = false;
+            this.MultiBoostrButton.AllowToggling = false;
+            this.MultiBoostrButton.AllowZooming = true;
+            this.MultiBoostrButton.AllowZoomingOnFocus = false;
+            this.MultiBoostrButton.BackColor = System.Drawing.Color.Transparent;
+            this.MultiBoostrButton.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.MultiBoostrButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("MultiBoostrButton.ErrorImage")));
+            this.MultiBoostrButton.FadeWhenInactive = true;
+            this.MultiBoostrButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.MultiBoostrButton.Image = global::HourBoostr_Beta.Properties.Resources.SplashScreen;
+            this.MultiBoostrButton.ImageActive = null;
+            this.MultiBoostrButton.ImageLocation = null;
+            this.MultiBoostrButton.ImageMargin = 0;
+            this.MultiBoostrButton.ImageSize = new System.Drawing.Size(397, 409);
+            this.MultiBoostrButton.ImageZoomSize = new System.Drawing.Size(398, 410);
+            this.MultiBoostrButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("MultiBoostrButton.InitialImage")));
+            this.MultiBoostrButton.Location = new System.Drawing.Point(402, 40);
+            this.MultiBoostrButton.Name = "MultiBoostrButton";
+            this.MultiBoostrButton.Rotation = 0;
+            this.MultiBoostrButton.ShowActiveImage = true;
+            this.MultiBoostrButton.ShowCursorChanges = true;
+            this.MultiBoostrButton.ShowImageBorders = true;
+            this.MultiBoostrButton.ShowSizeMarkers = false;
+            this.MultiBoostrButton.Size = new System.Drawing.Size(398, 410);
+            this.MultiBoostrButton.TabIndex = 3;
+            this.MultiBoostrButton.ToolTipText = "Open MultiBoostr";
+            this.MultiBoostrButton.WaitOnLoad = false;
+            this.MultiBoostrButton.Zoom = 0;
+            this.MultiBoostrButton.ZoomSpeed = 10;
+            this.MultiBoostrButton.Click += new System.EventHandler(this.MultiBoostrButton_Click);
+            // 
+            // SingleBoostrButton
+            // 
+            this.SingleBoostrButton.ActiveImage = null;
+            this.SingleBoostrButton.AllowAnimations = true;
+            this.SingleBoostrButton.AllowBuffering = false;
+            this.SingleBoostrButton.AllowToggling = false;
+            this.SingleBoostrButton.AllowZooming = true;
+            this.SingleBoostrButton.AllowZoomingOnFocus = false;
+            this.SingleBoostrButton.BackColor = System.Drawing.Color.Transparent;
+            this.SingleBoostrButton.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.SingleBoostrButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("SingleBoostrButton.ErrorImage")));
+            this.SingleBoostrButton.FadeWhenInactive = true;
+            this.SingleBoostrButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.SingleBoostrButton.Image = global::HourBoostr_Beta.Properties.Resources.SplashScreen;
+            this.SingleBoostrButton.ImageActive = null;
+            this.SingleBoostrButton.ImageLocation = null;
+            this.SingleBoostrButton.ImageMargin = 0;
+            this.SingleBoostrButton.ImageSize = new System.Drawing.Size(397, 409);
+            this.SingleBoostrButton.ImageZoomSize = new System.Drawing.Size(398, 410);
+            this.SingleBoostrButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("SingleBoostrButton.InitialImage")));
+            this.SingleBoostrButton.Location = new System.Drawing.Point(0, 40);
+            this.SingleBoostrButton.Name = "SingleBoostrButton";
+            this.SingleBoostrButton.Rotation = 0;
+            this.SingleBoostrButton.ShowActiveImage = true;
+            this.SingleBoostrButton.ShowCursorChanges = true;
+            this.SingleBoostrButton.ShowImageBorders = true;
+            this.SingleBoostrButton.ShowSizeMarkers = false;
+            this.SingleBoostrButton.Size = new System.Drawing.Size(398, 410);
+            this.SingleBoostrButton.TabIndex = 2;
+            this.SingleBoostrButton.ToolTipText = "Open SingleBoostr";
+            this.SingleBoostrButton.WaitOnLoad = false;
+            this.SingleBoostrButton.Zoom = 0;
+            this.SingleBoostrButton.ZoomSpeed = 10;
+            this.SingleBoostrButton.Click += new System.EventHandler(this.SingleBoostrButton_Click);
             // 
             // HeaderPanel
             // 
@@ -56,7 +128,7 @@
             this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
             this.HeaderPanel.Name = "HeaderPanel";
             this.HeaderPanel.ShowBorders = true;
-            this.HeaderPanel.Size = new System.Drawing.Size(800, 31);
+            this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
             this.HeaderPanel.TabIndex = 0;
             // 
             // ExitButton
@@ -100,6 +172,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.MultiBoostrButton);
+            this.Controls.Add(this.SingleBoostrButton);
             this.Controls.Add(this.HeaderPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -117,5 +191,7 @@
         private Bunifu.UI.WinForms.BunifuPanel HeaderPanel;
         private Bunifu.Framework.UI.BunifuDragControl HeaderDragControl;
         private Bunifu.UI.WinForms.BunifuImageButton ExitButton;
+        private Bunifu.UI.WinForms.BunifuImageButton SingleBoostrButton;
+        private Bunifu.UI.WinForms.BunifuImageButton MultiBoostrButton;
     }
 }
