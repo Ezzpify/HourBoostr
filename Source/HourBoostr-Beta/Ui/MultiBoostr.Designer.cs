@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiBoostr));
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.HeaderPanel = new Bunifu.UI.WinForms.BunifuPanel();
-            this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.BackButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,41 +60,6 @@
             this.HeaderPanel.ShowBorders = true;
             this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
             this.HeaderPanel.TabIndex = 0;
-            // 
-            // ExitButton
-            // 
-            this.ExitButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
-            this.ExitButton.AllowAnimations = true;
-            this.ExitButton.AllowBuffering = false;
-            this.ExitButton.AllowToggling = false;
-            this.ExitButton.AllowZooming = false;
-            this.ExitButton.AllowZoomingOnFocus = false;
-            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
-            this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.ExitButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.ErrorImage")));
-            this.ExitButton.FadeWhenInactive = false;
-            this.ExitButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
-            this.ExitButton.Image = global::HourBoostr_Beta.Properties.Resources.Exit;
-            this.ExitButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
-            this.ExitButton.ImageLocation = null;
-            this.ExitButton.ImageMargin = 0;
-            this.ExitButton.ImageSize = new System.Drawing.Size(35, 34);
-            this.ExitButton.ImageZoomSize = new System.Drawing.Size(35, 34);
-            this.ExitButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.InitialImage")));
-            this.ExitButton.Location = new System.Drawing.Point(765, 0);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Rotation = 0;
-            this.ExitButton.ShowActiveImage = true;
-            this.ExitButton.ShowCursorChanges = true;
-            this.ExitButton.ShowImageBorders = true;
-            this.ExitButton.ShowSizeMarkers = false;
-            this.ExitButton.Size = new System.Drawing.Size(35, 34);
-            this.ExitButton.TabIndex = 3;
-            this.ExitButton.ToolTipText = "Exit HourBoostr";
-            this.ExitButton.WaitOnLoad = false;
-            this.ExitButton.Zoom = 0;
-            this.ExitButton.ZoomSpeed = 10;
-            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // BackButton
             // 
@@ -131,11 +96,47 @@
             this.BackButton.ZoomSpeed = 10;
             this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
+            // ExitButton
+            // 
+            this.ExitButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
+            this.ExitButton.AllowAnimations = true;
+            this.ExitButton.AllowBuffering = false;
+            this.ExitButton.AllowToggling = false;
+            this.ExitButton.AllowZooming = false;
+            this.ExitButton.AllowZoomingOnFocus = false;
+            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
+            this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.ExitButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.ErrorImage")));
+            this.ExitButton.FadeWhenInactive = false;
+            this.ExitButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.ExitButton.Image = global::HourBoostr_Beta.Properties.Resources.Exit;
+            this.ExitButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
+            this.ExitButton.ImageLocation = null;
+            this.ExitButton.ImageMargin = 0;
+            this.ExitButton.ImageSize = new System.Drawing.Size(35, 34);
+            this.ExitButton.ImageZoomSize = new System.Drawing.Size(35, 34);
+            this.ExitButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.InitialImage")));
+            this.ExitButton.Location = new System.Drawing.Point(765, 0);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Rotation = 0;
+            this.ExitButton.ShowActiveImage = true;
+            this.ExitButton.ShowCursorChanges = true;
+            this.ExitButton.ShowImageBorders = true;
+            this.ExitButton.ShowSizeMarkers = false;
+            this.ExitButton.Size = new System.Drawing.Size(35, 34);
+            this.ExitButton.TabIndex = 3;
+            this.ExitButton.ToolTipText = "Exit HourBoostr";
+            this.ExitButton.WaitOnLoad = false;
+            this.ExitButton.Zoom = 0;
+            this.ExitButton.ZoomSpeed = 10;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
             // MultiBoostr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
+            this.BackgroundImage = global::HourBoostr_Beta.Properties.Resources.Background;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
             this.Controls.Add(this.HeaderPanel);

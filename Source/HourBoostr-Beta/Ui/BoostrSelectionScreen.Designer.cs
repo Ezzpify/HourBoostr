@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoostrSelectionScreen));
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
-            this.MultiBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
-            this.SingleBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.HeaderPanel = new Bunifu.UI.WinForms.BunifuPanel();
             this.ExitButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.SingleBoostrLabel = new Bunifu.UI.WinForms.BunifuLabel();
             this.MultiBoostrLabel = new Bunifu.UI.WinForms.BunifuLabel();
+            this.MultiBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
+            this.SingleBoostrButton = new Bunifu.UI.WinForms.BunifuImageButton();
             this.HeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,90 @@
             this.HeaderDragControl.TargetControl = this.HeaderPanel;
             this.HeaderDragControl.Vertical = true;
             // 
+            // HeaderPanel
+            // 
+            this.HeaderPanel.BackgroundColor = System.Drawing.Color.Transparent;
+            this.HeaderPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeaderPanel.BackgroundImage")));
+            this.HeaderPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.HeaderPanel.BorderColor = System.Drawing.Color.Transparent;
+            this.HeaderPanel.BorderRadius = 3;
+            this.HeaderPanel.BorderThickness = 1;
+            this.HeaderPanel.Controls.Add(this.ExitButton);
+            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
+            this.HeaderPanel.Name = "HeaderPanel";
+            this.HeaderPanel.ShowBorders = true;
+            this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
+            this.HeaderPanel.TabIndex = 0;
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
+            this.ExitButton.AllowAnimations = true;
+            this.ExitButton.AllowBuffering = false;
+            this.ExitButton.AllowToggling = false;
+            this.ExitButton.AllowZooming = false;
+            this.ExitButton.AllowZoomingOnFocus = false;
+            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
+            this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.ExitButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.ErrorImage")));
+            this.ExitButton.FadeWhenInactive = false;
+            this.ExitButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.ExitButton.Image = global::HourBoostr_Beta.Properties.Resources.Exit;
+            this.ExitButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
+            this.ExitButton.ImageLocation = null;
+            this.ExitButton.ImageMargin = 0;
+            this.ExitButton.ImageSize = new System.Drawing.Size(35, 34);
+            this.ExitButton.ImageZoomSize = new System.Drawing.Size(35, 34);
+            this.ExitButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.InitialImage")));
+            this.ExitButton.Location = new System.Drawing.Point(765, 0);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Rotation = 0;
+            this.ExitButton.ShowActiveImage = true;
+            this.ExitButton.ShowCursorChanges = true;
+            this.ExitButton.ShowImageBorders = true;
+            this.ExitButton.ShowSizeMarkers = false;
+            this.ExitButton.Size = new System.Drawing.Size(35, 34);
+            this.ExitButton.TabIndex = 1;
+            this.ExitButton.ToolTipText = "Exit HourBoostr";
+            this.ExitButton.WaitOnLoad = false;
+            this.ExitButton.Zoom = 0;
+            this.ExitButton.ZoomSpeed = 10;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
+            // SingleBoostrLabel
+            // 
+            this.SingleBoostrLabel.AllowParentOverrides = false;
+            this.SingleBoostrLabel.AutoEllipsis = false;
+            this.SingleBoostrLabel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.SingleBoostrLabel.CursorType = System.Windows.Forms.Cursors.Default;
+            this.SingleBoostrLabel.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SingleBoostrLabel.ForeColor = System.Drawing.Color.Gray;
+            this.SingleBoostrLabel.Location = new System.Drawing.Point(135, 135);
+            this.SingleBoostrLabel.Name = "SingleBoostrLabel";
+            this.SingleBoostrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.SingleBoostrLabel.Size = new System.Drawing.Size(122, 26);
+            this.SingleBoostrLabel.TabIndex = 4;
+            this.SingleBoostrLabel.Text = "SingleBoostr";
+            this.SingleBoostrLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.SingleBoostrLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            // 
+            // MultiBoostrLabel
+            // 
+            this.MultiBoostrLabel.AllowParentOverrides = false;
+            this.MultiBoostrLabel.AutoEllipsis = false;
+            this.MultiBoostrLabel.CursorType = null;
+            this.MultiBoostrLabel.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MultiBoostrLabel.ForeColor = System.Drawing.Color.Gray;
+            this.MultiBoostrLabel.Location = new System.Drawing.Point(547, 135);
+            this.MultiBoostrLabel.Name = "MultiBoostrLabel";
+            this.MultiBoostrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.MultiBoostrLabel.Size = new System.Drawing.Size(112, 26);
+            this.MultiBoostrLabel.TabIndex = 5;
+            this.MultiBoostrLabel.Text = "MultiBoostr";
+            this.MultiBoostrLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.MultiBoostrLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
+            // 
             // MultiBoostrButton
             // 
             this.MultiBoostrButton.ActiveImage = null;
@@ -56,6 +140,7 @@
             this.MultiBoostrButton.AllowZooming = true;
             this.MultiBoostrButton.AllowZoomingOnFocus = false;
             this.MultiBoostrButton.BackColor = System.Drawing.Color.Transparent;
+            this.MultiBoostrButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.MultiBoostrButton.DialogResult = System.Windows.Forms.DialogResult.None;
             this.MultiBoostrButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("MultiBoostrButton.ErrorImage")));
             this.MultiBoostrButton.FadeWhenInactive = true;
@@ -117,89 +202,6 @@
             this.SingleBoostrButton.ZoomSpeed = 10;
             this.SingleBoostrButton.Click += new System.EventHandler(this.SingleBoostrButton_Click);
             // 
-            // HeaderPanel
-            // 
-            this.HeaderPanel.BackgroundColor = System.Drawing.Color.Transparent;
-            this.HeaderPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeaderPanel.BackgroundImage")));
-            this.HeaderPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.HeaderPanel.BorderColor = System.Drawing.Color.Transparent;
-            this.HeaderPanel.BorderRadius = 3;
-            this.HeaderPanel.BorderThickness = 1;
-            this.HeaderPanel.Controls.Add(this.ExitButton);
-            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.HeaderPanel.Location = new System.Drawing.Point(0, 0);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.ShowBorders = true;
-            this.HeaderPanel.Size = new System.Drawing.Size(800, 35);
-            this.HeaderPanel.TabIndex = 0;
-            // 
-            // ExitButton
-            // 
-            this.ExitButton.ActiveImage = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
-            this.ExitButton.AllowAnimations = true;
-            this.ExitButton.AllowBuffering = false;
-            this.ExitButton.AllowToggling = false;
-            this.ExitButton.AllowZooming = false;
-            this.ExitButton.AllowZoomingOnFocus = false;
-            this.ExitButton.BackColor = System.Drawing.Color.Transparent;
-            this.ExitButton.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.ExitButton.ErrorImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.ErrorImage")));
-            this.ExitButton.FadeWhenInactive = false;
-            this.ExitButton.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
-            this.ExitButton.Image = global::HourBoostr_Beta.Properties.Resources.Exit;
-            this.ExitButton.ImageActive = global::HourBoostr_Beta.Properties.Resources.Exit_Hovered;
-            this.ExitButton.ImageLocation = null;
-            this.ExitButton.ImageMargin = 0;
-            this.ExitButton.ImageSize = new System.Drawing.Size(35, 34);
-            this.ExitButton.ImageZoomSize = new System.Drawing.Size(35, 34);
-            this.ExitButton.InitialImage = ((System.Drawing.Image)(resources.GetObject("ExitButton.InitialImage")));
-            this.ExitButton.Location = new System.Drawing.Point(765, 0);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Rotation = 0;
-            this.ExitButton.ShowActiveImage = true;
-            this.ExitButton.ShowCursorChanges = true;
-            this.ExitButton.ShowImageBorders = true;
-            this.ExitButton.ShowSizeMarkers = false;
-            this.ExitButton.Size = new System.Drawing.Size(35, 34);
-            this.ExitButton.TabIndex = 1;
-            this.ExitButton.ToolTipText = "Exit HourBoostr";
-            this.ExitButton.WaitOnLoad = false;
-            this.ExitButton.Zoom = 0;
-            this.ExitButton.ZoomSpeed = 10;
-            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
-            // 
-            // SingleBoostrLabel
-            // 
-            this.SingleBoostrLabel.AllowParentOverrides = false;
-            this.SingleBoostrLabel.AutoEllipsis = false;
-            this.SingleBoostrLabel.CursorType = System.Windows.Forms.Cursors.Default;
-            this.SingleBoostrLabel.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SingleBoostrLabel.ForeColor = System.Drawing.Color.Gray;
-            this.SingleBoostrLabel.Location = new System.Drawing.Point(135, 135);
-            this.SingleBoostrLabel.Name = "SingleBoostrLabel";
-            this.SingleBoostrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.SingleBoostrLabel.Size = new System.Drawing.Size(122, 26);
-            this.SingleBoostrLabel.TabIndex = 4;
-            this.SingleBoostrLabel.Text = "SingleBoostr";
-            this.SingleBoostrLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
-            this.SingleBoostrLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
-            // 
-            // MultiBoostrLabel
-            // 
-            this.MultiBoostrLabel.AllowParentOverrides = false;
-            this.MultiBoostrLabel.AutoEllipsis = false;
-            this.MultiBoostrLabel.CursorType = null;
-            this.MultiBoostrLabel.Font = new System.Drawing.Font("Montserrat", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MultiBoostrLabel.ForeColor = System.Drawing.Color.Gray;
-            this.MultiBoostrLabel.Location = new System.Drawing.Point(547, 135);
-            this.MultiBoostrLabel.Name = "MultiBoostrLabel";
-            this.MultiBoostrLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.MultiBoostrLabel.Size = new System.Drawing.Size(112, 26);
-            this.MultiBoostrLabel.TabIndex = 5;
-            this.MultiBoostrLabel.Text = "MultiBoostr";
-            this.MultiBoostrLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
-            this.MultiBoostrLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
-            // 
             // BoostrSelectionScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,6 +213,7 @@
             this.Controls.Add(this.MultiBoostrButton);
             this.Controls.Add(this.SingleBoostrButton);
             this.Controls.Add(this.HeaderPanel);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

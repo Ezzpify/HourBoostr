@@ -123,13 +123,12 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="HeaderPanel.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAyAAAAAjCAYAAABsDG5bAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD/SURBVHhe7drBCcMwEERR9V+P+nPwQYbgq2f28h6E+KuD
-        gV0AAAAj9t7X+WmttdZaa631l/14PQAAAKQYIAAAQJLNAQAA1PwNEGsEAABIMkAAAIAZBggAAJBkcwAA
-        ADVOsAAAgBoDBAAAmGGAAAAASTYHAABQ4wQLAACoMUAAAIAZBggAAJBkcwAAADVOsAAAgBoDBAAAmGGA
-        AAAASTYHAABQ4wQLAACoMUAAAIAZBggAAJBkcwAAADVOsAAAgBoDBAAAmGGAAAAASTYHAABQ4wQLAACo
-        MUAAAIAZBggAAJBkcwAAADWvAXI/nMfzrbXWWmuttdZf9P0PAABQtNYPdnsLqhqDCCEAAAAASUVORK5C
-        YII=
+        iVBORw0KGgoAAAANSUhEUgAAAyAAAAAjCAYAAABsDG5bAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAAP9JREFUeF7t2sEJwzAQRFH1X4/6c/BBhuCrZ/byHoT4q4OBXQAAACP23tf5aa21
+        1lprrfWX/Xg9AAAApBggAABAks0BAADU/A0QawQAAEgyQAAAgBkGCAAAkGRzAAAANU6wAACAGgMEAACY
+        YYAAAABJNgcAAFDjBAsAAKgxQAAAgBkGCAAAkGRzAAAANU6wAACAGgMEAACYYYAAAABJNgcAAFDjBAsA
+        AKgxQAAAgBkGCAAAkGRzAAAANU6wAACAGgMEAACYYYAAAABJNgcAAFDjBAsAAKgxQAAAgBkGCAAAkGRz
+        AAAANa8Bcj+cx/OttdZaa6211l/0/Q8AAFC01g92ewuqGoMIIQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="ExitButton.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -571,6 +570,12 @@
         1ozyhiTZlMxsc9ddd1nWXItAfxh6c4nOQR9vQNpObPvSYbF9t6z50V0/8/8Bgo32YaxpGUMAAAAASUVO
         RK5CYII=
 </value>
+  </data>
+  <data name="SingleBoostrLabel.BaseStylesheet" xml:space="preserve">
+    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 14.25pt; width: 100%; height: 100%; font-style: normal; font-weight: normal; text-decoration: none; color: rgb(128, 128, 128); text-align: left; }</value>
+  </data>
+  <data name="MultiBoostrLabel.BaseStylesheet" xml:space="preserve">
+    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 14.25pt; width: 100%; height: 100%; font-style: normal; font-weight: normal; text-decoration: none; color: rgb(128, 128, 128); text-align: left; }</value>
   </data>
   <data name="MultiBoostrButton.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1451,12 +1456,6 @@
         1ozyhiTZlMxsc9ddd1nWXItAfxh6c4nOQR9vQNpObPvSYbF9t6z50V0/8/8Bgo32YaxpGUMAAAAASUVO
         RK5CYII=
 </value>
-  </data>
-  <data name="SingleBoostrLabel.BaseStylesheet" xml:space="preserve">
-    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 14.25pt; width: 100%; height: 100%; font-style: normal; font-weight: normal; text-decoration: none; color: rgb(128, 128, 128); text-align: left; }</value>
-  </data>
-  <data name="MultiBoostrLabel.BaseStylesheet" xml:space="preserve">
-    <value>#bunifu-label { padding: 0px; font-family: 'Montserrat'; font-size: 14.25pt; width: 100%; height: 100%; font-style: normal; font-weight: normal; text-decoration: none; color: rgb(128, 128, 128); text-align: left; }</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

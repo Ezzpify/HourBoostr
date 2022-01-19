@@ -84,6 +84,9 @@
     <Reference Include="Bunifu.UI.WinForms.BunifuPanel">
       <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuPanel.dll</HintPath>
     </Reference>
+    <Reference Include="Bunifu.UI.WinForms.BunifuPictureBox">
+      <HintPath>..\..\..\..\..\..\DevApps\Bunifu ui V5\Bunifu.UI.WinForms.BunifuPictureBox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -100,6 +103,11 @@
   <ItemGroup>
     <Compile Include="Core\ProgramArguments.cs" />
     <Compile Include="Core\ProgramAssembly.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Ui\BoostrSelectionScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,14 +137,9 @@
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Ui\BoostrSelectionScreen.resx">
       <DependentUpon>BoostrSelectionScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,7 +173,21 @@
     <None Include="Embedded\Resources\Images\Back-Hovered.png" />
     <None Include="Embedded\Resources\Images\MultiBoostrSelection.png" />
     <None Include="Embedded\Resources\Images\SingleBoostrSelection.png" />
+    <None Include="Embedded\Resources\Images\Background.png" />
+    <None Include="Embedded\Resources\Images\IdleButton.png" />
+    <None Include="Embedded\Resources\Images\IdleButton-Hovered.png" />
+    <None Include="Embedded\Resources\Images\Donate.png" />
+    <None Include="Embedded\Resources\Images\Donate-Hovered.png" />
+    <None Include="Embedded\Resources\Images\github-logo.png" />
+    <None Include="Embedded\Resources\Images\Min.png" />
+    <None Include="Embedded\Resources\Images\Min-Hovered.png" />
+    <None Include="Embedded\Resources\Images\Settings.png" />
+    <None Include="Embedded\Resources\Images\Settings-Hovered.png" />
     <Content Include="Embedded\Resources\Images\SplashScreen.png" />
+    <None Include="Embedded\Resources\Images\TradingCradsButton.png" />
+    <None Include="Embedded\Resources\Images\TradingCradsButton-Hovered.png" />
+    <None Include="Embedded\Resources\Images\TradingCardsButton.png" />
+    <None Include="Embedded\Resources\Images\TradingCardsButton-Hovered.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
