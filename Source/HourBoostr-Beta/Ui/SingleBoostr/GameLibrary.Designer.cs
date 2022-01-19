@@ -37,7 +37,12 @@
             this.HeaderPanel = new Bunifu.UI.WinForms.BunifuGradientPanel();
             this.HeaderDragControl = new Bunifu.Framework.UI.BunifuDragControl(this.components);
             this.bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
+            this.GameList = new System.Windows.Forms.ListBox();
+            this.SelectedGamePanel = new System.Windows.Forms.Panel();
+            this.GameLabel = new Bunifu.UI.WinForms.BunifuLabel();
             this.HeaderPanel.SuspendLayout();
+            this.bunifuGradientPanel1.SuspendLayout();
+            this.SelectedGamePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // bunifuPanel2
@@ -164,16 +169,60 @@
             this.bunifuGradientPanel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("bunifuGradientPanel1.BackgroundImage")));
             this.bunifuGradientPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bunifuGradientPanel1.BorderRadius = 1;
+            this.bunifuGradientPanel1.Controls.Add(this.GameList);
             this.bunifuGradientPanel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.bunifuGradientPanel1.GradientBottomLeft = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.bunifuGradientPanel1.GradientBottomLeft = System.Drawing.Color.DodgerBlue;
             this.bunifuGradientPanel1.GradientBottomRight = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(30)))));
-            this.bunifuGradientPanel1.GradientTopLeft = System.Drawing.Color.DodgerBlue;
-            this.bunifuGradientPanel1.GradientTopRight = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(23)))));
+            this.bunifuGradientPanel1.GradientTopLeft = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.bunifuGradientPanel1.GradientTopRight = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
             this.bunifuGradientPanel1.Location = new System.Drawing.Point(0, 33);
             this.bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             this.bunifuGradientPanel1.Quality = 10;
             this.bunifuGradientPanel1.Size = new System.Drawing.Size(200, 373);
             this.bunifuGradientPanel1.TabIndex = 3;
+            // 
+            // GameList
+            // 
+            this.GameList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(26)))), ((int)(((byte)(33)))));
+            this.GameList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.GameList.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameList.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.GameList.FormattingEnabled = true;
+            this.GameList.ItemHeight = 22;
+            this.GameList.Items.AddRange(new object[] {
+            "Aim Lab",
+            "Apex Legends",
+            "Arma 3"});
+            this.GameList.Location = new System.Drawing.Point(0, 39);
+            this.GameList.Name = "GameList";
+            this.GameList.Size = new System.Drawing.Size(197, 352);
+            this.GameList.TabIndex = 0;
+            this.GameList.SelectedIndexChanged += new System.EventHandler(this.GameList_SelectedIndexChanged);
+            // 
+            // SelectedGamePanel
+            // 
+            this.SelectedGamePanel.BackColor = System.Drawing.Color.Transparent;
+            this.SelectedGamePanel.Controls.Add(this.GameLabel);
+            this.SelectedGamePanel.Location = new System.Drawing.Point(203, 33);
+            this.SelectedGamePanel.Name = "SelectedGamePanel";
+            this.SelectedGamePanel.Size = new System.Drawing.Size(597, 373);
+            this.SelectedGamePanel.TabIndex = 4;
+            // 
+            // GameLabel
+            // 
+            this.GameLabel.AllowParentOverrides = false;
+            this.GameLabel.AutoEllipsis = false;
+            this.GameLabel.CursorType = System.Windows.Forms.Cursors.Default;
+            this.GameLabel.Font = new System.Drawing.Font("Montserrat", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameLabel.ForeColor = System.Drawing.Color.Silver;
+            this.GameLabel.Location = new System.Drawing.Point(12, 6);
+            this.GameLabel.Name = "GameLabel";
+            this.GameLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.GameLabel.Size = new System.Drawing.Size(221, 33);
+            this.GameLabel.TabIndex = 0;
+            this.GameLabel.Text = "Some Game Title";
+            this.GameLabel.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
+            this.GameLabel.TextFormat = Bunifu.UI.WinForms.BunifuLabel.TextFormattingOptions.Default;
             // 
             // GameLibrary
             // 
@@ -181,6 +230,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::HourBoostr_Beta.Properties.Resources.Background;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.SelectedGamePanel);
             this.Controls.Add(this.bunifuGradientPanel1);
             this.Controls.Add(this.HeaderPanel);
             this.Controls.Add(this.bunifuPanel2);
@@ -189,7 +239,11 @@
             this.Name = "GameLibrary";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GameLibrary";
+            this.Load += new System.EventHandler(this.GameLibrary_Load);
             this.HeaderPanel.ResumeLayout(false);
+            this.bunifuGradientPanel1.ResumeLayout(false);
+            this.SelectedGamePanel.ResumeLayout(false);
+            this.SelectedGamePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -202,5 +256,8 @@
         private Bunifu.UI.WinForms.BunifuGradientPanel HeaderPanel;
         private Bunifu.Framework.UI.BunifuDragControl HeaderDragControl;
         private Bunifu.UI.WinForms.BunifuGradientPanel bunifuGradientPanel1;
+        private System.Windows.Forms.ListBox GameList;
+        private System.Windows.Forms.Panel SelectedGamePanel;
+        private Bunifu.UI.WinForms.BunifuLabel GameLabel;
     }
 }
