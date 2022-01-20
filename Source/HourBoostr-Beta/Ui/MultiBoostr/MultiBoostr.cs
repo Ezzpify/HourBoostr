@@ -1,13 +1,12 @@
-﻿using System;
+﻿using HourBoostr_Beta.Core.MultiBoostr;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using HourBoostr_Beta.Core.MultiBoostr;
-using Newtonsoft.Json;
 
 namespace HourBoostr_Beta.Ui.MultiBoostr
 {
     public partial class MultiBoostr : Form
-    { 
+    {
         internal Config Config;
         private List<Instance> Instance;
         public MultiBoostr() => InitializeComponent();
@@ -48,9 +47,9 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
             foreach (var account in AccountListBox.Items)
             {
                 var accountName = account.ToString();
-                Accounts.Add(new BoostrAccount(accountName)); 
+                Accounts.Add(new BoostrAccount(accountName));
                 count++;
-                
+
                 if (count % 10 == 0)
                 {
                     Instance.Add(new(Accounts));
@@ -100,6 +99,6 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
             }
         }
 
-        
+
     }
 }

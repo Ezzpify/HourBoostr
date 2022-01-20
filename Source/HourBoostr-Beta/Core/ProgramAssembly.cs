@@ -10,7 +10,7 @@ namespace HourBoostr_Beta.Core
         internal string Name => Assembly.GetExecutingAssembly().GetName().Name;
 
         internal ProgramAssembly() => AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
-        
+
         private Assembly AssemblyResolver(object sender, ResolveEventArgs args)
         {
             var askedAssembly = new AssemblyName(args.Name);

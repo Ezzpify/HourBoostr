@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.Extensions.DependencyInjection</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory">
+      <summary>Default implementation of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceProviderFactory`1" />.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory" /> class
+            with default options.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.#ctor(Microsoft.Extensions.DependencyInjection.ServiceProviderOptions)">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory" /> class
+            with the specified <paramref name="options" />.</summary>
+      <param name="options">The options to use for this instance.</param>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.CreateBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>Creates a container builder from an <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.</summary>
+      <param name="services" />
+      <returns>A container builder that can be used to create an <see cref="T:System.IServiceProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.CreateServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>Creates an <see cref="T:System.IServiceProvider" /> from the container builder.</summary>
+      <param name="containerBuilder" />
+      <returns>An <see cref="T:System.IServiceProvider" />.</returns>
+    </member>
+    <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollection">
+      <summary>Default implementation of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.#ctor" />
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.Clear">
+      <summary>Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.Contains(Microsoft.Extensions.DependencyInjection.ServiceDescriptor)">
+      <summary>Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.</summary>
+      <param name="item" />
+      <returns>
+        <see langword="true" /> if <paramref name="item" /> is found in the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, <see langword="false" />.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.CopyTo(Microsoft.Extensions.DependencyInjection.ServiceDescriptor[],System.Int32)">
+      <summary>Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.</summary>
+      <param name="array" />
+      <param name="arrayIndex" />
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.GetEnumerator">
+      <summary>Returns an enumerator that iterates through the collection.</summary>
+      <returns>An enumerator that can be used to iterate through the collection.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.IndexOf(Microsoft.Extensions.DependencyInjection.ServiceDescriptor)">
+      <summary>Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1" />.</summary>
+      <param name="item" />
+      <returns>The index of <paramref name="item" /> if found in the list; otherwise, -1.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.Insert(System.Int32,Microsoft.Extensions.DependencyInjection.ServiceDescriptor)">
+      <summary>Inserts an item to the <see cref="T:System.Collections.Generic.IList`1" /> at the specified index.</summary>
+      <param name="index" />
+      <param name="item" />
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.Remove(Microsoft.Extensions.DependencyInjection.ServiceDescriptor)">
+      <summary>Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+      <param name="item" />
+      <returns>
+        <see langword="true" /> if <paramref name="item" /> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, <see langword="false" />. This method also returns <see langword="false" /> if <paramref name="item" /> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.RemoveAt(System.Int32)">
+      <summary>Removes the <see cref="T:System.Collections.Generic.IList`1" /> item at the specified index.</summary>
+      <param name="index" />
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.System#Collections#Generic#ICollection{Microsoft#Extensions#DependencyInjection#ServiceDescriptor}#Add(Microsoft.Extensions.DependencyInjection.ServiceDescriptor)">
+      <summary>Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+      <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollection.System#Collections#IEnumerable#GetEnumerator">
+      <summary>Returns an enumerator that iterates through a collection.</summary>
+      <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+    </member>
+    <member name="P:Microsoft.Extensions.DependencyInjection.ServiceCollection.Count">
+      <summary>Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
+    </member>
+    <member name="P:Microsoft.Extensions.DependencyInjection.ServiceCollection.IsReadOnly">
+      <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
+    </member>
+    <member name="P:Microsoft.Extensions.DependencyInjection.ServiceCollection.Item(System.Int32)">
+      <summary>Gets or sets the element at the specified index.</summary>
+      <param name="index" />
+    </member>
+    <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions">
+      <summary>Extension methods for building a <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" /> from an <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>Creates a <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" /> containing services from the provided <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.</summary>
+      <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> containing service descriptors.</param>
+      <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceProviderOptions)">
+      <summary>Creates a <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" /> containing services from the provided <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> optionally enabling service-creation and scope validation.</summary>
+      <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> containing service descriptors.</param>
+      <param name="options">Configures various service provider behaviors including service-creation and scope validation.</param>
+      <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean)">
+      <summary>Creates a <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" /> containing services from the provided <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />
+            optionally enabling scope validation.</summary>
+      <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> containing service descriptors.</param>
+      <param name="validateScopes">
+        <see langword="true" /> to perform check verifying that scoped services never gets resolved from root provider; otherwise, <see langword="false" />.</param>
+      <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceProvider" />.</returns>
+    </member>
+    <member name="T:Microsoft.Extensions.DependencyInjection.ServiceProvider">
+      <summary>The default IServiceProvider.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProvider.Dispose">
+      <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProvider.DisposeAsync">
+      <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.</summary>
+      <returns>A task that represents the asynchronous dispose operation.</returns>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(System.Type)">
+      <summary>Gets the service object of the specified type.</summary>
+      <param name="serviceType">The type of the service to get.</param>
+      <returns>The service that was produced.</returns>
+    </member>
+    <member name="T:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions">
+      <summary>Options for configuring various behaviors of the default <see cref="T:System.IServiceProvider" /> implementation.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions.#ctor" />
+    <member name="P:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions.ValidateOnBuild">
+      <summary>
+        <see langword="true" /> to perform check verifying that all services can be created during <see cref="MM:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceProviderOptions)" /> call; otherwise, <see langword="false" />. Defaults to <see langword="false" />.
+            NOTE: this check doesn't verify open generics services.</summary>
+    </member>
+    <member name="P:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions.ValidateScopes">
+      <summary>
+        <see langword="true" /> to perform check verifying that scoped services never gets resolved from root provider; otherwise, <see langword="false" />. Defaults to <see langword="false" />.</summary>
+    </member>
+  </members>
+</doc>

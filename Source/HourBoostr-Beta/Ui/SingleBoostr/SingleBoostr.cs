@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HourBoostr_Beta.Core.SingleBoostr;
+using System;
 using System.Windows.Forms;
-using HourBoostr_Beta.Core.SingleBoostr;
 
 namespace HourBoostr_Beta.Ui.SingleBoostr
 {
@@ -30,7 +30,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
         #region Main Controls
         private void SingleBoostr_Load(object sender, EventArgs e)
         {
-            if (Instance == null) 
+            if (Instance == null)
                 Instance = new();
         }
         private void TradingCardsButton_Click(object sender, EventArgs e)
@@ -42,7 +42,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
             GameLibrary.Show();
             Program.This.SingleBoostr.Hide();
         }
-        #endregion 
-        
+        #endregion
+
     }
 }

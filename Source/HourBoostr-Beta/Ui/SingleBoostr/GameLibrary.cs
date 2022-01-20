@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.ListBox;
 
 namespace HourBoostr_Beta.Ui.SingleBoostr
 {
@@ -58,7 +50,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
                 var noneselected = GameList.SelectedIndex < 0;
                 if (noneselected)
                     GameList.SelectedIndex = 0;
-                
+
                 var item = GameList.SelectedItem.ToString();
                 var validitem = !string.IsNullOrEmpty(item);
                 if (validitem)
@@ -67,7 +59,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
                     GameLabel.Text = item;
 
 
-                     
+
 
                 }
             }

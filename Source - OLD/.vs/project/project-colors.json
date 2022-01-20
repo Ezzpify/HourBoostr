@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "be83304b-4bcb-44eb-a8a1-b7e61cdc670f": {
+      "ProjectGuid": "be83304b-4bcb-44eb-a8a1-b7e61cdc670f",
+      "DisplayName": "HourBoostr",
+      "ColorIndex": 0
+    },
+    "6fc02d30-663b-4262-b094-bc81c0a09b6e": {
+      "ProjectGuid": "6fc02d30-663b-4262-b094-bc81c0a09b6e",
+      "DisplayName": "SingleBoostr.Game",
+      "ColorIndex": 1
+    },
+    "a0c0009a-6c5d-4eb3-a8b3-1e81488b3d8c": {
+      "ProjectGuid": "a0c0009a-6c5d-4eb3-a8b3-1e81488b3d8c",
+      "DisplayName": "SingleBoostr",
+      "ColorIndex": 2
+    },
+    "5f6378f7-e67a-470d-bae6-397718279068": {
+      "ProjectGuid": "5f6378f7-e67a-470d-bae6-397718279068",
+      "DisplayName": "SingleBoostr.Core",
+      "ColorIndex": 3
+    },
+    "26846449-44e9-4d8c-91bf-f6789207fc80": {
+      "ProjectGuid": "26846449-44e9-4d8c-91bf-f6789207fc80",
+      "DisplayName": "HourBoostr.Settings",
+      "ColorIndex": 4
+    },
+    "afae5292-df45-4531-8e2b-70c2826c4ec9": {
+      "ProjectGuid": "afae5292-df45-4531-8e2b-70c2826c4ec9",
+      "DisplayName": "HourBoostr-Beta",
+      "ColorIndex": 5
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 6
+}

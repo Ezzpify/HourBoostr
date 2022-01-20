@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HourBoostr_Beta.Core.MultiBoostr
+﻿namespace HourBoostr_Beta.Core.MultiBoostr
 {
     internal class BoostrAccount
     {
@@ -13,7 +7,7 @@ namespace HourBoostr_Beta.Core.MultiBoostr
         private protected string LoginKey;
 
         internal BoostrAccount(string accountName)
-        {
+        { 
             var config = Program.This.MultiBoostr.Config;
 
             if (config.FindAccount(accountName))
@@ -22,7 +16,7 @@ namespace HourBoostr_Beta.Core.MultiBoostr
                 AccountName = account.AccountName;
                 AccountPassword = account.AccountPassword;
                 LoginKey = account.LoginKey;
-            } 
+            }
         }
     }
 }

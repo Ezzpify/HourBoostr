@@ -1,18 +1,18 @@
-﻿using System;
+﻿using HourBoostr_Beta.Core;
+using HourBoostr_Beta.Ui;
+using HourBoostr_Beta.Ui.MultiBoostr;
+using HourBoostr_Beta.Ui.SingleBoostr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HourBoostr_Beta.Core;
-using HourBoostr_Beta.Ui;
-using HourBoostr_Beta.Ui.MultiBoostr;
-using HourBoostr_Beta.Ui.SingleBoostr;
 
 namespace HourBoostr_Beta
 {
     internal class Program
     {
-        internal static Program This; 
+        internal static Program This;
         internal ProgramAssembly Assembly;
         internal ProgramArguments Arguments;
         internal ProgramConfig Config;
@@ -22,7 +22,7 @@ namespace HourBoostr_Beta
         internal MultiBoostr MultiBoostr;
 
         private Program(List<string> arguments)
-        { 
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
