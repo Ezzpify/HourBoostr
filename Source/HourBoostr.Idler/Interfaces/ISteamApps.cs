@@ -2,16 +2,10 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using HourBoostr.Idler.Core;
+using HourBoostr.Idler.VTables;
 
 namespace HourBoostr.Idler.Interfaces
-{
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public class ISteamAppsVTable
-    {
-        public IntPtr GetAppData;
-        private IntPtr DTorISteamApps0011;
-    };
-
+{ 
     [InteropHelp.InterfaceVersion("STEAMAPPS_INTERFACE_VERSION001")]
     public class ISteamApps : InteropHelp.NativeWrapper<ISteamAppsVTable>
     {

@@ -1,31 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using HourBoostr.Idler.Core;
+using HourBoostr.Idler.VTables;
 
 namespace HourBoostr.Idler.Interfaces
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public class ISteamClientVTable
-    {
-        public IntPtr CreateSteamPipe;
-        public IntPtr BReleaseSteamPipe;
-        public IntPtr ConnectToGlobalUser;
-        public IntPtr CreateLocalUser;
-        public IntPtr ReleaseUser;
-        public IntPtr GetISteamUser;
-        public IntPtr GetISteamGameServer;
-        public IntPtr SetLocalIPBinding;
-        public IntPtr GetISteamFriends;
-        public IntPtr GetISteamUtils;
-        public IntPtr GetISteamMatchmaking;
-        public IntPtr GetISteamMatchmakingServers;
-        public IntPtr GetISteamGenericInterface;
-        public IntPtr GetISteamUserStats;
-        public IntPtr GetISteamGameServerStats;
-        public IntPtr GetISteamApps;
-    };
-
     [InteropHelp.InterfaceVersion("SteamClient017")]
     public class ISteamClient : InteropHelp.NativeWrapper<ISteamClientVTable>
     {
