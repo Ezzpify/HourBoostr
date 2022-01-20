@@ -130,6 +130,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\ISteamApps.cs" />
     <Compile Include="Interfaces\ISteamClient.cs" />
+    <Compile Include="VTables\ISteamAppsVTable.cs" />
+    <Compile Include="VTables\ISteamClientVTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
