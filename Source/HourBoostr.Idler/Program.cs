@@ -18,7 +18,7 @@ namespace HourBoostr.Idler
         internal ProgramAssembly Assembly { get; init; }
         internal ProgramArguments Arguments { get; init; }  
         internal ISteamClient SteamClient { get; private set; }
-        internal ISteamApps SteamApps001 { get; private set; }
+        internal ISteamApps SteamApps { get; private set; }
         private int User { get; set; } = 0;
         private int Pipe { get; set; } = 0;
         
@@ -113,8 +113,8 @@ namespace HourBoostr.Idler
                     This.User = This.SteamClient.ConnectToGlobalUser(This.Pipe);
                     if (This.User == 0 || This.User == -1) return false;
                      
-                    This.SteamApps001 = This.SteamClient.GetISteamApps<ISteamApps>(This.User, This.Pipe);
-                    if (This.SteamApps001 == null) return false;
+                    This.SteamApps = This.SteamClient.GetISteamApps<ISteamApps>(This.User, This.Pipe);
+                    if (This.SteamApps == null) return false;
 
                     return true;
                 }
