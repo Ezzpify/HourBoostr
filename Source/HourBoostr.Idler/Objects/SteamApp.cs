@@ -39,7 +39,7 @@ namespace HourBoostr.Idler.Objects
         private string GetName()
         {
             var sb = new StringBuilder(128);
-            Program.This.SteamApps001.GetAppData(ID, "name", sb);
+            Program.This.SteamApps.GetAppData(ID, "name", sb);
             string gameName = sb.ToString().Trim();
             return string.IsNullOrWhiteSpace(gameName) ? "Unknown game" : Encoding.UTF8.GetString(Encoding.Default.GetBytes(gameName));
         }
