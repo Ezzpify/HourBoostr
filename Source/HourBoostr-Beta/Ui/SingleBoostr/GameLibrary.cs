@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HourBoostr_Beta.Ui.SingleBoostr
 {
     public partial class GameLibrary : Form
     {
+        internal Process IdlerProcess;
         public GameLibrary()
         {
             InitializeComponent();
@@ -76,6 +79,32 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
         {
             if (GameSearchBox.Text.Equals(GameSearchPlaceholder))
                 GameSearchBox.Text = "";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var idler = Path.Combine(Application.StartupPath, "HourBoostr.Idler.exe");
+            if (File.Exists(idler))
+            {
+                IdlerProcess = new Process() { StartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    FileName = idler,
+                    Arguments = $"-single 107410 {Process.GetCurrentProcess().Id}"
+                }};
+                IdlerProcess.Start();
+            }
+        }
+
+        private void GameLibrary_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IdlerProcess.Kill();
+        }
+
+        private void GameLibrary_FormClosing(object sender, FormClosedEventArgs e)
+        {
+            IdlerProcess.Kill();
         }
     }
 }
