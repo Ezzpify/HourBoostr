@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HourBoostr-Beta", "HourBoostr-Beta\HourBoostr-Beta.csproj", "{AFAE5292-DF45-4531-8E2B-70C2826C4EC9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FC02D30-663B-4262-B094-BC81C0A09B6E} = {6FC02D30-663B-4262-B094-BC81C0A09B6E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HourBoostr.Idler", "HourBoostr.Idler\HourBoostr.Idler.csproj", "{6FC02D30-663B-4262-B094-BC81C0A09B6E}"
 EndProject

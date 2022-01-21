@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppHome));
             this.PanelUserLblName = new System.Windows.Forms.Label();
             this.PanelUserLblGames = new System.Windows.Forms.Label();
@@ -74,7 +75,7 @@
             this.PanelCardsBtnLogin = new System.Windows.Forms.Button();
             this.PanelCardsStarted = new System.Windows.Forms.Panel();
             this.PanelCardsStartedLblOptions = new System.Windows.Forms.Label();
-            this.CardsStartedOptionsMenu = new System.Windows.Forms.ContextMenuStrip();
+            this.CardsStartedOptionsMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CardsStartedOptionsMenuBtnBlacklist = new System.Windows.Forms.ToolStripMenuItem();
             this.CardsStartedOptionsMenuBtnSortQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelCardsStartedBtnHide = new System.Windows.Forms.Button();
@@ -85,16 +86,16 @@
             this.PanelCardsStartedLblCurrentGame = new System.Windows.Forms.Label();
             this.PanelCardsStartedBtnStopIdle = new System.Windows.Forms.Button();
             this.BgwSteamCallback = new System.ComponentModel.BackgroundWorker();
-            this.AppNotifyIcon = new System.Windows.Forms.NotifyIcon();
-            this.AppNotifyIconMenu = new System.Windows.Forms.ContextMenuStrip();
+            this.AppNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.AppNotifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.TmrIdleTime = new System.Windows.Forms.Timer();
-            this.TmrCardBatchCheck = new System.Windows.Forms.Timer();
-            this.TmrCheckProcess = new System.Windows.Forms.Timer();
-            this.TmrRestartApp = new System.Windows.Forms.Timer();
-            this.TmrChangeBackground = new System.Windows.Forms.Timer();
-            this.TmrCheckCardProgress = new System.Windows.Forms.Timer();
-            this.ToolTip = new System.Windows.Forms.ToolTip();
+            this.TmrIdleTime = new System.Windows.Forms.Timer(this.components);
+            this.TmrCardBatchCheck = new System.Windows.Forms.Timer(this.components);
+            this.TmrCheckProcess = new System.Windows.Forms.Timer(this.components);
+            this.TmrRestartApp = new System.Windows.Forms.Timer(this.components);
+            this.TmrChangeBackground = new System.Windows.Forms.Timer(this.components);
+            this.TmrCheckCardProgress = new System.Windows.Forms.Timer(this.components);
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.PanelUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PanelUserPicGoBack)).BeginInit();
             this.PanelContainer.SuspendLayout();

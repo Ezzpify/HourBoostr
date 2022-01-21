@@ -1,0 +1,187 @@
+[Main 21.1.2022 04:32:12] Info: Restart games is enabled every 60 minute.
+[Main 21.1.2022 04:32:12] Info: Started 32 games with session Idle
+[Main 21.1.2022 04:32:32] Info: Killed app Arma 3
+[Main 21.1.2022 04:32:32] Info: Killed app Assetto Corsa
+[Main 21.1.2022 04:32:32] Info: Killed app Bloons TD 6
+[Main 21.1.2022 04:32:32] Info: Killed app Call of Duty: WWII
+[Main 21.1.2022 04:32:32] Info: Killed app Bloons TD Battles
+[Main 21.1.2022 04:32:32] Info: Killed app Bloons TD Battles 2
+[Main 21.1.2022 04:32:32] Info: Killed app Call of Duty: WWII - Multiplayer
+[Main 21.1.2022 04:32:32] Info: Killed app Counter-Strike
+[Main 21.1.2022 04:32:32] Info: Killed app Counter-Strike: Source
+[Main 21.1.2022 04:32:32] Info: Killed app DayZ
+[Main 21.1.2022 04:32:32] Info: Killed app Counter-Strike: Global Offensive
+[Main 21.1.2022 04:32:32] Info: Killed app Deadlight
+[Main 21.1.2022 04:32:32] Info: Killed app DEATH STRANDING
+[Main 21.1.2022 04:32:32] Info: Killed app Destiny 2
+[Main 21.1.2022 04:32:32] Info: Killed app Dying Light
+[Main 21.1.2022 04:32:32] Info: Killed app Euro Truck Simulator 2
+[Main 21.1.2022 04:32:32] Info: Killed app PUBG: BATTLEGROUNDS
+[Main 21.1.2022 04:32:32] Info: Killed app Grand Theft Auto V
+[Main 21.1.2022 04:32:32] Info: Killed app Far Cry 5
+[Main 21.1.2022 04:32:32] Info: Killed app Far Cry® 3
+[Main 21.1.2022 04:32:32] Info: Killed app Far Cry New Dawn
+[Main 21.1.2022 04:32:32] Info: Killed app Fallout 3 - Game of the Year Edition
+[Main 21.1.2022 04:32:32] Info: Killed app Fallout 4
+[Main 21.1.2022 04:32:32] Info: Killed app Fallout 76
+[Main 21.1.2022 04:32:32] Info: Killed app Fallout Shelter
+[Main 21.1.2022 04:32:32] Info: Killed app Fallout: New Vegas
+[Main 21.1.2022 04:32:32] Info: Killed app ESEA
+[Main 21.1.2022 04:32:32] Info: Killed app Forza Horizon 4
+[Main 21.1.2022 04:32:32] Info: Killed app XERA: Survival
+[Main 21.1.2022 04:32:32] Info: Killed app Tom Clancy's Rainbow Six Siege
+[Main 21.1.2022 04:32:32] Info: Killed app Aim Lab
+[Main 21.1.2022 04:32:32] Info: Killed app Metro 2033 Redux
+[Main 21.1.2022 04:32:33] Info: Stopped None with 0 app errors.
+[Main 21.1.2022 04:33:32] Info: Restart games is enabled every 60 minute.
+[Main 21.1.2022 04:33:32] Info: Started 32 games with session Idle
+[Main 21.1.2022 04:34:06] Info: Killed app Arma 3
+[Main 21.1.2022 04:34:06] Info: Killed app Assetto Corsa
+[Main 21.1.2022 04:34:06] Info: Killed app Bloons TD 6
+[Main 21.1.2022 04:34:06] Info: Killed app Call of Duty: WWII
+[Main 21.1.2022 04:34:06] Info: Killed app Bloons TD Battles
+[Main 21.1.2022 04:34:06] Info: Killed app Bloons TD Battles 2
+[Main 21.1.2022 04:34:06] Info: Killed app Call of Duty: WWII - Multiplayer
+[Main 21.1.2022 04:34:06] Info: Killed app Counter-Strike
+[Main 21.1.2022 04:34:06] Info: Killed app Counter-Strike: Source
+[Main 21.1.2022 04:34:06] Info: Killed app DayZ
+[Main 21.1.2022 04:34:06] Info: Killed app Counter-Strike: Global Offensive
+[Main 21.1.2022 04:34:06] Info: Killed app Deadlight
+[Main 21.1.2022 04:34:06] Info: Killed app DEATH STRANDING
+[Main 21.1.2022 04:34:06] Info: Killed app Destiny 2
+[Main 21.1.2022 04:34:06] Info: Killed app Dying Light
+[Main 21.1.2022 04:34:06] Info: Killed app Euro Truck Simulator 2
+[Main 21.1.2022 04:34:06] Info: Killed app PUBG: BATTLEGROUNDS
+[Main 21.1.2022 04:34:06] Info: Killed app Grand Theft Auto V
+[Main 21.1.2022 04:34:06] Info: Killed app Far Cry 5
+[Main 21.1.2022 04:34:06] Info: Killed app Far Cry® 3
+[Main 21.1.2022 04:34:06] Info: Killed app Far Cry New Dawn
+[Main 21.1.2022 04:34:06] Info: Killed app Fallout 3 - Game of the Year Edition
+[Main 21.1.2022 04:34:06] Info: Killed app Fallout 4
+[Main 21.1.2022 04:34:06] Info: Killed app Fallout 76
+[Main 21.1.2022 04:34:06] Info: Killed app Fallout Shelter
+[Main 21.1.2022 04:34:06] Info: Killed app Fallout: New Vegas
+[Main 21.1.2022 04:34:06] Info: Killed app ESEA
+[Main 21.1.2022 04:34:06] Info: Killed app Forza Horizon 4
+[Main 21.1.2022 04:34:06] Info: Killed app XERA: Survival
+[Main 21.1.2022 04:34:06] Info: Killed app Tom Clancy's Rainbow Six Siege
+[Main 21.1.2022 04:34:06] Info: Killed app Aim Lab
+[Main 21.1.2022 04:34:06] Info: Killed app Metro 2033 Redux
+[Main 21.1.2022 04:34:07] Info: Stopped None with 0 app errors.
+[Main 21.1.2022 04:34:09] Info: Restart games is enabled every 60 minute.
+[Main 21.1.2022 04:34:09] Info: Started 32 games with session Idle
+[Main 21.1.2022 04:34:20] Info: Killed app Arma 3
+[Main 21.1.2022 04:34:20] Info: Killed app Assetto Corsa
+[Main 21.1.2022 04:34:20] Info: Killed app Bloons TD 6
+[Main 21.1.2022 04:34:20] Info: Killed app Call of Duty: WWII
+[Main 21.1.2022 04:34:21] Info: Killed app Bloons TD Battles
+[Main 21.1.2022 04:34:21] Info: Killed app Bloons TD Battles 2
+[Main 21.1.2022 04:34:21] Info: Killed app Call of Duty: WWII - Multiplayer
+[Main 21.1.2022 04:34:21] Info: Killed app Counter-Strike
+[Main 21.1.2022 04:34:21] Info: Killed app Counter-Strike: Source
+[Main 21.1.2022 04:34:21] Info: Killed app DayZ
+[Main 21.1.2022 04:34:21] Info: Killed app Counter-Strike: Global Offensive
+[Main 21.1.2022 04:34:21] Info: Killed app Deadlight
+[Main 21.1.2022 04:34:21] Info: Killed app DEATH STRANDING
+[Main 21.1.2022 04:34:21] Info: Killed app Destiny 2
+[Main 21.1.2022 04:34:21] Info: Killed app Dying Light
+[Main 21.1.2022 04:34:21] Info: Killed app Euro Truck Simulator 2
+[Main 21.1.2022 04:34:21] Info: Killed app PUBG: BATTLEGROUNDS
+[Main 21.1.2022 04:34:21] Info: Killed app Grand Theft Auto V
+[Main 21.1.2022 04:34:21] Info: Killed app Far Cry 5
+[Main 21.1.2022 04:34:21] Info: Killed app Far Cry® 3
+[Main 21.1.2022 04:34:21] Info: Killed app Far Cry New Dawn
+[Main 21.1.2022 04:34:21] Info: Killed app Fallout 3 - Game of the Year Edition
+[Main 21.1.2022 04:34:21] Info: Killed app Fallout 4
+[Main 21.1.2022 04:34:21] Info: Killed app Fallout 76
+[Main 21.1.2022 04:34:21] Info: Killed app Fallout Shelter
+[Main 21.1.2022 04:34:21] Info: Killed app Fallout: New Vegas
+[Main 21.1.2022 04:34:21] Info: Killed app ESEA
+[Main 21.1.2022 04:34:21] Info: Killed app Forza Horizon 4
+[Main 21.1.2022 04:34:21] Info: Killed app XERA: Survival
+[Main 21.1.2022 04:34:21] Info: Killed app Tom Clancy's Rainbow Six Siege
+[Main 21.1.2022 04:34:21] Info: Killed app Aim Lab
+[Main 21.1.2022 04:34:21] Info: Killed app Metro 2033 Redux
+[Main 21.1.2022 04:34:21] Info: Stopped None with 0 app errors.
+[Main 21.1.2022 04:35:32] Info: Restart games is enabled every 60 minute.
+[Main 21.1.2022 04:35:32] Info: Started 32 games with session Idle
+[Main 21.1.2022 05:42:32] Info: Randomly restarted Counter-Strike
+[Main 21.1.2022 05:42:32] Info: Counter-Strike had exited and has now been restarted.
+[Main 21.1.2022 06:51:32] Info: Randomly restarted Euro Truck Simulator 2
+[Main 21.1.2022 06:51:32] Info: Euro Truck Simulator 2 had exited and has now been restarted.
+[Main 21.1.2022 07:54:32] Info: Randomly restarted Fallout: New Vegas
+[Main 21.1.2022 07:54:32] Info: Fallout: New Vegas had exited and has now been restarted.
+[Main 21.1.2022 09:00:32] Info: Randomly restarted Aim Lab
+[Main 21.1.2022 09:00:32] Info: Aim Lab had exited and has now been restarted.
+[Main 21.1.2022 10:04:32] Info: Randomly restarted Metro 2033 Redux
+[Main 21.1.2022 10:04:32] Info: Metro 2033 Redux had exited and has now been restarted.
+[Main 21.1.2022 10:37:49] Info: Killed app Arma 3
+[Main 21.1.2022 10:37:49] Info: Killed app Assetto Corsa
+[Main 21.1.2022 10:37:49] Info: Killed app Bloons TD 6
+[Main 21.1.2022 10:37:49] Info: Killed app Call of Duty: WWII
+[Main 21.1.2022 10:37:49] Info: Killed app Bloons TD Battles
+[Main 21.1.2022 10:37:49] Info: Killed app Bloons TD Battles 2
+[Main 21.1.2022 10:37:49] Info: Killed app Call of Duty: WWII - Multiplayer
+[Main 21.1.2022 10:37:49] Info: Killed app Counter-Strike
+[Main 21.1.2022 10:37:49] Info: Killed app Counter-Strike: Source
+[Main 21.1.2022 10:37:49] Info: Killed app DayZ
+[Main 21.1.2022 10:37:50] Info: Killed app Counter-Strike: Global Offensive
+[Main 21.1.2022 10:37:50] Info: Killed app Deadlight
+[Main 21.1.2022 10:37:50] Info: Killed app DEATH STRANDING
+[Main 21.1.2022 10:37:50] Info: Killed app Destiny 2
+[Main 21.1.2022 10:37:50] Info: Killed app Dying Light
+[Main 21.1.2022 10:37:50] Info: Killed app Euro Truck Simulator 2
+[Main 21.1.2022 10:37:50] Info: Killed app PUBG: BATTLEGROUNDS
+[Main 21.1.2022 10:37:50] Info: Killed app Grand Theft Auto V
+[Main 21.1.2022 10:37:50] Info: Killed app Far Cry 5
+[Main 21.1.2022 10:37:50] Info: Killed app Far Cry® 3
+[Main 21.1.2022 10:37:50] Info: Killed app Far Cry New Dawn
+[Main 21.1.2022 10:37:50] Info: Killed app Fallout 3 - Game of the Year Edition
+[Main 21.1.2022 10:37:50] Info: Killed app Fallout 4
+[Main 21.1.2022 10:37:50] Info: Killed app Fallout 76
+[Main 21.1.2022 10:37:50] Info: Killed app Fallout Shelter
+[Main 21.1.2022 10:37:50] Info: Killed app Fallout: New Vegas
+[Main 21.1.2022 10:37:50] Info: Killed app ESEA
+[Main 21.1.2022 10:37:50] Info: Killed app Forza Horizon 4
+[Main 21.1.2022 10:37:50] Info: Killed app XERA: Survival
+[Main 21.1.2022 10:37:50] Info: Killed app Tom Clancy's Rainbow Six Siege
+[Main 21.1.2022 10:37:50] Info: Killed app Aim Lab
+[Main 21.1.2022 10:37:50] Info: Killed app Metro 2033 Redux
+[Main 21.1.2022 10:37:50] Info: Stopped None with 0 app errors.
+[Main 21.1.2022 13:28:15] Info: Restart games is enabled every 60 minute.
+[Main 21.1.2022 13:28:15] Info: Started 32 games with session Idle
+[Main 21.1.2022 14:36:15] Info: Randomly restarted Deadlight
+[Main 21.1.2022 14:36:15] Info: Deadlight had exited and has now been restarted.
+[Main 21.1.2022 15:31:46] Info: Killed app Arma 3
+[Main 21.1.2022 15:31:46] Info: Killed app Assetto Corsa
+[Main 21.1.2022 15:31:46] Info: Killed app Bloons TD 6
+[Main 21.1.2022 15:31:46] Info: Killed app Call of Duty: WWII
+[Main 21.1.2022 15:31:46] Info: Killed app Bloons TD Battles
+[Main 21.1.2022 15:31:46] Info: Killed app Bloons TD Battles 2
+[Main 21.1.2022 15:31:46] Info: Killed app Call of Duty: WWII - Multiplayer
+[Main 21.1.2022 15:31:47] Info: Killed app Counter-Strike
+[Main 21.1.2022 15:31:47] Info: Killed app Counter-Strike: Source
+[Main 21.1.2022 15:31:47] Info: Killed app DayZ
+[Main 21.1.2022 15:31:47] Info: Killed app Counter-Strike: Global Offensive
+[Main 21.1.2022 15:31:47] Info: Killed app Deadlight
+[Main 21.1.2022 15:31:47] Info: Killed app DEATH STRANDING
+[Main 21.1.2022 15:31:47] Info: Killed app Destiny 2
+[Main 21.1.2022 15:31:47] Info: Killed app Dying Light
+[Main 21.1.2022 15:31:47] Info: Killed app Euro Truck Simulator 2
+[Main 21.1.2022 15:31:47] Info: Killed app PUBG: BATTLEGROUNDS
+[Main 21.1.2022 15:31:47] Info: Killed app Grand Theft Auto V
+[Main 21.1.2022 15:31:47] Info: Killed app Far Cry 5
+[Main 21.1.2022 15:31:47] Info: Killed app Far Cry® 3
+[Main 21.1.2022 15:31:47] Info: Killed app Far Cry New Dawn
+[Main 21.1.2022 15:31:47] Info: Killed app Fallout 3 - Game of the Year Edition
+[Main 21.1.2022 15:31:47] Info: Killed app Fallout 4
+[Main 21.1.2022 15:31:47] Info: Killed app Fallout 76
+[Main 21.1.2022 15:31:47] Info: Killed app Fallout Shelter
+[Main 21.1.2022 15:31:47] Info: Killed app Fallout: New Vegas
+[Main 21.1.2022 15:31:47] Info: Killed app ESEA
+[Main 21.1.2022 15:31:47] Info: Killed app Forza Horizon 4
+[Main 21.1.2022 15:31:47] Info: Killed app XERA: Survival
+[Main 21.1.2022 15:31:47] Info: Killed app Tom Clancy's Rainbow Six Siege
+[Main 21.1.2022 15:31:47] Info: Killed app Aim Lab
+[Main 21.1.2022 15:31:47] Info: Killed app Metro 2033 Redux
+[Main 21.1.2022 15:31:47] Info: Stopped None with 0 app errors.
