@@ -86,40 +86,40 @@
   <ItemGroup>
     <Reference Include="Bunifu.Licensing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f89b4760ba7dcb6b" />
     <Reference Include="Bunifu.UI.WinForms.1.5.3">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.1.5.3.dll</HintPath>
-	</Reference>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.1.5.3.dll</HintPath>
+    </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuButton">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuButton.dll</HintPath>		
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuButton.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuCircleProgress">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuCircleProgress.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuCircleProgress.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuDropdown">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuDropdown.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuDropdown.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuGradientPanel">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuGradientPanel.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuGradientPanel.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuImageButton">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuImageButton.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuImageButton.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuLabel">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuLabel.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuLabel.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuPages">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPages.dll</HintPath>		
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPages.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuPanel">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPanel.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPanel.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuPictureBox">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPictureBox.dll</HintPath>		
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuPictureBox.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuScrollBar">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuScrollBar.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuScrollBar.dll</HintPath>
     </Reference>
     <Reference Include="Bunifu.UI.WinForms.BunifuTextBox">
-		<HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuTextBox.dll</HintPath>
+      <HintPath>..\packages\Bunifu.ui\Bunifu.UI.WinForms.BunifuTextBox.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -167,12 +167,6 @@
     <Compile Include="Ui\MultiBoostr\MultiBoostr.Designer.cs">
       <DependentUpon>MultiBoostr.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\SingleBoostr\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Ui\SingleBoostr\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Ui\SingleBoostr\GameLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,9 +198,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\MultiBoostr\MultiBoostr.resx">
       <DependentUpon>MultiBoostr.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Ui\SingleBoostr\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\SingleBoostr\GameLibrary.resx">
       <DependentUpon>GameLibrary.cs</DependentUpon>
