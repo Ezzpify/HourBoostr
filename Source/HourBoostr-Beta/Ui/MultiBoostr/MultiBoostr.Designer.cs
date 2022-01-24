@@ -91,7 +91,7 @@
             this.HeaderTitle.Location = new System.Drawing.Point(352, 3);
             this.HeaderTitle.Name = "HeaderTitle";
             this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.HeaderTitle.Size = new System.Drawing.Size(105, 22);
+            this.HeaderTitle.Size = new System.Drawing.Size(98, 22);
             this.HeaderTitle.TabIndex = 1;
             this.HeaderTitle.Text = "MultiBoostr";
             this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
