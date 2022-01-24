@@ -13,7 +13,8 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
             InitializeComponent();
         }
 
-        #region Header Controls 
+        #region Header Controls
+        private void ExitButton_Click(object sender, EventArgs e) => Program.This.Close();
         private void BackButton_Click(object sender, EventArgs e)
         {
             Program.This.SingleBoostr.Show();

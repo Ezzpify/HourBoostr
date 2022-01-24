@@ -99,7 +99,7 @@
             this.ExitButton.WaitOnLoad = false;
             this.ExitButton.Zoom = 0;
             this.ExitButton.ZoomSpeed = 10;
-            this.ExitButton.Click += Program.This.Close;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // SingleBoostrLabel
             // 
