@@ -88,10 +88,10 @@
             this.HeaderTitle.CursorType = System.Windows.Forms.Cursors.Default;
             this.HeaderTitle.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HeaderTitle.ForeColor = System.Drawing.Color.Gainsboro;
-            this.HeaderTitle.Location = new System.Drawing.Point(352, 3);
+            this.HeaderTitle.Location = new System.Drawing.Point(352, 5);
             this.HeaderTitle.Name = "HeaderTitle";
             this.HeaderTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.HeaderTitle.Size = new System.Drawing.Size(98, 22);
+            this.HeaderTitle.Size = new System.Drawing.Size(105, 22);
             this.HeaderTitle.TabIndex = 1;
             this.HeaderTitle.Text = "MultiBoostr";
             this.HeaderTitle.TextAlignment = System.Drawing.ContentAlignment.TopLeft;
