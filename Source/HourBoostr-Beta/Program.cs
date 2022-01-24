@@ -13,6 +13,7 @@ namespace HourBoostr_Beta
     internal class Program
     {
         internal static Program This;
+        internal event EventHandler ProcessExit;
         internal ProgramAssembly Assembly;
         internal ProgramArguments Arguments;
         internal ProgramConfig Config;
@@ -31,13 +32,27 @@ namespace HourBoostr_Beta
             Config = new();
             SplashScreen = new();
             BoostrSelectionScreen = new();
+
+            //Single bootsr
             SingleBoostr = new();
-            MultiBoostr = new();
             SingleBoostr.GameLibrary = new();
+            ProcessExit += SingleBoostr.Instance.Exit;
+
+            //Multi bootsr
+            MultiBoostr = new();
+            foreach (var instance in MultiBoostr.Instance) 
+                ProcessExit += instance.Exit;
+
+            //Register event onto main apps thread exit handler
+            Application.ThreadExit += ProcessExit;
         }
 
         internal void Start() => Application.Run(SplashScreen);
-        internal void Close() => Application.Exit();
+        internal void Close(object sender, EventArgs e)
+        {
+            This.ProcessExit?.Invoke(sender, e);
+            Application.Exit();
+        }
 
         /// <summary>
         /// The main entry point for the application.

@@ -7,7 +7,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
     public partial class SingleBoostr : Form
     {
         internal GameLibrary GameLibrary;
-        private Instance Instance;
+        internal Instance Instance;
         public SingleBoostr() => InitializeComponent();
 
         #region Header Controls
@@ -24,7 +24,7 @@ namespace HourBoostr_Beta.Ui.SingleBoostr
         {
 
         }
-        private void ExitButton_Click(object sender, EventArgs e) => Program.This.Close();
+ 
         #endregion
 
         #region Main Controls

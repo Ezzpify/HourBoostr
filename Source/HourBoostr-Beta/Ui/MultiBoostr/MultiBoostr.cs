@@ -8,7 +8,7 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
     public partial class MultiBoostr : Form
     {
         internal Config Config;
-        private List<Instance> Instance;
+        internal List<Instance> Instance;
         public MultiBoostr() => InitializeComponent();
 
         #region Header Controls
@@ -16,8 +16,7 @@ namespace HourBoostr_Beta.Ui.MultiBoostr
         {
             Program.This.BoostrSelectionScreen.Show();
             Program.This.MultiBoostr.Hide();
-        }
-        private void ExitButton_Click(object sender, EventArgs e) => Program.This.Close();
+        } 
         #endregion
 
         #region Main Controls

@@ -6,9 +6,7 @@ namespace HourBoostr_Beta.Ui
     public partial class BoostrSelectionScreen : Form
     {
         public BoostrSelectionScreen() => InitializeComponent();
-
-        private void ExitButton_Click(object sender, EventArgs e) => Program.This.Close();
-
+          
         private void SingleBoostrButton_Click(object sender, EventArgs e)
         {
             Program.This.SingleBoostr.Show();
